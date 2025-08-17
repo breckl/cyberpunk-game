@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  font-family: "Share Tech Mono", monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #0a0a0a;
+  color: #00ff41;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  /* Primary colors */
+  --neon-green: #00ff41;
+  --neon-blue: #0099ff;
+  --neon-pink: #ff00ff;
+  --neon-purple: #9900ff;
+  --neon-red: #ff0066;
+  --neon-yellow: #ffff00;
+
+  /* Background colors */
+  --dark-bg: #0a0a0a;
+  --darker-bg: #050505;
+  --panel-bg: rgba(20, 20, 20, 0.8);
+
+  /* UI elements */
+  --border-color: rgba(0, 255, 65, 0.3);
+  --text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+  --box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+
+  /* Gradients */
+  --cyber-gradient: linear-gradient(
+    135deg,
+    var(--neon-blue) 0%,
+    var(--neon-purple) 50%,
+    var(--neon-pink) 100%
+  );
+}

@@ -1,0 +1,109 @@
+.combat-screen {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  font-family: "Share Tech Mono", monospace;
+  color: #00ff41;
+}
+
+.combat-log {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.combat-message {
+  margin-bottom: 0.5rem;
+  white-space: pre-wrap;
+  color: #30d646; /* Muted green for regular text */
+}
+
+.combat-message:empty {
+  height: 1rem;
+}
+
+/* Make names and weapons bright green */
+.combat-message strong {
+  color: #00ff41;
+  font-weight: bold;
+}
+
+.combat-options {
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.option-row {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.menu-item {
+  color: #27af39;
+  display: flex;
+  gap: 0;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.menu-item .key {
+  color: #ff00ff;
+  font-weight: 900;
+  margin-right: 0;
+}
+
+.command-prompt {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.neon-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #2a9d3a, transparent);
+  margin: 0.5rem 0;
+}
+
+.prompt-text {
+  color: #2cbf40;
+  margin: 1rem 0;
+}
+
+.command-prompt input {
+  background: transparent;
+  border: none;
+  color: #2a9d3a;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+  outline: none;
+  text-transform: uppercase;
+  width: 2ch;
+}
+
+.reward-message {
+  color: #ff00ff;
+}
+
+.stats-header {
+  color: #0088ff;
+  font-weight: bold;
+}
+
+.win-message {
+  color: #0088ff;
+}
+
+.win-message strong {
+  color: #0088ff;
+  font-weight: bold;
+}
+
+.blue {
+  color: #0088ff;
+}
+
+.pink {
+  color: #ff00ff;
+}

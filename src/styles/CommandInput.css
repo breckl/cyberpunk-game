@@ -1,0 +1,46 @@
+.command-input {
+  display: flex;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid var(--border-color);
+}
+
+.command-input .prompt {
+  color: var(--neon-green);
+  font-weight: bold;
+}
+
+.command-input input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--neon-green);
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+  outline: none;
+}
+
+.command-input input::placeholder {
+  color: rgba(0, 255, 65, 0.3);
+}
+
+.command-input button {
+  background: transparent;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  padding: 0.5rem 1rem;
+  font-family: "Share Tech Mono", monospace;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.command-input button:hover:not(:disabled) {
+  background: rgba(0, 255, 65, 0.1);
+  box-shadow: 0 0 10px var(--neon-green);
+}
+
+.command-input button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

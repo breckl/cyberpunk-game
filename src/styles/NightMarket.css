@@ -1,0 +1,209 @@
+.night-market {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  font-family: "Share Tech Mono", monospace;
+  color: #30d646;
+  overflow-y: auto;
+}
+
+.menu-header {
+  font-size: 1.5rem;
+  color: #0088ff;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #0088ff;
+}
+
+.section-header h2 {
+  color: #0088ff;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.credits-display {
+  color: #ff00ff;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.menu-item {
+  color: #27af39;
+  display: flex;
+  gap: 0;
+  align-items: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.menu-item:hover {
+  color: #00ff41;
+}
+
+.key {
+  color: #ff00ff;
+  font-weight: 900;
+}
+
+.item-list,
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.inventory-section {
+  margin-bottom: 2rem;
+}
+
+.inventory-section h3 {
+  color: #0088ff;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #0088ff;
+  padding-bottom: 0.5rem;
+}
+
+.item-card {
+  border: 1px solid #27af39;
+  padding: 1rem;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.item-name {
+  color: #00ff41;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.item-price {
+  color: #ff00ff;
+}
+
+.item-description {
+  color: #30d646;
+  margin-bottom: 0.5rem;
+  font-style: italic;
+}
+
+.item-stat {
+  color: #0088ff;
+  margin-bottom: 0.5rem;
+}
+
+.item-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.purchase-button,
+.sell-button,
+.equip-button {
+  flex: 1;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid #ff00ff;
+  color: #ff00ff;
+  cursor: pointer;
+  font-family: "Share Tech Mono", monospace;
+  transition: all 0.2s ease;
+}
+
+.purchase-button:hover:not(.disabled),
+.sell-button:hover,
+.equip-button:hover:not(.equipped) {
+  background: #ff00ff;
+  color: black;
+}
+
+.purchase-button.disabled {
+  border-color: #666;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.equip-button.equipped {
+  background: #00ff41;
+  border-color: #00ff41;
+  color: black;
+  cursor: default;
+}
+
+.empty-inventory {
+  color: #666;
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  grid-column: 1 / -1;
+}
+
+.neon-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #27af39, transparent);
+  margin: 1rem 0;
+}
+
+.equipped-items {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #0088ff;
+  border-radius: 4px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+
+.equipped-items h3 {
+  color: #0088ff;
+  margin-bottom: 1rem;
+}
+
+.equipped-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.equipped-slot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  border-bottom: 1px solid #27af39;
+}
+
+.slot-label {
+  color: #30d646;
+}
+
+.slot-item {
+  color: #00ff41;
+  font-weight: bold;
+}

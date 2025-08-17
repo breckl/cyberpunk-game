@@ -1,0 +1,296 @@
+import React, { useState, useRef, useEffect } from "react";
+import "../styles/CombatScreen.css";
+
+const enemies = [
+  {
+    name: "Street Thug",
+    baseHp: 25,
+    armor: {
+      name: "No Armor",
+      rating: 0, // 0 = no bonus
+    },
+    weapon: {
+      name: "Rusty Blade",
+      damage: 5, // ±2 variance applied in combat
+      attacks: [
+        "slashes wildly with their rusty blade",
+        "makes a desperate thrust",
+        "swings their blade in an arc",
+      ],
+    },
+    credits: 50,
+    exp: 2,
+  },
+  {
+    name: "Rogue Netrunner",
+    baseHp: 35,
+    armor: {
+      name: "Mesh Weave",
+      rating: 1, // 1 = 10% bonus
+    },
+    weapon: {
+      name: "Neural Disruptor",
+      damage: 7,
+      attacks: [
+        "launches a neural spike",
+        "overloads your cyberware",
+        "sends shock feedback",
+      ],
+    },
+    credits: 75,
+    exp: 3,
+  },
+  {
+    name: "Corp Security",
+    baseHp: 55,
+    armor: {
+      name: "Militech Combat Armor",
+      rating: 2, // 2 = 20% bonus
+    },
+    weapon: {
+      name: "Pulse Rifle",
+      damage: 10,
+      attacks: [
+        "fires a burst from their pulse rifle",
+        "takes aim with military precision",
+        "unleashes a barrage of plasma",
+      ],
+    },
+    credits: 100,
+    exp: 4,
+  },
+];
+
+function CombatScreen({ character, onCombatEnd }) {
+  const combatLogRef = useRef(null);
+
+  const [enemy] = useState(() => {
+    const randomEnemy = {
+      ...enemies[Math.floor(Math.random() * enemies.length)],
+    };
+    return randomEnemy;
+  });
+
+  // Calculate total HP including armor
+  const playerTotalHp = 40; // Base HP
+  const playerWeapon = {
+    name: "Basic Pistol",
+    damage: 5, // ±2 variance applied in combat
+  };
+
+  // Calculate armor bonus (each point = 10% HP bonus)
+  const enemyArmorBonus = Math.floor(enemy.baseHp * (enemy.armor.rating * 0.1));
+  const enemyTotalHp = enemy.baseHp + enemyArmorBonus;
+
+  const [combatLog, setCombatLog] = useState([
+    `<span class="blue">*** FIGHT ***</span>`,
+    `You have encountered <strong>${enemy.name}</strong>!!`,
+    ``,
+    `<span class="stats-header">YOUR STATS:</span>`,
+    `Base HP: <strong>${40}</strong>`,
+    `Armor: None (0% bonus)`,
+    `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
+    `Total HP: <strong>${playerTotalHp}</strong>`,
+    ``,
+    `<span class="stats-header">${enemy.name.toUpperCase()}'S STATS:</span>`,
+    `Base HP: <strong>${enemy.baseHp}</strong>`,
+    `Armor: <strong>${enemy.armor.name}</strong> (${
+      enemy.armor.rating * 10
+    }% bonus = +${enemyArmorBonus} HP)`,
+    `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
+    `Total HP: <strong>${enemyTotalHp}</strong>`,
+    ``,
+    `--------------------------------`,
+  ]);
+
+  const [playerHp, setPlayerHp] = useState(playerTotalHp);
+  const [enemyHp, setEnemyHp] = useState(enemyTotalHp);
+  const [isPlayerTurn, setIsPlayerTurn] = useState(true);
+  const [combatEnded, setCombatEnded] = useState(false);
+  const [endResult, setEndResult] = useState(null);
+
+  // Auto-scroll combat log when it updates
+  useEffect(() => {
+    if (combatLogRef.current) {
+      combatLogRef.current.scrollTop = combatLogRef.current.scrollHeight;
+    }
+  }, [combatLog]);
+
+  const handleKeyDown = (e) => {
+    e.preventDefault();
+
+    if (combatEnded) {
+      if (e.key === "Enter") {
+        onCombatEnd(endResult.type, endResult.rewards);
+      }
+      return;
+    }
+
+    if (!isPlayerTurn) return;
+
+    const key = e.key.toUpperCase();
+
+    switch (key) {
+      case "A":
+        handleAttack();
+        break;
+      case "S":
+        // Show current stats
+        const statsLog = [
+          ``,
+          `<span class="stats-header">CURRENT STATS:</span>`,
+          ``,
+          `YOUR STATS:`,
+          `Current HP: <strong>${playerHp}</strong>/${playerTotalHp}`,
+          `Armor: None (0% bonus)`,
+          `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
+          ``,
+          `${enemy.name.toUpperCase()}'S STATS:`,
+          `Current HP: <strong>${enemyHp}</strong>/${enemyTotalHp}`,
+          `Armor: <strong>${enemy.armor.name}</strong> (${
+            enemy.armor.rating * 10
+          }% bonus = +${enemyArmorBonus} HP)`,
+          `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
+          ``,
+          `--------------------------------`,
+        ];
+        setCombatLog([...combatLog, ...statsLog]);
+        break;
+      case "R":
+        handleRun();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleAttack = () => {
+    // Player's attack
+    // Player's attack - damage is combat stat ±3
+    const minDamage = Math.max(1, character.stats.combat - 3); // Ensure minimum 1 damage
+    const maxDamage = character.stats.combat + 3;
+    const damage =
+      Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+    const newEnemyHp = Math.max(0, enemyHp - damage);
+    setEnemyHp(newEnemyHp);
+
+    const newLog = [
+      ...combatLog,
+      `You hit <strong>${enemy.name}</strong> for ${damage} damage!`,
+    ];
+
+    if (newEnemyHp <= 0) {
+      // Enemy defeated
+      newLog.push(
+        `<span class="win-message">You have defeated <strong>${enemy.name}</strong></span>!`
+      );
+      newLog.push(
+        `<span class="reward-message">You receive ${enemy.credits} credits and ${enemy.exp} experience!</span>`
+      );
+      newLog.push("");
+      newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
+      setCombatLog(newLog);
+      setCombatEnded(true);
+      setEndResult({
+        type: "victory",
+        rewards: { credits: enemy.credits, exp: enemy.exp },
+      });
+      return;
+    }
+
+    // Enemy's attack with weapon damage ±2 variance
+    const weaponVariance = Math.floor(Math.random() * 5) - 2; // -2 to +2
+    const enemyDamage = enemy.weapon.damage + weaponVariance;
+    const newPlayerHp = Math.max(0, playerHp - enemyDamage);
+    setPlayerHp(newPlayerHp);
+
+    const attackText =
+      enemy.weapon.attacks[
+        Math.floor(Math.random() * enemy.weapon.attacks.length)
+      ];
+    newLog.push(
+      `** <strong>${enemy.name}</strong> <em>${attackText}</em> for ${enemyDamage} damage! **`
+    );
+    newLog.push("");
+    newLog.push(`Your Hitpoints: <strong>${newPlayerHp}</strong>`);
+    newLog.push(`${enemy.name}'s Hitpoints: <strong>${newEnemyHp}</strong>`);
+    newLog.push("--------------------------------");
+
+    setCombatLog(newLog);
+
+    if (newPlayerHp <= 0) {
+      // Player defeated
+      newLog.push(`You have been defeated by <strong>${enemy.name}</strong>!`);
+      newLog.push("");
+      newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
+      setCombatLog(newLog);
+      setCombatEnded(true);
+      setEndResult({ type: "defeat" });
+      return;
+    }
+  };
+
+  const handleRun = () => {
+    const runChance = Math.random();
+    if (runChance > 0.5) {
+      const newLog = [...combatLog, "You manage to escape!", "", "<ENTER>"];
+      setCombatLog(newLog);
+      setCombatEnded(true);
+      setEndResult({ type: "escape" });
+    } else {
+      const newLog = [...combatLog, "You failed to escape!"];
+      setCombatLog(newLog);
+      // Enemy gets a free attack
+      handleAttack();
+    }
+  };
+
+  const renderMessage = (message) => {
+    return <div dangerouslySetInnerHTML={{ __html: message }} />;
+  };
+
+  return (
+    <div className="combat-screen">
+      <div className="combat-log" ref={combatLogRef}>
+        {combatLog.map((message, index) => (
+          <div key={index} className="combat-message">
+            {renderMessage(message)}
+          </div>
+        ))}
+      </div>
+
+      {!combatEnded && (
+        <div className="combat-options">
+          <div className="option-row">
+            <span className="menu-item">
+              <span className="key">(A)</span>ttack
+            </span>
+            <span className="menu-item">
+              <span className="key">(S)</span>tats
+            </span>
+            <span className="menu-item">
+              <span className="key">(R)</span>un
+            </span>
+          </div>
+        </div>
+      )}
+
+      <div className="command-prompt">
+        <div className="neon-line"></div>
+        <div className="prompt-text">
+          Your command, {character.name}? [{new Date().toLocaleTimeString()}] :
+        </div>
+        <input
+          type="text"
+          onKeyDown={handleKeyDown}
+          maxLength={1}
+          autoFocus
+          readOnly
+          style={{ caretColor: "transparent" }}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default CombatScreen;
