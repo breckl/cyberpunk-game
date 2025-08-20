@@ -32,13 +32,7 @@ function StreetsMenu({
           onShowStats();
           break;
         case "I":
-          onShowInventory();
-          break;
-        case "M":
-          onShowMessages();
-          break;
-        case "P":
-          onShowPlayers();
+          onNavigate("inventory");
           break;
         case "H":
           onShowHelp();
@@ -74,8 +68,6 @@ function StreetsMenu({
       { key: "T", label: "ravel" },
       { key: "V", label: "iew Stats" },
       { key: "I", label: "nventory" },
-      { key: "M", label: "essages" },
-      { key: "P", label: "layers Online" },
       { key: "H", label: "elp" },
       { key: "Q", label: "uick Save" },
     ],
