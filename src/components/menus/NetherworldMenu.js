@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 
-function NetherworldMenu({ character, onNavigate, onShowStats }) {
+function NetherworldMenu({
+  character,
+  onNavigate,
+  onShowStats,
+  onShowInventory,
+}) {
   // Simple keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -18,6 +23,9 @@ function NetherworldMenu({ character, onNavigate, onShowStats }) {
           break;
         case "V":
           onShowStats();
+          break;
+        case "I":
+          onNavigate("inventory");
           break;
         case "Q":
           onNavigate("travel");

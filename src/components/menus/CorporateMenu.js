@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 
-function CorporateMenu({ character, onNavigate, onShowStats }) {
+function CorporateMenu({
+  character,
+  onNavigate,
+  onShowStats,
+  onShowInventory,
+}) {
   // Simple keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -19,6 +24,9 @@ function CorporateMenu({ character, onNavigate, onShowStats }) {
         case "V":
           onShowStats();
           break;
+        case "I":
+          onNavigate("inventory");
+          break;
         case "Q":
           onNavigate("travel");
           break;
@@ -29,7 +37,7 @@ function CorporateMenu({ character, onNavigate, onShowStats }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate, onShowStats]);
+  }, [onNavigate, onShowStats, onShowInventory]);
 
   const location = {
     name: "Corporate District",
@@ -40,6 +48,7 @@ function CorporateMenu({ character, onNavigate, onShowStats }) {
       { key: "L", label: "aboratories" },
       { key: "S", label: "ecurity Complex" },
       { key: "V", label: "iew Stats" },
+      { key: "I", label: "nventory" },
       { key: "Q", label: "uit to Travel" },
     ],
   };

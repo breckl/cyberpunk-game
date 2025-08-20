@@ -3,6 +3,7 @@ import "../styles/GameScreen.css";
 import StatsPanel from "./StatsPanel";
 import CombatScreen from "./CombatScreen";
 import NightMarket from "./NightMarket";
+import Inventory from "./Inventory";
 import StreetsMenu from "./menus/StreetsMenu";
 import TravelMenu from "./menus/TravelMenu";
 import DowntownMenu from "./menus/DowntownMenu";
@@ -11,7 +12,7 @@ import CorporateMenu from "./menus/CorporateMenu";
 import NetherworldMenu from "./menus/NetherworldMenu";
 import DataDenMenu from "./menus/DataDenMenu";
 
-function GameScreen({ gameState, setGameState }) {
+function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   // Single screen state instead of multiple booleans
   const [currentScreen, setCurrentScreen] = useState("streets");
   const [showStats, setShowStats] = useState(false);
@@ -93,6 +94,11 @@ function GameScreen({ gameState, setGameState }) {
   };
 
   const handleCharacterUpdate = (updatedCharacter) => {
+    // Use the passed onUpdateCharacter function to save to localStorage
+    if (onUpdateCharacter) {
+      onUpdateCharacter(updatedCharacter);
+    }
+
     setGameState((prev) => ({
       ...prev,
       character: updatedCharacter,
@@ -112,6 +118,15 @@ function GameScreen({ gameState, setGameState }) {
       case "nightmarket":
         return (
           <NightMarket
+            character={gameState.character}
+            onExit={() => handleNavigate("streets")}
+            onUpdateCharacter={handleCharacterUpdate}
+          />
+        );
+
+      case "inventory":
+        return (
+          <Inventory
             character={gameState.character}
             onExit={() => handleNavigate("streets")}
             onUpdateCharacter={handleCharacterUpdate}
@@ -146,6 +161,7 @@ function GameScreen({ gameState, setGameState }) {
             character={gameState.character}
             onNavigate={handleNavigate}
             onShowStats={handleShowStats}
+            onShowInventory={handleShowInventory}
           />
         );
 
@@ -155,6 +171,7 @@ function GameScreen({ gameState, setGameState }) {
             character={gameState.character}
             onNavigate={handleNavigate}
             onShowStats={handleShowStats}
+            onShowInventory={handleShowInventory}
           />
         );
 
@@ -164,6 +181,7 @@ function GameScreen({ gameState, setGameState }) {
             character={gameState.character}
             onNavigate={handleNavigate}
             onShowStats={handleShowStats}
+            onShowInventory={handleShowInventory}
           />
         );
 

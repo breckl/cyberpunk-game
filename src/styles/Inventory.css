@@ -1,0 +1,231 @@
+.inventory-screen {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  color: #00ff41;
+  font-family: "Courier New", monospace;
+  padding: 20px;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.menu-header {
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 0 0 10px #00ff41;
+  border-bottom: 2px solid #00ff41;
+  padding-bottom: 10px;
+}
+
+.credits-display {
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+  padding: 10px;
+  background: rgba(0, 255, 65, 0.1);
+  border: 1px solid #00ff41;
+  border-radius: 5px;
+}
+
+.equipped-items {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: rgba(0, 255, 65, 0.05);
+  border: 1px solid #00ff41;
+  border-radius: 8px;
+}
+
+.equipped-items h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #00ff41;
+  text-shadow: 0 0 5px #00ff41;
+}
+
+.equipped-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.equipped-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background: rgba(0, 255, 65, 0.1);
+  border: 1px solid #00ff41;
+  border-radius: 5px;
+}
+
+.slot-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #00ff41;
+}
+
+.slot-item {
+  color: #ffffff;
+  text-align: center;
+  min-height: 20px;
+}
+
+.inventory-content {
+  margin-bottom: 20px;
+}
+
+.inventory-section {
+  margin-bottom: 30px;
+}
+
+.inventory-section h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  color: #00ff41;
+  text-shadow: 0 0 5px #00ff41;
+  border-bottom: 1px solid #00ff41;
+  padding-bottom: 5px;
+}
+
+.item-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.item-card {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #00ff41;
+  border-radius: 8px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.item-card:hover {
+  border-color: #00ffff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.item-name {
+  font-weight: bold;
+  color: #00ff41;
+  font-size: 1.1em;
+}
+
+.item-price {
+  color: #ffff00;
+  font-weight: bold;
+}
+
+.item-description {
+  color: #cccccc;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.item-stat {
+  color: #00ffff;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.item-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.sell-button,
+.equip-button {
+  flex: 1;
+  padding: 8px 16px;
+  border: 1px solid #00ff41;
+  background: transparent;
+  color: #00ff41;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+}
+
+.sell-button:hover {
+  background: #ff4444;
+  border-color: #ff4444;
+  color: white;
+}
+
+.equip-button:hover {
+  background: #00ff41;
+  color: black;
+}
+
+.equip-button.equipped {
+  background: #00ff41;
+  color: black;
+}
+
+.equip-button.equipped:hover {
+  background: #00cc33;
+}
+
+.empty-inventory {
+  text-align: center;
+  font-size: 1.2em;
+  color: #666666;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+}
+
+.option-row {
+  text-align: center;
+}
+
+.menu-item {
+  display: inline-block;
+  /*padding: 10px 5px;
+  background: rgba(0, 255, 65, 0.1);
+  border: 1px solid #00ff41;
+  border-radius: 5px;*/
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.1em;
+}
+
+.menu-item:hover {
+  background: rgba(0, 255, 65, 0.2);
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.key {
+  color: #ffff00;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .inventory-screen {
+    padding: 10px;
+  }
+
+  .menu-header {
+    font-size: 2em;
+  }
+
+  .item-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .equipped-grid {
+    grid-template-columns: 1fr;
+  }
+}

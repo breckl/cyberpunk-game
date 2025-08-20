@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-function DowntownMenu({ character, onNavigate, onShowStats }) {
+function DowntownMenu({ character, onNavigate, onShowStats, onShowInventory }) {
   // Simple keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -19,6 +19,9 @@ function DowntownMenu({ character, onNavigate, onShowStats }) {
         case "V":
           onShowStats();
           break;
+        case "I":
+          onNavigate("inventory");
+          break;
         case "B":
           onNavigate("travel");
           break;
@@ -29,7 +32,7 @@ function DowntownMenu({ character, onNavigate, onShowStats }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate, onShowStats]);
+  }, [onNavigate, onShowStats, onShowInventory]);
 
   const location = {
     name: "Downtown",
@@ -40,6 +43,7 @@ function DowntownMenu({ character, onNavigate, onShowStats }) {
       { key: "C", label: "linic" },
       { key: "G", label: "ang Territory" },
       { key: "V", label: "iew Stats" },
+      { key: "I", label: "nventory" },
       { key: "B", label: "ack to Travel" },
     ],
   };
