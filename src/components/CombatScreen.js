@@ -116,56 +116,67 @@ function CombatScreen({ character, onCombatEnd }) {
     }
   }, [combatLog]);
 
-  const handleKeyDown = (e) => {
-    e.preventDefault();
-
-    if (combatEnded) {
-      if (e.key === "Enter") {
-        onCombatEnd(endResult.type, endResult.rewards);
+  // Simple keyboard handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (combatEnded) {
+        if (e.key === "Enter") {
+          onCombatEnd(endResult.type, endResult.rewards);
+        }
+        return;
       }
-      return;
-    }
 
-    if (!isPlayerTurn) return;
+      if (!isPlayerTurn) return;
 
-    const key = e.key.toUpperCase();
+      const key = e.key.toUpperCase();
 
-    switch (key) {
-      case "A":
-        handleAttack();
-        break;
-      case "S":
-        // Show current stats
-        const statsLog = [
-          ``,
-          `<span class="stats-header">CURRENT STATS:</span>`,
-          ``,
-          `YOUR STATS:`,
-          `Current HP: <strong>${playerHp}</strong>/${playerTotalHp}`,
-          `Armor: None (0% bonus)`,
-          `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
-          ``,
-          `${enemy.name.toUpperCase()}'S STATS:`,
-          `Current HP: <strong>${enemyHp}</strong>/${enemyTotalHp}`,
-          `Armor: <strong>${enemy.armor.name}</strong> (${
-            enemy.armor.rating * 10
-          }% bonus = +${enemyArmorBonus} HP)`,
-          `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
-          ``,
-          `--------------------------------`,
-        ];
-        setCombatLog([...combatLog, ...statsLog]);
-        break;
-      case "R":
-        handleRun();
-        break;
-      default:
-        break;
-    }
-  };
+      switch (key) {
+        case "A":
+          handleAttack();
+          break;
+        case "S":
+          // Show current stats
+          const statsLog = [
+            ``,
+            `<span class="stats-header">CURRENT STATS:</span>`,
+            ``,
+            `YOUR STATS:`,
+            `Current HP: <strong>${playerHp}</strong>/${playerTotalHp}`,
+            `Armor: None (0% bonus)`,
+            `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
+            ``,
+            `${enemy.name.toUpperCase()}'S STATS:`,
+            `Current HP: <strong>${enemyHp}</strong>/${enemyTotalHp}`,
+            `Armor: <strong>${enemy.armor.name}</strong> (${
+              enemy.armor.rating * 10
+            }% bonus = +${enemyArmorBonus} HP)`,
+            `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
+            ``,
+            `--------------------------------`,
+          ];
+          setCombatLog([...combatLog, ...statsLog]);
+          break;
+        case "R":
+          handleRun();
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [
+    combatEnded,
+    isPlayerTurn,
+    playerHp,
+    enemyHp,
+    combatLog,
+    endResult,
+    onCombatEnd,
+  ]);
 
   const handleAttack = () => {
-    // Player's attack
     // Player's attack - damage is combat stat ±3
     const minDamage = Math.max(1, character.stats.combat - 3); // Ensure minimum 1 damage
     const maxDamage = character.stats.combat + 3;
@@ -280,14 +291,6 @@ function CombatScreen({ character, onCombatEnd }) {
         <div className="prompt-text">
           Your command, {character.name}? [{new Date().toLocaleTimeString()}] :
         </div>
-        <input
-          type="text"
-          onKeyDown={handleKeyDown}
-          maxLength={1}
-          autoFocus
-          readOnly
-          style={{ caretColor: "transparent" }}
-        />
       </div>
     </div>
   );

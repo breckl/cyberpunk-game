@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import marketData from "../data/marketData";
 import "../styles/NightMarket.css";
 
@@ -6,13 +6,94 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   const [currentMenu, setCurrentMenu] = useState("main");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showInventory, setShowInventory] = useState(false);
+  const [localCharacter, setLocalCharacter] = useState(character);
+
+  // Update local character when prop changes
+  useEffect(() => {
+    setLocalCharacter(character);
+  }, [character]);
+
+  // Simple keyboard handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const key = e.key.toUpperCase();
+
+      if (showInventory) {
+        if (key === "B") {
+          setShowInventory(false);
+          setCurrentMenu("main");
+        }
+        return;
+      }
+
+      if (currentMenu === "weapons" && selectedCategory) {
+        if (key === "B") {
+          setSelectedCategory(null);
+        }
+        return;
+      }
+
+      switch (currentMenu) {
+        case "main":
+          switch (key) {
+            case "A":
+              setCurrentMenu("armor");
+              break;
+            case "W":
+              setCurrentMenu("weapons");
+              break;
+            case "C":
+              setCurrentMenu("cyberware");
+              break;
+            case "N":
+              setCurrentMenu("netgear");
+              break;
+            case "I":
+              setShowInventory(true);
+              break;
+            case "B":
+              onExit();
+              break;
+            default:
+              break;
+          }
+          break;
+        case "weapons":
+          switch (key) {
+            case "S":
+              setSelectedCategory("standard");
+              break;
+            case "E":
+              setSelectedCategory("energy");
+              break;
+            case "H":
+              setSelectedCategory("heavy");
+              break;
+            case "B":
+              setCurrentMenu("main");
+              break;
+            default:
+              break;
+          }
+          break;
+        default:
+          if (key === "B") {
+            setCurrentMenu("main");
+          }
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentMenu, selectedCategory, showInventory, onExit]);
 
   const formatCredits = (amount) => {
     return new Intl.NumberFormat().format(amount);
   };
 
   const handlePurchase = (item) => {
-    if (character.credits >= item.price) {
+    if (localCharacter.credits >= item.price) {
       // Add type to the item for inventory categorization
       const getItemType = () => {
         if (currentMenu === "weapons") {
@@ -30,9 +111,9 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
         equipped: false,
       };
       const updatedCharacter = {
-        ...character,
-        credits: character.credits - item.price,
-        inventory: [...character.inventory, itemWithType],
+        ...localCharacter,
+        credits: localCharacter.credits - item.price,
+        inventory: [...localCharacter.inventory, itemWithType],
       };
       onUpdateCharacter(updatedCharacter);
     }
@@ -41,13 +122,13 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   const handleSell = (item) => {
     const sellPrice = Math.floor(item.price * 0.4);
     // Remove the item by ID instead of index to ensure we remove the correct one
-    const updatedInventory = character.inventory.filter(
+    const updatedInventory = localCharacter.inventory.filter(
       (invItem) => invItem.id !== item.id
     );
 
     const updatedCharacter = {
-      ...character,
-      credits: character.credits + sellPrice,
+      ...localCharacter,
+      credits: localCharacter.credits + sellPrice,
       inventory: updatedInventory,
     };
     onUpdateCharacter(updatedCharacter);
@@ -57,7 +138,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     <>
       <div className="menu-header">NIGHT MARKET</div>
       <div className="credits-display">
-        Credits: ¥{formatCredits(character.credits)}
+        Credits: ¥{formatCredits(localCharacter.credits)}
       </div>
       <div className="menu-options">
         <div className="option-row">
@@ -90,7 +171,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
         </div>
         <div className="option-row">
           <span className="menu-item" onClick={onExit}>
-            <span className="key">(Q)</span>uit
+            <span className="key">(B)</span>ack to Streets
           </span>
         </div>
       </div>
@@ -101,7 +182,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     <>
       <div className="menu-header">WEAPONS</div>
       <div className="credits-display">
-        Credits: ¥{formatCredits(character.credits)}
+        Credits: ¥{formatCredits(localCharacter.credits)}
       </div>
       <div className="menu-options">
         <div className="option-row">
@@ -167,12 +248,12 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
             )}
             <button
               className={`purchase-button ${
-                character.credits >= item.price ? "" : "disabled"
+                localCharacter.credits >= item.price ? "" : "disabled"
               }`}
               onClick={() => handlePurchase(item)}
-              disabled={character.credits < item.price}
+              disabled={localCharacter.credits < item.price}
             >
-              {character.credits >= item.price
+              {localCharacter.credits >= item.price
                 ? "Purchase"
                 : "Not Enough Credits"}
             </button>
@@ -183,58 +264,106 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   );
 
   const handleEquip = (item) => {
+    console.log("=== EQUIP DEBUG ===");
+    console.log("Item to equip:", item);
+    console.log("Item ID:", item.id);
+    console.log("Item type:", item.type);
+    console.log("Current inventory:", localCharacter.inventory);
+
+    // Create a local copy of the inventory to work with
+    let updatedInventory = [...localCharacter.inventory];
+    console.log("Initial updatedInventory:", updatedInventory);
+
     // If the item is already equipped, unequip it
     if (item.equipped) {
-      const updatedInventory = character.inventory.map((invItem) => {
+      console.log("Item is already equipped, unequipping...");
+      updatedInventory = updatedInventory.map((invItem) => {
         if (invItem.id === item.id) {
+          console.log("Unequipping item:", invItem.name);
           return { ...invItem, equipped: false };
         }
         return invItem;
       });
-
-      const updatedCharacter = {
-        ...character,
-        inventory: updatedInventory,
-      };
-      onUpdateCharacter(updatedCharacter);
-      return;
+    } else {
+      console.log("Item is not equipped, equipping...");
+      // Otherwise, unequip any items of the same type and equip this one
+      updatedInventory = updatedInventory.map((invItem) => {
+        if (invItem.type === item.type) {
+          // Unequip all items of the same type
+          if (invItem.equipped) {
+            console.log(
+              "Unequipping existing item of same type:",
+              invItem.name
+            );
+          }
+          return { ...invItem, equipped: false };
+        }
+        if (invItem.id === item.id) {
+          // Equip the selected item
+          console.log("Equipping item:", invItem.name);
+          return { ...invItem, equipped: true };
+        }
+        return invItem;
+      });
     }
 
-    // Otherwise, unequip any items of the same type and equip this one
-    const updatedInventory = character.inventory.map((invItem) => {
-      if (invItem.type === item.type) {
-        // Unequip all items of the same type
-        return { ...invItem, equipped: false };
-      }
-      if (invItem.id === item.id) {
-        // Equip the selected item
-        return { ...invItem, equipped: true };
-      }
-      return invItem;
-    });
+    console.log("Final updatedInventory:", updatedInventory);
+
+    // Check if any items are now equipped
+    const equippedItems = updatedInventory.filter((item) => item.equipped);
+    console.log("Equipped items after update:", equippedItems);
 
     const updatedCharacter = {
-      ...character,
+      ...localCharacter,
       inventory: updatedInventory,
     };
+
+    console.log("Updated character (equip):", updatedCharacter);
+    console.log("Updated inventory items:", updatedInventory);
+
+    // Update the character state
     onUpdateCharacter(updatedCharacter);
+
+    // Also update local state immediately for responsive UI
+    // This ensures the component re-renders with the new equipped state
+    setLocalCharacter(updatedCharacter);
+    console.log("=== END EQUIP DEBUG ===");
   };
 
   const renderEquippedItems = () => {
+    console.log("=== RENDER EQUIPPED DEBUG ===");
+    console.log(
+      "Rendering equipped items. Inventory:",
+      localCharacter.inventory
+    );
+
+    // Check each item individually
+    localCharacter.inventory.forEach((item, index) => {
+      console.log(`Item ${index}:`, {
+        name: item.name,
+        type: item.type,
+        equipped: item.equipped,
+        id: item.id,
+      });
+    });
+
     const equipped = {
-      weapon: character.inventory.find(
+      weapon: localCharacter.inventory.find(
         (item) => item.type === "weapon" && item.equipped
       ),
-      armor: character.inventory.find(
+      armor: localCharacter.inventory.find(
         (item) => item.type === "armor" && item.equipped
       ),
-      cyberware: character.inventory.find(
+      cyberware: localCharacter.inventory.find(
         (item) => item.type === "cyberware" && item.equipped
       ),
-      netgear: character.inventory.find(
+      netgear: localCharacter.inventory.find(
         (item) => item.type === "netgear" && item.equipped
       ),
     };
+
+    console.log("Found equipped items:", equipped);
+    console.log("=== END RENDER EQUIPPED DEBUG ===");
 
     return (
       <div className="equipped-items">
@@ -266,7 +395,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   };
 
   const renderInventoryByType = () => {
-    const groupedItems = character.inventory.reduce((acc, item) => {
+    const groupedItems = localCharacter.inventory.reduce((acc, item) => {
       if (!acc[item.type]) {
         acc[item.type] = [];
       }
@@ -318,11 +447,11 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     <>
       <div className="menu-header">INVENTORY</div>
       <div className="credits-display">
-        Credits: ¥{formatCredits(character.credits)}
+        Credits: ¥{formatCredits(localCharacter.credits)}
       </div>
       {renderEquippedItems()}
       <div className="inventory-content">
-        {character.inventory.length === 0 ? (
+        {localCharacter.inventory.length === 0 ? (
           <div className="empty-inventory">Your inventory is empty.</div>
         ) : (
           renderInventoryByType()
@@ -366,81 +495,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     }
   };
 
-  const handleKeyDown = (e) => {
-    e.preventDefault();
-    const key = e.key.toUpperCase();
-
-    if (showInventory) {
-      if (key === "B") {
-        setShowInventory(false);
-        setCurrentMenu("main");
-      }
-      return;
-    }
-
-    if (currentMenu === "weapons" && selectedCategory) {
-      if (key === "B") {
-        setSelectedCategory(null);
-      }
-      return;
-    }
-
-    switch (currentMenu) {
-      case "main":
-        switch (key) {
-          case "A":
-            setCurrentMenu("armor");
-            break;
-          case "W":
-            setCurrentMenu("weapons");
-            break;
-          case "C":
-            setCurrentMenu("cyberware");
-            break;
-          case "N":
-            setCurrentMenu("netgear");
-            break;
-          case "I":
-            setShowInventory(true);
-            break;
-          case "Q":
-            onExit();
-            break;
-          default:
-            break;
-        }
-        break;
-      case "weapons":
-        switch (key) {
-          case "S":
-            setSelectedCategory("standard");
-            break;
-          case "E":
-            setSelectedCategory("energy");
-            break;
-          case "H":
-            setSelectedCategory("heavy");
-            break;
-          case "B":
-            setCurrentMenu("main");
-            break;
-          default:
-            break;
-        }
-        break;
-      default:
-        if (key === "B") {
-          setCurrentMenu("main");
-        }
-        break;
-    }
-  };
-
-  return (
-    <div className="night-market" onKeyDown={handleKeyDown} tabIndex="0">
-      {renderContent()}
-    </div>
-  );
+  return <div className="night-market">{renderContent()}</div>;
 }
 
 export default NightMarket;

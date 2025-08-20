@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/CharacterCreation.css";
 
 const classes = {
@@ -37,42 +37,46 @@ function CharacterCreation({ onCreateCharacter }) {
   const [selectedClass, setSelectedClass] = useState(null);
   const [name, setName] = useState("");
 
-  const handleKeyPress = (e) => {
-    const key = e.key.toUpperCase();
-
-    if (step === "class") {
-      if (classes[key]) {
-        setSelectedClass(classes[key]);
-        setStep("name");
+  // Simple keyboard handling
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (step === "class") {
+        const key = e.key.toUpperCase();
+        if (classes[key]) {
+          setSelectedClass(classes[key]);
+          setStep("name");
+        }
+      } else if (step === "confirm") {
+        const key = e.key.toUpperCase();
+        if (key === "Y") {
+          const character = {
+            name: name.trim(),
+            class: selectedClass.name,
+            ...selectedClass,
+            level: 1,
+            experience: 0,
+            health: 100,
+            energy: 100,
+            credits: 1000,
+            inventory: [],
+          };
+          onCreateCharacter(character);
+        } else if (key === "N") {
+          setStep("class");
+          setSelectedClass(null);
+          setName("");
+        }
       }
-    }
-  };
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [step, selectedClass, name, onCreateCharacter]);
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
     if (name.trim()) {
       setStep("confirm");
-    }
-  };
-
-  const handleConfirm = (key) => {
-    if (key.toUpperCase() === "Y") {
-      const character = {
-        name: name.trim(),
-        class: selectedClass.name,
-        ...selectedClass,
-        level: 1,
-        experience: 0,
-        health: 100,
-        energy: 100,
-        credits: 1000,
-        inventory: [],
-      };
-      onCreateCharacter(character);
-    } else if (key.toUpperCase() === "N") {
-      setStep("class");
-      setSelectedClass(null);
-      setName("");
     }
   };
 
@@ -181,19 +185,6 @@ function CharacterCreation({ onCreateCharacter }) {
       </div>
     </div>
   );
-
-  React.useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (step === "class") {
-        handleKeyPress(e);
-      } else if (step === "confirm") {
-        handleConfirm(e.key);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [step, selectedClass]);
 
   return (
     <div className="character-creation">
