@@ -64,13 +64,6 @@ const enemies = [
 function CombatScreen({ character, onCombatEnd }) {
   const combatLogRef = useRef(null);
 
-  const [enemy] = useState(() => {
-    const randomEnemy = {
-      ...enemies[Math.floor(Math.random() * enemies.length)],
-    };
-    return randomEnemy;
-  });
-
   // Calculate total HP including armor
   const playerTotalHp = 40; // Base HP
   const playerWeapon = {
@@ -82,34 +75,68 @@ function CombatScreen({ character, onCombatEnd }) {
 
   const menuOptions = `<span class="menu-item">(<span class="key">C</span>)continue <span class="menu-item"></span>(<span class="key">L</span>)eave</span> (<span class="key">H</span>)eal</span></span>`;
 
-  // Calculate armor bonus (each point = 10% HP bonus)
-  const enemyArmorBonus = Math.floor(enemy.baseHp * (enemy.armor.rating * 0.1));
-  const enemyTotalHp = enemy.baseHp + enemyArmorBonus;
+  // Shared function to setup combat with a given enemy
+  const setupCombat = (enemyData) => {
+    // Calculate armor bonus (each point = 10% HP bonus)
+    const enemyArmorBonus = Math.floor(
+      enemyData.baseHp * (enemyData.armor.rating * 0.1)
+    );
+    const enemyTotalHp = enemyData.baseHp + enemyArmorBonus;
 
-  const [combatLog, setCombatLog] = useState([
-    `<span class="stats-header">COMBAT!!!</span>`,
-    `You have encountered <strong>${enemy.name}</strong>!!`,
-    ``,
-    `<span class="stats-header">YOUR STATS:</span>`,
-    `Base HP: <strong>${40}</strong>`,
-    `Armor: None (0% bonus)`,
-    `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
-    `Total HP: <strong>${playerTotalHp}</strong>`,
-    ``,
-    `<span class="stats-header">${enemy.name.toUpperCase()}'S STATS:</span>`,
-    `Base HP: <strong>${enemy.baseHp}</strong>`,
-    `Armor: <strong>${enemy.armor.name}</strong> (${
-      enemy.armor.rating * 10
-    }% bonus = +${enemyArmorBonus} HP)`,
-    `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
-    `Total HP: <strong>${enemyTotalHp}</strong>`,
-    ``,
-    combatOptions,
-    `--------------------------------`,
-  ]);
+    const newCombatLog = [
+      `<span class="stats-header">**** COMBAT *****</span>`,
+      `You have encountered <strong>${enemyData.name}</strong>!!`,
+      ``,
+      `<span class="stats-header">YOUR STATS:</span>`,
+      `Base HP: <strong>${40}</strong>`,
+      `Armor: None (0% bonus)`,
+      `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
+      `Total HP: <strong>${playerTotalHp}</strong>`,
+      ``,
+      `<span class="stats-header">${enemyData.name.toUpperCase()}'S STATS:</span>`,
+      `Base HP: <strong>${enemyData.baseHp}</strong>`,
+      `Armor: <strong>${enemyData.armor.name}</strong> (${
+        enemyData.armor.rating * 10
+      }% bonus = +${enemyArmorBonus} HP)`,
+      `Weapon: <strong>${enemyData.weapon.name}</strong> (${enemyData.weapon.damage} ±2 damage)`,
+      `Total HP: <strong>${enemyTotalHp}</strong>`,
+      ``,
+      combatOptions,
+      `--------------------------------`,
+    ];
+
+    return { enemyData, enemyTotalHp, newCombatLog };
+  };
+
+  const [enemy, setEnemy] = useState(() => {
+    const randomEnemy = {
+      ...enemies[Math.floor(Math.random() * enemies.length)],
+    };
+    const { enemyData, enemyTotalHp } = setupCombat(randomEnemy);
+    return enemyData;
+  });
+
+  const [combatLog, setCombatLog] = useState(() => {
+    const { newCombatLog } = setupCombat(enemy);
+    return newCombatLog;
+  });
 
   const [playerHp, setPlayerHp] = useState(playerTotalHp);
-  const [enemyHp, setEnemyHp] = useState(enemyTotalHp);
+  const [enemyHp, setEnemyHp] = useState(() => {
+    const enemyArmorBonus = Math.floor(
+      enemy.baseHp * (enemy.armor.rating * 0.1)
+    );
+    return enemy.baseHp + enemyArmorBonus;
+  });
+
+  // Update enemy HP when enemy changes
+  useEffect(() => {
+    const enemyArmorBonus = Math.floor(
+      enemy.baseHp * (enemy.armor.rating * 0.1)
+    );
+    const newEnemyTotalHp = enemy.baseHp + enemyArmorBonus;
+    setEnemyHp(newEnemyTotalHp);
+  }, [enemy]);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [combatEnded, setCombatEnded] = useState(false);
   const [endResult, setEndResult] = useState(null);
@@ -121,9 +148,43 @@ function CombatScreen({ character, onCombatEnd }) {
     }
   }, [combatLog]);
 
+  const restartCombat = () => {
+    console.log("Restarting combat..."); // Debug log
+    // Choose a random enemy
+    const newEnemy = {
+      ...enemies[Math.floor(Math.random() * enemies.length)],
+    };
+
+    // Use shared setup function
+    const { enemyData, enemyTotalHp, newCombatLog } = setupCombat(newEnemy);
+
+    // Update enemy state
+    setEnemy(enemyData);
+
+    // Reset combat state
+    setPlayerHp(playerTotalHp);
+    setEnemyHp(enemyTotalHp);
+    setIsPlayerTurn(true);
+    setCombatEnded(false);
+    setEndResult(null);
+
+    // Update combat log
+    setCombatLog(newCombatLog);
+    console.log("Combat restarted with:", enemyData.name); // Debug log
+  };
+
   // Simple keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
+      const key = e.key.toUpperCase();
+
+      // Handle C key (restart combat) regardless of state
+      if (key === "C") {
+        console.log("C key pressed, calling restartCombat"); // Debug log
+        restartCombat();
+        return;
+      }
+
       if (combatEnded) {
         if (e.key === "Enter") {
           onCombatEnd(endResult.type, endResult.rewards);
@@ -133,14 +194,16 @@ function CombatScreen({ character, onCombatEnd }) {
 
       if (!isPlayerTurn) return;
 
-      const key = e.key.toUpperCase();
-
       switch (key) {
         case "A":
           handleAttack();
           break;
         case "S":
           // Show current stats
+          const enemyArmorBonus = Math.floor(
+            enemy.baseHp * (enemy.armor.rating * 0.1)
+          );
+          const enemyTotalHp = enemy.baseHp + enemyArmorBonus;
           const statsLog = [
             `<span class="stats-header">YOUR STATS:</span>`,
             `Current HP: <strong>${playerHp}</strong>/${playerTotalHp}`,
@@ -161,9 +224,6 @@ function CombatScreen({ character, onCombatEnd }) {
           break;
         case "R":
           handleRun();
-          break;
-        case "C":
-          // Continue combat
           break;
         case "L":
           // Leave combat
@@ -186,6 +246,8 @@ function CombatScreen({ character, onCombatEnd }) {
     combatLog,
     endResult,
     onCombatEnd,
+    enemy,
+    restartCombat,
   ]);
 
   const handleAttack = () => {
