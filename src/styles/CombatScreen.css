@@ -15,9 +15,13 @@
 }
 
 .combat-message {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.15rem;
   white-space: pre-wrap;
   color: #30d646; /* Muted green for regular text */
+}
+
+.red {
+  color: #ff0000;
 }
 
 .combat-message:empty {
@@ -30,7 +34,7 @@
   font-weight: bold;
 }
 
-.combat-options {
+.menu-options {
   margin-bottom: 2rem;
   padding-left: 1.5rem;
 }
@@ -49,7 +53,7 @@
   font-size: 1.1rem;
 }
 
-.menu-item .key {
+.combat-message .key {
   color: #ff00ff;
   font-weight: 900;
   margin-right: 0;

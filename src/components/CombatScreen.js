@@ -78,12 +78,16 @@ function CombatScreen({ character, onCombatEnd }) {
     damage: 5, // ±2 variance applied in combat
   };
 
+  const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">S</span>)tats (<span class="key">R</span>)un</span>`;
+
+  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)continue <span class="menu-item"></span>(<span class="key">L</span>)eave</span> (<span class="key">H</span>)eal</span></span>`;
+
   // Calculate armor bonus (each point = 10% HP bonus)
   const enemyArmorBonus = Math.floor(enemy.baseHp * (enemy.armor.rating * 0.1));
   const enemyTotalHp = enemy.baseHp + enemyArmorBonus;
 
   const [combatLog, setCombatLog] = useState([
-    `<span class="blue">*** FIGHT ***</span>`,
+    `<span class="stats-header">COMBAT!!!</span>`,
     `You have encountered <strong>${enemy.name}</strong>!!`,
     ``,
     `<span class="stats-header">YOUR STATS:</span>`,
@@ -100,6 +104,7 @@ function CombatScreen({ character, onCombatEnd }) {
     `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
     `Total HP: <strong>${enemyTotalHp}</strong>`,
     ``,
+    combatOptions,
     `--------------------------------`,
   ]);
 
@@ -137,27 +142,34 @@ function CombatScreen({ character, onCombatEnd }) {
         case "S":
           // Show current stats
           const statsLog = [
-            ``,
-            `<span class="stats-header">CURRENT STATS:</span>`,
-            ``,
-            `YOUR STATS:`,
+            `<span class="stats-header">YOUR STATS:</span>`,
             `Current HP: <strong>${playerHp}</strong>/${playerTotalHp}`,
             `Armor: None (0% bonus)`,
             `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
             ``,
-            `${enemy.name.toUpperCase()}'S STATS:`,
+            `<span class="stats-header">${enemy.name.toUpperCase()}'S STATS:</span>`,
             `Current HP: <strong>${enemyHp}</strong>/${enemyTotalHp}`,
             `Armor: <strong>${enemy.armor.name}</strong> (${
               enemy.armor.rating * 10
             }% bonus = +${enemyArmorBonus} HP)`,
             `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
             ``,
+            combatOptions,
             `--------------------------------`,
           ];
           setCombatLog([...combatLog, ...statsLog]);
           break;
         case "R":
           handleRun();
+          break;
+        case "C":
+          // Continue combat
+          break;
+        case "L":
+          // Leave combat
+          break;
+        case "H":
+          // Heal
           break;
         default:
           break;
@@ -199,7 +211,8 @@ function CombatScreen({ character, onCombatEnd }) {
         `<span class="reward-message">You receive ${enemy.credits} credits and ${enemy.exp} experience!</span>`
       );
       newLog.push("");
-      newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
+      //newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
+      newLog.push(menuOptions);
       setCombatLog(newLog);
       setCombatEnded(true);
       setEndResult({
@@ -220,11 +233,12 @@ function CombatScreen({ character, onCombatEnd }) {
         Math.floor(Math.random() * enemy.weapon.attacks.length)
       ];
     newLog.push(
-      `** <strong>${enemy.name}</strong> <em>${attackText}</em> for ${enemyDamage} damage! **`
+      `<span class="red">**</span> <strong>${enemy.name}</strong> <em>${attackText}</em> for <span class="red">${enemyDamage}</span> damage! <span class="red">**</span>`
     );
     newLog.push("");
     newLog.push(`Your Hitpoints: <strong>${newPlayerHp}</strong>`);
     newLog.push(`${enemy.name}'s Hitpoints: <strong>${newEnemyHp}</strong>`);
+    newLog.push(combatOptions);
     newLog.push("--------------------------------");
 
     setCombatLog(newLog);
@@ -233,7 +247,8 @@ function CombatScreen({ character, onCombatEnd }) {
       // Player defeated
       newLog.push(`You have been defeated by <strong>${enemy.name}</strong>!`);
       newLog.push("");
-      newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
+      newLog.push(menuOptions);
+      //newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
       setCombatLog(newLog);
       setCombatEnded(true);
       setEndResult({ type: "defeat" });
@@ -244,7 +259,13 @@ function CombatScreen({ character, onCombatEnd }) {
   const handleRun = () => {
     const runChance = Math.random();
     if (runChance > 0.5) {
-      const newLog = [...combatLog, "You manage to escape!", "", "<ENTER>"];
+      const newLog = [
+        ...combatLog,
+        `<span class="win-message">You manage to escape!</span>`,
+        "",
+        menuOptions,
+        //`<span class="enter-prompt">&lt;ENTER&gt;</span>`,
+      ];
       setCombatLog(newLog);
       setCombatEnded(true);
       setEndResult({ type: "escape" });
@@ -270,7 +291,7 @@ function CombatScreen({ character, onCombatEnd }) {
         ))}
       </div>
 
-      {!combatEnded && (
+      {/*} {!combatEnded && (
         <div className="combat-options">
           <div className="option-row">
             <span className="menu-item">
@@ -284,14 +305,15 @@ function CombatScreen({ character, onCombatEnd }) {
             </span>
           </div>
         </div>
-      )}
+      )}*/}
 
-      <div className="command-prompt">
+      {/*<div className="command-prompt">
         <div className="neon-line"></div>
         <div className="prompt-text">
           Your command, {character.name}? [{new Date().toLocaleTimeString()}] :
         </div>
       </div>
+      */}
     </div>
   );
 }
