@@ -73,7 +73,7 @@ function CombatScreen({ character, onCombatEnd }) {
 
   const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">S</span>)tats (<span class="key">R</span>)un</span>`;
 
-  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)continue <span class="menu-item"></span>(<span class="key">L</span>)eave</span> (<span class="key">H</span>)eal</span></span>`;
+  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)continue <span class="menu-item"></span>(<span class="key">L</span>)eave</span></span>`;
 
   // Shared function to setup combat with a given enemy
   const setupCombat = (enemyData) => {
@@ -185,6 +185,13 @@ function CombatScreen({ character, onCombatEnd }) {
         return;
       }
 
+      // Handle L key (leave page) regardless of state
+      if (key === "L") {
+        console.log("L key pressed, leaving page"); // Debug log
+        onCombatEnd("leave", null);
+        return;
+      }
+
       if (combatEnded) {
         if (e.key === "Enter") {
           onCombatEnd(endResult.type, endResult.rewards);
@@ -224,12 +231,6 @@ function CombatScreen({ character, onCombatEnd }) {
           break;
         case "R":
           handleRun();
-          break;
-        case "L":
-          // Leave combat
-          break;
-        case "H":
-          // Heal
           break;
         default:
           break;
