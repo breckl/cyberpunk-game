@@ -56,7 +56,6 @@ function NetherworldMenu({
     <div className="location-screen">
       <div className="location-header">
         <h2>{location.name}</h2>
-        <div className="neon-line"></div>
       </div>
 
       <div className="location-description">{location.description}</div>
@@ -70,13 +69,6 @@ function NetherworldMenu({
             </span>
           </div>
         ))}
-      </div>
-
-      <div className="command-prompt">
-        <div className="neon-line"></div>
-        <div className="prompt-text">
-          Your command, {character?.name}? [{new Date().toLocaleTimeString()}] :
-        </div>
       </div>
     </div>
   );

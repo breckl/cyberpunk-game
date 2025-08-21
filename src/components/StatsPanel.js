@@ -12,7 +12,7 @@ function StatsPanel({ character }) {
         <div className="level-info">Level {character.level}</div>
       </div>
 
-      <div className="vital-stats">
+      {/*} <div className="vital-stats">
         <div className="stat-bar health">
           <label>Health</label>
           <div className="bar">
@@ -53,7 +53,7 @@ function StatsPanel({ character }) {
           <label>Tech</label>
           <span>{character.stats.tech}</span>
         </div>
-      </div>
+      </div>*/}
 
       <div className="credits">
         <label>Credits</label>

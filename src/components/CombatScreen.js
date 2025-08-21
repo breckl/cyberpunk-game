@@ -73,7 +73,7 @@ function CombatScreen({ character, onCombatEnd }) {
 
   const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">S</span>)tats (<span class="key">R</span>)un</span>`;
 
-  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)continue <span class="menu-item"></span>(<span class="key">L</span>)eave</span></span>`;
+  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)ontinue <span class="menu-item"></span>(<span class="key">L</span>)eave</span></span>`;
 
   // Shared function to setup combat with a given enemy
   const setupCombat = (enemyData) => {
@@ -86,20 +86,6 @@ function CombatScreen({ character, onCombatEnd }) {
     const newCombatLog = [
       `<span class="stats-header">**** COMBAT *****</span>`,
       `You have encountered <strong>${enemyData.name}</strong>!!`,
-      ``,
-      `<span class="stats-header">YOUR STATS:</span>`,
-      `Base HP: <strong>${40}</strong>`,
-      `Armor: None (0% bonus)`,
-      `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
-      `Total HP: <strong>${playerTotalHp}</strong>`,
-      ``,
-      `<span class="stats-header">${enemyData.name.toUpperCase()}'S STATS:</span>`,
-      `Base HP: <strong>${enemyData.baseHp}</strong>`,
-      `Armor: <strong>${enemyData.armor.name}</strong> (${
-        enemyData.armor.rating * 10
-      }% bonus = +${enemyArmorBonus} HP)`,
-      `Weapon: <strong>${enemyData.weapon.name}</strong> (${enemyData.weapon.damage} ±2 damage)`,
-      `Total HP: <strong>${enemyTotalHp}</strong>`,
       ``,
       combatOptions,
       `--------------------------------`,
@@ -299,8 +285,8 @@ function CombatScreen({ character, onCombatEnd }) {
       `<span class="red">**</span> <strong>${enemy.name}</strong> <em>${attackText}</em> for <span class="red">${enemyDamage}</span> damage! <span class="red">**</span>`
     );
     newLog.push("");
-    newLog.push(`Your Hitpoints: <strong>${newPlayerHp}</strong>`);
-    newLog.push(`${enemy.name}'s Hitpoints: <strong>${newEnemyHp}</strong>`);
+    //newLog.push(`Your Hitpoints: <strong>${newPlayerHp}</strong>`);
+    //newLog.push(`${enemy.name}'s Hitpoints: <strong>${newEnemyHp}</strong>`);
     newLog.push(combatOptions);
     newLog.push("--------------------------------");
 
@@ -346,37 +332,112 @@ function CombatScreen({ character, onCombatEnd }) {
 
   return (
     <div className="combat-screen">
-      <div className="combat-log" ref={combatLogRef}>
-        {combatLog.map((message, index) => (
-          <div key={index} className="combat-message">
-            {renderMessage(message)}
+      <div className="combat-layout">
+        {/* Left Stats Panel */}
+        <div className="combat-stats-panel">
+          {/* Player Stats */}
+          <div className="player-stats">
+            <h3 className="stats-header">YOUR STATS</h3>
+            <div className="stat-row">
+              <span className="stat-label">Name:</span>
+              <span className="stat-value">{character.name}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Weapon:</span>
+              <span className="stat-value">{playerWeapon.name}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Damage:</span>
+              <span className="stat-value">{playerWeapon.damage} ±2</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">HP:</span>
+              <span className="stat-value">
+                {playerHp}/{playerTotalHp}
+              </span>
+            </div>
+            <div className="hp-bar-container">
+              <div className="hp-bar">
+                <div
+                  className="hp-fill player-hp-fill"
+                  style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
+                ></div>
+              </div>
+            </div>
           </div>
-        ))}
-      </div>
 
-      {/*} {!combatEnded && (
-        <div className="combat-options">
-          <div className="option-row">
-            <span className="menu-item">
-              <span className="key">(A)</span>ttack
-            </span>
-            <span className="menu-item">
-              <span className="key">(S)</span>tats
-            </span>
-            <span className="menu-item">
-              <span className="key">(R)</span>un
-            </span>
+          {/* Enemy Stats */}
+          <div className="enemy-stats">
+            <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
+            <div className="stat-row">
+              <span className="stat-label">Weapon:</span>
+              <span className="stat-value">{enemy.weapon.name}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Damage:</span>
+              <span className="stat-value">{enemy.weapon.damage} ±2</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Armor:</span>
+              <span className="stat-value">{enemy.armor.name}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">HP:</span>
+              <span className="stat-value">
+                {enemyHp}/
+                {enemy.baseHp +
+                  Math.floor(enemy.baseHp * (enemy.armor.rating * 0.1))}
+              </span>
+            </div>
+            <div className="hp-bar-container">
+              <div className="hp-bar">
+                <div
+                  className="hp-fill enemy-hp-fill"
+                  style={{
+                    width: `${
+                      (enemyHp /
+                        (enemy.baseHp +
+                          Math.floor(
+                            enemy.baseHp * (enemy.armor.rating * 0.1)
+                          ))) *
+                      100
+                    }%`,
+                  }}
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Combat Controls */}
+          <div className="combat-controls">
+            <h3 className="stats-header">COMBAT CONTROLS</h3>
+            <div className="control-row">
+              <span className="key">A</span>ttack
+            </div>
+            <div className="control-row">
+              <span className="key">S</span>tats
+            </div>
+            <div className="control-row">
+              <span className="key">R</span>un
+            </div>
+            <div className="control-row">
+              <span className="key">C</span>ontinue
+            </div>
+            <div className="control-row">
+              <span className="key">L</span>eave
+            </div>
           </div>
         </div>
-      )}*/}
 
-      {/*<div className="command-prompt">
-        <div className="neon-line"></div>
-        <div className="prompt-text">
-          Your command, {character.name}? [{new Date().toLocaleTimeString()}] :
+        {/* Right Combat Log */}
+        <div className="combat-log" ref={combatLogRef}>
+          {combatLog.map((message, index) => (
+            <div key={index} className="combat-message">
+              {renderMessage(message)}
+            </div>
+          ))}
         </div>
       </div>
-      */}
     </div>
   );
 }

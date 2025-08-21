@@ -109,9 +109,8 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
 
   const renderMainMenu = () => (
     <>
-      <div className="menu-header">NIGHT MARKET</div>
-      <div className="credits-display">
-        Credits: ¥{formatCredits(localCharacter.credits)}
+      <div className="section-header">
+        <h2>Night Market</h2>
       </div>
       <div className="menu-options">
         <div className="option-row">
@@ -149,9 +148,8 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
 
   const renderWeaponCategories = () => (
     <>
-      <div className="menu-header">WEAPONS</div>
-      <div className="credits-display">
-        Credits: ¥{formatCredits(localCharacter.credits)}
+      <div className="section-header">
+        <h2>Weapons</h2>
       </div>
       <div className="menu-options">
         <div className="option-row">

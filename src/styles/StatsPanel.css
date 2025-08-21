@@ -1,11 +1,12 @@
 .stats-panel {
-  background: var(--panel-bg);
+  background: var(--dark-bg);
   border: 1px solid var(--border-color);
   border-radius: 4px;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  width: 400px;
 }
 
 .character-info {
@@ -17,7 +18,6 @@
 .character-info h2 {
   margin: 0;
   color: var(--neon-blue);
-  text-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
 }
 
 .class-info {

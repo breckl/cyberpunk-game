@@ -47,7 +47,6 @@ function TravelMenu({ character, onNavigate }) {
     <div className="location-screen">
       <div className="location-header">
         <h2>{location.name}</h2>
-        <div className="neon-line"></div>
       </div>
 
       <div className="location-description">{location.description}</div>
@@ -64,7 +63,6 @@ function TravelMenu({ character, onNavigate }) {
       </div>
 
       <div className="command-prompt">
-        <div className="neon-line"></div>
         <div className="prompt-text">
           Your destination, {character?.name}? [
           {new Date().toLocaleTimeString()}] :

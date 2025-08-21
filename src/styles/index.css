@@ -11,6 +11,45 @@ body {
   box-sizing: border-box;
 }
 
+h2 {
+  color: var(--neon-blue);
+  font-weight: bold;
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+}
+
+.item-card {
+  background: var(--green-bg);
+  padding: 1rem;
+  border: 1px solid transparent;
+}
+
+.item-card:hover {
+  border: 1px solid var(--neon-cyan);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #0088ff;
+}
+
+.section-header h2 {
+  color: #0088ff;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+h3 {
+  color: var(--neon-pink);
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
 :root {
   /* Primary colors */
   --neon-green: #00ff41;
@@ -19,11 +58,15 @@ body {
   --neon-purple: #9900ff;
   --neon-red: #ff0066;
   --neon-yellow: #ffff00;
+  --neon-cyan: #00ffff;
 
   /* Background colors */
-  --dark-bg: #0a0a0a;
+  --dark-bg: #000000;
+  --dark-green-bg: rgba(1, 59, 8, 0.4);
+  --green-bg: rgba(1, 59, 8, 0.5);
   --darker-bg: #050505;
   --panel-bg: rgba(20, 20, 20, 0.8);
+  --dark-ping-bg: #4f004f;
 
   /* UI elements */
   --border-color: rgba(0, 255, 65, 0.3);

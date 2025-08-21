@@ -93,7 +93,8 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
 
     return (
       <div className="equipped-items">
-        <h3>EQUIPPED ITEMS:</h3>
+        <h3>Equipped Items</h3>
+
         <div className="equipped-grid">
           <div className="equipped-slot">
             <span className="slot-label">Weapon:</span>
@@ -171,10 +172,7 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
 
   return (
     <div className="inventory-screen">
-      <div className="menu-header">INVENTORY</div>
-      <div className="credits-display">
-        Credits: ¥{formatCredits(localCharacter.credits)}
-      </div>
+      <h2>Inventory</h2>
       {renderEquippedItems()}
       <div className="inventory-content">
         {localCharacter.inventory.length === 0 ? (

@@ -84,7 +84,6 @@ function CharacterCreation({ onCreateCharacter }) {
     <div className="creation-screen">
       <div className="screen-header">
         <h2>Choose Your Class</h2>
-        <div className="neon-line"></div>
       </div>
 
       <div className="screen-description">
@@ -102,7 +101,6 @@ function CharacterCreation({ onCreateCharacter }) {
       </div>
 
       <div className="command-prompt">
-        <div className="neon-line"></div>
         <div className="prompt-text">
           Your choice? [{new Date().toLocaleTimeString()}] :
         </div>
@@ -114,7 +112,6 @@ function CharacterCreation({ onCreateCharacter }) {
     <div className="creation-screen">
       <div className="screen-header">
         <h2>Choose Your Handle</h2>
-        <div className="neon-line"></div>
       </div>
 
       <div className="screen-description">
@@ -142,7 +139,6 @@ function CharacterCreation({ onCreateCharacter }) {
     <div className="creation-screen">
       <div className="screen-header">
         <h2>Confirm Character</h2>
-        <div className="neon-line"></div>
       </div>
 
       <div className="character-summary">
@@ -178,7 +174,6 @@ function CharacterCreation({ onCreateCharacter }) {
       </div>
 
       <div className="command-prompt">
-        <div className="neon-line"></div>
         <div className="prompt-text">
           Confirm? (Y/N) [{new Date().toLocaleTimeString()}] :
         </div>

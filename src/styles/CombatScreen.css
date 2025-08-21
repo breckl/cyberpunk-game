@@ -2,9 +2,99 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
   font-family: "Share Tech Mono", monospace;
   color: #00ff41;
+}
+
+.combat-layout {
+  display: flex;
+  gap: 2rem;
+  height: 100%;
+}
+
+.combat-screen .combat-stats-panel {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex-shrink: 0;
+}
+
+.player-stats,
+.enemy-stats,
+.combat-controls {
+  background: var(--dark-green-bg);
+  border-radius: 4px;
+  padding: 1.5rem 2rem;
+}
+
+.stats-header {
+  color: #0088ff;
+  font-weight: bold;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.stat-label {
+  color: #27af39;
+  font-size: 0.9rem;
+}
+
+.stat-value {
+  color: #00ff41;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.hp-bar-container {
+  margin-top: 0.5rem;
+}
+
+.hp-bar {
+  width: 100%;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #00ff41;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.hp-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.player-hp-fill {
+  background: linear-gradient(90deg, #00ff41, #27af39);
+}
+
+.enemy-hp-fill {
+  background: linear-gradient(90deg, #ff0000, #cc0000);
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0;
+  color: #27af39;
+  font-size: 0.9rem;
+}
+
+.control-row .key {
+  color: #ff00ff;
+  font-weight: 900;
+  margin-right: 0.5rem;
+  font-size: 1rem;
 }
 
 .combat-log {
@@ -12,6 +102,8 @@
   overflow-y: auto;
   margin-bottom: 2rem;
   line-height: 1.6;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .combat-message {
@@ -36,7 +128,6 @@
 
 .menu-options {
   margin-bottom: 2rem;
-  padding-left: 1.5rem;
 }
 
 .option-row {
@@ -64,12 +155,6 @@
   padding-top: 1rem;
 }
 
-.neon-line {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #2a9d3a, transparent);
-  margin: 0.5rem 0;
-}
-
 .prompt-text {
   color: #2cbf40;
   margin: 1rem 0;
@@ -88,11 +173,6 @@
 
 .reward-message {
   color: #ff00ff;
-}
-
-.stats-header {
-  color: #0088ff;
-  font-weight: bold;
 }
 
 .win-message {

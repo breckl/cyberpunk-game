@@ -32,18 +32,6 @@
   text-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
 }
 
-.neon-line {
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--neon-green),
-    transparent
-  );
-  margin: 0.5rem 0;
-  box-shadow: 0 0 10px var(--neon-green);
-}
-
 .screen-description {
   color: var(--neon-green);
   margin-bottom: 2rem;

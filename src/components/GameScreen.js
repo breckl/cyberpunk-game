@@ -211,8 +211,8 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   return (
     <div className="game-screen">
       <div className="game-layout">
-        <StatsPanel character={gameState.character} />
         <div className="main-content">{renderLocation()}</div>
+        <StatsPanel character={gameState.character} />
       </div>
     </div>
   );
