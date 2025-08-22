@@ -102,7 +102,6 @@
 }
 
 .purchase-button,
-.sell-button,
 .equip-button {
   flex: 1;
   padding: 0.5rem;
@@ -110,14 +109,31 @@
   border: 1px solid #ff00ff;
   color: #ff00ff;
   cursor: pointer;
+  min-width: 75px;
+  font-family: "Share Tech Mono", monospace;
+  transition: all 0.2s ease;
+}
+
+.sell-button {
+  flex: 1;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid #ff4444;
+  color: #ff4444;
+  cursor: pointer;
+  min-width: 75px;
   font-family: "Share Tech Mono", monospace;
   transition: all 0.2s ease;
 }
 
 .purchase-button:hover:not(.disabled),
-.sell-button:hover,
 .equip-button:hover:not(.equipped) {
   background: #ff00ff;
+  color: black;
+}
+
+.sell-button:hover {
+  background: #ff4444;
   color: black;
 }
 
@@ -133,4 +149,79 @@
   padding: 2rem;
   font-style: italic;
   grid-column: 1 / -1;
+}
+
+.confirmation-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirmation-dialog {
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid #00ff41;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.confirmation-dialog h3 {
+  color: #00ff41;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.confirmation-dialog p {
+  color: #30d646;
+  margin-bottom: 2rem;
+  line-height: 1.5;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.confirm-button,
+.cancel-button {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  min-width: 80px;
+}
+
+.confirm-button {
+  border-color: #00ff41;
+  color: #00ff41;
+}
+
+.confirm-button:hover {
+  background: #00ff41;
+  color: black;
+}
+
+.cancel-button {
+  border-color: #ff4444;
+  color: #ff4444;
+}
+
+.cancel-button:hover {
+  background: #ff4444;
+  color: black;
 }

@@ -1,67 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/CombatScreen.css";
+import { getRandomEnemy } from "../data/enemies.js";
 
-const enemies = [
-  {
-    name: "Street Thug",
-    baseHp: 25,
-    armor: {
-      name: "No Armor",
-      rating: 0, // 0 = no bonus
-    },
-    weapon: {
-      name: "Rusty Blade",
-      damage: 5, // ±2 variance applied in combat
-      attacks: [
-        "slashes wildly with their rusty blade",
-        "makes a desperate thrust",
-        "swings their blade in an arc",
-      ],
-    },
-    credits: 50,
-    exp: 2,
-  },
-  {
-    name: "Rogue Netrunner",
-    baseHp: 35,
-    armor: {
-      name: "Mesh Weave",
-      rating: 1, // 1 = 10% bonus
-    },
-    weapon: {
-      name: "Neural Disruptor",
-      damage: 7,
-      attacks: [
-        "launches a neural spike",
-        "overloads your cyberware",
-        "sends shock feedback",
-      ],
-    },
-    credits: 75,
-    exp: 3,
-  },
-  {
-    name: "Corp Security",
-    baseHp: 55,
-    armor: {
-      name: "Militech Combat Armor",
-      rating: 2, // 2 = 20% bonus
-    },
-    weapon: {
-      name: "Pulse Rifle",
-      damage: 10,
-      attacks: [
-        "fires a burst from their pulse rifle",
-        "takes aim with military precision",
-        "unleashes a barrage of plasma",
-      ],
-    },
-    credits: 100,
-    exp: 4,
-  },
-];
-
-function CombatScreen({ character, onCombatEnd }) {
+function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatLogRef = useRef(null);
 
   // Calculate total HP including armor
@@ -71,7 +12,7 @@ function CombatScreen({ character, onCombatEnd }) {
     damage: 5, // ±2 variance applied in combat
   };
 
-  const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">S</span>)tats (<span class="key">R</span>)un</span>`;
+  const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">R</span>)un</span>`;
 
   const menuOptions = `<span class="menu-item">(<span class="key">C</span>)ontinue <span class="menu-item"></span>(<span class="key">L</span>)eave</span></span>`;
 
@@ -95,9 +36,7 @@ function CombatScreen({ character, onCombatEnd }) {
   };
 
   const [enemy, setEnemy] = useState(() => {
-    const randomEnemy = {
-      ...enemies[Math.floor(Math.random() * enemies.length)],
-    };
+    const randomEnemy = getRandomEnemy();
     const { enemyData, enemyTotalHp } = setupCombat(randomEnemy);
     return enemyData;
   });
@@ -135,11 +74,8 @@ function CombatScreen({ character, onCombatEnd }) {
   }, [combatLog]);
 
   const restartCombat = () => {
-    console.log("Restarting combat..."); // Debug log
     // Choose a random enemy
-    const newEnemy = {
-      ...enemies[Math.floor(Math.random() * enemies.length)],
-    };
+    const newEnemy = getRandomEnemy();
 
     // Use shared setup function
     const { enemyData, enemyTotalHp, newCombatLog } = setupCombat(newEnemy);
@@ -156,7 +92,6 @@ function CombatScreen({ character, onCombatEnd }) {
 
     // Update combat log
     setCombatLog(newCombatLog);
-    console.log("Combat restarted with:", enemyData.name); // Debug log
   };
 
   // Simple keyboard handling
@@ -166,14 +101,12 @@ function CombatScreen({ character, onCombatEnd }) {
 
       // Handle C key (restart combat) regardless of state
       if (key === "C") {
-        console.log("C key pressed, calling restartCombat"); // Debug log
         restartCombat();
         return;
       }
 
       // Handle L key (leave page) regardless of state
       if (key === "L") {
-        console.log("L key pressed, leaving page"); // Debug log
         onCombatEnd("leave", null);
         return;
       }
@@ -233,6 +166,7 @@ function CombatScreen({ character, onCombatEnd }) {
     combatLog,
     endResult,
     onCombatEnd,
+    onUpdateCharacter,
     enemy,
     restartCombat,
   ]);
@@ -260,14 +194,25 @@ function CombatScreen({ character, onCombatEnd }) {
         `<span class="reward-message">You receive ${enemy.credits} credits and ${enemy.exp} experience!</span>`
       );
       newLog.push("");
-      //newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
       newLog.push(menuOptions);
       setCombatLog(newLog);
       setCombatEnded(true);
+      const rewards = { credits: enemy.credits, exp: enemy.exp };
       setEndResult({
         type: "victory",
-        rewards: { credits: enemy.credits, exp: enemy.exp },
+        rewards: rewards,
       });
+
+      // Update character immediately with rewards
+      if (onUpdateCharacter) {
+        const updatedCharacter = {
+          ...character,
+          credits: character.credits + rewards.credits,
+          experience: character.experience + rewards.exp,
+        };
+        onUpdateCharacter(updatedCharacter);
+      }
+
       return;
     }
 

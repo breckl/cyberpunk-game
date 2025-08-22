@@ -3,6 +3,7 @@ import "../styles/Inventory.css";
 
 function Inventory({ character, onUpdateCharacter, onExit }) {
   const [localCharacter, setLocalCharacter] = useState(character);
+  const [selectedTab, setSelectedTab] = useState("all");
 
   // Update local character when prop changes
   useEffect(() => {
@@ -56,7 +57,7 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
     } else {
       // Unequip any items of the same type and equip this one
       updatedInventory = updatedInventory.map((invItem) => {
-        if (invItem.type === item.type) {
+        if (invItem.type === item.type && invItem.id !== item.id) {
           return { ...invItem, equipped: false };
         }
         if (invItem.id === item.id) {
@@ -73,6 +74,35 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
 
     onUpdateCharacter(updatedCharacter);
     setLocalCharacter(updatedCharacter);
+  };
+
+  const playClickSound = () => {
+    const audio = new Audio("/sfx/mouse-click.mp3");
+    audio.volume = 0.4;
+    audio.play().catch((e) => console.log("Audio play failed:", e));
+  };
+
+  const handleTabClick = (category) => {
+    setSelectedTab(category);
+    playClickSound();
+  };
+
+  const renderTabs = () => {
+    const categories = ["all", "weapon", "armor", "cyberware", "netgear"];
+
+    return (
+      <div className="inventory-tabs">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`tab-button ${selectedTab === category ? "active" : ""}`}
+            onClick={() => handleTabClick(category)}
+          >
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+      </div>
+    );
   };
 
   const renderEquippedItems = () => {
@@ -122,7 +152,19 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
   };
 
   const renderInventoryByType = () => {
-    const groupedItems = localCharacter.inventory.reduce((acc, item) => {
+    let filteredInventory = localCharacter.inventory;
+
+    if (selectedTab !== "all") {
+      filteredInventory = localCharacter.inventory.filter(
+        (item) => item.type === selectedTab
+      );
+    }
+
+    if (filteredInventory.length === 0) {
+      return <div className="empty-inventory">No items in this category.</div>;
+    }
+
+    const groupedItems = filteredInventory.reduce((acc, item) => {
       if (!acc[item.type]) {
         acc[item.type] = [];
       }
@@ -132,14 +174,13 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
 
     return Object.entries(groupedItems).map(([type, items]) => (
       <div key={type} className="inventory-section">
-        <h3>{type.toUpperCase()}</h3>
         <div className="item-grid">
           {items.map((item, index) => (
             <div key={`${item.id}-${index}`} className="item-card">
               <div className="item-header">
                 <span className="item-name">{item.name}</span>
                 <span className="item-price">
-                  Sell: ¥{formatCredits(Math.floor(item.price * 0.4))}
+                  Sell: ${formatCredits(Math.floor(item.price * 0.4))}
                 </span>
               </div>
               <div className="item-description">{item.description}</div>
@@ -174,6 +215,7 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
     <div className="inventory-screen">
       <h2>Inventory</h2>
       {renderEquippedItems()}
+      {renderTabs()}
       <div className="inventory-content">
         {localCharacter.inventory.length === 0 ? (
           <div className="empty-inventory">Your inventory is empty.</div>

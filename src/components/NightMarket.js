@@ -6,6 +6,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   const [currentMenu, setCurrentMenu] = useState("main");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [localCharacter, setLocalCharacter] = useState(character);
+  const [confirmingPurchase, setConfirmingPurchase] = useState(null);
 
   // Update local character when prop changes
   useEffect(() => {
@@ -82,29 +83,59 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
 
   const handlePurchase = (item) => {
     if (localCharacter.credits >= item.price) {
-      // Add type to the item for inventory categorization
-      const getItemType = () => {
-        if (currentMenu === "weapons") {
-          return "weapon";
-        } else if (currentMenu === "netgear") {
-          return "netgear";
-        } else {
-          return currentMenu.slice(0, -1); // remove 's' from end
-        }
-      };
-
-      const itemWithType = {
-        ...item,
-        type: getItemType(),
-        equipped: false,
-      };
-      const updatedCharacter = {
-        ...localCharacter,
-        credits: localCharacter.credits - item.price,
-        inventory: [...localCharacter.inventory, itemWithType],
-      };
-      onUpdateCharacter(updatedCharacter);
+      setConfirmingPurchase({ ...item, action: "buy" });
     }
+  };
+
+  const handleSell = (item) => {
+    setConfirmingPurchase({ ...item, action: "sell" });
+  };
+
+  const confirmPurchase = (item) => {
+    // Add type to the item for inventory categorization
+    const getItemType = () => {
+      if (currentMenu === "weapons") {
+        return "weapon";
+      } else if (currentMenu === "netgear") {
+        return "netgear";
+      } else if (currentMenu === "armor") {
+        return "armor";
+      } else if (currentMenu === "cyberware") {
+        return "cyberware";
+      } else {
+        return currentMenu; // fallback
+      }
+    };
+
+    const itemWithType = {
+      ...item,
+      type: getItemType(),
+      equipped: false,
+    };
+    const updatedCharacter = {
+      ...localCharacter,
+      credits: localCharacter.credits - item.price,
+      inventory: [...localCharacter.inventory, itemWithType],
+    };
+    onUpdateCharacter(updatedCharacter);
+    setConfirmingPurchase(null);
+  };
+
+  const confirmSell = (item) => {
+    const sellPrice = Math.floor(item.price * 0.6); // 60% of purchase price
+    const updatedCharacter = {
+      ...localCharacter,
+      credits: localCharacter.credits + sellPrice,
+      inventory: localCharacter.inventory.filter(
+        (invItem) => invItem.id !== item.id
+      ),
+    };
+    onUpdateCharacter(updatedCharacter);
+    setConfirmingPurchase(null);
+  };
+
+  const cancelPurchase = () => {
+    setConfirmingPurchase(null);
   };
 
   const renderMainMenu = () => (
@@ -204,7 +235,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
           <div key={item.id} className="item-card">
             <div className="item-header">
               <span className="item-name">{item.name}</span>
-              <span className="item-price">¥{formatCredits(item.price)}</span>
+              <span className="item-price">${formatCredits(item.price)}</span>
             </div>
             <div className="item-description">{item.description}</div>
             {item.rating && (
@@ -213,22 +244,75 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
             {item.damage && (
               <div className="item-stat">Damage: {item.damage}</div>
             )}
-            <button
-              className={`purchase-button ${
-                localCharacter.credits >= item.price ? "" : "disabled"
-              }`}
-              onClick={() => handlePurchase(item)}
-              disabled={localCharacter.credits < item.price}
-            >
-              {localCharacter.credits >= item.price
-                ? "Purchase"
-                : "Not Enough Credits"}
-            </button>
+            {(() => {
+              const isInInventory = localCharacter.inventory.some(
+                (invItem) => invItem.id === item.id
+              );
+
+              if (isInInventory) {
+                const sellPrice = Math.floor(item.price * 0.6);
+                return (
+                  <button
+                    className="sell-button"
+                    onClick={() => handleSell(item)}
+                  >
+                    Sell for ${formatCredits(sellPrice)}
+                  </button>
+                );
+              } else {
+                return (
+                  <button
+                    className={`purchase-button ${
+                      localCharacter.credits >= item.price ? "" : "disabled"
+                    }`}
+                    onClick={() => handlePurchase(item)}
+                    disabled={localCharacter.credits < item.price}
+                  >
+                    {localCharacter.credits >= item.price
+                      ? "Buy"
+                      : "Not Enough Credits"}
+                  </button>
+                );
+              }
+            })()}
           </div>
         ))}
       </div>
     </div>
   );
+
+  const renderConfirmationDialog = () => {
+    if (!confirmingPurchase) return null;
+
+    const isBuying = confirmingPurchase.action === "buy";
+    const actionText = isBuying ? "buy" : "sell";
+    const priceText = isBuying
+      ? `$${formatCredits(confirmingPurchase.price)}`
+      : `$${formatCredits(Math.floor(confirmingPurchase.price * 0.6))}`;
+    const confirmFunction = isBuying
+      ? () => confirmPurchase(confirmingPurchase)
+      : () => confirmSell(confirmingPurchase);
+
+    return (
+      <div className="confirmation-overlay">
+        <div className="confirmation-dialog">
+          <h3>Are you sure?</h3>
+          <p>
+            Do you want to {actionText} {confirmingPurchase.name} for{" "}
+            {priceText}?
+          </p>
+          <div className="confirmation-buttons">
+            <button className="confirm-button" onClick={confirmFunction}>
+              Yes
+            </button>
+            <button className="cancel-button" onClick={cancelPurchase}>
+              No
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   const renderContent = () => {
     switch (currentMenu) {
@@ -250,7 +334,12 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     }
   };
 
-  return <div className="night-market">{renderContent()}</div>;
+  return (
+    <div className="night-market">
+      {renderContent()}
+      {renderConfirmationDialog()}
+    </div>
+  );
 }
 
 export default NightMarket;

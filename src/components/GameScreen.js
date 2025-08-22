@@ -35,7 +35,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           maxHitpoints: 20,
           energy: 100,
           maxEnergy: 100,
-          credits: 1000,
+          credits: 5000,
           stats: {
             hack: 2,
             combat: 8,
@@ -80,16 +80,31 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   };
 
   const handleCombatEnd = (result, rewards) => {
+    console.log("Combat ended with result:", result, "and rewards:", rewards);
+    console.log(
+      "Current character credits before update:",
+      gameState.character?.credits
+    );
+
     setCurrentScreen("streets");
     if (result === "victory" && rewards) {
-      setGameState((prev) => ({
-        ...prev,
-        character: {
+      console.log("Processing victory rewards...");
+      setGameState((prev) => {
+        const updatedCharacter = {
           ...prev.character,
           credits: prev.character.credits + rewards.credits,
           experience: prev.character.experience + rewards.exp,
-        },
-      }));
+        };
+        console.log("Updated character credits:", updatedCharacter.credits);
+        console.log(
+          "Updated character experience:",
+          updatedCharacter.experience
+        );
+        return {
+          ...prev,
+          character: updatedCharacter,
+        };
+      });
     }
   };
 
@@ -112,6 +127,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           <CombatScreen
             character={gameState.character}
             onCombatEnd={handleCombatEnd}
+            onUpdateCharacter={handleCharacterUpdate}
           />
         );
 

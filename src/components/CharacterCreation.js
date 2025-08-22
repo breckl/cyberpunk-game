@@ -55,9 +55,7 @@ function CharacterCreation({ onCreateCharacter }) {
             ...selectedClass,
             level: 1,
             experience: 0,
-            health: 100,
-            energy: 100,
-            credits: 1000,
+            credits: 5000,
             inventory: [],
           };
           onCreateCharacter(character);

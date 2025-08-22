@@ -5,14 +5,14 @@ const marketData = {
       name: "Street Vest",
       description: "Basic protection. Better than nothing.",
       rating: 1,
-      price: 500,
+      price: 100,
     },
     {
       id: "a2",
       name: "Reinforced Jacket",
       description: "Kevlar-lined jacket with ceramic plates.",
       rating: 2,
-      price: 1000,
+      price: 200,
     },
     {
       id: "a3",
@@ -79,14 +79,14 @@ const marketData = {
         name: "Tech Pistol",
         description: "Smart-linked handgun with target tracking.",
         damage: 6,
-        price: 1000,
+        price: 100,
       },
       {
         id: "w2",
         name: "Assault Rifle",
         description: "Military-grade rifle with burst fire.",
         damage: 8,
-        price: 2500,
+        price: 250,
       },
       {
         id: "w3",
