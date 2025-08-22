@@ -3,8 +3,7 @@ import marketData from "../data/marketData";
 import "../styles/NightMarket.css";
 
 function NightMarket({ character, onExit, onUpdateCharacter }) {
-  const [currentMenu, setCurrentMenu] = useState("main");
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedTab, setSelectedTab] = useState("weapons");
   const [localCharacter, setLocalCharacter] = useState(character);
   const [confirmingPurchase, setConfirmingPurchase] = useState(null);
 
@@ -18,67 +17,46 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
-      if (currentMenu === "weapons" && selectedCategory) {
-        if (key === "B") {
-          setSelectedCategory(null);
-        }
-        return;
-      }
-
-      switch (currentMenu) {
-        case "main":
-          switch (key) {
-            case "A":
-              setCurrentMenu("armor");
-              break;
-            case "W":
-              setCurrentMenu("weapons");
-              break;
-            case "C":
-              setCurrentMenu("cyberware");
-              break;
-            case "N":
-              setCurrentMenu("netgear");
-              break;
-            case "B":
-              onExit();
-              break;
-            default:
-              break;
-          }
-          break;
-        case "weapons":
-          switch (key) {
-            case "S":
-              setSelectedCategory("standard");
-              break;
-            case "E":
-              setSelectedCategory("energy");
-              break;
-            case "H":
-              setSelectedCategory("heavy");
-              break;
-            case "B":
-              setCurrentMenu("main");
-              break;
-            default:
-              break;
-          }
-          break;
-        default:
-          if (key === "B") {
-            setCurrentMenu("main");
-          }
-          break;
+      if (key === "B") {
+        onExit();
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentMenu, selectedCategory, onExit]);
+  }, [onExit]);
 
   const formatCredits = (amount) => {
     return new Intl.NumberFormat().format(amount);
+  };
+
+  const playClickSound = () => {
+    const audio = new Audio("/sfx/mouse-click.mp3");
+    audio.volume = 0.4;
+    audio.play().catch((e) => console.log("Audio play failed:", e));
+  };
+
+  const handleTabClick = (category) => {
+    setSelectedTab(category);
+    playClickSound();
+  };
+
+  const renderTabs = () => {
+    const categories = ["weapons", "armor", "cyberware", "netgear"];
+
+    return (
+      <div className="inventory-tabs">
+        {categories.map((category) => (
+          <button
+            key={category}
+            className={`tab-button ${selectedTab === category ? "active" : ""}`}
+            onClick={() => handleTabClick(category)}
+          >
+            {category.charAt(0).toUpperCase() + category.slice(1)}
+          </button>
+        ))}
+      </div>
+    );
   };
 
   const handlePurchase = (item) => {
@@ -94,16 +72,16 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   const confirmPurchase = (item) => {
     // Add type to the item for inventory categorization
     const getItemType = () => {
-      if (currentMenu === "weapons") {
+      if (selectedTab === "weapons") {
         return "weapon";
-      } else if (currentMenu === "netgear") {
+      } else if (selectedTab === "netgear") {
         return "netgear";
-      } else if (currentMenu === "armor") {
+      } else if (selectedTab === "armor") {
         return "armor";
-      } else if (currentMenu === "cyberware") {
+      } else if (selectedTab === "cyberware") {
         return "cyberware";
       } else {
-        return currentMenu; // fallback
+        return selectedTab; // fallback
       }
     };
 
@@ -138,98 +116,8 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     setConfirmingPurchase(null);
   };
 
-  const renderMainMenu = () => (
-    <>
-      <div className="section-header">
-        <h2>Night Market</h2>
-      </div>
-      <div className="menu-options">
-        <div className="option-row">
-          <span className="menu-item" onClick={() => setCurrentMenu("armor")}>
-            <span className="key">(A)</span>rmor
-          </span>
-        </div>
-        <div className="option-row">
-          <span className="menu-item" onClick={() => setCurrentMenu("weapons")}>
-            <span className="key">(W)</span>eapons
-          </span>
-        </div>
-        <div className="option-row">
-          <span
-            className="menu-item"
-            onClick={() => setCurrentMenu("cyberware")}
-          >
-            <span className="key">(C)</span>yberware
-          </span>
-        </div>
-        <div className="option-row">
-          <span className="menu-item" onClick={() => setCurrentMenu("netgear")}>
-            <span className="key">(N)</span>etrunner Gear
-          </span>
-        </div>
-
-        <div className="option-row">
-          <span className="menu-item" onClick={onExit}>
-            <span className="key">(B)</span>ack to Streets
-          </span>
-        </div>
-      </div>
-    </>
-  );
-
-  const renderWeaponCategories = () => (
-    <>
-      <div className="section-header">
-        <h2>Weapons</h2>
-      </div>
-      <div className="menu-options">
-        <div className="option-row">
-          <span
-            className="menu-item"
-            onClick={() => setSelectedCategory("standard")}
-          >
-            <span className="key">(S)</span>tandard
-          </span>
-        </div>
-        <div className="option-row">
-          <span
-            className="menu-item"
-            onClick={() => setSelectedCategory("energy")}
-          >
-            <span className="key">(E)</span>nergy
-          </span>
-        </div>
-        <div className="option-row">
-          <span
-            className="menu-item"
-            onClick={() => setSelectedCategory("heavy")}
-          >
-            <span className="key">(H)</span>eavy
-          </span>
-        </div>
-        <div className="option-row">
-          <span className="menu-item" onClick={() => setCurrentMenu("main")}>
-            <span className="key">(B)</span>ack
-          </span>
-        </div>
-      </div>
-    </>
-  );
-
   const renderItemList = (items, categoryName) => (
     <div className="store-section">
-      <div className="section-header">
-        <h2>{categoryName}</h2>
-        <span
-          className="menu-item"
-          onClick={() => {
-            setSelectedCategory(null);
-            setCurrentMenu("main");
-          }}
-        >
-          <span className="key">(B)</span>ack
-        </span>
-      </div>
       <div className="item-list">
         {items.map((item) => (
           <div key={item.id} className="item-card">
@@ -238,12 +126,19 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
               <span className="item-price">${formatCredits(item.price)}</span>
             </div>
             <div className="item-description">{item.description}</div>
-            {item.rating && (
-              <div className="item-stat">Armor Rating: {item.rating}</div>
-            )}
-            {item.damage && (
-              <div className="item-stat">Damage: {item.damage}</div>
-            )}
+            <div className="item-stats">
+              {item.rating && (
+                <div className="item-stat">Armor Rating: {item.rating}</div>
+              )}
+              <div className="item-stat-row">
+                {item.level && (
+                  <span className="stat-badge level">LVL {item.level}</span>
+                )}
+                {item.damage && (
+                  <span className="stat-badge damage">DMG {item.damage}</span>
+                )}
+              </div>
+            </div>
             {(() => {
               const isInInventory = localCharacter.inventory.some(
                 (invItem) => invItem.id === item.id
@@ -315,14 +210,76 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   };
 
   const renderContent = () => {
-    switch (currentMenu) {
+    switch (selectedTab) {
       case "weapons":
-        return selectedCategory
-          ? renderItemList(
-              marketData.weapons[selectedCategory],
-              selectedCategory.toUpperCase() + " WEAPONS"
-            )
-          : renderWeaponCategories();
+        // Get all weapons and sort by price
+        const allWeapons = Object.values(marketData.weapons).flat();
+        const sortedWeapons = allWeapons.sort((a, b) => a.price - b.price);
+
+        return (
+          <div className="store-section">
+            <div className="item-list">
+              {sortedWeapons.map((item) => (
+                <div key={item.id} className="item-card">
+                  <div className="item-header">
+                    <span className="item-name">{item.name}</span>
+                    <span className="item-price">
+                      ${formatCredits(item.price)}
+                    </span>
+                  </div>
+                  <div className="item-description">{item.description}</div>
+                  <div className="item-stats">
+                    <div className="item-stat-row">
+                      {item.level && (
+                        <span className="stat-badge level">
+                          LVL {item.level}
+                        </span>
+                      )}
+                      {item.damage && (
+                        <span className="stat-badge damage">
+                          DMG {item.damage}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  {(() => {
+                    const isInInventory = localCharacter.inventory.some(
+                      (invItem) => invItem.id === item.id
+                    );
+
+                    if (isInInventory) {
+                      const sellPrice = Math.floor(item.price * 0.6);
+                      return (
+                        <button
+                          className="sell-button"
+                          onClick={() => handleSell(item)}
+                        >
+                          Sell for ${formatCredits(sellPrice)}
+                        </button>
+                      );
+                    } else {
+                      return (
+                        <button
+                          className={`purchase-button ${
+                            localCharacter.credits >= item.price
+                              ? ""
+                              : "disabled"
+                          }`}
+                          onClick={() => handlePurchase(item)}
+                          disabled={localCharacter.credits < item.price}
+                        >
+                          {localCharacter.credits >= item.price
+                            ? "Buy"
+                            : "Not Enough Credits"}
+                        </button>
+                      );
+                    }
+                  })()}
+                </div>
+              ))}
+            </div>
+          </div>
+        );
       case "armor":
         return renderItemList(marketData.armor, "ARMOR");
       case "cyberware":
@@ -330,13 +287,25 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
       case "netgear":
         return renderItemList(marketData.netgear, "NETRUNNER GEAR");
       default:
-        return renderMainMenu();
+        // Get all weapons and sort by price for default view
+        const defaultWeapons = Object.values(marketData.weapons).flat();
+        const defaultSortedWeapons = defaultWeapons.sort(
+          (a, b) => a.price - b.price
+        );
+        return renderItemList(defaultSortedWeapons, "WEAPONS");
     }
   };
 
   return (
     <div className="night-market">
-      {renderContent()}
+      <h2>Night Market</h2>
+      {renderTabs()}
+      <div className="market-content">{renderContent()}</div>
+      <div className="option-row">
+        <span className="menu-item" onClick={onExit}>
+          <span className="key">(B)</span>ack to Streets
+        </span>
+      </div>
       {renderConfirmationDialog()}
     </div>
   );
