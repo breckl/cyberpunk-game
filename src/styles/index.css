@@ -81,3 +81,37 @@ h3 {
     var(--neon-pink) 100%
   );
 }
+
+/* Common Tab Styling */
+.inventory-tabs {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #00ff41;
+}
+
+.tab-button {
+  background: transparent;
+  border: 1px solid #00ff41;
+  border-bottom: none;
+  color: #00ff41;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+}
+
+.tab-button:hover {
+  background: rgba(0, 255, 65, 0.1);
+}
+
+.tab-button.active {
+  background: #00ff41;
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px solid #00ff41;
+  margin-bottom: -1px;
+}

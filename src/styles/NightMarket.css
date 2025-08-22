@@ -96,6 +96,35 @@
   margin-bottom: 0.5rem;
 }
 
+.item-stat-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+}
+
+.stat-badge.level {
+  background: rgba(0, 255, 65, 0.1);
+  color: #00ff41;
+  border-color: #00ff41;
+}
+
+.stat-badge.damage {
+  background: rgba(255, 0, 102, 0.1);
+  color: #ff0066;
+  border-color: #ff0066;
+}
+
 .item-buttons {
   display: flex;
   gap: 0.5rem;
