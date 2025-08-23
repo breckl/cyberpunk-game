@@ -3,12 +3,10 @@ import React, { useEffect } from "react";
 function StreetsMenu({
   character,
   onNavigate,
-  onShowStats,
   onShowInventory,
   onShowMessages,
   onShowPlayers,
   onShowHelp,
-  onQuickSave,
 }) {
   // Simple keyboard handling
   useEffect(() => {
@@ -22,23 +20,14 @@ function StreetsMenu({
         case "C":
           onNavigate("combat");
           break;
-        case "D":
-          onNavigate("dataden");
-          break;
         case "T":
           onNavigate("travel");
-          break;
-        case "V":
-          onShowStats();
           break;
         case "I":
           onNavigate("inventory");
           break;
         case "H":
           onShowHelp();
-          break;
-        case "Q":
-          onQuickSave();
           break;
         default:
           break;
@@ -47,15 +36,7 @@ function StreetsMenu({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [
-    onNavigate,
-    onShowStats,
-    onShowInventory,
-    onShowMessages,
-    onShowPlayers,
-    onShowHelp,
-    onQuickSave,
-  ]);
+  }, [onNavigate, onShowInventory, onShowMessages, onShowPlayers, onShowHelp]);
 
   const location = {
     name: "Night City Streets",
@@ -64,12 +45,9 @@ function StreetsMenu({
     options: [
       { key: "N", label: "ight Market" },
       { key: "C", label: "ombat Zone" },
-      { key: "D", label: "ata Den" },
       { key: "T", label: "ravel" },
-      { key: "V", label: "iew Stats" },
       { key: "I", label: "nventory" },
       { key: "H", label: "elp" },
-      { key: "Q", label: "uick Save" },
     ],
   };
 

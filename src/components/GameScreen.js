@@ -10,12 +10,10 @@ import DowntownMenu from "./menus/DowntownMenu";
 import UptownMenu from "./menus/UptownMenu";
 import CorporateMenu from "./menus/CorporateMenu";
 import NetherworldMenu from "./menus/NetherworldMenu";
-import DataDenMenu from "./menus/DataDenMenu";
 
 function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   // Single screen state instead of multiple booleans
   const [currentScreen, setCurrentScreen] = useState("streets");
-  const [showStats, setShowStats] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
   const [showMessages, setShowMessages] = useState(false);
   const [showPlayers, setShowPlayers] = useState(false);
@@ -30,10 +28,6 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   };
 
   // Menu action handlers
-  const handleShowStats = () => {
-    setShowStats(!showStats);
-  };
-
   const handleShowInventory = () => {
     setShowInventory(!showInventory);
   };
@@ -48,11 +42,6 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
 
   const handleShowHelp = () => {
     setShowHelp(!showHelp);
-  };
-
-  const handleQuickSave = () => {
-    // Quick save functionality
-    console.log("Quick save triggered");
   };
 
   const handleCombatEnd = (result, rewards) => {
@@ -130,12 +119,10 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           <StreetsMenu
             character={gameState.character}
             onNavigate={handleNavigate}
-            onShowStats={handleShowStats}
             onShowInventory={handleShowInventory}
             onShowMessages={handleShowMessages}
             onShowPlayers={handleShowPlayers}
             onShowHelp={handleShowHelp}
-            onQuickSave={handleQuickSave}
           />
         );
 
@@ -152,7 +139,6 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           <DowntownMenu
             character={gameState.character}
             onNavigate={handleNavigate}
-            onShowStats={handleShowStats}
             onShowInventory={handleShowInventory}
           />
         );
@@ -162,7 +148,6 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           <UptownMenu
             character={gameState.character}
             onNavigate={handleNavigate}
-            onShowStats={handleShowStats}
             onShowInventory={handleShowInventory}
           />
         );
@@ -172,7 +157,6 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           <CorporateMenu
             character={gameState.character}
             onNavigate={handleNavigate}
-            onShowStats={handleShowStats}
             onShowInventory={handleShowInventory}
           />
         );
@@ -182,16 +166,6 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           <NetherworldMenu
             character={gameState.character}
             onNavigate={handleNavigate}
-            onShowStats={handleShowStats}
-          />
-        );
-
-      case "dataden":
-        return (
-          <DataDenMenu
-            character={gameState.character}
-            onNavigate={handleNavigate}
-            onShowStats={handleShowStats}
           />
         );
 

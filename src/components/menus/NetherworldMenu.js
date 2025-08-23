@@ -1,11 +1,6 @@
 import React, { useEffect } from "react";
 
-function NetherworldMenu({
-  character,
-  onNavigate,
-  onShowStats,
-  onShowInventory,
-}) {
+function NetherworldMenu({ character, onNavigate }) {
   // Simple keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -21,12 +16,6 @@ function NetherworldMenu({
         case "F":
           onNavigate("fight-clubs");
           break;
-        case "V":
-          onShowStats();
-          break;
-        case "I":
-          onNavigate("inventory");
-          break;
         case "Q":
           onNavigate("travel");
           break;
@@ -37,7 +26,7 @@ function NetherworldMenu({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate, onShowStats]);
+  }, [onNavigate]);
 
   const location = {
     name: "Netherworld",
@@ -47,7 +36,6 @@ function NetherworldMenu({
       { key: "C", label: "yber Clubs" },
       { key: "B", label: "lack Markets" },
       { key: "F", label: "ight Clubs" },
-      { key: "V", label: "iew Stats" },
       { key: "Q", label: "uit to Travel" },
     ],
   };

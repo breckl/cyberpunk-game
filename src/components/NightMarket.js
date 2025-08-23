@@ -329,14 +329,14 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
 
   return (
     <div className="night-market">
-      <h2>Night Market</h2>
-      {renderTabs()}
-      <div className="market-content">{renderContent()}</div>
-      <div className="option-row">
-        <span className="menu-item" onClick={onExit}>
-          <span className="key">(B)</span>ack to Streets
+      <div className="market-header">
+        <h2>Night Market</h2>
+        <span className="back-button" onClick={onExit}>
+          <span className="key">(B)</span>ack
         </span>
       </div>
+      {renderTabs()}
+      <div className="market-content">{renderContent()}</div>
       {renderConfirmationDialog()}
     </div>
   );

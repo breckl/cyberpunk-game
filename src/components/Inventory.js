@@ -215,7 +215,12 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
 
   return (
     <div className="inventory-screen">
-      <h2>Inventory</h2>
+      <div className="inventory-header">
+        <h2>Inventory</h2>
+        <span className="back-button" onClick={onExit}>
+          <span className="key">(B)</span>ack
+        </span>
+      </div>
       {renderEquippedItems()}
       {renderTabs()}
       <div className="inventory-content">
@@ -224,11 +229,6 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
         ) : (
           renderInventoryByType()
         )}
-      </div>
-      <div className="option-row">
-        <span className="menu-item" onClick={onExit}>
-          <span className="key">(B)</span>ack
-        </span>
       </div>
     </div>
   );
