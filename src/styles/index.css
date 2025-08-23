@@ -73,6 +73,17 @@ h3 {
   --text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
   --box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
 
+  /* Other Ideas */
+  --neon-bright-orange: #ff6a00;
+  --neon-bright-pink: #ff2d95;
+  --neon-bright-magenta: #ff007f;
+  --neon-bright-yellow: #ffb800;
+  --neon-bright-blue: #00cfff;
+  --neon-bright-cyan: #00f6ff;
+  --neon-bright-violet: #6a00ff;
+  --neon-bright-purple: #330066;
+  --neon-bright-red: #ff0033;
+
   /* Gradients */
   --cyber-gradient: linear-gradient(
     135deg,

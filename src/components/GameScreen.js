@@ -21,32 +21,8 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   const [showPlayers, setShowPlayers] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
 
-  // Initialize test character if none exists
-  React.useEffect(() => {
-    if (!gameState.character) {
-      setGameState((prev) => ({
-        ...prev,
-        character: {
-          name: "test",
-          class: "Street Samurai",
-          level: 1,
-          experience: 0,
-          hitpoints: 20,
-          maxHitpoints: 20,
-          energy: 100,
-          maxEnergy: 100,
-          credits: 5000,
-          stats: {
-            hack: 2,
-            combat: 8,
-            stealth: 4,
-            tech: 5,
-          },
-          inventory: [],
-        },
-      }));
-    }
-  }, []);
+  // Character initialization is now handled by the main App component
+  // and the character creation system
 
   // Navigation handler
   const handleNavigate = (destination) => {
@@ -228,7 +204,10 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
     <div className="game-screen">
       <div className="game-layout">
         <div className="main-content">{renderLocation()}</div>
-        <StatsPanel character={gameState.character} />
+        <StatsPanel
+          character={gameState.character}
+          onUpdateCharacter={handleCharacterUpdate}
+        />
       </div>
     </div>
   );

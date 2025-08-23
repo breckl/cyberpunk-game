@@ -7,28 +7,24 @@ const classes = {
     name: "Netrunner",
     description:
       "Elite hackers who specialize in breaching security systems and manipulating the digital world.",
-    stats: { hack: 8, combat: 3, stealth: 6, tech: 7 },
   },
   S: {
     key: "S",
     name: "Street Samurai",
     description:
       "Cybernetically enhanced warriors who excel in combat and intimidation.",
-    stats: { hack: 2, combat: 8, stealth: 4, tech: 5 },
   },
   T: {
     key: "T",
     name: "Tech Doctor",
     description:
       "Underground medical experts combining traditional medicine with cutting-edge technology.",
-    stats: { hack: 4, combat: 3, stealth: 5, tech: 8 },
   },
   C: {
     key: "C",
     name: "Corporate Agent",
     description:
       "Ex-corporate operatives skilled in manipulation, stealth, and high-tech gadgets.",
-    stats: { hack: 5, combat: 5, stealth: 7, tech: 4 },
   },
 };
 
@@ -52,7 +48,6 @@ function CharacterCreation({ onCreateCharacter }) {
           const character = {
             name: name.trim(),
             class: selectedClass.name,
-            ...selectedClass,
             level: 1,
             experience: 0,
             credits: 5000,
@@ -148,15 +143,10 @@ function CharacterCreation({ onCreateCharacter }) {
           <span className="label">Class:</span>
           <span className="value">{selectedClass.name}</span>
         </div>
-        <div className="stats-grid">
-          {Object.entries(selectedClass.stats).map(([stat, value]) => (
-            <div key={stat} className="stat-row">
-              <span className="label">{stat}</span>
-              <div className="stat-bar">
-                <div className="fill" style={{ width: `${value * 10}%` }}></div>
-              </div>
-            </div>
-          ))}
+        <div className="starting-info">
+          <p>Starting Level: 1</p>
+          <p>Starting Credits: 5000¥</p>
+          <p>Base Stats: Attack 0, Defense 0, Hacking 4</p>
         </div>
       </div>
 

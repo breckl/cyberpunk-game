@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import marketData from "../data/marketData";
 import "../styles/NightMarket.css";
+import { getCurrentLevel } from "../data/levels.js";
 
 function NightMarket({ character, onExit, onUpdateCharacter }) {
   const [selectedTab, setSelectedTab] = useState("weapons");
@@ -127,8 +128,10 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
             </div>
             <div className="item-description">{item.description}</div>
             <div className="item-stats">
-              {item.rating && (
-                <div className="item-stat">Armor Rating: {item.rating}</div>
+              {item.defense && (
+                <div className="item-stat">
+                  Reduces damage by {item.defense}%
+                </div>
               )}
               <div className="item-stat-row">
                 {item.level && (
@@ -155,15 +158,30 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
                   </button>
                 );
               } else {
+                // Check level requirement
+                const characterLevel = getCurrentLevel(
+                  localCharacter.experience
+                );
+                const itemLevel = item.level || 1;
+                const meetsLevelRequirement = characterLevel >= itemLevel;
+
                 return (
                   <button
                     className={`purchase-button ${
-                      localCharacter.credits >= item.price ? "" : "disabled"
+                      localCharacter.credits >= item.price &&
+                      meetsLevelRequirement
+                        ? ""
+                        : "disabled"
                     }`}
                     onClick={() => handlePurchase(item)}
-                    disabled={localCharacter.credits < item.price}
+                    disabled={
+                      localCharacter.credits < item.price ||
+                      !meetsLevelRequirement
+                    }
                   >
-                    {localCharacter.credits >= item.price
+                    {!meetsLevelRequirement
+                      ? `Requires Level ${itemLevel}`
+                      : localCharacter.credits >= item.price
                       ? "Buy"
                       : "Not Enough Credits"}
                   </button>
@@ -258,17 +276,30 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
                         </button>
                       );
                     } else {
+                      // Check level requirement
+                      const characterLevel = getCurrentLevel(
+                        localCharacter.experience
+                      );
+                      const itemLevel = item.level || 1;
+                      const meetsLevelRequirement = characterLevel >= itemLevel;
+
                       return (
                         <button
                           className={`purchase-button ${
-                            localCharacter.credits >= item.price
+                            localCharacter.credits >= item.price &&
+                            meetsLevelRequirement
                               ? ""
                               : "disabled"
                           }`}
                           onClick={() => handlePurchase(item)}
-                          disabled={localCharacter.credits < item.price}
+                          disabled={
+                            localCharacter.credits < item.price ||
+                            !meetsLevelRequirement
+                          }
                         >
-                          {localCharacter.credits >= item.price
+                          {!meetsLevelRequirement
+                            ? `Requires Level ${itemLevel}`
+                            : localCharacter.credits >= item.price
                             ? "Buy"
                             : "Not Enough Credits"}
                         </button>

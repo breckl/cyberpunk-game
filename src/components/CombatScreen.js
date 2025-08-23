@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/CombatScreen.css";
 import { getRandomEnemy } from "../data/enemies.js";
+import levels, { getCurrentLevel } from "../data/levels.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatLogRef = useRef(null);
@@ -172,17 +173,33 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   ]);
 
   const handleAttack = () => {
-    // Player's attack - damage is combat stat ±3
-    const minDamage = Math.max(1, character.stats.combat - 3); // Ensure minimum 1 damage
-    const maxDamage = character.stats.combat + 3;
-    const damage =
+    // Player's attack - damage is based on level attack + weapon damage ±2
+    const currentLevel = getCurrentLevel(character.experience);
+    const levelInfo = levels[currentLevel];
+    const baseAttack = levelInfo?.attack || 0;
+
+    // Find equipped weapon
+    const equippedWeapon = character.inventory?.find(
+      (item) => item.type === "weapon" && item.equipped
+    );
+    const weaponBonus = equippedWeapon?.damage || 0;
+    const totalAttack = baseAttack + weaponBonus;
+
+    const minDamage = Math.max(1, totalAttack - 2); // Ensure minimum 1 damage
+    const maxDamage = totalAttack + 2;
+    const rawDamage =
       Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
-    const newEnemyHp = Math.max(0, enemyHp - damage);
+
+    // Apply enemy defense as percentage reduction
+    const enemyDefense = enemy.defense || 0;
+    const finalDamage = Math.floor((rawDamage * (100 - enemyDefense)) / 100);
+
+    const newEnemyHp = Math.max(0, enemyHp - finalDamage);
     setEnemyHp(newEnemyHp);
 
     const newLog = [
       ...combatLog,
-      `You hit <strong>${enemy.name}</strong> for ${damage} damage!`,
+      `You hit <strong>${enemy.name}</strong> for ${finalDamage} damage!`,
     ];
 
     if (newEnemyHp <= 0) {
@@ -218,8 +235,26 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     // Enemy's attack with weapon damage ±2 variance
     const weaponVariance = Math.floor(Math.random() * 5) - 2; // -2 to +2
-    const enemyDamage = enemy.weapon.damage + weaponVariance;
-    const newPlayerHp = Math.max(0, playerHp - enemyDamage);
+    const enemyRawDamage = enemy.weapon.damage + weaponVariance;
+
+    // Apply player defense as percentage reduction using damage reduction formula
+    const currentLevelPlayer = getCurrentLevel(character.experience);
+    const levelInfoPlayer = levels[currentLevelPlayer];
+    const baseDefense = levelInfoPlayer?.defense || 0;
+
+    // Find equipped armor
+    const equippedArmor = character.inventory?.find(
+      (item) => item.type === "armor" && item.equipped
+    );
+    const armorBonus = equippedArmor?.defense || 0;
+    const totalDefense = baseDefense + armorBonus;
+
+    // Apply damage reduction formula: Final Damage = Attack Damage × (100 - Armor) / 100
+    const enemyFinalDamage = Math.floor(
+      (enemyRawDamage * (100 - totalDefense)) / 100
+    );
+
+    const newPlayerHp = Math.max(0, playerHp - enemyFinalDamage);
     setPlayerHp(newPlayerHp);
 
     const attackText =
@@ -227,7 +262,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         Math.floor(Math.random() * enemy.weapon.attacks.length)
       ];
     newLog.push(
-      `<span class="red">**</span> <strong>${enemy.name}</strong> <em>${attackText}</em> for <span class="red">${enemyDamage}</span> damage! <span class="red">**</span>`
+      `<span class="red">**</span> <strong>${enemy.name}</strong> <em>${attackText}</em> for <span class="red">${enemyFinalDamage}</span> damage! <span class="red">**</span>`
     );
     newLog.push("");
     //newLog.push(`Your Hitpoints: <strong>${newPlayerHp}</strong>`);

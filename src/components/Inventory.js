@@ -184,8 +184,10 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
                 </span>
               </div>
               <div className="item-description">{item.description}</div>
-              {item.rating && (
-                <div className="item-stat">Armor Rating: {item.rating}</div>
+              {item.defense && (
+                <div className="item-stat">
+                  Reduces damage by {item.defense}%
+                </div>
               )}
               {item.damage && (
                 <div className="item-stat">Damage: {item.damage}</div>

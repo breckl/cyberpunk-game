@@ -7,7 +7,7 @@ import levels, {
   getLevelUpRewards,
 } from "../data/levels.js";
 
-function StatsPanel({ character }) {
+function StatsPanel({ character, onUpdateCharacter }) {
   const [tooltip, setTooltip] = useState({
     show: false,
     item: null,
@@ -17,6 +17,33 @@ function StatsPanel({ character }) {
 
   if (!character) return null;
 
+  // Helper function to clear localStorage and reset character
+  const clearCharacterData = () => {
+    if (
+      window.confirm("This will clear all saved character data. Are you sure?")
+    ) {
+      // Clear the main character data
+      localStorage.removeItem("cyberpunk_character");
+
+      // Also clear any other potential old data keys
+      const keysToRemove = [
+        "cyberpunk_character",
+        "cyberpunk_save",
+        "character_data",
+        "game_state",
+      ];
+
+      keysToRemove.forEach((key) => {
+        if (localStorage.getItem(key)) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      alert("Character data cleared! The game will now reload.");
+      window.location.reload();
+    }
+  };
+
   // Helper function to calculate XP display
   const getXPDisplay = () => {
     const currentLevel = getCurrentLevel(character.experience);
@@ -25,6 +52,43 @@ function StatsPanel({ character }) {
     const xpInCurrentLevel = character.experience - currentLevelXP;
     const xpNeededForNextLevel = nextLevelXP ? nextLevelXP - currentLevelXP : 0;
     return `${xpInCurrentLevel}/${xpNeededForNextLevel}`;
+  };
+
+  // Helper function to calculate total stats with equipment
+  const getTotalStats = () => {
+    // Get base stats from levels system
+    const currentLevel = getCurrentLevel(character.experience);
+    const levelInfo = levels[currentLevel];
+
+    const baseAttack = levelInfo?.attack || 0;
+    const baseDefense = levelInfo?.defense || 0;
+
+    // Find equipped items
+    const equippedWeapon = character.inventory?.find(
+      (item) => item.type === "weapon" && item.equipped
+    );
+    const equippedArmor = character.inventory?.find(
+      (item) => item.type === "armor" && item.equipped
+    );
+
+    // Get bonuses from equipped items
+    const weaponBonus = equippedWeapon?.damage || 0;
+    const armorBonus = equippedArmor?.defense || 0;
+
+    return {
+      attack: {
+        total: baseAttack + weaponBonus,
+        base: baseAttack,
+        weapon: weaponBonus,
+        weaponName: equippedWeapon?.name || null,
+      },
+      defense: {
+        total: baseDefense + armorBonus,
+        base: baseDefense,
+        armor: armorBonus,
+        armorName: equippedArmor?.name || null,
+      },
+    };
   };
 
   // Tooltip functions
@@ -44,6 +108,7 @@ function StatsPanel({ character }) {
   // Get current level info
   const currentLevel = getCurrentLevel(character.experience);
   const levelInfo = levels[currentLevel];
+  const totalStats = getTotalStats();
 
   return (
     <div className="stats-panel">
@@ -71,19 +136,52 @@ function StatsPanel({ character }) {
         <h3>Level {currentLevel} Stats</h3>
         <div className="stat">
           <label>HP</label>
-          <span>{levelInfo.hp}</span>
+          <span>{levelInfo?.hp || 0}</span>
         </div>
         <div className="stat">
           <label>Attack</label>
-          <span>{levelInfo.attack}</span>
+          <span
+            className="stat-with-tooltip"
+            onMouseEnter={(e) => {
+              const attackStats = totalStats.attack;
+              const tooltipData = {
+                type: "attack",
+                base: attackStats.base,
+                bonus: attackStats.weapon,
+                total: attackStats.total,
+                itemName: attackStats.weaponName,
+              };
+              showTooltip(e, tooltipData);
+            }}
+            onMouseLeave={hideTooltip}
+          >
+            {totalStats.attack.total}
+          </span>
         </div>
         <div className="stat">
           <label>Defense</label>
-          <span>{levelInfo.defense}</span>
+          <span
+            className="stat-with-tooltip"
+            onMouseEnter={(e) => {
+              const defenseStats = totalStats.defense;
+              const tooltipData = {
+                type: "defense",
+                base: defenseStats.base,
+                bonus: defenseStats.armor,
+                total: defenseStats.total,
+                itemName: defenseStats.armorName,
+                damageReduction: defenseStats.total, // Add damage reduction percentage
+              };
+              showTooltip(e, tooltipData);
+            }}
+            onMouseLeave={hideTooltip}
+          >
+            {totalStats.defense.total}
+          </span>
         </div>
         <div className="stat">
           <label>Hacking</label>
-          <span>{levelInfo.hacking}</span>
+          <span>{levelInfo?.hacking || 0}</span>
         </div>
       </div>
 
@@ -147,6 +245,17 @@ function StatsPanel({ character }) {
         <span>{character.credits}¥</span>
       </div>
 
+      {/* Debug/Reset Button */}
+      <div className="debug-section">
+        <button
+          className="reset-button"
+          onClick={clearCharacterData}
+          title="Clear saved character data and reset"
+        >
+          Reset Character Data
+        </button>
+      </div>
+
       {/* Tooltip */}
       {tooltip.show && tooltip.item && (
         <div
@@ -158,21 +267,54 @@ function StatsPanel({ character }) {
             zIndex: 1000,
           }}
         >
-          <div className="tooltip-header">{tooltip.item.name}</div>
-          <div className="tooltip-type">Type: {tooltip.item.type}</div>
-          {tooltip.item.damage && (
-            <div className="tooltip-stat">Damage: {tooltip.item.damage}</div>
-          )}
-          {tooltip.item.defense && (
-            <div className="tooltip-stat">Defense: {tooltip.item.defense}</div>
-          )}
-          {tooltip.item.hacking && (
-            <div className="tooltip-stat">Hacking: {tooltip.item.hacking}</div>
-          )}
-          {tooltip.item.description && (
-            <div className="tooltip-description">
-              {tooltip.item.description}
-            </div>
+          {tooltip.item.type === "attack" || tooltip.item.type === "defense" ? (
+            // Stat calculation tooltip
+            <>
+              <div className="tooltip-header">
+                {tooltip.item.type === "attack" ? "Attack" : "Defense"}{" "}
+                Calculation
+              </div>
+              <div className="tooltip-calculation">
+                <div className="tooltip-base">Base: {tooltip.item.base}</div>
+                {tooltip.item.bonus > 0 && tooltip.item.itemName && (
+                  <div className="tooltip-bonus">
+                    +{tooltip.item.bonus} from {tooltip.item.itemName}
+                  </div>
+                )}
+                <div className="tooltip-total">Total: {tooltip.item.total}</div>
+                {tooltip.item.type === "defense" && (
+                  <div className="tooltip-damage-reduction">
+                    Reduces incoming damage by {tooltip.item.damageReduction}%
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            // Item tooltip
+            <>
+              <div className="tooltip-header">{tooltip.item.name}</div>
+              <div className="tooltip-type">Type: {tooltip.item.type}</div>
+              {tooltip.item.damage && (
+                <div className="tooltip-stat">
+                  Damage: {tooltip.item.damage}
+                </div>
+              )}
+              {tooltip.item.defense && (
+                <div className="tooltip-stat">
+                  Defense: {tooltip.item.defense}
+                </div>
+              )}
+              {tooltip.item.hacking && (
+                <div className="tooltip-stat">
+                  Hacking: {tooltip.item.hacking}
+                </div>
+              )}
+              {tooltip.item.description && (
+                <div className="tooltip-description">
+                  {tooltip.item.description}
+                </div>
+              )}
+            </>
           )}
         </div>
       )}
