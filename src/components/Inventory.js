@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Inventory.css";
 
-function Inventory({ character, onUpdateCharacter, onExit }) {
+function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   const [localCharacter, setLocalCharacter] = useState(character);
   const [selectedTab, setSelectedTab] = useState("all");
 
@@ -17,12 +17,14 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
 
       if (key === "B") {
         onExit();
+      } else if (key === "M") {
+        onNavigate("market");
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onExit]);
+  }, [onExit, onNavigate]);
 
   const formatCredits = (amount) => {
     return new Intl.NumberFormat().format(amount);
@@ -217,9 +219,14 @@ function Inventory({ character, onUpdateCharacter, onExit }) {
     <div className="inventory-screen">
       <div className="inventory-header">
         <h2>Inventory</h2>
-        <span className="back-button" onClick={onExit}>
-          <span className="key">(B)</span>ack
-        </span>
+        <div className="header-buttons">
+          <span className="back-button" onClick={() => onNavigate("market")}>
+            <span className="key">(M)</span>arket
+          </span>
+          <span className="back-button" onClick={onExit}>
+            <span className="key">(B)</span>ack
+          </span>
+        </div>
       </div>
       {renderEquippedItems()}
       {renderTabs()}

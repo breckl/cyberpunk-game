@@ -1,7 +1,7 @@
 const dailyEvents = {
   locations: {
-    nightMarket: {
-      name: "Night Market",
+    market: {
+      name: "Market",
       description:
         "A bustling black market where anything can be bought or sold... for the right price.",
       dailyActions: 3,

@@ -1,4 +1,4 @@
-const marketData = {
+const market = {
   armor: [
     {
       id: "street_hoodie",
@@ -806,4 +806,4 @@ const marketData = {
   ],
 };
 
-export default marketData;
+export default market;

@@ -1,30 +1,23 @@
 import React, { useEffect } from "react";
 
-function StreetsMenu({
-  character,
-  onNavigate,
-  onShowInventory,
-  onShowMessages,
-  onShowPlayers,
-  onShowHelp,
-}) {
+function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
   // Simple keyboard handling
   useEffect(() => {
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
       switch (key) {
-        case "N":
-          onNavigate("nightmarket");
+        case "I":
+          onNavigate("inventory");
           break;
-        case "C":
-          onNavigate("combat");
+        case "M":
+          onNavigate("market");
           break;
         case "T":
           onNavigate("travel");
           break;
-        case "I":
-          onNavigate("inventory");
+        case "C":
+          onNavigate("combat");
           break;
         case "H":
           onShowHelp();
@@ -36,17 +29,17 @@ function StreetsMenu({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate, onShowInventory, onShowMessages, onShowPlayers, onShowHelp]);
+  }, [onNavigate, onShowInventory, onShowHelp]);
 
   const location = {
     name: "Night City Streets",
     description:
       "The neon-drenched streets of Night City stretch before you. The air is thick with the hum of hover vehicles and the chatter of street merchants. Holographic advertisements paint the smog in shifting colors.",
     options: [
-      { key: "N", label: "ight Market" },
-      { key: "C", label: "ombat Zone" },
-      { key: "T", label: "ravel" },
       { key: "I", label: "nventory" },
+      { key: "M", label: "arket" },
+      { key: "T", label: "ravel" },
+      { key: "C", label: "ombat Zone" },
       { key: "H", label: "elp" },
     ],
   };
@@ -68,6 +61,11 @@ function StreetsMenu({
             </span>
           </div>
         ))}
+      </div>
+
+      <div className="global-menu-hint">
+        Press <span className="key">Esc</span> for quick access to Inventory,
+        Market, Travel, and more
       </div>
     </div>
   );

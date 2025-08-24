@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import marketData from "../data/marketData";
-import "../styles/NightMarket.css";
+import market from "../data/market";
+import "../styles/Market.css";
 import { getCurrentLevel } from "../data/levels.js";
 
-function NightMarket({ character, onExit, onUpdateCharacter }) {
+function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   const [selectedTab, setSelectedTab] = useState("weapons");
   const [localCharacter, setLocalCharacter] = useState(character);
   const [confirmingPurchase, setConfirmingPurchase] = useState(null);
@@ -20,12 +20,14 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
 
       if (key === "B") {
         onExit();
+      } else if (key === "I") {
+        onNavigate("inventory");
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onExit]);
+  }, [onExit, onNavigate]);
 
   const formatCredits = (amount) => {
     return new Intl.NumberFormat().format(amount);
@@ -231,7 +233,7 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
     switch (selectedTab) {
       case "weapons":
         // Get all weapons and sort by price
-        const allWeapons = Object.values(marketData.weapons).flat();
+        const allWeapons = Object.values(market.weapons).flat();
         const sortedWeapons = allWeapons.sort((a, b) => a.price - b.price);
 
         return (
@@ -312,14 +314,14 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
           </div>
         );
       case "armor":
-        return renderItemList(marketData.armor, "ARMOR");
+        return renderItemList(market.armor, "ARMOR");
       case "cyberware":
-        return renderItemList(marketData.cyberware, "CYBERWARE");
+        return renderItemList(market.cyberware, "CYBERWARE");
       case "netgear":
-        return renderItemList(marketData.netgear, "NETRUNNER GEAR");
+        return renderItemList(market.netgear, "NETRUNNER GEAR");
       default:
         // Get all weapons and sort by price for default view
-        const defaultWeapons = Object.values(marketData.weapons).flat();
+        const defaultWeapons = Object.values(market.weapons).flat();
         const defaultSortedWeapons = defaultWeapons.sort(
           (a, b) => a.price - b.price
         );
@@ -328,12 +330,17 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   };
 
   return (
-    <div className="night-market">
+    <div className="market">
       <div className="market-header">
-        <h2>Night Market</h2>
-        <span className="back-button" onClick={onExit}>
-          <span className="key">(B)</span>ack
-        </span>
+        <h2>Market</h2>
+        <div className="header-buttons">
+          <span className="back-button" onClick={() => onNavigate("inventory")}>
+            <span className="key">(I)</span>nventory
+          </span>
+          <span className="back-button" onClick={onExit}>
+            <span className="key">(B)</span>ack
+          </span>
+        </div>
       </div>
       {renderTabs()}
       <div className="market-content">{renderContent()}</div>
@@ -342,4 +349,4 @@ function NightMarket({ character, onExit, onUpdateCharacter }) {
   );
 }
 
-export default NightMarket;
+export default Market;
