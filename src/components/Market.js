@@ -150,7 +150,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
               );
 
               if (isInInventory) {
-                const sellPrice = Math.floor(item.price * 0.6);
+                const sellPrice = Math.floor(item.price * 0.4);
                 return (
                   <button
                     className="sell-button"

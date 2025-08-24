@@ -63,9 +63,16 @@
   width: 100%;
   height: 12px;
   background: rgba(0, 0, 0, 0.5);
-  border: 1px solid #00ff41;
   border-radius: 6px;
   overflow: hidden;
+}
+
+.enemy-hp-bar {
+  border: 1px solid #ff0000;
+}
+
+.player-hp-bar {
+  border: 1px solid #00ff41;
 }
 
 .hp-fill {

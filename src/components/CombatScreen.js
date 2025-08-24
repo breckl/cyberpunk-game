@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import "../styles/CombatScreen.css";
 import { getCombatEnemies } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
+import market from "../data/market.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatLogRef = useRef(null);
@@ -16,6 +17,54 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">R</span>)un</span>`;
 
   const menuOptions = `<span class="menu-item">(<span class="key">C</span>)ontinue <span class="menu-item"></span>(<span class="key">L</span>)eave</span></span>`;
+
+  // Get random unarmed action
+  const getRandomUnarmedAction = () => {
+    const unarmedActions = market.unarmed;
+    if (!unarmedActions || unarmedActions.length === 0) {
+      // Fallback actions if market.unarmed is not available
+      const fallbackActions = [
+        "swing a right hook",
+        "throw an uppercut",
+        "jab with your left",
+        "swing a roundhouse kick",
+        "deliver a straight punch",
+      ];
+      return fallbackActions[
+        Math.floor(Math.random() * fallbackActions.length)
+      ];
+    }
+    return unarmedActions[Math.floor(Math.random() * unarmedActions.length)];
+  };
+
+  // Find equipped weapon from inventory
+  const equippedWeapon = character.inventory?.find(
+    (item) => item.type === "weapon" && item.equipped === true
+  );
+
+  // Debug: Log the entire inventory to see structure
+  console.log("Debug inventory structure:", character.inventory);
+  console.log("Debug equipped weapon found:", equippedWeapon);
+
+  // Get player weapon action description or random unarmed action
+  const getPlayerActionDescription = () => {
+    console.log("Debug weapon data:", {
+      equippedWeapon,
+      equipped: equippedWeapon?.equipped,
+      actionDescription: equippedWeapon?.actionDescription,
+    });
+
+    if (
+      equippedWeapon &&
+      equippedWeapon.equipped &&
+      equippedWeapon.actionDescription
+    ) {
+      console.log("Using weapon action:", equippedWeapon.actionDescription);
+      return equippedWeapon.actionDescription;
+    }
+    console.log("Using unarmed action");
+    return getRandomUnarmedAction();
+  };
 
   // Shared function to setup combat with a given enemy
   const setupCombat = (enemyData) => {
@@ -182,7 +231,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const equippedWeapon = character.inventory?.find(
       (item) => item.type === "weapon" && item.equipped
     );
-    const weaponBonus = equippedWeapon?.damage || 0;
+    const weaponBonus = equippedWeapon?.damage || 3; // Default to 3 damage for unarmed combat
     const totalAttack = baseAttack + weaponBonus;
 
     const minDamage = Math.max(1, totalAttack - 2); // Ensure minimum 1 damage
@@ -199,7 +248,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     const newLog = [
       ...combatLog,
-      `You hit <strong>${enemy.name}</strong> for ${finalDamage} damage!`,
+      `You <em>${getPlayerActionDescription()}</em> and hit <strong>${
+        enemy.name
+      }</strong> for ${finalDamage} damage!`,
     ];
 
     if (newEnemyHp <= 0) {
@@ -234,7 +285,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     }
 
     // Enemy's attack with weapon damage ±2 variance
-    const weaponVariance = Math.floor(Math.random() * 5) - 2; // -2 to +2
+    const weaponVariance = Math.floor(Math.random() * 5) - 3; // -2 to +2
     const enemyRawDamage = enemy.weapon.damage + weaponVariance;
 
     // Apply player defense as percentage reduction using damage reduction formula
@@ -324,11 +375,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
             <div className="stat-row">
               <span className="stat-label">Weapon:</span>
-              <span className="stat-value">{playerWeapon.name}</span>
+              <span className="stat-value">
+                {equippedWeapon && equippedWeapon.equipped
+                  ? equippedWeapon.name
+                  : "Unarmed Combat"}
+              </span>
             </div>
             <div className="stat-row">
               <span className="stat-label">Damage:</span>
-              <span className="stat-value">{playerWeapon.damage} ±2</span>
+              <span className="stat-value">
+                {equippedWeapon && equippedWeapon.equipped
+                  ? `${equippedWeapon.damage} ±2`
+                  : "3 ±3"}
+              </span>
             </div>
             <div className="stat-row">
               <span className="stat-label">HP:</span>
@@ -337,7 +396,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               </span>
             </div>
             <div className="hp-bar-container">
-              <div className="hp-bar">
+              <div className="hp-bar player-hp-bar">
                 <div
                   className="hp-fill player-hp-fill"
                   style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
@@ -374,7 +433,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               </span>
             </div>
             <div className="hp-bar-container">
-              <div className="hp-bar">
+              <div className="hp-bar enemy-hp-bar">
                 <div
                   className="hp-fill enemy-hp-fill"
                   style={{
@@ -389,26 +448,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                   }}
                 ></div>
               </div>
-            </div>
-          </div>
-
-          {/* Combat Controls */}
-          <div className="combat-controls">
-            <h3 className="stats-header">COMBAT CONTROLS</h3>
-            <div className="control-row">
-              <span className="key">A</span>ttack
-            </div>
-            <div className="control-row">
-              <span className="key">S</span>tats
-            </div>
-            <div className="control-row">
-              <span className="key">R</span>un
-            </div>
-            <div className="control-row">
-              <span className="key">C</span>ontinue
-            </div>
-            <div className="control-row">
-              <span className="key">L</span>eave
             </div>
           </div>
         </div>
