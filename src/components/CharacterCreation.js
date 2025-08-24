@@ -50,7 +50,7 @@ function CharacterCreation({ onCreateCharacter }) {
             class: selectedClass.name,
             level: 1,
             experience: 0,
-            credits: 5000,
+            credits: 500,
             inventory: [],
           };
           onCreateCharacter(character);

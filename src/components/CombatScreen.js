@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/CombatScreen.css";
-import { getRandomEnemy } from "../data/enemies.js";
+import { getCombatEnemies } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
@@ -37,7 +37,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   };
 
   const [enemy, setEnemy] = useState(() => {
-    const randomEnemy = getRandomEnemy();
+    const randomEnemy = getCombatEnemies();
     const { enemyData, enemyTotalHp } = setupCombat(randomEnemy);
     return enemyData;
   });
@@ -76,7 +76,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   const restartCombat = () => {
     // Choose a random enemy
-    const newEnemy = getRandomEnemy();
+    const newEnemy = getCombatEnemies();
 
     // Use shared setup function
     const { enemyData, enemyTotalHp, newCombatLog } = setupCombat(newEnemy);
@@ -349,6 +349,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           {/* Enemy Stats */}
           <div className="enemy-stats">
             <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
+            <div className="stat-row">
+              <span className="stat-label">Level:</span>
+              <span className="stat-value">{enemy.level}</span>
+            </div>
             <div className="stat-row">
               <span className="stat-label">Weapon:</span>
               <span className="stat-value">{enemy.weapon.name}</span>

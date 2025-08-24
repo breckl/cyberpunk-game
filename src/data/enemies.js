@@ -493,8 +493,19 @@ export const getEnemiesByRegion = (region) => {
   return enemies.filter((enemy) => enemy.region === region);
 };
 
-export const getRandomEnemy = (level = null, type = null, region = null) => {
+export const getRandomEnemy = (
+  level = null,
+  type = null,
+  region = null,
+  minLevel = 1,
+  maxLevel = 3
+) => {
   let filteredEnemies = enemies;
+
+  // Filter by level range (default: level 1-3 for combat)
+  filteredEnemies = filteredEnemies.filter(
+    (enemy) => enemy.level >= minLevel && enemy.level <= maxLevel
+  );
 
   if (level !== null) {
     filteredEnemies = filteredEnemies.filter((enemy) => enemy.level === level);
@@ -519,6 +530,31 @@ export const getRandomEnemy = (level = null, type = null, region = null) => {
 
 export const getEnemyById = (id) => {
   return enemies.find((enemy) => enemy.id === id);
+};
+
+// Area-specific enemy functions
+export const getCombatEnemies = () => {
+  return getRandomEnemy(null, null, null, 1, 3); // Level 1-3 for general combat
+};
+
+export const getStreetEnemies = () => {
+  return getRandomEnemy(null, null, null, 1, 2); // Level 1-2 for street encounters
+};
+
+export const getDowntownEnemies = () => {
+  return getRandomEnemy(null, null, null, 2, 4); // Level 2-4 for downtown
+};
+
+export const getUptownEnemies = () => {
+  return getRandomEnemy(null, null, null, 3, 5); // Level 3-5 for uptown
+};
+
+export const getCorporateEnemies = () => {
+  return getRandomEnemy(null, null, null, 4, 6); // Level 4-6 for corporate areas
+};
+
+export const getNetherworldEnemies = () => {
+  return getRandomEnemy(null, null, null, 2, 5); // Level 2-5 for netherworld
 };
 
 export default enemies;
