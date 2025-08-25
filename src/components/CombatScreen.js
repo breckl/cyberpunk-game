@@ -3,20 +3,40 @@ import "../styles/CombatScreen.css";
 import { getCombatEnemies } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
 import market from "../data/market.js";
+import CombatSystem from "../game/combat/CombatSystem.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatLogRef = useRef(null);
+  const combatSystem = new CombatSystem();
+  const [combatRounds, setCombatRounds] = useState(0);
 
-  // Calculate total HP including armor
-  const playerTotalHp = 40; // Base HP
-  const playerWeapon = {
-    name: "Basic Pistol",
-    damage: 5, // ±2 variance applied in combat
-  };
+  // Calculate total HP including armor based on character's current level
+  const currentLevel = getCurrentLevel(character.experience);
+  const levelInfo = levels[currentLevel];
+  const playerTotalHp = levelInfo?.hp || 30; // Use level-based HP, fallback to 30
 
-  const combatOptions = `(<span class="menu-item"><span class="key">A</span>)ttack (<span class="key">R</span>)un</span>`;
+  // Find equipped weapon from inventory
+  const equippedWeapon = character.inventory?.find(
+    (item) => item.type === "weapon" && item.equipped === true
+  );
 
-  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)ontinue <span class="menu-item"></span>(<span class="key">L</span>)eave</span></span>`;
+  // Use equipped weapon or default to unarmed combat
+  const playerWeapon = equippedWeapon
+    ? {
+        name: equippedWeapon.name,
+        damage: equippedWeapon.damage || 0, // Use weapon damage or 0 if undefined
+      }
+    : {
+        name: "Unarmed Combat",
+        damage: 0, // Unarmed combat adds no bonus damage
+      };
+
+  // Calculate total attack power for display
+  const totalAttack = (levelInfo?.attack || 0) + playerWeapon.damage;
+
+  const combatOptions = `(<span class="key">A</span>)ttack (<span class="key">R</span>)un`;
+
+  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)ontinue Fighting <span class="menu-item"></span>(<span class="key">L</span>)eave Streets</span></span>`;
 
   // Get random unarmed action
   const getRandomUnarmedAction = () => {
@@ -36,11 +56,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     }
     return unarmedActions[Math.floor(Math.random() * unarmedActions.length)];
   };
-
-  // Find equipped weapon from inventory
-  const equippedWeapon = character.inventory?.find(
-    (item) => item.type === "weapon" && item.equipped === true
-  );
 
   // Debug: Log the entire inventory to see structure
   console.log("Debug inventory structure:", character.inventory);
@@ -74,10 +89,14 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     );
     const enemyTotalHp = enemyData.baseHp + enemyArmorBonus;
 
+    // Debug: Log enemy data
+    console.log("Setup combat for enemy:", enemyData.name);
+    console.log("Enemy description:", enemyData.description);
+
     const newCombatLog = [
       `<span class="stats-header">**** COMBAT *****</span>`,
       `You have encountered <strong>${enemyData.name}</strong>!!`,
-      ``,
+      `<em>${enemyData.description}</em>`,
       combatOptions,
       `--------------------------------`,
     ];
@@ -86,13 +105,14 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   };
 
   const [enemy, setEnemy] = useState(() => {
-    const randomEnemy = getCombatEnemies();
+    const randomEnemy = getCombatEnemies("ninsei-streets"); // Default to Ninsei Streets
     const { enemyData, enemyTotalHp } = setupCombat(randomEnemy);
     return enemyData;
   });
 
   const [combatLog, setCombatLog] = useState(() => {
-    const { newCombatLog } = setupCombat(enemy);
+    const randomEnemy = getCombatEnemies("ninsei-streets");
+    const { newCombatLog } = setupCombat(randomEnemy);
     return newCombatLog;
   });
 
@@ -123,9 +143,24 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     }
   }, [combatLog]);
 
+  // Hide scrollbar for webkit browsers
+  useEffect(() => {
+    const style = document.createElement("style");
+    style.textContent = `
+      .combat-log::-webkit-scrollbar {
+        display: none;
+      }
+    `;
+    document.head.appendChild(style);
+
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
+
   const restartCombat = () => {
     // Choose a random enemy
-    const newEnemy = getCombatEnemies();
+    const newEnemy = getCombatEnemies("ninsei-streets"); // Default to Ninsei Streets
 
     // Use shared setup function
     const { enemyData, enemyTotalHp, newCombatLog } = setupCombat(newEnemy);
@@ -139,6 +174,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setIsPlayerTurn(true);
     setCombatEnded(false);
     setEndResult(null);
+    setCombatRounds(0); // Reset combat rounds
 
     // Update combat log
     setCombatLog(newCombatLog);
@@ -174,30 +210,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         case "A":
           handleAttack();
           break;
-        case "S":
-          // Show current stats
-          const enemyArmorBonus = Math.floor(
-            enemy.baseHp * (enemy.armor.rating * 0.1)
-          );
-          const enemyTotalHp = enemy.baseHp + enemyArmorBonus;
-          const statsLog = [
-            `<span class="stats-header">YOUR STATS:</span>`,
-            `Current HP: <strong>${playerHp}</strong>/${playerTotalHp}`,
-            `Armor: None (0% bonus)`,
-            `Weapon: <strong>${playerWeapon.name}</strong> (${playerWeapon.damage} ±2 damage)`,
-            ``,
-            `<span class="stats-header">${enemy.name.toUpperCase()}'S STATS:</span>`,
-            `Current HP: <strong>${enemyHp}</strong>/${enemyTotalHp}`,
-            `Armor: <strong>${enemy.armor.name}</strong> (${
-              enemy.armor.rating * 10
-            }% bonus = +${enemyArmorBonus} HP)`,
-            `Weapon: <strong>${enemy.weapon.name}</strong> (${enemy.weapon.damage} ±2 damage)`,
-            ``,
-            combatOptions,
-            `--------------------------------`,
-          ];
-          setCombatLog([...combatLog, ...statsLog]);
-          break;
         case "R":
           handleRun();
           break;
@@ -219,19 +231,20 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     onUpdateCharacter,
     enemy,
     restartCombat,
+    combatRounds,
   ]);
 
   const handleAttack = () => {
+    // Increment combat rounds
+    setCombatRounds((prev) => prev + 1);
+
     // Player's attack - damage is based on level attack + weapon damage ±2
     const currentLevel = getCurrentLevel(character.experience);
     const levelInfo = levels[currentLevel];
     const baseAttack = levelInfo?.attack || 0;
 
-    // Find equipped weapon
-    const equippedWeapon = character.inventory?.find(
-      (item) => item.type === "weapon" && item.equipped
-    );
-    const weaponBonus = equippedWeapon?.damage || 3; // Default to 3 damage for unarmed combat
+    // Use the already found equipped weapon from the component state
+    const weaponBonus = equippedWeapon?.damage || 0; // Default to 0 damage for unarmed combat
     const totalAttack = baseAttack + weaponBonus;
 
     const minDamage = Math.max(1, totalAttack - 2); // Ensure minimum 1 damage
@@ -241,7 +254,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     // Apply enemy defense as percentage reduction
     const enemyDefense = enemy.defense || 0;
-    const finalDamage = Math.floor((rawDamage * (100 - enemyDefense)) / 100);
+    const finalDamage = Math.max(
+      1,
+      Math.floor((rawDamage * (100 - enemyDefense)) / 100)
+    );
 
     const newEnemyHp = Math.max(0, enemyHp - finalDamage);
     setEnemyHp(newEnemyHp);
@@ -275,9 +291,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       if (onUpdateCharacter) {
         const updatedCharacter = {
           ...character,
-          credits: character.credits + rewards.credits,
           experience: character.experience + rewards.exp,
+          credits: character.credits + rewards.credits,
         };
+
         onUpdateCharacter(updatedCharacter);
       }
 
@@ -324,36 +341,99 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setCombatLog(newLog);
 
     if (newPlayerHp <= 0) {
-      // Player defeated
+      // Player defeated - apply penalty
+      const defeatPenalty = combatSystem.calculateDefeatPenalty(
+        enemy,
+        combatRounds
+      );
+      const penaltyText = combatSystem.getPenaltyFlavorText(
+        "defeat",
+        enemy,
+        defeatPenalty
+      );
+
       newLog.push(`You have been defeated by <strong>${enemy.name}</strong>!`);
+      newLog.push(`<span class="red">${penaltyText}</span>`);
+      newLog.push(
+        `<span class="red">You lose ${defeatPenalty} credits!</span>`
+      );
       newLog.push("");
       newLog.push(menuOptions);
-      //newLog.push('<span class="enter-prompt">&lt;ENTER&gt;</span>');
+
       setCombatLog(newLog);
       setCombatEnded(true);
-      setEndResult({ type: "defeat" });
+      setEndResult({ type: "defeat", penalty: defeatPenalty });
+
+      // Apply penalty to character
+      if (onUpdateCharacter) {
+        const updatedCharacter = { ...character };
+
+        // Apply penalty directly to credits
+        const oldCredits = updatedCharacter.credits;
+        updatedCharacter.credits = Math.max(0, oldCredits - defeatPenalty);
+
+        // Update character state
+        onUpdateCharacter(updatedCharacter);
+      }
+
       return;
     }
   };
 
   const handleRun = () => {
-    const runChance = Math.random();
-    if (runChance > 0.5) {
+    // Check if this is initial flee (before combat) or combat flee (during combat)
+    if (combatRounds === 0) {
+      // Initial flee - no penalty before any combat
       const newLog = [
         ...combatLog,
-        `<span class="win-message">You manage to escape!</span>`,
+        `<span class="win-message">You slip away before combat begins!</span>`,
+        `No penalty for smart tactical thinking.`,
         "",
         menuOptions,
-        //`<span class="enter-prompt">&lt;ENTER&gt;</span>`,
       ];
       setCombatLog(newLog);
       setCombatEnded(true);
-      setEndResult({ type: "escape" });
+      setEndResult({ type: "initialFlee" });
+
+      // No penalty applied - just update character state
+      if (onUpdateCharacter) {
+        onUpdateCharacter(character);
+      }
     } else {
-      const newLog = [...combatLog, "You failed to escape!"];
+      // Combat flee - apply penalty based on combat duration
+      const escapePenalty = combatSystem.calculateCombatFleePenalty(
+        enemy,
+        combatRounds
+      );
+      const penaltyText = combatSystem.getPenaltyFlavorText(
+        "combatFlee",
+        enemy,
+        escapePenalty
+      );
+
+      const newLog = [
+        ...combatLog,
+        `<span class="win-message">You manage to escape!</span>`,
+        `<span class="red">${penaltyText}</span>`,
+        `<span class="red">You lose ${escapePenalty} credits!</span>`,
+        "",
+        menuOptions,
+      ];
       setCombatLog(newLog);
-      // Enemy gets a free attack
-      handleAttack();
+      setCombatEnded(true);
+      setEndResult({ type: "escape", penalty: escapePenalty });
+
+      // Apply penalty to character
+      if (onUpdateCharacter) {
+        const updatedCharacter = { ...character };
+
+        // Apply penalty directly to credits
+        const oldCredits = updatedCharacter.credits;
+        updatedCharacter.credits = Math.max(0, oldCredits - escapePenalty);
+
+        // Update character state
+        onUpdateCharacter(updatedCharacter);
+      }
     }
   };
 
@@ -374,20 +454,16 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               <span className="stat-value">{character.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Weapon:</span>
-              <span className="stat-value">
-                {equippedWeapon && equippedWeapon.equipped
-                  ? equippedWeapon.name
-                  : "Unarmed Combat"}
-              </span>
+              <span className="stat-label">Level:</span>
+              <span className="stat-value">{currentLevel}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Damage:</span>
-              <span className="stat-value">
-                {equippedWeapon && equippedWeapon.equipped
-                  ? `${equippedWeapon.damage} ±2`
-                  : "3 ±3"}
-              </span>
+              <span className="stat-label">Weapon:</span>
+              <span className="stat-value">{playerWeapon.name}</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Attack Power:</span>
+              <span className="stat-value">{totalAttack} ±2</span>
             </div>
             <div className="stat-row">
               <span className="stat-label">HP:</span>
@@ -453,7 +529,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         </div>
 
         {/* Right Combat Log */}
-        <div className="combat-log" ref={combatLogRef}>
+        <div
+          className="combat-log"
+          ref={combatLogRef}
+          style={{
+            scrollbarWidth: "none" /* Firefox */,
+            msOverflowStyle: "none" /* IE and Edge */,
+            overflowY: "auto",
+          }}
+        >
           {combatLog.map((message, index) => (
             <div key={index} className="combat-message">
               {renderMessage(message)}

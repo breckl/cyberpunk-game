@@ -1,46 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
-  // Simple keyboard handling
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const key = e.key.toUpperCase();
-
-      switch (key) {
-        case "I":
-          onNavigate("inventory");
-          break;
-        case "M":
-          onNavigate("market");
-          break;
-        case "T":
-          onNavigate("travel");
-          break;
-        case "C":
-          onNavigate("combat");
-          break;
-        case "H":
-          onShowHelp();
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate, onShowInventory, onShowHelp]);
-
   const location = {
     name: "Night City Streets",
     description:
       "The neon-drenched streets of Night City stretch before you. The air is thick with the hum of hover vehicles and the chatter of street merchants. Holographic advertisements paint the smog in shifting colors.",
     options: [
-      { key: "I", label: "nventory" },
-      { key: "M", label: "arket" },
-      { key: "T", label: "ravel" },
-      { key: "C", label: "ombat Zone" },
-      { key: "H", label: "elp" },
+      { key: "inventory", label: "Inventory" },
+      { key: "market", label: "Market" },
+      { key: "travel", label: "Travel" },
+      { key: "combat", label: "Combat Zone" },
+      { key: "help", label: "Help" },
     ],
   };
 
@@ -55,8 +25,16 @@ function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span className="menu-item">
-              <span className="key">({option.key})</span>
+            <span
+              className="menu-item clickable"
+              onClick={() => {
+                if (option.key === "help") {
+                  onShowHelp();
+                } else {
+                  onNavigate(option.key);
+                }
+              }}
+            >
               {option.label}
             </span>
           </div>

@@ -2,7 +2,7 @@ const levels = {
   1: {
     xp: 0,
     hp: 30,
-    attack: 2,
+    attack: 3,
     defense: 0,
     hacking: 4,
   },
@@ -16,7 +16,7 @@ const levels = {
   3: {
     xp: 250,
     hp: 50,
-    attack: 6,
+    attack: 5,
     defense: 4,
     hacking: 8,
   },

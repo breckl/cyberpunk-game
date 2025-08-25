@@ -31,16 +31,28 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   };
 
   const handleSell = (item) => {
-    const sellPrice = Math.floor(item.price * 0.4);
+    const sellPrice = Math.floor(item.price * 0.6); // 60% of purchase price
     const updatedInventory = localCharacter.inventory.filter(
       (invItem) => invItem.id !== item.id
     );
 
     const updatedCharacter = {
       ...localCharacter,
-      credits: localCharacter.credits + sellPrice,
       inventory: updatedInventory,
     };
+
+    // Use safe credit management
+    if (localCharacter.gainCredits) {
+      const creditResult = localCharacter.gainCredits.call(
+        updatedCharacter,
+        sellPrice,
+        `Sold ${item.name}`
+      );
+      updatedCharacter.credits = creditResult.totalCredits;
+    } else {
+      // Fallback if gainCredits method doesn't exist
+      updatedCharacter.credits = localCharacter.credits + sellPrice;
+    }
 
     onUpdateCharacter(updatedCharacter);
   };

@@ -1,46 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 function UptownMenu({ character, onNavigate, onShowInventory }) {
-  // Simple keyboard handling
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const key = e.key.toUpperCase();
-
-      switch (key) {
-        case "C":
-          onNavigate("corporate-towers");
-          break;
-        case "S":
-          onNavigate("shopping-district");
-          break;
-        case "R":
-          onNavigate("residential");
-          break;
-        case "I":
-          onNavigate("inventory");
-          break;
-        case "Q":
-          onNavigate("travel");
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate, onShowInventory]);
-
   const location = {
     name: "Uptown",
     description:
       "Clean streets, polished chrome, and the hum of corporate power. Here, the elite live in glass towers that pierce the smog, their wealth evident in every detail. Security drones patrol the area, and the air is noticeably cleaner than the streets below.",
     options: [
-      { key: "C", label: "orporate Towers" },
-      { key: "S", label: "hopping District" },
-      { key: "R", label: "esidential Area" },
-      { key: "I", label: "nventory" },
-      { key: "Q", label: "uit to Travel" },
+      { key: "corporate-towers", label: "Corporate Towers" },
+      { key: "shopping-district", label: "Shopping District" },
+      { key: "residential", label: "Residential Area" },
+      { key: "inventory", label: "Inventory" },
+      { key: "travel", label: "Back to Travel" },
     ],
   };
 
@@ -55,8 +25,16 @@ function UptownMenu({ character, onNavigate, onShowInventory }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span className="menu-item">
-              <span className="key">({option.key})</span>
+            <span
+              className="menu-item clickable"
+              onClick={() => {
+                if (option.key === "inventory") {
+                  onShowInventory();
+                } else {
+                  onNavigate(option.key);
+                }
+              }}
+            >
               {option.label}
             </span>
           </div>

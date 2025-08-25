@@ -77,19 +77,6 @@
   align-items: center;
 }
 
-.menu-item {
-  color: #27af39;
-  display: flex;
-  gap: 0;
-  align-items: center;
-  cursor: pointer;
-  font-size: 1.1rem;
-}
-
-.menu-item:hover {
-  color: #00ff41;
-}
-
 .item-list,
 .item-grid {
   display: grid;

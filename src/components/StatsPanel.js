@@ -242,7 +242,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
 
       <div className="credits">
         <label>Credits</label>
-        <span>{character.credits}¥</span>
+        <span>${character.credits}</span>
       </div>
 
       {/* Debug/Reset Button */}

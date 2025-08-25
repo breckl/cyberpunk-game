@@ -44,8 +44,8 @@
 }
 
 .xp-progress .bar {
-  height: 8px;
-  background: rgba(0, 0, 0, 0.3);
+  height: 14px;
+  background: rgba(9, 115, 30, 0.3);
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 0.5rem;

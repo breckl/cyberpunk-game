@@ -73,6 +73,8 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   };
 
   const confirmPurchase = (item) => {
+    console.log("confirmPurchase called with item:", item);
+
     // Add type to the item for inventory categorization
     const getItemType = () => {
       if (selectedTab === "weapons") {
@@ -93,24 +95,74 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
       type: getItemType(),
       equipped: false,
     };
+
+    console.log("Item with type:", itemWithType);
+
+    // Use safe credit management
     const updatedCharacter = {
       ...localCharacter,
-      credits: localCharacter.credits - item.price,
       inventory: [...localCharacter.inventory, itemWithType],
     };
+
+    console.log("Updated character inventory:", updatedCharacter.inventory);
+
+    // Apply credit deduction safely
+    updatedCharacter.loseCredits =
+      localCharacter.loseCredits ||
+      function (amount, reason) {
+        const oldCredits = this.credits;
+        this.credits = Math.max(0, this.credits - amount);
+        return {
+          amountLost: oldCredits - this.credits,
+          reason: reason,
+          remainingCredits: this.credits,
+        };
+      };
+
+    const creditResult = updatedCharacter.loseCredits.call(
+      updatedCharacter,
+      item.price,
+      `Purchased ${item.name}`
+    );
+    updatedCharacter.credits = creditResult.remainingCredits;
+
+    console.log("Credit result:", creditResult);
+    console.log("Final character state:", updatedCharacter);
+
     onUpdateCharacter(updatedCharacter);
     setConfirmingPurchase(null);
   };
 
   const confirmSell = (item) => {
     const sellPrice = Math.floor(item.price * 0.6); // 60% of purchase price
+
+    // Use safe credit management
     const updatedCharacter = {
       ...localCharacter,
-      credits: localCharacter.credits + sellPrice,
       inventory: localCharacter.inventory.filter(
         (invItem) => invItem.id !== item.id
       ),
     };
+
+    // Apply credit gain safely
+    updatedCharacter.gainCredits =
+      localCharacter.gainCredits ||
+      function (amount, reason) {
+        this.credits += amount;
+        return {
+          amountGained: amount,
+          reason: reason,
+          totalCredits: this.credits,
+        };
+      };
+
+    const creditResult = updatedCharacter.gainCredits.call(
+      updatedCharacter,
+      sellPrice,
+      `Sold ${item.name}`
+    );
+    updatedCharacter.credits = creditResult.totalCredits;
+
     onUpdateCharacter(updatedCharacter);
     setConfirmingPurchase(null);
   };
@@ -150,7 +202,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
               );
 
               if (isInInventory) {
-                const sellPrice = Math.floor(item.price * 0.4);
+                const sellPrice = Math.floor(item.price * 0.6);
                 return (
                   <button
                     className="sell-button"

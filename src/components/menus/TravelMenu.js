@@ -1,45 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 function TravelMenu({ character, onNavigate }) {
-  // Simple keyboard handling
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const key = e.key.toUpperCase();
-
-      switch (key) {
-        case "U":
-          onNavigate("uptown");
-          break;
-        case "D":
-          onNavigate("downtown");
-          break;
-        case "C":
-          onNavigate("corporate");
-          break;
-        case "N":
-          onNavigate("netherworld");
-          break;
-        case "B":
-          onNavigate("streets");
-          break;
-        default:
-          break;
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onNavigate]);
-
   const location = {
-    name: "Travel - Choose Your Destination",
+    name: "Travel",
     description: "Where would you like to go in Night City?",
     options: [
-      { key: "U", label: "ptown" },
-      { key: "D", label: "owntown" },
-      { key: "C", label: "orporate District" },
-      { key: "N", label: "etherworld" },
-      { key: "B", label: "ack to Streets" },
+      { key: "chiba-city", label: "Chiba City" },
+      { key: "uptown", label: "Uptown" },
+      { key: "downtown", label: "Downtown" },
+      { key: "corporate", label: "Corporate District" },
+      { key: "netherworld", label: "Netherworld" },
+      { key: "streets", label: "Back to Streets" },
     ],
   };
 
@@ -54,8 +25,10 @@ function TravelMenu({ character, onNavigate }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span className="menu-item">
-              <span className="key">({option.key})</span>
+            <span
+              className="menu-item clickable"
+              onClick={() => onNavigate(option.key)}
+            >
               {option.label}
             </span>
           </div>

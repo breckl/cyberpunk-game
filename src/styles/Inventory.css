@@ -207,18 +207,6 @@
   text-align: center;
 }
 
-.menu-item {
-  display: inline-block;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1.1em;
-}
-
-.menu-item:hover {
-  background: rgba(0, 255, 65, 0.2);
-  box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .inventory-screen {

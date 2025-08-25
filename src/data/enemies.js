@@ -7,8 +7,8 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 25,
-    attack: 4,
-    defense: 5, // 5% armor bonus
+    attack: 2,
+    defense: 0, // 5% armor bonus
     exp: 15,
     region: "Chiba Alleys",
     credits: 20,
@@ -32,12 +32,12 @@ const enemies = [
     description: "Loud, brash, easily put down",
     type: "Thug",
     level: 1,
-    baseHp: 28,
-    attack: 5,
-    defense: 5,
+    baseHp: 25,
+    attack: 2,
+    defense: 0,
     exp: 16,
     region: "Iron Maze",
-    credits: 25,
+    credits: 20,
     armor: {
       name: "None",
       rating: 0,
@@ -60,7 +60,7 @@ const enemies = [
     level: 1,
     baseHp: 30,
     attack: 6,
-    defense: 6,
+    defense: 1,
     exp: 18,
     region: "Iron Maze",
     credits: 30,
@@ -85,8 +85,8 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 24,
-    attack: 4,
-    defense: 4,
+    attack: 2,
+    defense: 0,
     exp: 14,
     region: "Chiba Market",
     credits: 15,
@@ -112,7 +112,7 @@ const enemies = [
     level: 1,
     baseHp: 30,
     attack: 6,
-    defense: 5,
+    defense: 2,
     exp: 16,
     region: "Chiba Bars",
     credits: 20,
@@ -163,8 +163,8 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 26,
-    attack: 5,
-    defense: 6,
+    attack: 3,
+    defense: 0,
     exp: 16,
     region: "Iron Maze Rooftops",
     credits: 22,
@@ -190,7 +190,7 @@ const enemies = [
     level: 1,
     baseHp: 28,
     attack: 5,
-    defense: 4,
+    defense: 1,
     exp: 15,
     region: "Ninsei Strip",
     credits: 20,
@@ -215,8 +215,8 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 25,
-    attack: 4,
-    defense: 3,
+    attack: 3,
+    defense: 0,
     exp: 14,
     region: "Ninsei / Chatsubo",
     credits: 18,
@@ -241,8 +241,8 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 26,
-    attack: 5,
-    defense: 5,
+    attack: 4,
+    defense: 1,
     exp: 16,
     region: "Ninsei Alley",
     credits: 22,
@@ -268,7 +268,7 @@ const enemies = [
     level: 1,
     baseHp: 27,
     attack: 5,
-    defense: 4,
+    defense: 1,
     exp: 15,
     region: "Ninsei Market",
     credits: 25,
@@ -296,7 +296,7 @@ const enemies = [
     level: 2,
     baseHp: 35,
     attack: 7,
-    defense: 8,
+    defense: 0,
     exp: 22,
     region: "Sprawl Streets",
     credits: 35,
@@ -322,7 +322,7 @@ const enemies = [
     level: 2,
     baseHp: 34,
     attack: 7,
-    defense: 7,
+    defense: 3,
     exp: 20,
     region: "Dog Solitude",
     credits: 30,
@@ -348,7 +348,7 @@ const enemies = [
     level: 2,
     baseHp: 40,
     attack: 8,
-    defense: 10,
+    defense: 3,
     exp: 25,
     region: "Chiba Clinics",
     credits: 40,
@@ -374,7 +374,7 @@ const enemies = [
     level: 2,
     baseHp: 34,
     attack: 7,
-    defense: 8,
+    defense: 2,
     exp: 22,
     region: "Ninsei Strip",
     credits: 35,
@@ -400,7 +400,7 @@ const enemies = [
     level: 2,
     baseHp: 36,
     attack: 7,
-    defense: 7,
+    defense: 3,
     exp: 22,
     region: "Ninsei / Pachinko Parlor",
     credits: 38,
@@ -794,8 +794,54 @@ export const getEnemyById = (id) => {
 };
 
 // Area-specific enemy functions
-export const getCombatEnemies = () => {
-  return getRandomEnemy(null, null, null, 1, 3); // Level 1-3 for general combat
+export const getCombatEnemies = (locationId = null) => {
+  if (locationId) {
+    // Import locations dynamically to avoid circular imports
+    import("./locations.js").then(({ getLocationEnemies }) => {
+      const locationEnemies = getLocationEnemies(locationId);
+      if (locationEnemies) {
+        // Use location-specific enemy probabilities and IDs
+        return getLocationBasedEnemy(locationEnemies);
+      }
+    });
+  }
+
+  // Fallback to default level 1-3 enemies
+  return getRandomEnemy(null, null, null, 1, 3);
+};
+
+// Helper function to get enemies based on location probabilities
+const getLocationBasedEnemy = (locationEnemies) => {
+  const { probabilities, enemyIds } = locationEnemies;
+
+  // Generate random number for probability check
+  const rand = Math.random() * 100;
+  let cumulativeProb = 0;
+  let selectedLevel = 1;
+
+  // Find which level bracket the random number falls into
+  for (const [level, probability] of Object.entries(probabilities)) {
+    cumulativeProb += probability;
+    if (rand <= cumulativeProb) {
+      selectedLevel = parseInt(level);
+      break;
+    }
+  }
+
+  // Filter enemies by selected level and available IDs
+  const availableEnemies = enemies.filter(
+    (enemy) => enemy.level === selectedLevel && enemyIds.includes(enemy.id)
+  );
+
+  if (availableEnemies.length === 0) {
+    // Fallback to any enemy of the selected level
+    const fallbackEnemies = enemies.filter(
+      (enemy) => enemy.level === selectedLevel
+    );
+    return fallbackEnemies[Math.floor(Math.random() * fallbackEnemies.length)];
+  }
+
+  return availableEnemies[Math.floor(Math.random() * availableEnemies.length)];
 };
 
 export const getStreetEnemies = () => {

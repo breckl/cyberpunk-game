@@ -5,8 +5,14 @@ function MainMenu({ onStartGame }) {
   return (
     <div className="main-menu">
       <div className="title-container">
-        <h1 className="game-title">NEON NIGHTS</h1>
-        <div className="subtitle">A Cyberpunk Text RPG</div>
+        <h1 className="game-title">Burning Chrome</h1>
+        <div className="subtitle">
+          <div className="key" style={{ marginBottom: "10px" }}>
+            “The sky above the port was the color of television, tuned to a dead
+            channel.”
+          </div>
+          ~Neuromancer, William Gibson
+        </div>
       </div>
 
       <div className="menu-options">

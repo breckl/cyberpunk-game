@@ -87,6 +87,7 @@ h3 {
   --darker-bg: #050505;
   --panel-bg: rgba(20, 20, 20, 0.8);
   --dark-ping-bg: #4f004f;
+  --dark-red-bg: #4f0000;
 
   /* UI elements */
   --border-color: rgba(0, 255, 65, 0.3);
@@ -162,4 +163,76 @@ h3 {
 .global-menu-hint .key {
   color: #ff00ff;
   font-weight: bold;
+}
+
+/* Menu Item Styling */
+.menu-item {
+  cursor: pointer;
+  padding: 8px px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.menu-item.clickable {
+  cursor: pointer;
+}
+
+.menu-item.clickable:hover {
+  color: var(--neon-pink);
+}
+
+/* Location Screen Styling */
+.location-screen {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.location-header h2 {
+  color: var(--neon-blue);
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.location-description {
+  color: #ccc;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.location-quote {
+  color: #888;
+  font-style: italic;
+  text-align: left;
+  margin-bottom: 2rem;
+  padding: 15px;
+  background: rgba(255, 0, 255, 0.05);
+  border-left: 3px solid var(--neon-pink);
+}
+
+.options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.option-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.command-prompt {
+  background: rgba(0, 255, 65, 0.1);
+  border: 1px solid var(--neon-green);
+  border-radius: 4px;
+  padding: 15px;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.prompt-text {
+  color: var(--neon-green);
+  font-family: "Share Tech Mono", monospace;
 }

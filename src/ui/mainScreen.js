@@ -6,7 +6,7 @@ class MainScreen {
   constructor() {
     this.screen = blessed.screen({
       smartCSR: true,
-      title: "Neon Nights",
+      title: "Burning Chrome",
     });
 
     // Create the main layout
