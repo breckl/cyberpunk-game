@@ -303,7 +303,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     // Enemy's attack with weapon damage ±2 variance
     const weaponVariance = Math.floor(Math.random() * 5) - 3; // -2 to +2
-    const enemyRawDamage = enemy.weapon.damage + weaponVariance;
+    const enemyRawDamage = enemy.attack + weaponVariance;
 
     // Apply player defense as percentage reduction using damage reduction formula
     const currentLevelPlayer = getCurrentLevel(character.experience);
@@ -346,23 +346,34 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         enemy,
         combatRounds
       );
+
+      // Check if player has credits to lose
+      const actualPenalty = Math.min(defeatPenalty, character.credits);
       const penaltyText = combatSystem.getPenaltyFlavorText(
         "defeat",
         enemy,
-        defeatPenalty
+        actualPenalty
       );
 
       newLog.push(`You have been defeated by <strong>${enemy.name}</strong>!`);
       newLog.push(`<span class="red">${penaltyText}</span>`);
-      newLog.push(
-        `<span class="red">You lose ${defeatPenalty} credits!</span>`
-      );
+
+      if (actualPenalty > 0) {
+        newLog.push(
+          `<span class="red">You lose ${actualPenalty} credits!</span>`
+        );
+      } else {
+        newLog.push(
+          `<span class="red">You lose 0 credits (you're already broke)!</span>`
+        );
+      }
+
       newLog.push("");
       newLog.push(menuOptions);
 
       setCombatLog(newLog);
       setCombatEnded(true);
-      setEndResult({ type: "defeat", penalty: defeatPenalty });
+      setEndResult({ type: "defeat", penalty: actualPenalty });
 
       // Apply penalty to character
       if (onUpdateCharacter) {
@@ -370,7 +381,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
         // Apply penalty directly to credits
         const oldCredits = updatedCharacter.credits;
-        updatedCharacter.credits = Math.max(0, oldCredits - defeatPenalty);
+        updatedCharacter.credits = Math.max(0, oldCredits - actualPenalty);
 
         // Update character state
         onUpdateCharacter(updatedCharacter);
@@ -405,23 +416,36 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         enemy,
         combatRounds
       );
+
+      // Check if player has credits to lose
+      const actualPenalty = Math.min(escapePenalty, character.credits);
       const penaltyText = combatSystem.getPenaltyFlavorText(
         "combatFlee",
         enemy,
-        escapePenalty
+        actualPenalty
       );
 
       const newLog = [
         ...combatLog,
         `<span class="win-message">You manage to escape!</span>`,
         `<span class="red">${penaltyText}</span>`,
-        `<span class="red">You lose ${escapePenalty} credits!</span>`,
-        "",
-        menuOptions,
       ];
+
+      if (actualPenalty > 0) {
+        newLog.push(
+          `<span class="red">You lose ${actualPenalty} credits!</span>`
+        );
+      } else {
+        newLog.push(
+          `<span class="red">You lose 0 credits (you're already broke)!</span>`
+        );
+      }
+
+      newLog.push("", menuOptions);
+
       setCombatLog(newLog);
       setCombatEnded(true);
-      setEndResult({ type: "escape", penalty: escapePenalty });
+      setEndResult({ type: "escape", penalty: actualPenalty });
 
       // Apply penalty to character
       if (onUpdateCharacter) {
@@ -429,7 +453,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
         // Apply penalty directly to credits
         const oldCredits = updatedCharacter.credits;
-        updatedCharacter.credits = Math.max(0, oldCredits - escapePenalty);
+        updatedCharacter.credits = Math.max(0, oldCredits - actualPenalty);
 
         // Update character state
         onUpdateCharacter(updatedCharacter);

@@ -307,6 +307,17 @@ class CombatSystem {
   }
 
   getPenaltyFlavorText(penaltyType, enemy, amount) {
+    // Handle case where player has no credits to lose
+    if (amount === 0) {
+      const brokeTexts = [
+        "You're already broke, so there's nothing left to take.",
+        "Your pockets are empty - they can't squeeze blood from a stone.",
+        "You have no credits to lose, which is somehow worse than losing some.",
+        "They search your pockets but find nothing worth stealing.",
+      ];
+      return brokeTexts[Math.floor(Math.random() * brokeTexts.length)];
+    }
+
     const initialFleeTexts = [
       `You slip away quietly, but drop ${amount} credits in your haste.`,
       `A small bribe of ${amount} credits ensures they don't follow.`,

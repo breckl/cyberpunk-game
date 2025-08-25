@@ -7,8 +7,8 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 25,
-    attack: 2,
-    defense: 0, // 5% armor bonus
+    attack: 3,
+    defense: 0,
     exp: 15,
     region: "Chiba Alleys",
     credits: 20,
@@ -18,7 +18,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Knife",
-      damage: 4, // ±2 variance applied in combat
+      damage: 1, // ±2 variance applied in combat
       attacks: [
         "lunges with their rusty knife",
         "makes a desperate slash",
@@ -33,7 +33,7 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 25,
-    attack: 2,
+    attack: 3,
     defense: 0,
     exp: 16,
     region: "Iron Maze",
@@ -44,7 +44,7 @@ const enemies = [
     },
     weapon: {
       name: "Broken Bottle",
-      damage: 5,
+      damage: 1,
       attacks: [
         "swings their broken bottle",
         "makes a reckless charge",
@@ -59,7 +59,7 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 30,
-    attack: 6,
+    attack: 4,
     defense: 1,
     exp: 18,
     region: "Iron Maze",
@@ -70,7 +70,7 @@ const enemies = [
     },
     weapon: {
       name: "Switchblade",
-      damage: 6,
+      damage: 2,
       attacks: [
         "flicks open their switchblade",
         "makes a quick stab",
@@ -96,7 +96,7 @@ const enemies = [
     },
     weapon: {
       name: "Pocket Shiv",
-      damage: 4,
+      damage: 1,
       attacks: [
         "pulls out a hidden shiv",
         "makes a desperate thrust",
@@ -111,7 +111,7 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 30,
-    attack: 6,
+    attack: 3,
     defense: 2,
     exp: 16,
     region: "Chiba Bars",
@@ -122,7 +122,7 @@ const enemies = [
     },
     weapon: {
       name: "Bare Fists",
-      damage: 6,
+      damage: 1,
       attacks: [
         "swings a wild haymaker",
         "charges with drunken rage",
@@ -148,7 +148,7 @@ const enemies = [
     },
     weapon: {
       name: "Stun Rig",
-      damage: 5,
+      damage: 2,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -174,7 +174,7 @@ const enemies = [
     },
     weapon: {
       name: "Sling Blade",
-      damage: 5,
+      damage: 1,
       attacks: [
         "swings their sling blade",
         "makes a quick strike",
@@ -189,7 +189,7 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 28,
-    attack: 5,
+    attack: 6,
     defense: 1,
     exp: 15,
     region: "Ninsei Strip",
@@ -200,7 +200,7 @@ const enemies = [
     },
     weapon: {
       name: "Broken Bottle",
-      damage: 5,
+      damage: 2,
       attacks: [
         "swings their broken bottle",
         "makes a drunken charge",
@@ -215,7 +215,7 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 25,
-    attack: 3,
+    attack: 4,
     defense: 0,
     exp: 14,
     region: "Ninsei / Chatsubo",
@@ -226,7 +226,7 @@ const enemies = [
     },
     weapon: {
       name: "Bar Stool Leg",
-      damage: 4,
+      damage: 1,
       attacks: [
         "swings the stool leg wildly",
         "charges with drunken rage",
@@ -241,7 +241,7 @@ const enemies = [
     type: "Thug",
     level: 1,
     baseHp: 26,
-    attack: 4,
+    attack: 5,
     defense: 1,
     exp: 16,
     region: "Ninsei Alley",
@@ -252,37 +252,11 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: 5,
+      damage: 1,
       attacks: [
         "lunges with their rusty shiv",
         "makes a desperate slash",
         "stabs wildly",
-      ],
-    },
-  },
-  {
-    id: "neon_hawker",
-    name: "Neon Hawker",
-    description: "Pushes bootleg simstim chips and scams tourists",
-    type: "Thug",
-    level: 1,
-    baseHp: 27,
-    attack: 5,
-    defense: 1,
-    exp: 15,
-    region: "Ninsei Market",
-    credits: 25,
-    armor: {
-      name: "None",
-      rating: 0,
-    },
-    weapon: {
-      name: "Pocket Knife",
-      damage: 5,
-      attacks: [
-        "pulls out a pocket knife",
-        "makes a quick stab",
-        "swings the blade",
       ],
     },
   },
@@ -295,7 +269,7 @@ const enemies = [
     type: "Thug",
     level: 2,
     baseHp: 35,
-    attack: 7,
+    attack: 5,
     defense: 0,
     exp: 22,
     region: "Sprawl Streets",
@@ -306,7 +280,7 @@ const enemies = [
     },
     weapon: {
       name: "Pipe Wrench",
-      damage: 7,
+      damage: 2,
       attacks: [
         "swings their pipe wrench",
         "makes a heavy strike",
@@ -321,7 +295,7 @@ const enemies = [
     type: "Thug",
     level: 2,
     baseHp: 34,
-    attack: 7,
+    attack: 5,
     defense: 3,
     exp: 20,
     region: "Dog Solitude",
@@ -332,7 +306,7 @@ const enemies = [
     },
     weapon: {
       name: "Scrap Club",
-      damage: 7,
+      damage: 2,
       attacks: [
         "swings their scrap club",
         "makes a desperate strike",
@@ -358,7 +332,7 @@ const enemies = [
     },
     weapon: {
       name: "Shock Baton",
-      damage: 8,
+      damage: 3,
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -368,7 +342,7 @@ const enemies = [
   },
   {
     id: "ninsei_strip_hustler",
-    name: "Ninsei Strip Hustler",
+    name: "Ninsei Hustler",
     description: "Smooth-talking fixer, fights dirty when deals go bad",
     type: "Thug",
     level: 2,
@@ -384,7 +358,7 @@ const enemies = [
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: 7,
+      damage: 2,
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -399,7 +373,7 @@ const enemies = [
     type: "Thug",
     level: 2,
     baseHp: 36,
-    attack: 7,
+    attack: 6,
     defense: 3,
     exp: 22,
     region: "Ninsei / Pachinko Parlor",
@@ -410,7 +384,7 @@ const enemies = [
     },
     weapon: {
       name: "Switchblade",
-      damage: 7,
+      damage: 2,
       attacks: [
         "flicks open their switchblade",
         "makes a quick stab",
@@ -436,7 +410,7 @@ const enemies = [
     },
     weapon: {
       name: "Shock Baton",
-      damage: 8,
+      damage: 3,
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -451,7 +425,7 @@ const enemies = [
     type: "Thug",
     level: 2,
     baseHp: 33,
-    attack: 7,
+    attack: 6,
     defense: 6,
     exp: 20,
     region: "Ninsei Alley",
@@ -462,7 +436,7 @@ const enemies = [
     },
     weapon: {
       name: "Shiv",
-      damage: 7,
+      damage: 2,
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
