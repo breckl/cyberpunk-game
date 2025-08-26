@@ -168,7 +168,7 @@ h3 {
 /* Menu Item Styling */
 .menu-item {
   cursor: pointer;
-  padding: 8px px;
+  padding: 5px 0px;
   border-radius: 4px;
   display: inline-block;
 }

@@ -282,13 +282,13 @@ class CombatSystem {
   }
 
   calculateCombatFleePenalty(enemy, combatRounds) {
-    const basePenalty = enemy.level * 15;
+    const basePenalty = enemy.level * 10;
     const durationMultiplier = 1 + combatRounds * 0.1;
     return Math.floor(basePenalty * durationMultiplier);
   }
 
   calculateDefeatPenalty(enemy, combatRounds) {
-    const basePenalty = enemy.level * 25;
+    const basePenalty = enemy.level * 10;
     const durationMultiplier = 1 + combatRounds * 0.15;
     return Math.floor(basePenalty * durationMultiplier);
   }

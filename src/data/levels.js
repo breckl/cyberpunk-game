@@ -3,7 +3,7 @@ const levels = {
     xp: 0,
     hp: 30,
     attack: 3,
-    defense: 0,
+    defense: 1,
     hacking: 4,
   },
   2: {

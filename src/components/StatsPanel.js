@@ -179,10 +179,10 @@ function StatsPanel({ character, onUpdateCharacter }) {
             {totalStats.defense.total}
           </span>
         </div>
-        <div className="stat">
+        {/*<div className="stat">
           <label>Hacking</label>
           <span>{levelInfo?.hacking || 0}</span>
-        </div>
+        </div>*/}
       </div>
 
       <div className="equipped-items">
@@ -221,7 +221,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
             )?.name || "(None)"}
           </span>
         </div>
-        <div className="stat">
+        {/*<div className="stat">
           <label>Cyberware</label>
           <span
             className="equipped-item"
@@ -237,7 +237,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
               (item) => item.type === "cyberware" && item.equipped
             )?.name || "(None)"}
           </span>
-        </div>
+        </div>*/}
       </div>
 
       <div className="credits">
@@ -304,7 +304,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
                   Defense: {tooltip.item.defense}
                 </div>
               )}
-              {tooltip.item.hacking && (
+              {/*{tooltip.item.hacking && (
                 <div className="tooltip-stat">
                   Hacking: {tooltip.item.hacking}
                 </div>
@@ -313,7 +313,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
                 <div className="tooltip-description">
                   {tooltip.item.description}
                 </div>
-              )}
+              )}*/}
             </>
           )}
         </div>

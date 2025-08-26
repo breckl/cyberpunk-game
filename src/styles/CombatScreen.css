@@ -137,7 +137,10 @@
 }
 
 .combat-message em {
-  color: #12a212 !important;
+  color: var(--neon-green) !important;
+  font-style: italic !important;
+  font-weight: normal !important;
+  display: inline !important;
 }
 
 .menu-options {

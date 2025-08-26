@@ -20,6 +20,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     (item) => item.type === "weapon" && item.equipped === true
   );
 
+  // Find equipped armor from inventory
+  const equippedArmor = character.inventory?.find(
+    (item) => item.type === "armor" && item.equipped === true
+  );
+
   // Use equipped weapon or default to unarmed combat
   const playerWeapon = equippedWeapon
     ? {
@@ -34,9 +39,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   // Calculate total attack power for display
   const totalAttack = (levelInfo?.attack || 0) + playerWeapon.damage;
 
+  // Calculate total defense for display
+  const totalDefense =
+    (levelInfo?.defense || 0) + (equippedArmor?.defense || 0);
+
   const combatOptions = `(<span class="key">A</span>)ttack (<span class="key">R</span>)un`;
 
-  const menuOptions = `<span class="menu-item">(<span class="key">C</span>)ontinue Fighting <span class="menu-item"></span>(<span class="key">L</span>)eave Streets</span></span>`;
+  const menuOptions = `<span class="menu-item">(<span class="key">N</span>)ext Fight <span class="menu-item"></span>(<span class="key">L</span>)eave Streets</span></span>`;
 
   // Get random unarmed action
   const getRandomUnarmedAction = () => {
@@ -83,11 +92,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Shared function to setup combat with a given enemy
   const setupCombat = (enemyData) => {
-    // Calculate armor bonus (each point = 10% HP bonus)
-    const enemyArmorBonus = Math.floor(
-      enemyData.baseHp * (enemyData.armor.rating * 0.1)
-    );
-    const enemyTotalHp = enemyData.baseHp + enemyArmorBonus;
+    // Enemy HP is now just base level HP (no armor bonus)
+    const enemyTotalHp = levels[enemyData.level]?.hp || 30;
 
     // Debug: Log enemy data
     console.log("Setup combat for enemy:", enemyData.name);
@@ -104,33 +110,36 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return { enemyData, enemyTotalHp, newCombatLog };
   };
 
+  // Initialize both enemy and combat log with the same enemy
   const [enemy, setEnemy] = useState(() => {
     const randomEnemy = getCombatEnemies("ninsei-streets"); // Default to Ninsei Streets
-    const { enemyData, enemyTotalHp } = setupCombat(randomEnemy);
-    return enemyData;
+    return randomEnemy;
   });
 
   const [combatLog, setCombatLog] = useState(() => {
-    const randomEnemy = getCombatEnemies("ninsei-streets");
-    const { newCombatLog } = setupCombat(randomEnemy);
+    // Use the same enemy that was selected for the enemy state
+    const { newCombatLog } = setupCombat(enemy);
     return newCombatLog;
   });
 
   const [playerHp, setPlayerHp] = useState(playerTotalHp);
+
+  // Initialize enemy HP after enemy is set
   const [enemyHp, setEnemyHp] = useState(() => {
-    const enemyArmorBonus = Math.floor(
-      enemy.baseHp * (enemy.armor.rating * 0.1)
+    const enemyLevelHp = levels[enemy.level]?.hp || 30;
+    console.log(
+      `Initializing enemy HP: ${enemy.name} - Level HP: ${enemyLevelHp} (no armor HP bonus)`
     );
-    return enemy.baseHp + enemyArmorBonus;
+    return enemyLevelHp;
   });
 
   // Update enemy HP when enemy changes
   useEffect(() => {
-    const enemyArmorBonus = Math.floor(
-      enemy.baseHp * (enemy.armor.rating * 0.1)
+    const enemyLevelHp = levels[enemy.level]?.hp || 30;
+    console.log(
+      `useEffect: Updating enemy HP for ${enemy.name} - Level HP: ${enemyLevelHp} (no armor HP bonus)`
     );
-    const newEnemyTotalHp = enemy.baseHp + enemyArmorBonus;
-    setEnemyHp(newEnemyTotalHp);
+    setEnemyHp(enemyLevelHp);
   }, [enemy]);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [combatEnded, setCombatEnded] = useState(false);
@@ -185,8 +194,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
 
-      // Handle C key (restart combat) regardless of state
-      if (key === "C") {
+      // Handle N key (next fight) regardless of state
+      if (key === "N") {
         restartCombat();
         return;
       }
@@ -253,13 +262,42 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
 
     // Apply enemy defense as percentage reduction
-    const enemyDefense = enemy.defense || 0;
+    const enemyLevelDefense = levels[enemy.level]?.defense || 0;
+    const enemyArmorDefense = enemy.armor.rating || 0;
+    const totalEnemyDefense = enemyLevelDefense + enemyArmorDefense;
+
     const finalDamage = Math.max(
       1,
-      Math.floor((rawDamage * (100 - enemyDefense)) / 100)
+      Math.floor((rawDamage * (100 - totalEnemyDefense)) / 100)
     );
 
+    // Debug: Log player damage calculation
+    console.log(`Player damage calculation: ${enemy.name}`);
+    console.log(`  Raw damage: ${rawDamage}`);
+    console.log(
+      `  Enemy level defense: ${enemyLevelDefense} (level ${enemy.level})`
+    );
+    console.log(
+      `  Enemy armor defense: ${enemyArmorDefense} (${enemy.armor.name})`
+    );
+    console.log(`  Total enemy defense: ${totalEnemyDefense}`);
+    console.log(`  Final damage: ${finalDamage}`);
+    console.log(
+      `  Formula: ${rawDamage} × (100 - ${totalEnemyDefense}) / 100 = ${finalDamage}`
+    );
+
+    // Debug: Log HP update process
+    console.log(`--- HP Update Debug ---`);
+    console.log(`  Enemy HP BEFORE damage: ${enemyHp}`);
+    console.log(`  Damage to apply: ${finalDamage}`);
+    console.log(`  Expected new HP: ${enemyHp - finalDamage}`);
+
     const newEnemyHp = Math.max(0, enemyHp - finalDamage);
+    console.log(`  Calculated new HP: ${newEnemyHp}`);
+    console.log(`  HP difference: ${enemyHp - newEnemyHp}`);
+    console.log(`  Setting enemy HP to: ${newEnemyHp}`);
+    console.log(`------------------------`);
+
     setEnemyHp(newEnemyHp);
 
     const newLog = [
@@ -301,9 +339,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       return;
     }
 
-    // Enemy's attack with weapon damage ±2 variance
+    // Enemy's attack with weapon damage + level attack + variance
     const weaponVariance = Math.floor(Math.random() * 5) - 3; // -2 to +2
-    const enemyRawDamage = enemy.attack + weaponVariance;
+    const enemyLevelAttack = levels[enemy.level]?.attack || 0;
+    const enemyRawDamage =
+      enemyLevelAttack + enemy.weapon.damage + weaponVariance;
 
     // Apply player defense as percentage reduction using damage reduction formula
     const currentLevelPlayer = getCurrentLevel(character.experience);
@@ -318,9 +358,20 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const totalDefense = baseDefense + armorBonus;
 
     // Apply damage reduction formula: Final Damage = Attack Damage × (100 - Armor) / 100
-    const enemyFinalDamage = Math.floor(
-      (enemyRawDamage * (100 - totalDefense)) / 100
+    const enemyFinalDamage = Math.max(
+      1,
+      Math.floor((enemyRawDamage * (100 - totalDefense)) / 100)
     );
+
+    // Debug: Log damage calculation
+    console.log(`Enemy damage calculation: ${enemy.name}`);
+    console.log(`  Base attack: ${enemy.attack}`);
+    console.log(`  Variance: ${weaponVariance}`);
+    console.log(`  Raw damage: ${enemyRawDamage}`);
+    console.log(
+      `  Player defense: ${totalDefense} (base: ${baseDefense}, armor: ${armorBonus})`
+    );
+    console.log(`  Final damage: ${enemyFinalDamage}`);
 
     const newPlayerHp = Math.max(0, playerHp - enemyFinalDamage);
     setPlayerHp(newPlayerHp);
@@ -474,10 +525,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           <div className="player-stats">
             <h3 className="stats-header">YOUR STATS</h3>
             <div className="stat-row">
-              <span className="stat-label">Name:</span>
-              <span className="stat-value">{character.name}</span>
-            </div>
-            <div className="stat-row">
               <span className="stat-label">Level:</span>
               <span className="stat-value">{currentLevel}</span>
             </div>
@@ -486,8 +533,18 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               <span className="stat-value">{playerWeapon.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Attack Power:</span>
+              <span className="stat-label">Attack:</span>
               <span className="stat-value">{totalAttack} ±2</span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Armor:</span>
+              <span className="stat-value">
+                {equippedArmor ? equippedArmor.name : "None"}
+              </span>
+            </div>
+            <div className="stat-row">
+              <span className="stat-label">Defense:</span>
+              <span className="stat-value">{totalDefense}</span>
             </div>
             <div className="stat-row">
               <span className="stat-label">HP:</span>
@@ -517,33 +574,36 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               <span className="stat-value">{enemy.weapon.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Damage:</span>
-              <span className="stat-value">{enemy.weapon.damage} ±2</span>
+              <span className="stat-label">Attack:</span>
+              <span className="stat-value">
+                {(levels[enemy.level]?.attack || 0) + enemy.weapon.damage} ±2
+              </span>
             </div>
             <div className="stat-row">
               <span className="stat-label">Armor:</span>
               <span className="stat-value">{enemy.armor.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">HP:</span>
+              <span className="stat-label">Defense:</span>
               <span className="stat-value">
-                {enemyHp}/
-                {enemy.baseHp +
-                  Math.floor(enemy.baseHp * (enemy.armor.rating * 0.1))}
+                {levels[enemy.level]?.defense || 0}
               </span>
             </div>
+            <div className="stat-row">
+              <span className="stat-label">HP:</span>
+              <span className="stat-value">
+                {enemyHp}/{levels[enemy.level]?.hp || 30}
+              </span>
+            </div>
+            {/* Debug: Log current enemy HP state */}
+            {console.log(`Render: ${enemy.name} HP state is: ${enemyHp}`)}
             <div className="hp-bar-container">
               <div className="hp-bar enemy-hp-bar">
                 <div
                   className="hp-fill enemy-hp-fill"
                   style={{
                     width: `${
-                      (enemyHp /
-                        (enemy.baseHp +
-                          Math.floor(
-                            enemy.baseHp * (enemy.armor.rating * 0.1)
-                          ))) *
-                      100
+                      (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
                     }%`,
                   }}
                 ></div>
