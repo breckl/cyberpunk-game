@@ -39,9 +39,16 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     audio.play().catch((e) => console.log("Audio play failed:", e));
   };
 
-  const handleTabClick = (category) => {
-    setSelectedTab(category);
-    playClickSound();
+  // Helper function to find item by ID from market data
+  const findItemById = (itemId) => {
+    // Search through all market categories
+    const allItems = [
+      ...Object.values(market.weapons).flat(),
+      ...market.armor,
+      ...market.cyberware,
+      ...market.netgear,
+    ];
+    return allItems.find((item) => item.id === itemId);
   };
 
   const renderTabs = () => {
@@ -62,8 +69,14 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     );
   };
 
+  const handleTabClick = (category) => {
+    setSelectedTab(category);
+    playClickSound();
+  };
+
   const handlePurchase = (item) => {
     if (localCharacter.credits >= item.price) {
+      // Start the fill animation instead of immediately showing confirmation
       setConfirmingPurchase({ ...item, action: "buy" });
     }
   };
@@ -134,7 +147,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   };
 
   const confirmSell = (item) => {
-    const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
+    const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
 
     // Use safe credit management
     const updatedCharacter = {
@@ -202,7 +215,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
               );
 
               if (isInInventory) {
-                const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
+                const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
                 return (
                   <button
                     className="sell-button"

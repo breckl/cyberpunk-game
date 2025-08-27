@@ -90,7 +90,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     console.log("Enemy description:", enemyData.description);
 
     const newCombatLog = [
-      `<span class="stats-header">**** COMBAT *****</span>`,
+      `<span class="stats-header">******* COMBAT *******</span>`,
       `You have encountered <strong>${enemyData.name}</strong>!!`,
       `<em>${enemyData.description}</em>`,
       combatOptions,

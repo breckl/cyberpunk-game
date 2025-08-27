@@ -241,7 +241,7 @@ class CombatSystem {
       credits: Math.floor(
         baseCredits * creditsMultiplier * (1 + levelDifference * 0.2)
       ),
-      experience: Math.floor(50 * (1 + levelDifference * 0.5)),
+      experience: Math.floor(30 * (1 + levelDifference * 0.5)),
     };
   }
 

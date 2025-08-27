@@ -161,7 +161,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
             }}
             onMouseLeave={hideTooltip}
           >
-            {totalStats.attack.total}
+            {totalStats.attack.total.toFixed(1)}
           </span>
         </div>
         <div className="stat">
@@ -182,7 +182,7 @@ function StatsPanel({ character, onUpdateCharacter }) {
             }}
             onMouseLeave={hideTooltip}
           >
-            {totalStats.defense.total}
+            {totalStats.defense.total.toFixed(1)}
           </span>
         </div>
         {/*<div className="stat">
@@ -251,65 +251,6 @@ function StatsPanel({ character, onUpdateCharacter }) {
         <span>${character.credits}</span>
       </div>
 
-      {/* Experimental Button */}
-      <div className="experimental-button-container">
-        <button
-          className="experimental-button"
-          onMouseEnter={() => setIsHovering(true)}
-          onMouseLeave={() => {
-            setIsHovering(false);
-            if (!buttonFillState.isFilled) {
-              setButtonFillState((prev) => ({
-                ...prev,
-                isFilling: false,
-                fillProgress: 0,
-              }));
-            }
-          }}
-          onMouseDown={() => {
-            if (!buttonFillState.isFilled) {
-              setButtonFillState((prev) => ({ ...prev, isFilling: true }));
-              // Start fill animation
-              const fillInterval = setInterval(() => {
-                setButtonFillState((prev) => {
-                  if (prev.fillProgress >= 100) {
-                    clearInterval(fillInterval);
-                    return {
-                      ...prev,
-                      isFilling: false,
-                      isFilled: true,
-                      fillProgress: 100,
-                    };
-                  }
-                  return { ...prev, fillProgress: prev.fillProgress + 4 };
-                });
-              }, 40); // 40ms * 25 steps = 1 second total
-            }
-          }}
-          onMouseUp={() => {
-            if (!buttonFillState.isFilled) {
-              setButtonFillState((prev) => ({
-                ...prev,
-                isFilling: false,
-                fillProgress: 0,
-              }));
-            }
-          }}
-        >
-          <span className="button-text">
-            {buttonFillState.isFilled
-              ? "PURCHASED"
-              : isHovering
-              ? "Hold to Buy"
-              : "BUY"}
-          </span>
-          <div
-            className="fill-progress"
-            style={{ width: `${buttonFillState.fillProgress}%` }}
-          ></div>
-        </button>
-      </div>
-
       {/* Debug/Reset Button */}
       <div className="debug-section">
         <button
@@ -346,7 +287,9 @@ function StatsPanel({ character, onUpdateCharacter }) {
                     +{tooltip.item.bonus} from {tooltip.item.itemName}
                   </div>
                 )}
-                <div className="tooltip-total">Total: {tooltip.item.total}</div>
+                <div className="tooltip-total">
+                  Total: {tooltip.item.total.toFixed(1)}
+                </div>
                 {tooltip.item.type === "defense" && (
                   <div className="tooltip-damage-reduction">
                     Reduces incoming damage by {tooltip.item.damageReduction}%

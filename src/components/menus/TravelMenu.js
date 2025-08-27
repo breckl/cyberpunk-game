@@ -6,10 +6,9 @@ function TravelMenu({ character, onNavigate }) {
     description: "Where would you like to go in Night City?",
     options: [
       { key: "chiba-city", label: "Chiba City" },
-      { key: "uptown", label: "Uptown" },
+      /*{ key: "uptown", label: "Uptown" },
       { key: "downtown", label: "Downtown" },
-      { key: "corporate", label: "Corporate District" },
-      { key: "netherworld", label: "Netherworld" },
+      { key: "corporate", label: "Corporate District" },*/
       { key: "streets", label: "Back to Streets" },
     ],
   };
@@ -33,13 +32,6 @@ function TravelMenu({ character, onNavigate }) {
             </span>
           </div>
         ))}
-      </div>
-
-      <div className="command-prompt">
-        <div className="prompt-text">
-          Your destination, {character?.name}? [
-          {new Date().toLocaleTimeString()}] :
-        </div>
       </div>
     </div>
   );
