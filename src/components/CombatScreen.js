@@ -66,18 +66,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return unarmedActions[Math.floor(Math.random() * unarmedActions.length)];
   };
 
-  // Debug: Log the entire inventory to see structure
-  console.log("Debug inventory structure:", character.inventory);
-  console.log("Debug equipped weapon found:", equippedWeapon);
-
   // Get player weapon action description or random unarmed action
   const getPlayerActionDescription = () => {
-    console.log("Debug weapon data:", {
-      equippedWeapon,
-      equipped: equippedWeapon?.equipped,
-      actionDescription: equippedWeapon?.actionDescription,
-    });
-
     if (
       equippedWeapon &&
       equippedWeapon.equipped &&
@@ -122,7 +112,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return newCombatLog;
   });
 
-  const [playerHp, setPlayerHp] = useState(playerTotalHp);
+  const [playerHp, setPlayerHp] = useState(
+    parseFloat(playerTotalHp.toFixed(2))
+  );
 
   // Initialize enemy HP after enemy is set
   const [enemyHp, setEnemyHp] = useState(() => {
@@ -130,7 +122,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     console.log(
       `Initializing enemy HP: ${enemy.name} - Level HP: ${enemyLevelHp} (no armor HP bonus)`
     );
-    return enemyLevelHp;
+    return parseFloat(enemyLevelHp.toFixed(2));
   });
 
   // Update enemy HP when enemy changes
@@ -139,7 +131,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     console.log(
       `useEffect: Updating enemy HP for ${enemy.name} - Level HP: ${enemyLevelHp} (no armor HP bonus)`
     );
-    setEnemyHp(enemyLevelHp);
+    setEnemyHp(parseFloat(enemyLevelHp.toFixed(2)));
   }, [enemy]);
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [combatEnded, setCombatEnded] = useState(false);
@@ -178,8 +170,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setEnemy(enemyData);
 
     // Reset combat state
-    setPlayerHp(playerTotalHp);
-    setEnemyHp(enemyTotalHp);
+    setPlayerHp(parseFloat(playerTotalHp.toFixed(2)));
+    setEnemyHp(parseFloat(enemyTotalHp.toFixed(2)));
     setIsPlayerTurn(true);
     setCombatEnded(false);
     setEndResult(null);
@@ -261,15 +253,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const rawDamage =
       Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
 
-    // Apply enemy defense as percentage reduction
+    // Apply enemy defense as percentage reduction with decimal precision
     const enemyLevelDefense = levels[enemy.level]?.defense || 0;
     const enemyArmorDefense = enemy.armor.rating || 0;
     const totalEnemyDefense = enemyLevelDefense + enemyArmorDefense;
 
-    const finalDamage = Math.max(
-      1,
-      Math.floor((rawDamage * (100 - totalEnemyDefense)) / 100)
+    // Calculate damage with decimal precision
+    const damageWithDefense = parseFloat(
+      ((rawDamage * (100 - totalEnemyDefense)) / 100).toFixed(2)
     );
+    const finalDamage = Math.max(0.01, damageWithDefense); // Minimum 0.01 damage
+    const finalDamageRounded = Math.ceil(finalDamage); // Round up for display
 
     // Debug: Log player damage calculation
     console.log(`Player damage calculation: ${enemy.name}`);
@@ -281,9 +275,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       `  Enemy armor defense: ${enemyArmorDefense} (${enemy.armor.name})`
     );
     console.log(`  Total enemy defense: ${totalEnemyDefense}`);
-    console.log(`  Final damage: ${finalDamage}`);
+    console.log(`  Damage with defense: ${damageWithDefense}`);
+    console.log(`  Final damage (decimal): ${finalDamage}`);
+    console.log(`  Final damage (displayed): ${finalDamageRounded}`);
     console.log(
-      `  Formula: ${rawDamage} × (100 - ${totalEnemyDefense}) / 100 = ${finalDamage}`
+      `  Formula: ${rawDamage} × (100 - ${totalEnemyDefense}) / 100 = ${damageWithDefense}`
     );
 
     // Debug: Log HP update process
@@ -292,8 +288,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     console.log(`  Damage to apply: ${finalDamage}`);
     console.log(`  Expected new HP: ${enemyHp - finalDamage}`);
 
-    const newEnemyHp = Math.max(0, enemyHp - finalDamage);
-    console.log(`  Calculated new HP: ${newEnemyHp}`);
+    const newEnemyHp = parseFloat((enemyHp - finalDamage).toFixed(2));
+    console.log(`  Calculated new HP (decimal): ${newEnemyHp}`);
     console.log(`  HP difference: ${enemyHp - newEnemyHp}`);
     console.log(`  Setting enemy HP to: ${newEnemyHp}`);
     console.log(`------------------------`);
@@ -304,10 +300,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       ...combatLog,
       `You <em>${getPlayerActionDescription()}</em> and hit <strong>${
         enemy.name
-      }</strong> for ${finalDamage} damage!`,
+      }</strong> for ${finalDamageRounded} damage!`,
     ];
 
-    if (newEnemyHp <= 0) {
+    if (newEnemyHp <= 0.01) {
       // Enemy defeated
       newLog.push(
         `<span class="win-message">You have defeated <strong>${enemy.name}</strong></span>!`
@@ -324,6 +320,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         type: "victory",
         rewards: rewards,
       });
+
+      // Set enemy HP to 0 when they are defeated
+      setEnemyHp(0);
 
       // Update character immediately with rewards
       if (onUpdateCharacter) {
@@ -358,10 +357,12 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const totalDefense = baseDefense + armorBonus;
 
     // Apply damage reduction formula: Final Damage = Attack Damage × (100 - Armor) / 100
-    const enemyFinalDamage = Math.max(
-      1,
-      Math.floor((enemyRawDamage * (100 - totalDefense)) / 100)
+    // Calculate damage with decimal precision
+    const enemyDamageWithDefense = parseFloat(
+      ((enemyRawDamage * (100 - totalDefense)) / 100).toFixed(2)
     );
+    const enemyFinalDamage = Math.max(0.01, enemyDamageWithDefense); // Minimum 0.01 damage
+    const enemyFinalDamageRounded = Math.ceil(enemyFinalDamage); // Round up for display
 
     // Debug: Log damage calculation
     console.log(`Enemy damage calculation: ${enemy.name}`);
@@ -372,9 +373,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     console.log(
       `  Player defense: ${totalDefense} (base: ${baseDefense}, armor: ${armorBonus})`
     );
-    console.log(`  Final damage: ${enemyFinalDamage}`);
+    console.log(`  Damage with defense: ${enemyDamageWithDefense}`);
+    console.log(`  Final damage (decimal): ${enemyFinalDamage}`);
+    console.log(`  Final damage (displayed): ${enemyFinalDamageRounded}`);
 
-    const newPlayerHp = Math.max(0, playerHp - enemyFinalDamage);
+    const newPlayerHp = parseFloat((playerHp - enemyFinalDamage).toFixed(2));
     setPlayerHp(newPlayerHp);
 
     const attackText =
@@ -382,7 +385,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         Math.floor(Math.random() * enemy.weapon.attacks.length)
       ];
     newLog.push(
-      `<span class="red">**</span> <strong>${enemy.name}</strong> <em>${attackText}</em> for <span class="red">${enemyFinalDamage}</span> damage! <span class="red">**</span>`
+      `<span class="red">**</span> ${enemy.name} ${attackText} for ${enemyFinalDamageRounded} damage! <span class="red">**</span>`
     );
     newLog.push("");
     //newLog.push(`Your Hitpoints: <strong>${newPlayerHp}</strong>`);
@@ -392,7 +395,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     setCombatLog(newLog);
 
-    if (newPlayerHp <= 0) {
+    if (newPlayerHp <= 0.01) {
       // Player defeated - apply penalty
       const defeatPenalty = combatSystem.calculateDefeatPenalty(
         enemy,
@@ -426,6 +429,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       setCombatLog(newLog);
       setCombatEnded(true);
       setEndResult({ type: "defeat", penalty: actualPenalty });
+
+      // Set player HP to 0 when they are defeated
+      setPlayerHp(0);
 
       // Apply penalty to character
       if (onUpdateCharacter) {
@@ -550,7 +556,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="stat-row">
               <span className="stat-label">HP:</span>
               <span className="stat-value">
-                {playerHp}/{playerTotalHp}
+                {Math.round(playerHp)}/{playerTotalHp}
               </span>
             </div>
             <div className="hp-bar-container">
@@ -593,7 +599,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="stat-row">
               <span className="stat-label">HP:</span>
               <span className="stat-value">
-                {enemyHp}/{levels[enemy.level]?.hp || 30}
+                {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
               </span>
             </div>
             {/* Debug: Log current enemy HP state */}

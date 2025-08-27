@@ -202,7 +202,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
               );
 
               if (isInInventory) {
-                const sellPrice = Math.floor(item.price * 0.6);
+                const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
                 return (
                   <button
                     className="sell-button"
@@ -255,7 +255,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     const actionText = isBuying ? "buy" : "sell";
     const priceText = isBuying
       ? `$${formatCredits(confirmingPurchase.price)}`
-      : `$${formatCredits(Math.floor(confirmingPurchase.price * 0.6))}`;
+      : `$${formatCredits(Math.floor(confirmingPurchase.price * 0.1))}`; // 10% of purchase price
     const confirmFunction = isBuying
       ? () => confirmPurchase(confirmingPurchase)
       : () => confirmSell(confirmingPurchase);
@@ -320,7 +320,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
                     );
 
                     if (isInInventory) {
-                      const sellPrice = Math.floor(item.price * 0.6);
+                      const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
                       return (
                         <button
                           className="sell-button"
