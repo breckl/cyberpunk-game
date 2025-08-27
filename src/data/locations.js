@@ -95,11 +95,11 @@ const locations = {
       "Ninsei Strip hums with rain and neon, smoke from stalls mixing with ozone off cheap grids. Signs for clinics stutter promises in kanji, while hustlers and drunks drift through the glow. Gangers watch from shadowed doorways, knives or chrome ready. Every step feels wired—like the street itself is waiting to cut.",
     parent: "ninsei-strip",
     enemyProbabilities: {
-      1: 30, // Level 1: 30%
-      2: 30, // Level 2: 30%
-      3: 20, // Level 3: 20%
+      1: 45, // Level 1: 45%
+      2: 25, // Level 2: 25%
+      3: 15, // Level 3: 15%
       4: 10, // Level 4: 10%
-      5: 10, // Level 5: 10%
+      5: 5, // Level 5: 10%
     },
     enemyIds: [
       // Level 1 enemies

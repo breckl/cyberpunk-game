@@ -31,7 +31,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   };
 
   const handleSell = (item) => {
-    const sellPrice = Math.floor(item.price * 0.6); // 60% of purchase price
+    const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
     const updatedInventory = localCharacter.inventory.filter(
       (invItem) => invItem.id !== item.id
     );
@@ -193,9 +193,6 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
             <div key={`${item.id}-${index}`} className="item-card">
               <div className="item-header">
                 <span className="item-name">{item.name}</span>
-                <span className="item-price">
-                  Sell: ${formatCredits(Math.floor(item.price * 0.4))}
-                </span>
               </div>
               <div className="item-description">{item.description}</div>
               {item.defense && (
@@ -211,7 +208,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
                   className="sell-button"
                   onClick={() => handleSell(item)}
                 >
-                  Sell
+                  Sell for ${formatCredits(Math.floor(item.price * 0.1))}
                 </button>
                 <button
                   className={`equip-button ${item.equipped ? "equipped" : ""}`}

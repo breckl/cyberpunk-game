@@ -134,7 +134,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   };
 
   const confirmSell = (item) => {
-    const sellPrice = Math.floor(item.price * 0.6); // 60% of purchase price
+    const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
 
     // Use safe credit management
     const updatedCharacter = {

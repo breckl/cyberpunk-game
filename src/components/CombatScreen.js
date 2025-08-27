@@ -365,7 +365,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     // Debug: Log damage calculation
     console.log(`Enemy damage calculation: ${enemy.name}`);
-    console.log(`  Base attack: ${enemy.attack}`);
+    console.log(`  Weapon damage: ${enemy.weapon.damage}`);
+    console.log(`  Level attack: ${enemyLevelAttack}`);
     console.log(`  Variance: ${weaponVariance}`);
     console.log(`  Raw damage: ${enemyRawDamage}`);
     console.log(
