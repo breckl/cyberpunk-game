@@ -177,7 +177,7 @@ h3 {
   cursor: pointer;
 }
 
-.menu-item.clickable:hover {
+.menu-item:hover {
   color: var(--neon-pink);
 }
 

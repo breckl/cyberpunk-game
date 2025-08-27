@@ -1,45 +1,75 @@
+import ProgressionCalculator from "../utils/progressionCalculator.js";
+
 const levels = {
   1: {
     xp: 0,
-    hp: 30,
-    attack: 3,
-    defense: 1,
-    hacking: 4,
+    hp: ProgressionCalculator.calculatePlayerStats(1).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(1).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(1).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(1).hacking,
   },
   2: {
     xp: 200,
-    hp: 40,
-    attack: 4,
-    defense: 2,
-    hacking: 6,
+    hp: ProgressionCalculator.calculatePlayerStats(2).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(2).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(2).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(2).hacking,
   },
   3: {
     xp: 400,
-    hp: 50,
-    attack: 5,
-    defense: 4,
-    hacking: 8,
+    hp: ProgressionCalculator.calculatePlayerStats(3).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(3).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(3).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(3).hacking,
   },
   4: {
     xp: 800,
-    hp: 60,
-    attack: 8,
-    defense: 6,
-    hacking: 10,
+    hp: ProgressionCalculator.calculatePlayerStats(4).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(4).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(4).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(4).hacking,
   },
   5: {
     xp: 1600,
-    hp: 70,
-    attack: 10,
-    defense: 8,
-    hacking: 12,
+    hp: ProgressionCalculator.calculatePlayerStats(5).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(5).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(5).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(5).hacking,
   },
   6: {
     xp: 3200,
-    hp: 80,
-    attack: 12,
-    defense: 10,
-    hacking: 14,
+    hp: ProgressionCalculator.calculatePlayerStats(6).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(6).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(6).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(6).hacking,
+  },
+  7: {
+    xp: 6400,
+    hp: ProgressionCalculator.calculatePlayerStats(7).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(7).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(7).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(7).hacking,
+  },
+  8: {
+    xp: 12800,
+    hp: ProgressionCalculator.calculatePlayerStats(8).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(8).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(8).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(8).hacking,
+  },
+  9: {
+    xp: 25600,
+    hp: ProgressionCalculator.calculatePlayerStats(9).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(9).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(9).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(9).hacking,
+  },
+  10: {
+    xp: 51200,
+    hp: ProgressionCalculator.calculatePlayerStats(10).hp,
+    attack: ProgressionCalculator.calculatePlayerStats(10).attack,
+    defense: ProgressionCalculator.calculatePlayerStats(10).defense,
+    hacking: ProgressionCalculator.calculatePlayerStats(10).hacking,
   },
 };
 
@@ -88,6 +118,23 @@ export const getLevelUpRewards = (newLevel) => {
     attack: levelInfo.attack,
     defense: levelInfo.defense,
     hacking: levelInfo.hacking,
+  };
+};
+
+// New helper function to get progression info
+export const getProgressionInfo = (level) => {
+  if (!levels[level]) return null;
+
+  return {
+    ...levels[level],
+    nextLevelStats: levels[level + 1]
+      ? {
+          hpIncrease: levels[level + 1].hp - levels[level].hp,
+          attackIncrease: levels[level + 1].attack - levels[level].attack,
+          defenseIncrease: levels[level + 1].defense - levels[level].defense,
+          hackingIncrease: levels[level + 1].hacking - levels[level].hacking,
+        }
+      : null,
   };
 };
 

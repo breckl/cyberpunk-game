@@ -1,3 +1,5 @@
+import ProgressionCalculator from "../utils/progressionCalculator.js";
+
 const enemies = [
   // Level 1 Enemies
   {
@@ -6,16 +8,16 @@ const enemies = [
     description: "Neural-feed addict, violent but fragile",
     type: "Thug",
     level: 1,
-    exp: 15,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Chiba Alleys",
-    credits: 20,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "None",
       rating: 0, // 0 = no bonus
     },
     weapon: {
       name: "Rusty Knife",
-      damage: 1, // Added back: weapon damage + level attack = total damage
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.2, // Scaled down for level 1
       attacks: [
         "lunges with their rusty knife",
         "makes a desperate slash",
@@ -29,16 +31,16 @@ const enemies = [
     description: "Loud, brash, easily put down",
     type: "Thug",
     level: 1,
-    exp: 16,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Iron Maze",
-    credits: 20,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "Black Hoodie",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Broken Bottle",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.5,
       attacks: [
         "swings their broken bottle",
         "makes a reckless charge",
@@ -52,16 +54,16 @@ const enemies = [
     description: "Low-level gang member, thrives in chaos",
     type: "Thug",
     level: 1,
-    exp: 18,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Iron Maze",
-    credits: 30,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "Leather Vest",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Switchblade",
-      damage: 3,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.7,
       attacks: [
         "flicks open their switchblade",
         "makes a quick stab",
@@ -75,12 +77,12 @@ const enemies = [
     description: "Desperate vagrant, steals food, lashes out",
     type: "Thug",
     level: 1,
-    exp: 14,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Chiba Market",
-    credits: 15,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "Heavy Coat",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Bare Fists",
@@ -98,16 +100,16 @@ const enemies = [
     description: "Drunk, fists flying, unpredictable",
     type: "Thug",
     level: 1,
-    exp: 16,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Chiba Bars",
-    credits: 20,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "Heavy Coat",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Bare Fists",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.6,
       attacks: [
         "swings a wild haymaker",
         "charges with drunken rage",
@@ -121,16 +123,17 @@ const enemies = [
     description: "Wannabe decker, uses cheap stun device",
     type: "Hacker",
     level: 1,
-    exp: 18,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Hacker").expReward,
     region: "Chiba Alleys",
-    credits: 25,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Hacker")
+      .creditReward,
     armor: {
       name: "Leather Vest",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Stun Rig",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Tech") * 0.5,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -144,16 +147,16 @@ const enemies = [
     description: "Agile petty thief, quick but weak",
     type: "Thug",
     level: 1,
-    exp: 16,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Iron Maze Rooftops",
-    credits: 22,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "Heavy Coat",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Sling Blade",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.3,
       attacks: [
         "swings their sling blade",
         "makes a quick strike",
@@ -167,16 +170,16 @@ const enemies = [
     description: "Brawler fresh off the docks, sloppy but strong when cornered",
     type: "Thug",
     level: 1,
-    exp: 15,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Ninsei Strip",
-    credits: 20,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "Heavy Jacket",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Broken Bottle",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.6,
       attacks: [
         "swings their broken bottle",
         "makes a drunken charge",
@@ -190,16 +193,16 @@ const enemies = [
     description: "Regular at the bar, staggers with sudden swings",
     type: "Thug",
     level: 1,
-    exp: 14,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Ninsei / Chatsubo",
-    credits: 18,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "None",
-      rating: 1,
+      rating: 0,
     },
     weapon: {
       name: "Bar Stool Leg",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.2,
       attacks: [
         "swings the stool leg wildly",
         "charges with drunken rage",
@@ -213,16 +216,16 @@ const enemies = [
     description: "Addict fried on neural feeds, lashes out unpredictably",
     type: "Thug",
     level: 1,
-    exp: 16,
+    exp: ProgressionCalculator.calculateEnemyStats(1, "Thug").expReward,
     region: "Ninsei Alley",
-    credits: 22,
+    credits: ProgressionCalculator.calculateEnemyStats(1, "Thug").creditReward,
     armor: {
       name: "None",
       rating: 0,
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: 1,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.3,
       attacks: [
         "lunges with their rusty shiv",
         "makes a desperate slash",
@@ -238,16 +241,16 @@ const enemies = [
     description: "Generic gang soldier, fights in numbers",
     type: "Thug",
     level: 2,
-    exp: 22,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Thug").expReward,
     region: "Sprawl Streets",
-    credits: 35,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Thug").creditReward,
     armor: {
       name: "Leather Jacket",
-      rating: 1, // 1 = 10% bonus
+      rating: ProgressionCalculator.calculateArmorDefense(2, "Light"),
     },
     weapon: {
       name: "Pipe Wrench",
-      damage: 3,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
       attacks: [
         "swings their pipe wrench",
         "makes a heavy strike",
@@ -261,16 +264,16 @@ const enemies = [
     description: "Scrapper with improvised gear",
     type: "Thug",
     level: 2,
-    exp: 20,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Thug").expReward,
     region: "Dog Solitude",
-    credits: 30,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Thug").creditReward,
     armor: {
       name: "None",
       rating: 0,
     },
     weapon: {
       name: "Scrap Club",
-      damage: 2,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power") * 0.8,
       attacks: [
         "swings their scrap club",
         "makes a desperate strike",
@@ -284,16 +287,16 @@ const enemies = [
     description: "Black clinic guard, simple muscle",
     type: "Heavy",
     level: 2,
-    exp: 25,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Heavy").expReward,
     region: "Chiba Clinics",
-    credits: 40,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Heavy").creditReward,
     armor: {
       name: "Padded Vest",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Shock Baton",
-      damage: 4,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Tech"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -307,16 +310,16 @@ const enemies = [
     description: "Smooth-talking fixer, fights dirty when deals go bad",
     type: "Thug",
     level: 2,
-    exp: 22,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Thug").expReward,
     region: "Ninsei Strip",
-    credits: 35,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Thug").creditReward,
     armor: {
       name: "Leather Jacket",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(2, "Light"),
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: 3,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -330,16 +333,16 @@ const enemies = [
     description: "Runs a backroom parlor, defends turf with a blade",
     type: "Thug",
     level: 2,
-    exp: 22,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Thug").expReward,
     region: "Ninsei / Pachinko Parlor",
-    credits: 38,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Thug").creditReward,
     armor: {
       name: "Reinforced Jacket",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Switchblade",
-      damage: 3,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
       attacks: [
         "flicks open their switchblade",
         "makes a quick stab",
@@ -353,16 +356,16 @@ const enemies = [
     description: "Keeps order at Ratz's bar; heavy fists and thicker skin",
     type: "Heavy",
     level: 2,
-    exp: 25,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Heavy").expReward,
     region: "Ninsei / Chatsubo",
-    credits: 42,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Heavy").creditReward,
     armor: {
       name: "Padded Vest",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Shock Baton",
-      damage: 4,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Tech"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -376,16 +379,16 @@ const enemies = [
     description: "Grabs purses and chips, fights when cornered",
     type: "Thug",
     level: 2,
-    exp: 20,
+    exp: ProgressionCalculator.calculateEnemyStats(2, "Thug").expReward,
     region: "Ninsei Alley",
-    credits: 32,
+    credits: ProgressionCalculator.calculateEnemyStats(2, "Thug").creditReward,
     armor: {
       name: "Hoodie",
       rating: 0,
     },
     weapon: {
       name: "Shiv",
-      damage: 2,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power") * 0.8,
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -401,16 +404,16 @@ const enemies = [
     description: "Tracks debtors, extracts implants",
     type: "Heavy",
     level: 3,
-    exp: 30,
+    exp: ProgressionCalculator.calculateEnemyStats(3, "Heavy").expReward,
     region: "Chiba Clinics",
-    credits: 50,
+    credits: ProgressionCalculator.calculateEnemyStats(3, "Heavy").creditReward,
     armor: {
       name: "Light Vest",
-      rating: 1,
+      rating: ProgressionCalculator.calculateArmorDefense(3, "Light"),
     },
     weapon: {
       name: "Restraint Gun",
-      damage: 6,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech"),
       attacks: [
         "fires a restraint net",
         "takes aim with precision",
@@ -424,16 +427,16 @@ const enemies = [
     description: "Courier for syndicate, quick & armed",
     type: "Thug",
     level: 3,
-    exp: 32,
+    exp: ProgressionCalculator.calculateEnemyStats(3, "Thug").expReward,
     region: "Glass Quarter",
-    credits: 55,
+    credits: ProgressionCalculator.calculateEnemyStats(3, "Thug").creditReward,
     armor: {
       name: "None",
       rating: 0,
     },
     weapon: {
       name: "Combat Knife",
-      damage: 5,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power"),
       attacks: [
         "makes a precise stab",
         "swings their combat knife",
@@ -447,16 +450,16 @@ const enemies = [
     description: "Guards for a ripperdoc, loyal and armed",
     type: "Heavy",
     level: 3,
-    exp: 35,
+    exp: ProgressionCalculator.calculateEnemyStats(3, "Heavy").expReward,
     region: "Ninsei / Black Clinic",
-    credits: 60,
+    credits: ProgressionCalculator.calculateEnemyStats(3, "Heavy").creditReward,
     armor: {
       name: "Kevlar Vest",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"),
     },
     weapon: {
       name: "SMG",
-      damage: 8,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power"),
       attacks: [
         "fires a burst from their SMG",
         "takes aim with precision",
@@ -471,16 +474,16 @@ const enemies = [
       "Syndicate-backed, defends biosoft shipments with chrome muscle",
     type: "Heavy",
     level: 3,
-    exp: 38,
+    exp: ProgressionCalculator.calculateEnemyStats(3, "Heavy").expReward,
     region: "Ninsei Warehouses",
-    credits: 65,
+    credits: ProgressionCalculator.calculateEnemyStats(3, "Heavy").creditReward,
     armor: {
       name: "Dermal Plating I",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(3, "Heavy"),
     },
     weapon: {
       name: "Cyber Fist",
-      damage: 7,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech"),
       attacks: [
         "swings their cyber fist",
         "delivers a crushing blow",
@@ -496,16 +499,17 @@ const enemies = [
     description: "Augmented street fighter with cyberclaws",
     type: "Assassin",
     level: 4,
-    exp: 40,
+    exp: ProgressionCalculator.calculateEnemyStats(4, "Assassin").expReward,
     region: "Chiba Shadows",
-    credits: 70,
+    credits: ProgressionCalculator.calculateEnemyStats(4, "Assassin")
+      .creditReward,
     armor: {
       name: "Leather Armor",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(4, "Medium"),
     },
     weapon: {
       name: "Razor Claws",
-      damage: 8,
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Tech"),
       attacks: [
         "slashes with cyberclaws",
         "makes a precision strike",
@@ -519,16 +523,16 @@ const enemies = [
     description: "Arena-trained cyber brawler",
     type: "Heavy",
     level: 4,
-    exp: 44,
+    exp: ProgressionCalculator.calculateEnemyStats(4, "Heavy").expReward,
     region: "Iron Maze",
-    credits: 75,
+    credits: ProgressionCalculator.calculateEnemyStats(4, "Heavy").creditReward,
     armor: {
       name: "Dermal Plating I",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(4, "Heavy"),
     },
     weapon: {
       name: "Spiked Gauntlets",
-      damage: 8,
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Power"),
       attacks: [
         "swings spiked gauntlets",
         "delivers a crushing blow",
@@ -544,16 +548,16 @@ const enemies = [
     description: "Syndicate soldier, disciplined",
     type: "Heavy",
     level: 5,
-    exp: 62,
+    exp: ProgressionCalculator.calculateEnemyStats(5, "Heavy").expReward,
     region: "Chiba Docks",
-    credits: 90,
+    credits: ProgressionCalculator.calculateEnemyStats(5, "Heavy").creditReward,
     armor: {
       name: "Kevlar Armor",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(5, "Medium"),
     },
     weapon: {
       name: "Katana",
-      damage: 10,
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power"),
       attacks: [
         "draws their katana with precision",
         "makes a swift strike",
@@ -567,16 +571,16 @@ const enemies = [
     description: "Professional freelance fighter",
     type: "Heavy",
     level: 5,
-    exp: 65,
+    exp: ProgressionCalculator.calculateEnemyStats(5, "Heavy").expReward,
     region: "Sprawl Hubs",
-    credits: 95,
+    credits: ProgressionCalculator.calculateEnemyStats(5, "Heavy").creditReward,
     armor: {
       name: "Combat Armor",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(5, "Medium"),
     },
     weapon: {
       name: "Heavy Pistol",
-      damage: 11,
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power"),
       attacks: [
         "takes aim with military precision",
         "fires a controlled burst",
@@ -592,16 +596,16 @@ const enemies = [
     description: "Corporate protector, intercepts blows",
     type: "Heavy",
     level: 6,
-    exp: 70,
+    exp: ProgressionCalculator.calculateEnemyStats(6, "Heavy").expReward,
     region: "Highspire Towers",
-    credits: 110,
+    credits: ProgressionCalculator.calculateEnemyStats(6, "Heavy").creditReward,
     armor: {
       name: "Tactical Vest",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(6, "Heavy"),
     },
     weapon: {
       name: "Shock Staff",
-      damage: 12,
+      damage: ProgressionCalculator.calculateWeaponDamage(6, "Tech"),
       attacks: [
         "swings their shock staff",
         "delivers an electric strike",
@@ -615,16 +619,17 @@ const enemies = [
     description: "Precision killer, stealth-based",
     type: "Assassin",
     level: 6,
-    exp: 72,
+    exp: ProgressionCalculator.calculateEnemyStats(6, "Assassin").expReward,
     region: "Chiba Shadows",
-    credits: 105,
+    credits: ProgressionCalculator.calculateEnemyStats(6, "Assassin")
+      .creditReward,
     armor: {
       name: "Kevlar Mesh",
-      rating: 2,
+      rating: ProgressionCalculator.calculateArmorDefense(6, "Light"),
     },
     weapon: {
       name: "Silenced Pistol",
-      damage: 13,
+      damage: ProgressionCalculator.calculateWeaponDamage(6, "Power"),
       attacks: [
         "takes a silent shot",
         "makes a precision strike",
@@ -684,6 +689,35 @@ export const getRandomEnemy = (
 
 export const getEnemyById = (id) => {
   return enemies.find((enemy) => enemy.id === id);
+};
+
+// New function to generate balanced enemies dynamically
+export const generateBalancedEnemy = (level, type = "Thug", region = null) => {
+  const stats = ProgressionCalculator.calculateEnemyStats(level, type);
+
+  return {
+    id: `generated_${type.toLowerCase()}_${level}`,
+    name: `Level ${level} ${type}`,
+    description: `Generated ${type.toLowerCase()} for testing balance`,
+    type: type,
+    level: level,
+    exp: stats.expReward,
+    region: region || "Generated",
+    credits: stats.creditReward,
+    armor: {
+      name: "Generated Armor",
+      rating: ProgressionCalculator.calculateArmorDefense(level, "Light"),
+    },
+    weapon: {
+      name: "Generated Weapon",
+      damage: ProgressionCalculator.calculateWeaponDamage(level, "Power"),
+      attacks: [
+        "attacks with their weapon",
+        "makes a strike",
+        "charges forward",
+      ],
+    },
+  };
 };
 
 // Area-specific enemy functions
@@ -755,6 +789,58 @@ export const getCorporateEnemies = () => {
 
 export const getNetherworldEnemies = () => {
   return getRandomEnemy(null, null, null, 2, 5); // Level 2-5 for netherworld
+};
+
+// New function for level-based enemy selection with probability distribution
+export const getLevelBasedEnemy = (playerLevel) => {
+  // Define probability distribution for enemy levels
+  const levelProbabilities = {
+    [playerLevel - 2]: 5, // 5% chance for 2 levels below
+    [playerLevel - 1]: 20, // 20% chance for 1 level below
+    [playerLevel]: 50, // 50% chance for same level
+    [playerLevel + 1]: 20, // 20% chance for 1 level above
+    [playerLevel + 2]: 5, // 5% chance for 2 levels above
+  };
+
+  // Generate random number for probability check
+  const rand = Math.random() * 100;
+  let cumulativeProb = 0;
+  let selectedLevel = playerLevel; // Default to same level
+
+  // Find which level bracket the random number falls into
+  for (const [level, probability] of Object.entries(levelProbabilities)) {
+    cumulativeProb += probability;
+    if (rand <= cumulativeProb) {
+      selectedLevel = parseInt(level);
+      break;
+    }
+  }
+
+  // Ensure selected level is within valid range (1-10)
+  selectedLevel = Math.max(1, Math.min(10, selectedLevel));
+
+  // Filter enemies by selected level
+  const availableEnemies = enemies.filter(
+    (enemy) => enemy.level === selectedLevel
+  );
+
+  if (availableEnemies.length === 0) {
+    // Fallback to any enemy of the selected level, or generate one if none exist
+    const fallbackEnemies = enemies.filter(
+      (enemy) => enemy.level === selectedLevel
+    );
+
+    if (fallbackEnemies.length > 0) {
+      return fallbackEnemies[
+        Math.floor(Math.random() * fallbackEnemies.length)
+      ];
+    } else {
+      // Generate a balanced enemy if none exist for this level
+      return generateBalancedEnemy(selectedLevel, "Thug", "Generated");
+    }
+  }
+
+  return availableEnemies[Math.floor(Math.random() * availableEnemies.length)];
 };
 
 export default enemies;

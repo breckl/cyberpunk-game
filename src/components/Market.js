@@ -309,7 +309,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
                       )}
                       {item.damage && (
                         <span className="stat-badge damage">
-                          DMG {item.damage}
+                          DMG {item.damage.toFixed(2)}
                         </span>
                       )}
                     </div>

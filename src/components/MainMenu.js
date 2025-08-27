@@ -17,18 +17,7 @@ function MainMenu({ onStartGame }) {
 
       <div className="menu-options">
         <button className="menu-button" onClick={onStartGame}>
-          NEW GAME
-        </button>
-        <button className="menu-button" disabled>
-          LOAD GAME
-        </button>
-        <button
-          className="menu-button"
-          onClick={() =>
-            window.open("https://github.com/yourusername/neon-nights", "_blank")
-          }
-        >
-          GITHUB
+          START GAME
         </button>
       </div>
 

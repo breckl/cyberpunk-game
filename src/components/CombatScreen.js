@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import "../styles/CombatScreen.css";
-import { getCombatEnemies } from "../data/enemies.js";
+import { getLevelBasedEnemy } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
 import market from "../data/market.js";
 import CombatSystem from "../game/combat/CombatSystem.js";
@@ -102,7 +102,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Initialize both enemy and combat log with the same enemy
   const [enemy, setEnemy] = useState(() => {
-    const randomEnemy = getCombatEnemies("ninsei-streets"); // Default to Ninsei Streets
+    const randomEnemy = getLevelBasedEnemy(currentLevel); // Use player's current level
     return randomEnemy;
   });
 
@@ -161,7 +161,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   const restartCombat = () => {
     // Choose a random enemy
-    const newEnemy = getCombatEnemies("ninsei-streets"); // Default to Ninsei Streets
+    const newEnemy = getLevelBasedEnemy(currentLevel); // Use player's current level
 
     // Use shared setup function
     const { enemyData, enemyTotalHp, newCombatLog } = setupCombat(newEnemy);
@@ -304,21 +304,24 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     ];
 
     if (newEnemyHp <= 0.01) {
-      // Enemy defeated
+      // Enemy defeated - calculate rewards using CombatSystem
+      // Create a winner object with level property for the generateRewards function
+      const winner = { level: currentLevel };
+      const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
+
       newLog.push(
         `<span class="win-message">You have defeated <strong>${enemy.name}</strong></span>!`
       );
       newLog.push(
-        `<span class="reward-message">You receive ${enemy.credits} credits and ${enemy.exp} experience!</span>`
+        `<span class="reward-message">You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!</span>`
       );
       newLog.push("");
       newLog.push(menuOptions);
       setCombatLog(newLog);
       setCombatEnded(true);
-      const rewards = { credits: enemy.credits, exp: enemy.exp };
       setEndResult({
         type: "victory",
-        rewards: rewards,
+        rewards: calculatedRewards,
       });
 
       // Set enemy HP to 0 when they are defeated
@@ -328,8 +331,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       if (onUpdateCharacter) {
         const updatedCharacter = {
           ...character,
-          experience: character.experience + rewards.exp,
-          credits: character.credits + rewards.credits,
+          experience: character.experience + calculatedRewards.experience,
+          credits: character.credits + calculatedRewards.credits,
         };
 
         onUpdateCharacter(updatedCharacter);
@@ -541,7 +544,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
             <div className="stat-row">
               <span className="stat-label">Attack:</span>
-              <span className="stat-value">{totalAttack} ±2</span>
+              <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
             </div>
             <div className="stat-row">
               <span className="stat-label">Armor:</span>
@@ -551,7 +554,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
             <div className="stat-row">
               <span className="stat-label">Defense:</span>
-              <span className="stat-value">{totalDefense}</span>
+              <span className="stat-value">{totalDefense.toFixed(1)}</span>
             </div>
             <div className="stat-row">
               <span className="stat-label">HP:</span>
@@ -583,7 +586,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="stat-row">
               <span className="stat-label">Attack:</span>
               <span className="stat-value">
-                {(levels[enemy.level]?.attack || 0) + enemy.weapon.damage} ±2
+                {(
+                  (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
+                ).toFixed(1)}{" "}
+                ±2
               </span>
             </div>
             <div className="stat-row">
@@ -593,7 +599,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="stat-row">
               <span className="stat-label">Defense:</span>
               <span className="stat-value">
-                {levels[enemy.level]?.defense || 0}
+                {(levels[enemy.level]?.defense || 0).toFixed(1)}
               </span>
             </div>
             <div className="stat-row">

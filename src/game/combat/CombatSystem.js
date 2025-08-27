@@ -230,7 +230,7 @@ class CombatSystem {
 
   // Generate combat rewards
   generateRewards(winner, losers) {
-    const baseCredits = 100;
+    const baseCredits = 25;
     const creditsMultiplier = 1 + winner.level * 0.1;
     const levelDifference = Math.max(
       0,
@@ -242,38 +242,7 @@ class CombatSystem {
         baseCredits * creditsMultiplier * (1 + levelDifference * 0.2)
       ),
       experience: Math.floor(50 * (1 + levelDifference * 0.5)),
-      items: this.generateLoot(losers),
     };
-  }
-
-  // Generate loot from defeated opponents
-  generateLoot(losers) {
-    const loot = [];
-
-    losers.forEach((loser) => {
-      // Chance to drop equipped items
-      loser.inventory
-        .filter((item) => item.equipped)
-        .forEach((item) => {
-          if (Math.random() < 0.3) {
-            // 30% drop chance
-            loot.push(item);
-          }
-        });
-
-      // Chance to drop credits
-      if (loser.credits > 0) {
-        const creditDrop = Math.floor(loser.credits * Math.random() * 0.5);
-        if (creditDrop > 0) {
-          loot.push({
-            type: "credits",
-            amount: creditDrop,
-          });
-        }
-      }
-    });
-
-    return loot;
   }
 
   // Penalty calculation methods

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/CharacterCreation.css";
+import { getLevelInfo } from "../data/levels.js";
 
 const classes = {
   N: {
@@ -33,31 +34,40 @@ function CharacterCreation({ onCreateCharacter }) {
   const [selectedClass, setSelectedClass] = useState(null);
   const [name, setName] = useState("");
 
-  // Simple keyboard handling
+  // Handle class selection via clicks
+  const handleClassSelect = (classInfo) => {
+    setSelectedClass(classInfo);
+    setStep("name");
+  };
+
+  // Handle confirmation via clicks
+  const handleConfirm = () => {
+    const character = {
+      name: name.trim(),
+      class: selectedClass.name,
+      level: 1,
+      experience: 0,
+      credits: 25,
+      inventory: [],
+    };
+    onCreateCharacter(character);
+  };
+
+  const handleStartOver = () => {
+    setStep("class");
+    setSelectedClass(null);
+    setName("");
+  };
+
+  // Simple keyboard handling for name input and confirmation
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (step === "class") {
-        const key = e.key.toUpperCase();
-        if (classes[key]) {
-          setSelectedClass(classes[key]);
-          setStep("name");
-        }
-      } else if (step === "confirm") {
+      if (step === "confirm") {
         const key = e.key.toUpperCase();
         if (key === "Y") {
-          const character = {
-            name: name.trim(),
-            class: selectedClass.name,
-            level: 1,
-            experience: 0,
-            credits: 25,
-            inventory: [],
-          };
-          onCreateCharacter(character);
+          handleConfirm();
         } else if (key === "N") {
-          setStep("class");
-          setSelectedClass(null);
-          setName("");
+          handleStartOver();
         }
       }
     };
@@ -86,17 +96,14 @@ function CharacterCreation({ onCreateCharacter }) {
 
       <div className="options-grid">
         {Object.values(classes).map((classInfo) => (
-          <div key={classInfo.key} className="option-row">
-            <span className="option-key">({classInfo.key})</span>
-            <span className="option-label">{classInfo.name}</span>
+          <div
+            key={classInfo.key}
+            className="menu-item clickable"
+            onClick={() => handleClassSelect(classInfo)}
+          >
+            {classInfo.name}
           </div>
         ))}
-      </div>
-
-      <div className="command-prompt">
-        <div className="prompt-text">
-          Your choice? [{new Date().toLocaleTimeString()}] :
-        </div>
       </div>
     </div>
   );
@@ -104,12 +111,11 @@ function CharacterCreation({ onCreateCharacter }) {
   const renderNameSelection = () => (
     <div className="creation-screen">
       <div className="screen-header">
-        <h2>Choose Your Handle</h2>
+        <h2>Choose Your Name</h2>
       </div>
 
       <div className="screen-description">
         Selected Class: {selectedClass.name}
-        <br />
         <br />
         {selectedClass.description}
       </div>
@@ -119,7 +125,7 @@ function CharacterCreation({ onCreateCharacter }) {
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your handle..."
+          placeholder="Type your name..."
           maxLength={20}
           autoFocus
         />
@@ -128,46 +134,45 @@ function CharacterCreation({ onCreateCharacter }) {
     </div>
   );
 
-  const renderConfirmation = () => (
-    <div className="creation-screen">
-      <div className="screen-header">
-        <h2>Confirm Character</h2>
-      </div>
+  const renderConfirmation = () => {
+    const getBaseStats = () => {
+      const level1Stats = getLevelInfo(1);
+      return `Attack ${level1Stats.attack}, Defense ${level1Stats.defense}, Hacking ${level1Stats.hacking}`;
+    };
 
-      <div className="character-summary">
-        <div className="summary-row">
-          <span className="label">Handle:</span>
-          <span className="value">{name}</span>
+    return (
+      <div className="creation-screen">
+        <div className="screen-header">
+          <h2>Confirm Character</h2>
         </div>
-        <div className="summary-row">
-          <span className="label">Class:</span>
-          <span className="value">{selectedClass.name}</span>
-        </div>
-        <div className="starting-info">
-          <p>Starting Level: 1</p>
-          <p>Starting Credits: 25¥</p>
-          <p>Base Stats: Attack 0, Defense 0, Hacking 4</p>
-        </div>
-      </div>
 
-      <div className="options-grid">
-        <div className="option-row">
-          <span className="option-key">(Y)</span>
-          <span className="option-label">Confirm Character</span>
+        <div className="character-summary">
+          <div className="summary-row">
+            <span className="label">Name: </span>
+            <span className="value">{name}</span>
+          </div>
+          <div className="summary-row">
+            <span className="label">Class: </span>
+            <span className="value">{selectedClass.name}</span>
+          </div>
+          <div className="starting-info">
+            <p>Starting Level: 1</p>
+            <p>Starting Credits: $25</p>
+            <p>Base Stats: {getBaseStats()}</p>
+          </div>
         </div>
-        <div className="option-row">
-          <span className="option-key">(N)</span>
-          <span className="option-label">Start Over</span>
-        </div>
-      </div>
 
-      <div className="command-prompt">
-        <div className="prompt-text">
-          Confirm? (Y/N) [{new Date().toLocaleTimeString()}] :
+        <div className="options-grid">
+          <div className="menu-item option-row" onClick={handleConfirm}>
+            Confirm Character
+          </div>
+          <div className="menu-item clickable" onClick={handleStartOver}>
+            Start Over
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <div className="character-creation">

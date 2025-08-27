@@ -102,15 +102,11 @@
 /* Character Summary */
 .character-summary {
   background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--neon-blue);
   border-radius: 6px;
-  padding: 1.5rem;
-  margin: 1rem 0;
+  padding: 1.5rem 0;
 }
 
 .summary-row {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
   padding: 0.5rem;
