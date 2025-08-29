@@ -45,7 +45,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   const combatOptions = `(<span class="key">A</span>)ttack (<span class="key">R</span>)un`;
 
-  const menuOptions = `<span class="menu-item">(<span class="key">N</span>)ext Fight <span class="menu-item"></span>(<span class="key">L</span>)eave Streets</span></span>`;
+  const menuOptions = `<span class="combat-menu-item">(<span class="key">N</span>)ext Fight <span class="combat-menu-item"></span>(<span class="key">L</span>)eave Streets</span></span>`;
 
   // Get random unarmed action
   const getRandomUnarmedAction = () => {

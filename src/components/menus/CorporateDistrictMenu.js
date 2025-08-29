@@ -11,6 +11,7 @@ function CorporateDistrictMenu({ character, onNavigate }) {
       { key: "hosaka-facility", label: "Hosaka Corporate Facility" },
       { key: "corporate-streets", label: "Streets (Combat Zone)" },
       { key: "corporate-market", label: "Market" },
+      { key: "divider", label: "divider" },
       { key: "chiba-city", label: "Back to Chiba City" },
     ],
   };
@@ -26,12 +27,16 @@ function CorporateDistrictMenu({ character, onNavigate }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span
-              className="menu-item clickable"
-              onClick={() => onNavigate(option.key)}
-            >
-              {option.label}
-            </span>
+            {option.key === "divider" ? (
+              <div className="option-divider"></div>
+            ) : (
+              <span
+                className="menu-item clickable"
+                onClick={() => onNavigate(option.key)}
+              >
+                {option.label}
+              </span>
+            )}
           </div>
         ))}
       </div>

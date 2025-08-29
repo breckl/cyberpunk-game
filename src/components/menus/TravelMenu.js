@@ -9,6 +9,7 @@ function TravelMenu({ character, onNavigate }) {
       /*{ key: "uptown", label: "Uptown" },
       { key: "downtown", label: "Downtown" },
       { key: "corporate", label: "Corporate District" },*/
+      { key: "divider", label: "divider" },
       { key: "streets", label: "Back to Streets" },
     ],
   };
@@ -24,12 +25,16 @@ function TravelMenu({ character, onNavigate }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span
-              className="menu-item clickable"
-              onClick={() => onNavigate(option.key)}
-            >
-              {option.label}
-            </span>
+            {option.key === "divider" ? (
+              <div className="option-divider"></div>
+            ) : (
+              <span
+                className="menu-item clickable"
+                onClick={() => onNavigate(option.key)}
+              >
+                {option.label}
+              </span>
+            )}
           </div>
         ))}
       </div>

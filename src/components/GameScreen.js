@@ -283,7 +283,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("netherworld")}
                 >
-                  <span className="key">(B)</span>ack to Netherworld
+                  <span className="key">B</span>ack to Netherworld
                 </span>
               </div>
             </div>
@@ -311,7 +311,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("netherworld")}
                 >
-                  <span className="key">(B)</span>ack to Netherworld
+                  <span className="key">B</span>ack to Netherworld
                 </span>
               </div>
             </div>
@@ -339,7 +339,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("netherworld")}
                 >
-                  <span className="key">(B)</span>ack to Netherworld
+                  <span className="key">B</span>ack to Netherworld
                 </span>
               </div>
             </div>
@@ -368,7 +368,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("uptown")}
                 >
-                  <span className="key">(B)</span>ack to Uptown
+                  <span className="key">B</span>ack to Uptown
                 </span>
               </div>
             </div>
@@ -397,7 +397,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("uptown")}
                 >
-                  <span className="key">(B)</span>ack to Uptown
+                  Back to Uptown
                 </span>
               </div>
             </div>
@@ -426,7 +426,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("uptown")}
                 >
-                  <span className="key">(B)</span>ack to Uptown
+                  <span className="key">B</span>ack to Uptown
                 </span>
               </div>
             </div>
@@ -454,7 +454,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("downtown")}
                 >
-                  <span className="key">(B)</span>ack to Downtown
+                  <span className="key">B</span>ack to Downtown
                 </span>
               </div>
             </div>
@@ -482,7 +482,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("downtown")}
                 >
-                  <span className="key">(B)</span>ack to Downtown
+                  <span className="key">B</span>ack to Downtown
                 </span>
               </div>
             </div>
@@ -510,7 +510,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -538,7 +538,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -566,7 +566,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -590,7 +590,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("ninsei-strip")}
                 >
-                  <span className="key">(B)</span>ack to Ninsei Strip
+                  Back to Ninsei Strip
                 </span>
               </div>
             </div>
@@ -627,7 +627,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("ninsei-strip")}
                 >
-                  <span className="key">(B)</span>ack to Ninsei Strip
+                  Back to Ninsei Strip
                 </span>
               </div>
             </div>
@@ -665,7 +665,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("ninsei-strip")}
                 >
-                  <span className="key">(B)</span>ack to Ninsei Strip
+                  Back to Ninsei Strip
                 </span>
               </div>
             </div>
@@ -704,7 +704,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("ninsei-strip")}
                 >
-                  <span className="key">(B)</span>ack to Ninsei Strip
+                  Back to Ninsei Strip
                 </span>
               </div>
             </div>
@@ -734,7 +734,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("ninsei-strip")}
                 >
-                  <span className="key">(B)</span>ack to Ninsei Strip
+                  Back to Ninsei Strip
                 </span>
               </div>
             </div>
@@ -767,7 +767,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("ninsei-strip")}
                 >
-                  <span className="key">(B)</span>ack to Ninsei Strip
+                  Back to Ninsei Strip
                 </span>
               </div>
             </div>
@@ -794,7 +794,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate-district")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -825,7 +825,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate-district")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -855,7 +855,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate-district")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -888,7 +888,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("corporate-district")}
                 >
-                  <span className="key">(B)</span>ack to Corporate District
+                  Back to Corporate District
                 </span>
               </div>
             </div>
@@ -915,7 +915,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
                   className="menu-item"
                   onClick={() => handleNavigate("streets")}
                 >
-                  <span className="key">(B)</span>ack to Streets
+                  Back to Streets
                 </span>
               </div>
             </div>

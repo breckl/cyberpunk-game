@@ -15,6 +15,7 @@ function NinseiStripMenu({ character, onNavigate }) {
       { key: "cheap-hotel", label: "Cheap Hotel" },
       { key: "ninsei-streets", label: "Streets (Combat Zone)" },
       { key: "market", label: "Market" },
+      { key: "divider", label: "divider" },
       { key: "chiba-city", label: "Back to Chiba City" },
     ],
   };
@@ -34,12 +35,16 @@ function NinseiStripMenu({ character, onNavigate }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span
-              className="menu-item clickable"
-              onClick={() => onNavigate(option.key)}
-            >
-              {option.label}
-            </span>
+            {option.key === "divider" ? (
+              <div className="option-divider"></div>
+            ) : (
+              <span
+                className="menu-item clickable"
+                onClick={() => onNavigate(option.key)}
+              >
+                {option.label}
+              </span>
+            )}
           </div>
         ))}
       </div>

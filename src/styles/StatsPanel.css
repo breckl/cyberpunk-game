@@ -45,7 +45,7 @@
 
 .xp-progress .bar {
   height: 14px;
-  background: rgba(9, 115, 30, 0.3);
+  background: var(--dark-green-bg);
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 0.5rem;
@@ -84,7 +84,7 @@
 
 .stat-bar .bar {
   height: 8px;
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--dark-green-bg);
   border-radius: 4px;
   overflow: hidden;
 }
