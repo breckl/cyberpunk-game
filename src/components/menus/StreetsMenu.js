@@ -1,4 +1,5 @@
 import React from "react";
+import TextReveal from "../TextReveal";
 
 function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
   const location = {
@@ -41,10 +42,10 @@ function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
         ))}
       </div>
 
-      <div className="global-menu-hint">
+      {/* <div className="global-menu-hint">
         Press <span className="key">Esc</span> for quick access to Inventory,
         Market, Travel, and more
-      </div>
+      </div> */}
     </div>
   );
 }

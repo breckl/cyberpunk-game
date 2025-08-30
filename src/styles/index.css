@@ -83,6 +83,7 @@ h3 {
   /* Background colors */
   --dark-bg: #000000;
   --dark-green-bg: rgb(0 124 14 / 30%);
+  --extra-dark-green-bg: rgb(0 124 14 / 20%);
   --green-bg: rgba(1, 59, 8, 0.5);
   --darker-bg: #050505;
   --panel-bg: rgba(20, 20, 20, 0.8);
@@ -94,6 +95,7 @@ h3 {
   --border-color: rgba(0, 255, 65, 0.3);
   --text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
   --box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+  --white-text: rgba(255, 255, 255, 0.7);
 
   /* Other Ideas */
   --neon-bright-orange: #ff6a00;
@@ -206,7 +208,6 @@ h3 {
 .location-screen {
   padding: 20px;
   max-width: 800px;
-  margin: 0 auto;
 }
 
 .location-header h2 {
@@ -238,8 +239,9 @@ h3 {
   gap: 10px;
   margin-bottom: 2rem;
   background: var(--dark-green-bg);
-  padding: 15px;
+  padding: 20px 25px;
   width: 300px;
+  gap: 0rem;
 }
 
 .options-grid .menu-item:hover::before {
@@ -272,4 +274,46 @@ h3 {
 .prompt-text {
   color: var(--neon-green);
   font-family: "Share Tech Mono", monospace;
+}
+
+/* Word-by-word fade-in animation */
+.test-paragraph {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+.test-paragraph .word {
+  opacity: 0;
+  animation: fadeInWord 0.5s ease-in forwards;
+  display: inline-block;
+}
+
+@keyframes fadeInWord {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Letter-by-letter reveal animation */
+.text-reveal .word {
+  display: inline;
+  white-space: normal;
+}
+
+.text-reveal .letter {
+  display: inline;
+  transition: opacity 0.1s ease-in;
+}
+
+.text-reveal .letter.hidden {
+  opacity: 0;
+}
+
+.text-reveal .letter.visible {
+  opacity: 1;
 }

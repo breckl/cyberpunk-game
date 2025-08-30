@@ -23,7 +23,7 @@
 .player-stats,
 .enemy-stats,
 .combat-controls {
-  background: var(--dark-green-bg);
+  background: var(--extra-dark-green-bg);
   border-radius: 4px;
   padding: 1.5rem 2rem;
 }
@@ -45,7 +45,7 @@
 }
 
 .stat-label {
-  color: #27af39;
+  color: var(--white-text);
   font-size: 0.9rem;
 }
 

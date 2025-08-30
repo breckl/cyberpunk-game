@@ -45,13 +45,6 @@
   line-height: 1.2;
 }
 
-.options-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 0rem;
-  margin-bottom: 2rem;
-}
-
 .option-row {
   display: flex;
   gap: 1rem;

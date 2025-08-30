@@ -39,12 +39,6 @@
   text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
 }
 
-.options-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .option-row {
   display: flex;
   gap: 1rem;
