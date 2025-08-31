@@ -31,7 +31,7 @@
 .stats-header {
   color: #0088ff;
   font-weight: bold;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.75rem 0;
   font-size: 1.1rem;
   text-align: center;
 }
@@ -40,19 +40,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
-  padding: 0.25rem 0;
+  margin-bottom: 1rem;
 }
 
 .stat-label {
   color: var(--white-text);
-  font-size: 0.9rem;
 }
 
 .stat-value {
   color: #00ff41;
   font-weight: bold;
-  font-size: 0.9rem;
 }
 
 .hp-bar-container {
@@ -93,14 +90,12 @@
   margin-bottom: 0.5rem;
   padding: 0.25rem 0;
   color: #27af39;
-  font-size: 0.9rem;
 }
 
 .control-row .key {
   color: #ff00ff;
   font-weight: 900;
   margin-right: 0.5rem;
-  font-size: 1rem;
 }
 
 .combat-log {
@@ -145,12 +140,6 @@
 
 .menu-options {
   margin-bottom: 2rem;
-}
-
-.option-row {
-  display: flex;
-  gap: 2rem;
-  align-items: center;
 }
 
 .combat-menu-item {
@@ -207,4 +196,21 @@
 
 .pink {
   color: #ff00ff;
+}
+
+/* Flashing combat mode text */
+@keyframes combatModeFlash {
+  0%,
+  50% {
+    color: var(--neon-blue);
+  }
+  25%,
+  75% {
+    color: white;
+  }
+}
+
+.combat-mode-flash {
+  animation: combatModeFlash 1.5s infinite;
+  font-weight: bold;
 }

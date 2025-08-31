@@ -29,42 +29,6 @@
   flex-direction: column;
 }
 
-.location-header {
-  margin-bottom: 1.25rem;
-}
-
-.location-header h2 {
-  color: var(--neon-blue);
-  margin: 0;
-  font-size: 1.5rem;
-}
-
-.location-description {
-  color: #00ff41;
-  margin-bottom: 2rem;
-  line-height: 1.2;
-}
-
-.option-row {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.menu-item {
-  color: var(--neon-green);
-  display: flex;
-  gap: 0;
-  align-items: center;
-  font-size: 1.1rem;
-}
-
-.menu-item .key {
-  color: #ff00ff;
-  font-weight: 900;
-  margin-right: 0;
-}
-
 .command-prompt {
   margin-top: auto;
   padding-top: 1rem;

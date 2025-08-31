@@ -90,7 +90,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     console.log("Enemy description:", enemyData.description);
 
     const newCombatLog = [
-      `<span class="stats-header">******* COMBAT *******</span>`,
+      `<span class="stats-header">[[ <span class="combat-mode-flash">COMBAT MODE ACTIVE</span> ]]</span>`,
       `You have encountered <strong>${enemyData.name}</strong>!!`,
       `<em>${enemyData.description}</em>`,
       combatOptions,
@@ -535,29 +535,29 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           <div className="player-stats">
             <h3 className="stats-header">YOUR STATS</h3>
             <div className="stat-row">
-              <span className="stat-label">Level:</span>
+              <span className="stat-label">Level</span>
               <span className="stat-value">{currentLevel}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Weapon:</span>
+              <span className="stat-label">Weapon</span>
               <span className="stat-value">{playerWeapon.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Attack:</span>
+              <span className="stat-label">Attack</span>
               <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Armor:</span>
+              <span className="stat-label">Armor</span>
               <span className="stat-value">
                 {equippedArmor ? equippedArmor.name : "None"}
               </span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Defense:</span>
+              <span className="stat-label">Defense</span>
               <span className="stat-value">{totalDefense.toFixed(1)}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">HP:</span>
+              <span className="stat-label">HP</span>
               <span className="stat-value">
                 {Math.round(playerHp)}/{playerTotalHp}
               </span>
@@ -576,15 +576,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           <div className="enemy-stats">
             <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
             <div className="stat-row">
-              <span className="stat-label">Level:</span>
+              <span className="stat-label">Level</span>
               <span className="stat-value">{enemy.level}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Weapon:</span>
+              <span className="stat-label">Weapon</span>
               <span className="stat-value">{enemy.weapon.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Attack:</span>
+              <span className="stat-label">Attack</span>
               <span className="stat-value">
                 {(
                   (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
@@ -593,17 +593,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               </span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Armor:</span>
+              <span className="stat-label">Armor</span>
               <span className="stat-value">{enemy.armor.name}</span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">Defense:</span>
+              <span className="stat-label">Defense</span>
               <span className="stat-value">
                 {(levels[enemy.level]?.defense || 0).toFixed(1)}
               </span>
             </div>
             <div className="stat-row">
-              <span className="stat-label">HP:</span>
+              <span className="stat-label">HP</span>
               <span className="stat-value">
                 {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
               </span>

@@ -196,28 +196,26 @@ h3 {
   color: var(--neon-green);
 }
 
-.menu-item.clickable {
-  cursor: pointer;
-}
-
-.menu-item:hover {
-  color: var(--neon-pink);
-}
-
 /* Location Screen Styling */
 .location-screen {
   padding: 20px;
   max-width: 800px;
+  margin: 0 auto;
+}
+
+.location-header {
+  margin-bottom: 1.25rem;
 }
 
 .location-header h2 {
   color: var(--neon-blue);
-  margin-bottom: 1rem;
+  margin: 0;
+  font-size: 1.5rem;
   text-align: left;
 }
 
 .location-description {
-  color: #ccc;
+  color: var(--neon-green);
   line-height: 1.6;
   margin-bottom: 2rem;
   text-align: left;
@@ -245,7 +243,7 @@ h3 {
 }
 
 .options-grid .menu-item:hover::before {
-  content: "> ";
+  content: "// ";
   color: var(--neon-pink);
   margin-right: 4px;
 }
@@ -253,6 +251,7 @@ h3 {
 .option-row {
   display: flex;
   justify-content: flex-start;
+  gap: 1rem;
 }
 
 .option-divider {
@@ -260,6 +259,23 @@ h3 {
   background: #00cc33;
   margin: 10px 0;
   width: 300px;
+}
+
+.menu-item.clickable {
+  cursor: pointer;
+  display: block;
+  width: 100%;
+}
+
+.menu-item:hover {
+  color: var(--neon-pink);
+  font-weight: bold;
+}
+
+.menu-item .key {
+  color: #ff00ff;
+  font-weight: 900;
+  margin-right: 0;
 }
 
 .command-prompt {

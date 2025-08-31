@@ -200,10 +200,6 @@
   border-radius: 8px;
 }
 
-.option-row {
-  text-align: center;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
   .inventory-screen {
