@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { TypeAnimation } from "react-type-animation";
+import { FaArrowRight } from "react-icons/fa";
 import "../styles/CombatScreen.css";
 import { getLevelBasedEnemy } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
@@ -7,16 +8,15 @@ import market from "../data/market.js";
 import CombatSystem from "../game/combat/CombatSystem.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
-  const combatSystem = useMemo(() => new CombatSystem(), []);
+  const combatSystem = new CombatSystem();
   const [combatRounds, setCombatRounds] = useState(0);
 
   // Combat sequence states
   const [sequencePhase, setSequencePhase] = useState("scanning"); // scanning, stats, combat, results
   const [scanProgress, setScanProgress] = useState(0);
   const [combatModeFlashing, setCombatModeFlashing] = useState(true);
-  const [visibleMessages, setVisibleMessages] = useState([]);
+  const [currentCombatMessage, setCurrentCombatMessage] = useState("");
   const [showCombatOptions, setShowCombatOptions] = useState(false);
-  const [isRevealingMessages, setIsRevealingMessages] = useState(false);
 
   // Calculate total HP including armor based on character's current level
   const currentLevel = getCurrentLevel(character.experience);
@@ -70,7 +70,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   };
 
   // Get player weapon action description or random unarmed action
-  const getPlayerActionDescription = useCallback(() => {
+  const getPlayerActionDescription = () => {
     if (
       equippedWeapon &&
       equippedWeapon.equipped &&
@@ -79,7 +79,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       return equippedWeapon.actionDescription;
     }
     return getRandomUnarmedAction();
-  }, [equippedWeapon]);
+  };
 
   // Initialize enemy
   const [enemy, setEnemy] = useState(() => {
@@ -111,7 +111,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   useEffect(() => {
     if (combatModeFlashing) {
       const interval = setInterval(() => {
-        setCombatModeFlashing((prev) => !prev);
+        setCombatModeFlashing(prev => !prev);
       }, 500);
       return () => clearInterval(interval);
     }
@@ -120,12 +120,12 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   // Scanning phase
   useEffect(() => {
     if (sequencePhase === "scanning") {
-      const duration = 2000; // 2 seconds
+      const duration = 3000; // 3 seconds
       const interval = 30; // Update every 30ms for smooth animation
       const increment = (100 * interval) / duration;
-
+      
       const timer = setInterval(() => {
-        setScanProgress((prev) => {
+        setScanProgress(prev => {
           if (prev >= 100) {
             clearInterval(timer);
             // Move to stats phase after scanning completes
@@ -142,266 +142,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       return () => clearInterval(timer);
     }
   }, [sequencePhase]);
-
-  // Define restartCombat function before it's used in useEffect
-  const restartCombat = useCallback(() => {
-    const newEnemy = getLevelBasedEnemy(currentLevel);
-    setEnemy(newEnemy);
-    setPlayerHp(parseFloat(playerTotalHp.toFixed(2)));
-    setEnemyHp(parseFloat((levels[newEnemy.level]?.hp || 30).toFixed(2)));
-    setIsPlayerTurn(true);
-    setCombatEnded(false);
-    setEndResult(null);
-    setCombatRounds(0);
-    setSequencePhase("scanning");
-    setScanProgress(0);
-    setCombatModeFlashing(true);
-    setVisibleMessages([]);
-    setShowCombatOptions(false);
-    setIsRevealingMessages(false);
-  }, [currentLevel, playerTotalHp]);
-
-  // Function to reveal combat messages one at a time with 0.5s delay between each
-  const revealCombatMessages = (messages, onComplete = null) => {
-    console.log("DEBUG - revealCombatMessages called with:", messages);
-
-    // Clear previous messages and start revealing process
-    setVisibleMessages([]);
-    setIsRevealingMessages(true);
-    setShowCombatOptions(false);
-
-    // Reveal messages one at a time with 0.5s delay
-    messages.forEach((message, index) => {
-      setTimeout(() => {
-        setVisibleMessages((prev) => [...prev, message]);
-
-        // If this is the last message, wait a bit then complete
-        if (index === messages.length - 1) {
-          setTimeout(() => {
-            if (onComplete) {
-              onComplete();
-            } else {
-              // Show combat options again for normal combat rounds
-              setIsRevealingMessages(false);
-              setShowCombatOptions(true);
-            }
-          }, 500); // Wait 0.5s after last message before completing
-        }
-      }, index * 500); // 0.5s delay between each message
-    });
-  };
-
-  const handleAttack = useCallback(() => {
-    setCombatRounds((prev) => prev + 1);
-
-    // Player's attack
-    const currentLevel = getCurrentLevel(character.experience);
-    const levelInfo = levels[currentLevel];
-    const baseAttack = levelInfo?.attack || 0;
-    const weaponBonus = equippedWeapon?.damage || 0;
-    const totalAttack = baseAttack + weaponBonus;
-
-    const minDamage = Math.max(1, totalAttack - 2);
-    const maxDamage = totalAttack + 2;
-    const rawDamage =
-      Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
-
-    // Apply enemy defense
-    const enemyLevelDefense = levels[enemy.level]?.defense || 0;
-    const enemyArmorDefense = enemy.armor.rating || 0;
-    const totalEnemyDefense = enemyLevelDefense + enemyArmorDefense;
-
-    const damageWithDefense = parseFloat(
-      ((rawDamage * (100 - totalEnemyDefense)) / 100).toFixed(2)
-    );
-    const finalDamage = Math.max(0.01, damageWithDefense);
-    const finalDamageRounded = Math.ceil(finalDamage);
-
-    const newEnemyHp = parseFloat((enemyHp - finalDamage).toFixed(2));
-    setEnemyHp(newEnemyHp);
-
-    // Prepare combat messages
-    const playerAction = getPlayerActionDescription();
-    const playerMessage = `YOU ${playerAction} and hit ${enemy.name} for ${finalDamageRounded} damage!`;
-    console.log("DEBUG - playerAction:", playerAction);
-    console.log("DEBUG - playerMessage:", playerMessage);
-
-    if (newEnemyHp <= 0.01) {
-      // Enemy defeated
-      const winner = { level: currentLevel };
-      const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
-
-      const victoryMessages = [
-        playerMessage,
-        `DAMAGE:${finalDamageRounded}`,
-        `You have defeated ${enemy.name}!`,
-        `You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!`,
-      ];
-
-      revealCombatMessages(victoryMessages, () => {
-        setCombatEnded(true);
-        setEndResult({
-          type: "victory",
-          rewards: calculatedRewards,
-        });
-        setSequencePhase("results");
-      });
-
-      setEnemyHp(0);
-
-      if (onUpdateCharacter) {
-        const updatedCharacter = {
-          ...character,
-          experience: character.experience + calculatedRewards.experience,
-          credits: character.credits + calculatedRewards.credits,
-        };
-        onUpdateCharacter(updatedCharacter);
-      }
-      return;
-    }
-
-    // Enemy's attack
-    const weaponVariance = Math.floor(Math.random() * 5) - 3;
-    const enemyLevelAttack = levels[enemy.level]?.attack || 0;
-    const enemyRawDamage =
-      enemyLevelAttack + enemy.weapon.damage + weaponVariance;
-
-    const currentLevelPlayer = getCurrentLevel(character.experience);
-    const levelInfoPlayer = levels[currentLevelPlayer];
-    const baseDefense = levelInfoPlayer?.defense || 0;
-    const armorBonus = equippedArmor?.defense || 0;
-    const totalDefense = baseDefense + armorBonus;
-
-    const enemyDamageWithDefense = parseFloat(
-      ((enemyRawDamage * (100 - totalDefense)) / 100).toFixed(2)
-    );
-    const enemyFinalDamage = Math.max(0.01, enemyDamageWithDefense);
-    const enemyFinalDamageRounded = Math.ceil(enemyFinalDamage);
-
-    const newPlayerHp = parseFloat((playerHp - enemyFinalDamage).toFixed(2));
-    setPlayerHp(newPlayerHp);
-
-    // Safety check for enemy weapon attacks
-    let attackText = "attacks you";
-    if (
-      enemy.weapon &&
-      enemy.weapon.attacks &&
-      enemy.weapon.attacks.length > 0
-    ) {
-      attackText =
-        enemy.weapon.attacks[
-          Math.floor(Math.random() * enemy.weapon.attacks.length)
-        ];
-    }
-
-    const enemyMessage = `${enemy.name} ${attackText} for ${enemyFinalDamageRounded} damage!`;
-
-    if (newPlayerHp <= 0.01) {
-      // Player defeated
-      const defeatPenalty = combatSystem.calculateDefeatPenalty(
-        enemy,
-        combatRounds
-      );
-      const actualPenalty = Math.min(defeatPenalty, character.credits);
-
-      const defeatMessages = [
-        playerMessage,
-        `DAMAGE:${finalDamageRounded}`,
-        enemyMessage,
-        `DAMAGE:${enemyFinalDamageRounded}`,
-        `You have been defeated by ${enemy.name}!`,
-        `You lose ${actualPenalty} credits!`,
-      ];
-
-      revealCombatMessages(defeatMessages, () => {
-        setCombatEnded(true);
-        setEndResult({ type: "defeat", penalty: actualPenalty });
-        setSequencePhase("results");
-      });
-
-      setPlayerHp(0);
-
-      if (onUpdateCharacter) {
-        const updatedCharacter = { ...character };
-        updatedCharacter.credits = Math.max(
-          0,
-          updatedCharacter.credits - actualPenalty
-        );
-        onUpdateCharacter(updatedCharacter);
-      }
-      return;
-    }
-
-    // Normal combat round - reveal messages
-    const roundMessages = [
-      playerMessage,
-      `${finalDamageRounded} DAMAGE`,
-      enemyMessage,
-      `${enemyFinalDamageRounded} DAMAGE`,
-    ];
-    console.log("DEBUG - roundMessages:", roundMessages);
-    revealCombatMessages(roundMessages);
-  }, [
-    character,
-    enemy,
-    playerHp,
-    enemyHp,
-    combatRounds,
-    onUpdateCharacter,
-    equippedWeapon,
-    equippedArmor,
-    combatSystem,
-    getPlayerActionDescription,
-  ]);
-
-  const handleRun = useCallback(() => {
-    // Clear previous combat messages
-    setVisibleMessages([]);
-
-    if (combatRounds === 0) {
-      // Initial flee
-      const fleeMessages = [
-        "You slip away before combat begins!",
-        "No penalty for smart tactical thinking.",
-      ];
-      revealCombatMessages(fleeMessages, () => {
-        setCombatEnded(true);
-        setEndResult({ type: "initialFlee" });
-        setSequencePhase("results");
-      });
-
-      if (onUpdateCharacter) {
-        onUpdateCharacter(character);
-      }
-    } else {
-      // Combat flee
-      const escapePenalty = combatSystem.calculateCombatFleePenalty(
-        enemy,
-        combatRounds
-      );
-      const actualPenalty = Math.min(escapePenalty, character.credits);
-
-      const fleeMessages = [
-        "You manage to escape!",
-        `You lose ${actualPenalty} credits!`,
-      ];
-
-      revealCombatMessages(fleeMessages, () => {
-        setCombatEnded(true);
-        setEndResult({ type: "escape", penalty: actualPenalty });
-        setSequencePhase("results");
-      });
-
-      if (onUpdateCharacter) {
-        const updatedCharacter = { ...character };
-        updatedCharacter.credits = Math.max(
-          0,
-          updatedCharacter.credits - actualPenalty
-        );
-        onUpdateCharacter(updatedCharacter);
-      }
-    }
-  }, [combatRounds, character, enemy, onUpdateCharacter, combatSystem]);
 
   // Stats reveal sequence
   useEffect(() => {
@@ -467,9 +207,184 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     enemy,
     restartCombat,
     combatRounds,
-    handleAttack,
-    handleRun,
   ]);
+
+  const restartCombat = () => {
+    const newEnemy = getLevelBasedEnemy(currentLevel);
+    setEnemy(newEnemy);
+    setPlayerHp(parseFloat(playerTotalHp.toFixed(2)));
+    setEnemyHp(parseFloat((levels[newEnemy.level]?.hp || 30).toFixed(2)));
+    setIsPlayerTurn(true);
+    setCombatEnded(false);
+    setEndResult(null);
+    setCombatRounds(0);
+    setSequencePhase("scanning");
+    setScanProgress(0);
+    setCombatModeFlashing(true);
+    setCurrentCombatMessage("");
+    setShowCombatOptions(false);
+  };
+
+  const handleAttack = () => {
+    setCombatRounds((prev) => prev + 1);
+
+    // Player's attack
+    const currentLevel = getCurrentLevel(character.experience);
+    const levelInfo = levels[currentLevel];
+    const baseAttack = levelInfo?.attack || 0;
+    const weaponBonus = equippedWeapon?.damage || 0;
+    const totalAttack = baseAttack + weaponBonus;
+
+    const minDamage = Math.max(1, totalAttack - 2);
+    const maxDamage = totalAttack + 2;
+    const rawDamage =
+      Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
+
+    // Apply enemy defense
+    const enemyLevelDefense = levels[enemy.level]?.defense || 0;
+    const enemyArmorDefense = enemy.armor.rating || 0;
+    const totalEnemyDefense = enemyLevelDefense + enemyArmorDefense;
+
+    const damageWithDefense = parseFloat(
+      ((rawDamage * (100 - totalEnemyDefense)) / 100).toFixed(2)
+    );
+    const finalDamage = Math.max(0.01, damageWithDefense);
+    const finalDamageRounded = Math.ceil(finalDamage);
+
+    const newEnemyHp = parseFloat((enemyHp - finalDamage).toFixed(2));
+    setEnemyHp(newEnemyHp);
+
+    // Update combat message
+    const playerAction = getPlayerActionDescription();
+    setCurrentCombatMessage(`YOU ${playerAction} and hit ${enemy.name} for ${finalDamageRounded} damage!`);
+
+    if (newEnemyHp <= 0.01) {
+      // Enemy defeated
+      const winner = { level: currentLevel };
+      const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
+
+      setTimeout(() => {
+        setCurrentCombatMessage(`You have defeated ${enemy.name}!`);
+        setTimeout(() => {
+          setCurrentCombatMessage(`You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!`);
+          setTimeout(() => {
+            setCombatEnded(true);
+            setEndResult({
+              type: "victory",
+              rewards: calculatedRewards,
+            });
+            setSequencePhase("results");
+          }, 1000);
+        }, 1000);
+      }, 1000);
+
+      setEnemyHp(0);
+
+      if (onUpdateCharacter) {
+        const updatedCharacter = {
+          ...character,
+          experience: character.experience + calculatedRewards.experience,
+          credits: character.credits + calculatedRewards.credits,
+        };
+        onUpdateCharacter(updatedCharacter);
+      }
+      return;
+    }
+
+    // Enemy's attack
+    const weaponVariance = Math.floor(Math.random() * 5) - 3;
+    const enemyLevelAttack = levels[enemy.level]?.attack || 0;
+    const enemyRawDamage = enemyLevelAttack + enemy.weapon.damage + weaponVariance;
+
+    const currentLevelPlayer = getCurrentLevel(character.experience);
+    const levelInfoPlayer = levels[currentLevelPlayer];
+    const baseDefense = levelInfoPlayer?.defense || 0;
+    const armorBonus = equippedArmor?.defense || 0;
+    const totalDefense = baseDefense + armorBonus;
+
+    const enemyDamageWithDefense = parseFloat(
+      ((enemyRawDamage * (100 - totalDefense)) / 100).toFixed(2)
+    );
+    const enemyFinalDamage = Math.max(0.01, enemyDamageWithDefense);
+    const enemyFinalDamageRounded = Math.ceil(enemyFinalDamage);
+
+    const newPlayerHp = parseFloat((playerHp - enemyFinalDamage).toFixed(2));
+    setPlayerHp(newPlayerHp);
+
+    const attackText = enemy.weapon.attacks[
+      Math.floor(Math.random() * enemy.weapon.attacks.length)
+    ];
+
+    setTimeout(() => {
+      setCurrentCombatMessage(`${enemy.name} ${attackText} for ${enemyFinalDamageRounded} damage!`);
+    }, 1000);
+
+    if (newPlayerHp <= 0.01) {
+      // Player defeated
+      const defeatPenalty = combatSystem.calculateDefeatPenalty(enemy, combatRounds);
+      const actualPenalty = Math.min(defeatPenalty, character.credits);
+
+      setTimeout(() => {
+        setCurrentCombatMessage(`You have been defeated by ${enemy.name}!`);
+        setTimeout(() => {
+          setCurrentCombatMessage(`You lose ${actualPenalty} credits!`);
+          setTimeout(() => {
+            setCombatEnded(true);
+            setEndResult({ type: "defeat", penalty: actualPenalty });
+            setSequencePhase("results");
+          }, 1000);
+        }, 1000);
+      }, 1000);
+
+      setPlayerHp(0);
+
+      if (onUpdateCharacter) {
+        const updatedCharacter = { ...character };
+        updatedCharacter.credits = Math.max(0, updatedCharacter.credits - actualPenalty);
+        onUpdateCharacter(updatedCharacter);
+      }
+      return;
+    }
+  };
+
+  const handleRun = () => {
+    if (combatRounds === 0) {
+      // Initial flee
+      setCurrentCombatMessage("You slip away before combat begins!");
+      setTimeout(() => {
+        setCurrentCombatMessage("No penalty for smart tactical thinking.");
+        setTimeout(() => {
+          setCombatEnded(true);
+          setEndResult({ type: "initialFlee" });
+          setSequencePhase("results");
+        }, 1000);
+      }, 1000);
+
+      if (onUpdateCharacter) {
+        onUpdateCharacter(character);
+      }
+    } else {
+      // Combat flee
+      const escapePenalty = combatSystem.calculateCombatFleePenalty(enemy, combatRounds);
+      const actualPenalty = Math.min(escapePenalty, character.credits);
+
+      setCurrentCombatMessage("You manage to escape!");
+      setTimeout(() => {
+        setCurrentCombatMessage(`You lose ${actualPenalty} credits!`);
+        setTimeout(() => {
+          setCombatEnded(true);
+          setEndResult({ type: "escape", penalty: actualPenalty });
+          setSequencePhase("results");
+        }, 1000);
+      }, 1000);
+
+      if (onUpdateCharacter) {
+        const updatedCharacter = { ...character };
+        updatedCharacter.credits = Math.max(0, updatedCharacter.credits - actualPenalty);
+        onUpdateCharacter(updatedCharacter);
+      }
+    }
+  };
 
   // Render scanning phase
   if (sequencePhase === "scanning") {
@@ -517,25 +432,30 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="combat-log">
-            <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
-            </div>
-            <div className="combat-message">
+            {/* Scanning Display */}
+            <div className="scanning-display">
+              <div className={`combat-mode-status ${combatModeFlashing ? 'flashing' : ''}`}>
+                // COMBAT MODE ACTIVE //
+              </div>
               <div className="scanning-status">
                 SCANNING {Math.round(scanProgress)}%
               </div>
               <div className="scan-progress-bar">
-                <div
+                <div 
                   className="scan-progress-fill"
                   style={{ width: `${scanProgress}%` }}
                 ></div>
               </div>
+            </div>
+          </div>
+
+          <div className="combat-log">
+            <div className="combat-message">
+              <span className="stats-header">[[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span> ]]</span>
+            </div>
+            <div className="combat-message">
+              Scanning for threats...
             </div>
           </div>
         </div>
@@ -600,68 +520,42 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                   cursor={false}
                 />
               </h3>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "0.5s" }}
-              >
+              <div className="stat-row fade-in" style={{ animationDelay: '0.5s' }}>
                 <span className="stat-label">Level</span>
                 <span className="stat-value">{enemy.level}</span>
               </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "1s" }}
-              >
+              <div className="stat-row fade-in" style={{ animationDelay: '1s' }}>
                 <span className="stat-label">Weapon</span>
                 <span className="stat-value">{enemy.weapon.name}</span>
               </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "1.5s" }}
-              >
+              <div className="stat-row fade-in" style={{ animationDelay: '1.5s' }}>
                 <span className="stat-label">Attack</span>
                 <span className="stat-value">
-                  {(
-                    (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                  ).toFixed(1)}{" "}
-                  ±2
+                  {((levels[enemy.level]?.attack || 0) + enemy.weapon.damage).toFixed(1)} ±2
                 </span>
               </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "2s" }}
-              >
+              <div className="stat-row fade-in" style={{ animationDelay: '2s' }}>
                 <span className="stat-label">Armor</span>
                 <span className="stat-value">{enemy.armor.name}</span>
               </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "2.5s" }}
-              >
+              <div className="stat-row fade-in" style={{ animationDelay: '2.5s' }}>
                 <span className="stat-label">Defense</span>
                 <span className="stat-value">
                   {(levels[enemy.level]?.defense || 0).toFixed(1)}
                 </span>
               </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "3s" }}
-              >
+              <div className="stat-row fade-in" style={{ animationDelay: '3s' }}>
                 <span className="stat-label">HP</span>
                 <span className="stat-value">
                   {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
                 </span>
               </div>
-              <div
-                className="hp-bar-container fade-in"
-                style={{ animationDelay: "3s" }}
-              >
+              <div className="hp-bar-container fade-in" style={{ animationDelay: '3s' }}>
                 <div className="hp-bar enemy-hp-bar">
                   <div
                     className="hp-fill enemy-hp-fill"
                     style={{
-                      width: `${
-                        (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                      }%`,
+                      width: `${(enemyHp / (levels[enemy.level]?.hp || 30)) * 100}%`,
                     }}
                   ></div>
                 </div>
@@ -671,23 +565,34 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
           <div className="combat-log">
             <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
+              <span className="stats-header">[[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span> ]]</span>
             </div>
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
-            <div className="white-text">
+            <div className="combat-message">
               <TypeAnimation
                 sequence={[enemy.description]}
                 wrapper="em"
-                speed={60}
+                speed={30}
                 cursor={false}
-                style={{ animationDelay: "3.5s" }}
+                style={{ animationDelay: '3.5s' }}
               />
             </div>
+            {showCombatOptions && (
+              <div className="combat-message">
+                <div className="combat-options">
+                  <button className="combat-button attack-button">
+                    <span className="button-key">A</span>
+                    <span className="button-text">TTACK</span>
+                  </button>
+                  <button className="combat-button run-button">
+                    <span className="button-key">R</span>
+                    <span className="button-text">UN</span>
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -755,10 +660,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               <div className="stat-row">
                 <span className="stat-label">Attack</span>
                 <span className="stat-value">
-                  {(
-                    (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                  ).toFixed(1)}{" "}
-                  ±2
+                  {((levels[enemy.level]?.attack || 0) + enemy.weapon.damage).toFixed(1)} ±2
                 </span>
               </div>
               <div className="stat-row">
@@ -782,9 +684,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                   <div
                     className="hp-fill enemy-hp-fill"
                     style={{
-                      width: `${
-                        (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                      }%`,
+                      width: `${(enemyHp / (levels[enemy.level]?.hp || 30)) * 100}%`,
                     }}
                   ></div>
                 </div>
@@ -794,80 +694,31 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
           <div className="combat-log">
             <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
+              <span className="stats-header">[[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span> ]]</span>
             </div>
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
-            <div className="white-text">
+            <div className="combat-message">
               <em>{enemy.description}</em>
             </div>
-            {visibleMessages.map((message, index) => {
-              // Safety check for undefined messages
-              if (!message) {
-                return null;
-              }
-
-              // Check if this is a damage message (starts with →)
-              if (message.startsWith("→")) {
-                return (
-                  <div key={index} className="combat-message">
-                    <span className="damage-message">{message}</span>
-                  </div>
-                );
-              }
-
-              // Check if this is a player attack message (starts with "YOU")
-              if (message.startsWith("YOU")) {
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="player-attack">
-                      <span className="player-name">YOU</span>
-                      <span className="action-text">
-                        {" " + message.substring(4)}
-                      </span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Check if this is an enemy attack message (contains enemy name)
-              if (message.includes(enemy.name)) {
-                const enemyNameEnd = message.indexOf(" ") + 1;
-                const actionText = message.substring(enemyNameEnd);
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="enemy-attack">
-                      <span className="enemy-name">{enemy.name}</span>
-                      <span className="action-text">{" " + actionText}</span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Default message styling
-              return (
-                <div key={index} className="combat-message">
-                  <span className="action-text">{message}</span>
-                </div>
-              );
-            })}
-
-            {/* Combat Options at the bottom */}
-            {showCombatOptions && !isRevealingMessages && (
+            <div className="combat-message">
+              <div className="combat-options">
+                <button className="combat-button attack-button">
+                  <span className="button-key">A</span>
+                  <span className="button-text">TTACK</span>
+                </button>
+                <button className="combat-button run-button">
+                  <span className="button-key">R</span>
+                  <span className="button-text">UN</span>
+                </button>
+              </div>
+            </div>
+            {currentCombatMessage && (
               <div className="combat-message">
-                <div className="combat-options">
-                  <div className="combat-button attack-button">
-                    <span className="button-key">A</span>
-                    <span className="button-text">TTACK</span>
-                  </div>
-                  <div className="combat-button run-button">
-                    <span className="button-key">R</span>
-                    <span className="button-text">UN</span>
-                  </div>
+                <div className="combat-action">
+                  <FaArrowRight className="action-arrow" />
+                  <span className="action-text">{currentCombatMessage}</span>
                 </div>
               </div>
             )}
@@ -946,75 +797,26 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
           <div className="combat-log">
             <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
+              <span className="stats-header">[[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span> ]]</span>
             </div>
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
-            <div className="white-text">
+            <div className="combat-message">
               <em>{enemy.description}</em>
             </div>
-            {visibleMessages.map((message, index) => {
-              // Safety check for undefined messages
-              if (!message) {
-                return null;
-              }
-
-              // Check if this is a damage message (starts with →)
-              if (message.startsWith("→")) {
-                return (
-                  <div key={index} className="combat-message">
-                    <span className="damage-message">{message}</span>
-                  </div>
-                );
-              }
-
-              // Check if this is a player attack message (starts with "YOU")
-              if (message.startsWith("YOU")) {
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="player-attack">
-                      <span className="player-name">YOU</span>
-                      <span className="action-text">
-                        {message.substring(4)}
-                      </span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Check if this is an enemy attack message (contains enemy name)
-              if (message.includes(enemy.name)) {
-                const enemyNameEnd = message.indexOf(" ") + 1;
-                const actionText = message.substring(enemyNameEnd);
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="enemy-attack">
-                      <span className="enemy-name">{enemy.name}</span>
-                      <span className="action-text">{actionText}</span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Default message styling
-              return (
-                <div key={index} className="combat-message">
-                  <span className="action-text">{message}</span>
+            {currentCombatMessage && (
+              <div className="combat-message">
+                <div className="combat-action">
+                  <FaArrowRight className="action-arrow" />
+                  <span className="action-text">{currentCombatMessage}</span>
                 </div>
-              );
-            })}
+              </div>
+            )}
             <div className="combat-message">
               <div className="menu-options">
-                <span className="combat-menu-item">
-                  (<span className="key">N</span>)ext Fight
-                </span>
-                <span className="combat-menu-item">
-                  (<span className="key">L</span>)eave Streets
-                </span>
+                <span className="combat-menu-item">(<span className="key">N</span>)ext Fight</span>
+                <span className="combat-menu-item">(<span className="key">L</span>)eave Streets</span>
               </div>
             </div>
           </div>

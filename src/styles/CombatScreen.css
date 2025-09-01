@@ -214,3 +214,208 @@
   animation: combatModeFlash 1.5s infinite;
   font-weight: bold;
 }
+
+/* Scanning phase styles */
+.scanning-display {
+  background: var(--extra-dark-green-bg);
+  border-radius: 4px;
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+
+.combat-mode-status {
+  color: #0088ff;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.combat-mode-status.flashing {
+  animation: combatModeFlash 1s infinite;
+}
+
+.scanning-status {
+  color: #0088ff;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.scan-progress-bar {
+  width: 300px;
+  height: 12px;
+  border-radius: 6px;
+  background: #1a3a4a;
+  overflow: hidden;
+}
+
+.scan-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0088ff, #00aaff);
+  transition: width 0.1s ease;
+}
+
+/* Fade-in animations for stats reveal */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Combat buttons styling */
+.combat-options {
+  display: flex;
+  gap: 1rem;
+  justify-content: left;
+  margin-top: 1rem;
+}
+
+.combat-button {
+  color: white;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  display: flex;
+  gap: 0.35rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.combat-button:hover {
+  transform: translateY(-2px);
+  color: white;
+}
+
+.combat-button:active {
+  transform: translateY(0);
+}
+
+.button-key {
+  background: #8c008c;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  height: 30px;
+  width: 30px;
+  font-size: 1.1rem;
+}
+
+.button-text {
+  color: #ff00ff;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+}
+
+/* Combat action styling */
+.combat-action {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.action-arrow {
+  color: #ff0000;
+  font-size: 1.2rem;
+}
+
+.action-text {
+  color: #00ff41;
+}
+
+/* Player attack message styling */
+.player-attack {
+  color: #00ff41;
+}
+
+.player-attack .player-name {
+  color: #ff00ff;
+  font-weight: bold;
+}
+
+.player-attack .action-text {
+  color: #00ff41;
+  font-style: italic;
+}
+
+/* Enemy attack message styling */
+.enemy-attack {
+  color: #00ff41;
+}
+
+.enemy-attack .enemy-name {
+  color: #ff00ff;
+  font-weight: bold;
+}
+
+.enemy-attack .action-text {
+  color: #00ff41;
+  font-style: italic;
+}
+
+/* Damage message styling */
+.damage-message {
+  color: #ff0000;
+  font-weight: bold;
+  margin-left: 1rem;
+}
+
+/* Fade-in animation for combat messages */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+/* Results display styling */
+.results-display {
+  background: var(--extra-dark-green-bg);
+  border-radius: 4px;
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+
+.result-message {
+  margin-top: 1rem;
+}
+
+.win-message {
+  color: #00ff41;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.lose-message {
+  color: #ff0000;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.escape-message {
+  color: #ffaa00;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
