@@ -67,3 +67,79 @@
 .main-content::-webkit-scrollbar-thumb:hover {
   background: #00cc33;
 }
+
+/* Help Layout */
+.help-layout {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  height: 100%;
+  margin-top: 1rem;
+}
+
+.help-sidebar {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.help-topics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.help-topic-item {
+  display: block;
+  padding: 0.75rem 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  color: var(--neon-green);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.help-topic-item:hover {
+  background: rgba(0, 255, 65, 0.1);
+  border-color: var(--neon-green);
+}
+
+.help-topic-item.active {
+  background: rgba(0, 255, 65, 0.2);
+  border-color: var(--neon-green);
+  color: #ffffff;
+}
+
+.help-content {
+  flex: 1;
+}
+
+.help-topic-content h3 {
+  color: var(--neon-green);
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.help-text {
+  line-height: 1.6;
+}
+
+.help-text h3 {
+  color: var(--neon-green);
+  margin: 1.5rem 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.help-text ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.help-text li {
+  margin: 0.25rem 0;
+}
+
+.help-text strong {
+  color: #ffffff;
+}

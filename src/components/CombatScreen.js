@@ -830,7 +830,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                 return (
                   <div key={index} className="combat-message">
                     <div className="player-attack">
-                      <span className="player-name">You </span>
+                      <span className="player-name">You</span>
                       <span className="action-text">
                         {" " + message.substring(4)}
                       </span>
@@ -1020,13 +1020,21 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               );
             })}
             <div className="combat-message">
-              <div className="menu-options">
-                <span className="combat-menu-item">
-                  (<span className="key">N</span>)ext Fight
-                </span>
-                <span className="combat-menu-item">
-                  (<span className="key">L</span>)eave Streets
-                </span>
+              <div className="combat-options">
+                <div
+                  className="combat-button next-fight-button"
+                  onClick={() => restartCombat()}
+                >
+                  <span className="button-key">N</span>
+                  <span className="button-text">ext Fight</span>
+                </div>
+                <div
+                  className="combat-button leave-button"
+                  onClick={() => onCombatEnd("leave", null)}
+                >
+                  <span className="button-key">L</span>
+                  <span className="button-text">leave Streets</span>
+                </div>
               </div>
             </div>
           </div>

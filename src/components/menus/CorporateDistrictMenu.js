@@ -9,7 +9,7 @@ function CorporateDistrictMenu({ character, onNavigate }) {
       { key: "corporate-black-clinic", label: "Black Clinic" },
       { key: "mega-corp-towers", label: "Mega Corp Towers" },
       { key: "hosaka-facility", label: "Hosaka Corporate Facility" },
-      { key: "corporate-streets", label: "Streets (Combat Zone)" },
+      // { key: "corporate-streets", label: "Streets (Combat Zone)" },
       { key: "corporate-market", label: "Market" },
       { key: "divider", label: "divider" },
       { key: "chiba-city", label: "Back to Chiba City" },

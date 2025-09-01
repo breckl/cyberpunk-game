@@ -13,7 +13,6 @@ function NinseiStripMenu({ character, onNavigate }) {
       { key: "chiba-docks", label: "Chiba Docks" },
       { key: "jarre-de-the", label: "Jarre de Thé" },
       { key: "cheap-hotel", label: "Cheap Hotel" },
-      { key: "ninsei-streets", label: "Streets (Combat Zone)" },
       { key: "market", label: "Market" },
       { key: "divider", label: "divider" },
       { key: "chiba-city", label: "Back to Chiba City" },

@@ -1,7 +1,6 @@
 import React from "react";
-import TextReveal from "../TextReveal";
 
-function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
+function StreetsMenu({ character, onNavigate, onShowInventory }) {
   const location = {
     name: "Night City Streets",
     description:
@@ -29,11 +28,7 @@ function StreetsMenu({ character, onNavigate, onShowInventory, onShowHelp }) {
             <span
               className="menu-item clickable"
               onClick={() => {
-                if (option.key === "help") {
-                  onShowHelp();
-                } else {
-                  onNavigate(option.key);
-                }
+                onNavigate(option.key);
               }}
             >
               {option.label}

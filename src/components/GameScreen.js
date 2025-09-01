@@ -4,6 +4,7 @@ import StatsPanel from "./StatsPanel";
 import CombatScreen from "./CombatScreen";
 import Market from "./Market";
 import Inventory from "./Inventory";
+import Help from "./Help";
 import StreetsMenu from "./menus/StreetsMenu";
 import TravelMenu from "./menus/TravelMenu";
 import DowntownMenu from "./menus/DowntownMenu";
@@ -184,13 +185,15 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
           />
         );
 
+      case "help":
+        return <Help onExit={() => handleNavigate("streets")} />;
+
       case "streets":
         return (
           <StreetsMenu
             character={gameState.character}
             onNavigate={handleNavigate}
             onShowInventory={handleShowInventory}
-            onShowHelp={handleShowHelp}
           />
         );
 
