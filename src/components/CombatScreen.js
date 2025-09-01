@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { TypeAnimation } from "react-type-animation";
+import { FaArrowRight } from "react-icons/fa";
 import "../styles/CombatScreen.css";
 import { getLevelBasedEnemy } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
@@ -120,7 +121,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   // Scanning phase
   useEffect(() => {
     if (sequencePhase === "scanning") {
-      const duration = 2000; // 2 seconds
+      const duration = 1000; // 2 seconds
       const interval = 30; // Update every 30ms for smooth animation
       const increment = (100 * interval) / duration;
 
@@ -222,7 +223,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     // Prepare combat messages
     const playerAction = getPlayerActionDescription();
-    const playerMessage = `YOU ${playerAction} and hit ${enemy.name} for ${finalDamageRounded} damage!`;
+    const playerMessage = `You ${playerAction} and hit ${enemy.name} for ${finalDamageRounded} damage!`;
     console.log("DEBUG - playerAction:", playerAction);
     console.log("DEBUG - playerMessage:", playerMessage);
 
@@ -233,7 +234,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
       const victoryMessages = [
         playerMessage,
-        `DAMAGE:${finalDamageRounded}`,
+        `>> ${finalDamageRounded} DAMAGE`,
         `You have defeated ${enemy.name}!`,
         `You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!`,
       ];
@@ -306,9 +307,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
       const defeatMessages = [
         playerMessage,
-        `DAMAGE:${finalDamageRounded}`,
+        `>> ${finalDamageRounded} DAMAGE`,
         enemyMessage,
-        `DAMAGE:${enemyFinalDamageRounded}`,
+        `>> ${enemyFinalDamageRounded} DAMAGE`,
         `You have been defeated by ${enemy.name}!`,
         `You lose ${actualPenalty} credits!`,
       ];
@@ -335,9 +336,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     // Normal combat round - reveal messages
     const roundMessages = [
       playerMessage,
-      `${finalDamageRounded} DAMAGE`,
+      `>> ${finalDamageRounded} DAMAGE`,
       enemyMessage,
-      `${enemyFinalDamageRounded} DAMAGE`,
+      `>> ${enemyFinalDamageRounded} DAMAGE`,
     ];
     console.log("DEBUG - roundMessages:", roundMessages);
     revealCombatMessages(roundMessages);
@@ -679,7 +680,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
-            <div className="white-text">
+            <div className="enemy-description white-text">
               <TypeAnimation
                 sequence={[enemy.description]}
                 wrapper="em"
@@ -802,7 +803,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
-            <div className="white-text">
+            <div className="enemy-description white-text">
               <em>{enemy.description}</em>
             </div>
             {visibleMessages.map((message, index) => {
@@ -811,21 +812,25 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                 return null;
               }
 
-              // Check if this is a damage message (starts with →)
-              if (message.startsWith("→")) {
+              // Check if this is a damage message (starts with >>)
+              if (message.startsWith(">>")) {
+                const damageText = message.substring(2); // Remove the ">>" prefix
                 return (
                   <div key={index} className="combat-message">
-                    <span className="damage-message">{message}</span>
+                    <span className="damage-message">
+                      <FaArrowRight className="damage-icon" />
+                      {damageText}
+                    </span>
                   </div>
                 );
               }
 
               // Check if this is a player attack message (starts with "YOU")
-              if (message.startsWith("YOU")) {
+              if (message.startsWith("You")) {
                 return (
                   <div key={index} className="combat-message">
                     <div className="player-attack">
-                      <span className="player-name">YOU</span>
+                      <span className="player-name">You </span>
                       <span className="action-text">
                         {" " + message.substring(4)}
                       </span>
@@ -860,11 +865,14 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             {showCombatOptions && !isRevealingMessages && (
               <div className="combat-message">
                 <div className="combat-options">
-                  <div className="combat-button attack-button">
+                  <div
+                    className="combat-button attack-button"
+                    onClick={handleAttack}
+                  >
                     <span className="button-key">A</span>
                     <span className="button-text">TTACK</span>
                   </div>
-                  <div className="combat-button run-button">
+                  <div className="combat-button run-button" onClick={handleRun}>
                     <span className="button-key">R</span>
                     <span className="button-text">UN</span>
                   </div>
@@ -954,7 +962,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
-            <div className="white-text">
+            <div className="enemy-description white-text">
               <em>{enemy.description}</em>
             </div>
             {visibleMessages.map((message, index) => {
@@ -963,21 +971,25 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                 return null;
               }
 
-              // Check if this is a damage message (starts with →)
-              if (message.startsWith("→")) {
+              // Check if this is a damage message (starts with >>)
+              if (message.startsWith(">>")) {
+                const damageText = message.substring(2); // Remove the ">>" prefix
                 return (
                   <div key={index} className="combat-message">
-                    <span className="damage-message">{message}</span>
+                    <span className="damage-message">
+                      <FaArrowRight className="damage-icon" />
+                      {damageText}
+                    </span>
                   </div>
                 );
               }
 
               // Check if this is a player attack message (starts with "YOU")
-              if (message.startsWith("YOU")) {
+              if (message.startsWith("You")) {
                 return (
                   <div key={index} className="combat-message">
                     <div className="player-attack">
-                      <span className="player-name">YOU</span>
+                      <span className="player-name">You </span>
                       <span className="action-text">
                         {message.substring(4)}
                       </span>

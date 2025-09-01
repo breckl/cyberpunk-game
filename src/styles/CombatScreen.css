@@ -108,7 +108,7 @@
 }
 
 .combat-message {
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.5rem;
   white-space: pre-wrap;
   color: #30d646; /* Muted green for regular text */
 }
@@ -348,7 +348,6 @@
 
 .player-attack .action-text {
   color: #00ff41;
-  font-style: italic;
 }
 
 /* Enemy attack message styling */
@@ -363,7 +362,6 @@
 
 .enemy-attack .action-text {
   color: #00ff41;
-  font-style: italic;
 }
 
 /* Damage message styling */
@@ -406,6 +404,12 @@
   color: #00ff41;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+.enemy-description {
+  border-bottom: 5px solid var(--dark-green-bg);
+  padding-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 .lose-message {
