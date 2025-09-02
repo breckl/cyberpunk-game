@@ -7,7 +7,13 @@ import levels, {
   getLevelUpRewards,
 } from "../data/levels.js";
 
-function StatsPanel({ character, onUpdateCharacter }) {
+function StatsPanel({
+  character,
+  onUpdateCharacter,
+  showMobileStats = false,
+  onNavigate,
+  onCloseMobileStats,
+}) {
   const [tooltip, setTooltip] = useState({
     show: false,
     item: null,
@@ -117,7 +123,60 @@ function StatsPanel({ character, onUpdateCharacter }) {
   const totalStats = getTotalStats();
 
   return (
-    <div className="stats-panel">
+    <div
+      className={`stats-panel ${showMobileStats ? "mobile-stats-visible" : ""}`}
+    >
+      {/* Mobile Navigation Menu */}
+      {showMobileStats && onNavigate && (
+        <div className="mobile-nav-menu">
+          <div
+            className="nav-item"
+            onClick={() => {
+              onNavigate("streets");
+              onCloseMobileStats && onCloseMobileStats();
+            }}
+          >
+            Streets
+          </div>
+          <div
+            className="nav-item"
+            onClick={() => {
+              onNavigate("inventory");
+              onCloseMobileStats && onCloseMobileStats();
+            }}
+          >
+            Inventory
+          </div>
+          <div
+            className="nav-item"
+            onClick={() => {
+              onNavigate("market");
+              onCloseMobileStats && onCloseMobileStats();
+            }}
+          >
+            Market
+          </div>
+          <div
+            className="nav-item"
+            onClick={() => {
+              onNavigate("travel");
+              onCloseMobileStats && onCloseMobileStats();
+            }}
+          >
+            Travel
+          </div>
+          <div
+            className="nav-item"
+            onClick={() => {
+              onNavigate("combat");
+              onCloseMobileStats && onCloseMobileStats();
+            }}
+          >
+            Combat Zone
+          </div>
+        </div>
+      )}
+
       <div className="character-info">
         <h2>{character.name}</h2>
         <div className="class-info">{character.class}</div>

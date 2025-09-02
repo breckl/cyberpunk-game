@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../styles/GameScreen.css";
 import StatsPanel from "./StatsPanel";
 import CombatScreen from "./CombatScreen";
@@ -15,15 +15,14 @@ import ChibaCityMenu from "./menus/ChibaCityMenu";
 import NinseiStripMenu from "./menus/NinseiStripMenu";
 import CorporateDistrictMenu from "./menus/CorporateDistrictMenu";
 import GlobalMenu from "./GlobalMenu";
+import { FaBars, FaUser } from "react-icons/fa";
 
 function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   // Single screen state instead of multiple booleans
   const [currentScreen, setCurrentScreen] = useState("streets");
   const [showInventory, setShowInventory] = useState(false);
-  const [showMessages, setShowMessages] = useState(false);
-  const [showPlayers, setShowPlayers] = useState(false);
-  const [showHelp, setShowHelp] = useState(false);
   const [showGlobalMenu, setShowGlobalMenu] = useState(false);
+  const [showMobileStats, setShowMobileStats] = useState(false);
 
   // Character initialization is now handled by the main App component
   // and the character creation system
@@ -38,25 +37,17 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
     setShowInventory(!showInventory);
   };
 
-  const handleShowMessages = () => {
-    setShowMessages(!showMessages);
-  };
-
-  const handleShowPlayers = () => {
-    setShowPlayers(!showPlayers);
-  };
-
-  const handleShowHelp = () => {
-    setShowHelp(!showHelp);
-  };
-
-  const handleShowGlobalMenu = () => {
+  const handleShowGlobalMenu = useCallback(() => {
     setShowGlobalMenu(!showGlobalMenu);
-  };
+  }, [showGlobalMenu]);
 
   const handleCloseGlobalMenu = () => {
     console.log("handleCloseGlobalMenu called");
     setShowGlobalMenu(false);
+  };
+
+  const handleToggleMobileStats = () => {
+    setShowMobileStats(!showMobileStats);
   };
 
   const handleGlobalInventory = () => {
@@ -98,7 +89,7 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showGlobalMenu]);
+  }, [showGlobalMenu, handleShowGlobalMenu]);
 
   const handleCombatEnd = (result, rewards) => {
     console.log("Combat ended with result:", result, "and rewards:", rewards);
@@ -194,6 +185,8 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
             character={gameState.character}
             onNavigate={handleNavigate}
             onShowInventory={handleShowInventory}
+            onToggleMobileStats={handleToggleMobileStats}
+            showMobileStats={showMobileStats}
           />
         );
 
@@ -930,10 +923,25 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   return (
     <div className="game-screen">
       <div className="game-layout">
-        <div className="main-content">{renderLocation()}</div>
+        <div className="main-content">
+          {/* Mobile Stats Toggle Button */}
+          <div className="mobile-stats-toggle">
+            <button
+              className="mobile-stats-button"
+              onClick={handleToggleMobileStats}
+              title="Toggle Stats Panel"
+            >
+              <FaBars />
+            </button>
+          </div>
+          {renderLocation()}
+        </div>
         <StatsPanel
           character={gameState.character}
           onUpdateCharacter={handleCharacterUpdate}
+          showMobileStats={showMobileStats}
+          onNavigate={handleNavigate}
+          onCloseMobileStats={() => setShowMobileStats(false)}
         />
       </div>
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Inventory.css";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   const [localCharacter, setLocalCharacter] = useState(character);
@@ -102,7 +103,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   };
 
   const renderTabs = () => {
-    const categories = ["all", "weapon", "armor", "cyberware", "netgear"];
+    const categories = ["all", "weapon", "armor"];
 
     return (
       <div className="inventory-tabs">
@@ -136,7 +137,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     };
 
     return (
-      <div className="equipped-items">
+      <div className="inventory-equipped-items">
         <h3>Equipped Items</h3>
 
         <div className="equipped-grid">
@@ -147,18 +148,6 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
           <div className="equipped-slot">
             <span className="slot-label">Armor:</span>
             <span className="slot-item">{equipped.armor?.name || "None"}</span>
-          </div>
-          <div className="equipped-slot">
-            <span className="slot-label">Cyberware:</span>
-            <span className="slot-item">
-              {equipped.cyberware?.name || "None"}
-            </span>
-          </div>
-          <div className="equipped-slot">
-            <span className="slot-label">Netgear:</span>
-            <span className="slot-item">
-              {equipped.netgear?.name || "None"}
-            </span>
           </div>
         </div>
       </div>
@@ -226,14 +215,25 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
 
   return (
     <div className="inventory-screen">
+      {/* Mobile Back Button Row */}
+      <div className="mobile-back-row">
+        <button className="mobile-back-button" onClick={onExit}>
+          <FaArrowLeft />
+          Back
+        </button>
+      </div>
+
       <div className="inventory-header">
         <h2>Inventory</h2>
         <div className="header-buttons">
-          <span className="back-button" onClick={() => onNavigate("market")}>
-            <span className="key">(M)</span>arket
+          <span
+            className="back-button desktop-only"
+            onClick={() => onNavigate("market")}
+          >
+            <span className="key">M</span>arket
           </span>
-          <span className="back-button" onClick={onExit}>
-            <span className="key">(B)</span>ack
+          <span className="back-button desktop-only" onClick={onExit}>
+            <span className="key">B</span>ack
           </span>
         </div>
       </div>

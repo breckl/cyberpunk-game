@@ -103,14 +103,23 @@
   overflow-y: auto;
   margin-bottom: 2rem;
   line-height: 1.6;
-  padding: 1rem;
+  padding: 2rem;
   background: rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile overrides for combat-log */
+@media (max-width: 768px) {
+  .combat-log {
+    order: 1;
+    margin-bottom: 0;
+  }
 }
 
 .combat-message {
   margin-bottom: 0.5rem;
   white-space: pre-wrap;
   color: #30d646; /* Muted green for regular text */
+  animation: fadeIn 0.5s ease-in-out;
 }
 
 .red {
@@ -422,4 +431,94 @@
   color: #ffaa00;
   font-size: 1.2rem;
   font-weight: bold;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .combat-layout {
+    flex-direction: column;
+    height: 100vh;
+    gap: 0;
+  }
+
+  .combat-screen .combat-stats-panel {
+    width: 100%;
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.8);
+    border-top: 1px solid var(--border-color);
+    order: 2;
+  }
+
+  .player-stats,
+  .enemy-stats {
+    flex: 1;
+    padding: 1rem;
+    margin: 0;
+  }
+
+  .stats-header {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-row {
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  .stat-value {
+    font-size: 0.75rem;
+  }
+
+  .hp-bar {
+    height: 8px;
+  }
+
+  /* Hide weapon and armor names on mobile */
+  .mobile-hide-weapon .stat-row:nth-child(3),
+  .mobile-hide-weapon .stat-row:nth-child(5) {
+    display: none;
+  }
+
+  .combat-options {
+    justify-content: left;
+    margin-top: 0.5rem;
+  }
+
+  /* Results phase buttons - stack vertically */
+  .next-fight-button,
+  .leave-button {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .next-fight-button + .leave-button {
+    margin-top: 0.5rem;
+  }
+
+  .combat-button {
+    font-size: 1.1rem;
+    padding: 0rem 2.5rem 0.5rem 0rem;
+  }
+
+  .button-key {
+    height: 35px;
+    width: 35px;
+    font-size: 1.1rem;
+  }
+
+  .combat-message {
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .scan-progress-bar {
+    width: 100%;
+  }
 }

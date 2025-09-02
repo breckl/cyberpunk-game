@@ -143,3 +143,80 @@
 .help-text strong {
   color: #ffffff;
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .game-layout {
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .main-content {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  .stats-panel {
+    position: fixed;
+    top: 0;
+    right: -320px;
+    width: 300px;
+    height: 100vh;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    background: rgba(0, 0, 0, 0.95);
+    border-left: 1px solid var(--border-color);
+    display: block;
+    visibility: hidden;
+  }
+
+  .stats-panel.mobile-stats-visible {
+    right: 0;
+    visibility: visible;
+  }
+
+  .mobile-stats-toggle {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1001;
+  }
+
+  .mobile-stats-button {
+    background: var(--dark-green-bg);
+    color: var(--neon-green);
+    padding: 10px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-stats-button:hover {
+    background: var(--extra-dark-green-bg);
+    color: var(--neon-green);
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-stats-toggle {
+    display: none;
+  }
+
+  .stats-panel {
+    position: relative;
+    right: auto;
+    width: 300px;
+    height: auto;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+  }
+}

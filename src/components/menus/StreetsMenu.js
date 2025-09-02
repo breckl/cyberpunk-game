@@ -1,6 +1,12 @@
 import React from "react";
 
-function StreetsMenu({ character, onNavigate, onShowInventory }) {
+function StreetsMenu({
+  character,
+  onNavigate,
+  onShowInventory,
+  onToggleMobileStats,
+  showMobileStats,
+}) {
   const location = {
     name: "Night City Streets",
     description:

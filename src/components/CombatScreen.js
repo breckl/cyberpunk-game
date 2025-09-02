@@ -479,7 +479,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           <div className="combat-stats-panel">
             {/* Player Stats */}
-            <div className="player-stats">
+            <div className="player-stats mobile-hide-weapon">
               <h3 className="stats-header">YOUR STATS</h3>
               <div className="stat-row">
                 <span className="stat-label">Level</span>
@@ -551,7 +551,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           <div className="combat-stats-panel">
             {/* Player Stats */}
-            <div className="player-stats">
+            <div className="player-stats mobile-hide-weapon">
               <h3 className="stats-header">YOUR STATS</h3>
               <div className="stat-row">
                 <span className="stat-label">Level</span>
@@ -592,7 +592,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
 
             {/* Enemy Stats */}
-            <div className="enemy-stats">
+            <div className="enemy-stats mobile-hide-weapon">
               <h3 className="stats-header">
                 <TypeAnimation
                   sequence={[enemy.name.toUpperCase()]}
@@ -702,7 +702,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           <div className="combat-stats-panel">
             {/* Player Stats */}
-            <div className="player-stats">
+            <div className="player-stats mobile-hide-weapon">
               <h3 className="stats-header">YOUR STATS</h3>
               <div className="stat-row">
                 <span className="stat-label">Level</span>
@@ -743,7 +743,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
 
             {/* Enemy Stats */}
-            <div className="enemy-stats">
+            <div className="enemy-stats mobile-hide-weapon">
               <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
               <div className="stat-row">
                 <span className="stat-label">Level</span>
@@ -892,7 +892,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           <div className="combat-stats-panel">
             {/* Player Stats */}
-            <div className="player-stats">
+            <div className="player-stats mobile-hide-weapon">
               <h3 className="stats-header">YOUR STATS</h3>
               <div className="stat-row">
                 <span className="stat-label">Level</span>
@@ -1033,7 +1033,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                   onClick={() => onCombatEnd("leave", null)}
                 >
                   <span className="button-key">L</span>
-                  <span className="button-text">leave Streets</span>
+                  <span className="button-text">eave for Streets</span>
                 </div>
               </div>
             </div>

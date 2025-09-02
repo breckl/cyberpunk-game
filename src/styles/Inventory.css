@@ -68,10 +68,6 @@
   border-radius: 5px;
 }
 
-.equipped-items {
-  margin-bottom: 30px;
-}
-
 .equipped-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -203,7 +199,22 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .inventory-screen {
-    padding: 10px;
+    padding: 0;
+    height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .mobile-back-row {
+    display: block;
+  }
+
+  .inventory-header {
+    padding: 20px;
+    margin-bottom: 0;
+  }
+
+  .desktop-only {
+    display: none !important;
   }
 
   .menu-header {
@@ -212,9 +223,63 @@
 
   .item-grid {
     grid-template-columns: 1fr;
+    padding: 0 20px;
   }
 
   .equipped-grid {
     grid-template-columns: 1fr;
+    padding: 0 20px;
   }
+
+  .inventory-equipped-items {
+    padding: 0 20px;
+    margin-bottom: 30px;
+  }
+
+  .inventory-content {
+    padding: 0 20px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-back-row {
+    display: none;
+  }
+}
+
+/* Desktop Navigation Buttons - Similar to Combat Buttons */
+.header-buttons .back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+.header-buttons .back-button:hover {
+  transform: translateY(-2px);
+  border-color: var(--neon-pink);
+  background: rgba(255, 0, 255, 0.1);
+}
+
+.header-buttons .back-button:active {
+  transform: translateY(0);
+}
+
+.header-buttons .back-button .key {
+  background: #8c008c;
+  border-radius: 5px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  height: 30px;
+  width: 30px;
+  font-size: 1.1rem;
 }

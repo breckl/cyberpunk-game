@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import market from "../data/market";
 import "../styles/Market.css";
 import { getCurrentLevel } from "../data/levels.js";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   const [selectedTab, setSelectedTab] = useState("weapons");
@@ -39,20 +40,8 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     audio.play().catch((e) => console.log("Audio play failed:", e));
   };
 
-  // Helper function to find item by ID from market data
-  const findItemById = (itemId) => {
-    // Search through all market categories
-    const allItems = [
-      ...Object.values(market.weapons).flat(),
-      ...market.armor,
-      ...market.cyberware,
-      ...market.netgear,
-    ];
-    return allItems.find((item) => item.id === itemId);
-  };
-
   const renderTabs = () => {
-    const categories = ["weapons", "armor", "cyberware", "netgear"];
+    const categories = ["weapons", "armor"];
 
     return (
       <div className="inventory-tabs">
@@ -380,10 +369,6 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
         );
       case "armor":
         return renderItemList(market.armor, "ARMOR");
-      case "cyberware":
-        return renderItemList(market.cyberware, "CYBERWARE");
-      case "netgear":
-        return renderItemList(market.netgear, "NETRUNNER GEAR");
       default:
         // Get all weapons and sort by price for default view
         const defaultWeapons = Object.values(market.weapons).flat();
@@ -396,14 +381,25 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
 
   return (
     <div className="market">
+      {/* Mobile Back Button Row */}
+      <div className="mobile-back-row">
+        <button className="mobile-back-button" onClick={onExit}>
+          <FaArrowLeft />
+          Back
+        </button>
+      </div>
+
       <div className="market-header">
         <h2>Market</h2>
         <div className="header-buttons">
-          <span className="back-button" onClick={() => onNavigate("inventory")}>
-            <span className="key">(I)</span>nventory
+          <span
+            className="back-button desktop-only"
+            onClick={() => onNavigate("inventory")}
+          >
+            <span className="key">I</span>nventory
           </span>
-          <span className="back-button" onClick={onExit}>
-            <span className="key">(B)</span>ack
+          <span className="back-button desktop-only" onClick={onExit}>
+            <span className="key">B</span>ack
           </span>
         </div>
       </div>
