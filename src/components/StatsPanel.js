@@ -4,7 +4,6 @@ import levels, {
   getCurrentLevel,
   getNextLevelXP,
   getXPProgress,
-  getLevelUpRewards,
 } from "../data/levels.js";
 
 function StatsPanel({
@@ -20,12 +19,6 @@ function StatsPanel({
     x: 0,
     y: 0,
   });
-  const [buttonFillState, setButtonFillState] = useState({
-    isFilling: false,
-    isFilled: false,
-    fillProgress: 0,
-  });
-  const [isHovering, setIsHovering] = useState(false);
 
   if (!character) return null;
 
@@ -286,23 +279,6 @@ function StatsPanel({
             )?.name || "(None)"}
           </span>
         </div>
-        {/*<div className="stat">
-          <label>Cyberware</label>
-          <span
-            className="equipped-item"
-            onMouseEnter={(e) => {
-              const item = character.inventory?.find(
-                (item) => item.type === "cyberware" && item.equipped
-              );
-              if (item) showTooltip(e, item);
-            }}
-            onMouseLeave={hideTooltip}
-          >
-            {character.inventory?.find(
-              (item) => item.type === "cyberware" && item.equipped
-            )?.name || "(None)"}
-          </span>
-        </div>*/}
       </div>
 
       <div className="credits">

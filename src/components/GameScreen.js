@@ -15,7 +15,7 @@ import ChibaCityMenu from "./menus/ChibaCityMenu";
 import NinseiStripMenu from "./menus/NinseiStripMenu";
 import CorporateDistrictMenu from "./menus/CorporateDistrictMenu";
 import GlobalMenu from "./GlobalMenu";
-import { FaBars, FaUser } from "react-icons/fa";
+import { FaBars } from "react-icons/fa";
 
 function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
   // Single screen state instead of multiple booleans

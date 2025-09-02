@@ -322,4 +322,4 @@ class CombatSystem {
   }
 }
 
-module.exports = CombatSystem;
+export default CombatSystem;

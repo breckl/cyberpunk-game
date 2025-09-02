@@ -178,7 +178,6 @@ export class ProgressionCalculator {
 
     // Add equipment bonuses
     const playerTotalAttack = player.attack + (playerWeapon?.damage || 0);
-    const playerTotalDefense = player.defense + (playerArmor?.defense || 0);
 
     // Combat calculations with accuracy modifiers
     const playerDamagePerRound = playerTotalAttack * 0.8; // 80% accuracy

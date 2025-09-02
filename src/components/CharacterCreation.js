@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../styles/CharacterCreation.css";
 import { getLevelInfo } from "../data/levels.js";
 
@@ -41,7 +41,7 @@ function CharacterCreation({ onCreateCharacter }) {
   };
 
   // Handle confirmation via clicks
-  const handleConfirm = () => {
+  const handleConfirm = useCallback(() => {
     const character = {
       name: name.trim(),
       class: selectedClass.name,
@@ -51,7 +51,7 @@ function CharacterCreation({ onCreateCharacter }) {
       inventory: [],
     };
     onCreateCharacter(character);
-  };
+  }, [name, selectedClass, onCreateCharacter]);
 
   const handleStartOver = () => {
     setStep("class");
@@ -74,7 +74,7 @@ function CharacterCreation({ onCreateCharacter }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [step, selectedClass, name, onCreateCharacter]);
+  }, [step, handleConfirm]);
 
   const handleNameSubmit = (e) => {
     e.preventDefault();
