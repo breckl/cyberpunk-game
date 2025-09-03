@@ -38,8 +38,9 @@
 
 .menu-button {
   background: transparent;
-  border: 2px solid var(--neon-green);
+  border: 2px solid var(--neon-pink);
   color: var(--neon-green);
+  font-weight: bold;
   padding: 1rem;
   font-family: "Share Tech Mono", monospace;
   font-size: 1.2rem;

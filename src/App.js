@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./styles/App.css";
 import MainMenu from "./components/MainMenu";
-import CharacterCreation from "./components/CharacterCreation";
 import GameScreen from "./components/GameScreen";
 import { saveCharacter, loadCharacter } from "./utils/localStorage";
 
 function App() {
   const [gameState, setGameState] = useState({
-    screen: "main-menu", // main-menu, character-creation, game
+    screen: "main-menu", // main-menu, game
     character: null,
     location: "streets",
     gameLog: [],
@@ -21,31 +20,28 @@ function App() {
         ...prev,
         character: savedCharacter,
         screen: "game",
-        gameLog: [
-          `Welcome back to Night City, ${savedCharacter.name}. Your journey continues...`,
-        ],
+        gameLog: [`Welcome back to Night City. Your journey continues...`],
       }));
     }
   }, []);
 
   const handleStartGame = () => {
-    setGameState((prev) => ({
-      ...prev,
-      screen: "character-creation",
-    }));
-  };
+    // Create default character without class/name selection
+    const defaultCharacter = {
+      level: 1,
+      experience: 0,
+      credits: 25,
+      inventory: [],
+    };
 
-  const handleCreateCharacter = (character) => {
     // Save character to localStorage
-    saveCharacter(character);
+    saveCharacter(defaultCharacter);
 
     setGameState((prev) => ({
       ...prev,
       screen: "game",
-      character: character,
-      gameLog: [
-        `Welcome to Night City, ${character.name}. Your journey begins...`,
-      ],
+      character: defaultCharacter,
+      gameLog: [`Welcome to Night City. Your journey begins...`],
     }));
   };
 
@@ -63,8 +59,6 @@ function App() {
     switch (gameState.screen) {
       case "main-menu":
         return <MainMenu onStartGame={handleStartGame} />;
-      case "character-creation":
-        return <CharacterCreation onCreateCharacter={handleCreateCharacter} />;
       case "game":
         return (
           <GameScreen

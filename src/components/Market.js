@@ -8,6 +8,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   const [selectedTab, setSelectedTab] = useState("weapons");
   const [localCharacter, setLocalCharacter] = useState(character);
   const [confirmingPurchase, setConfirmingPurchase] = useState(null);
+  const [confirmingEquip, setConfirmingEquip] = useState(null);
 
   // Update local character when prop changes
   useEffect(() => {
@@ -132,7 +133,13 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     console.log("Final character state:", updatedCharacter);
 
     onUpdateCharacter(updatedCharacter);
+    setLocalCharacter(updatedCharacter);
     setConfirmingPurchase(null);
+
+    // Show equip confirmation for weapons and armor
+    if (itemWithType.type === "weapon" || itemWithType.type === "armor") {
+      setConfirmingEquip(itemWithType);
+    }
   };
 
   const confirmSell = (item) => {
@@ -171,6 +178,50 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
 
   const cancelPurchase = () => {
     setConfirmingPurchase(null);
+  };
+
+  const handleEquip = (item) => {
+    let updatedInventory = [...localCharacter.inventory];
+
+    if (item.equipped) {
+      // Unequip the item
+      updatedInventory = updatedInventory.map((invItem) => {
+        if (invItem.id === item.id) {
+          return { ...invItem, equipped: false };
+        }
+        return invItem;
+      });
+    } else {
+      // Unequip any items of the same type and equip this one
+      updatedInventory = updatedInventory.map((invItem) => {
+        if (invItem.type === item.type && invItem.id !== item.id) {
+          return { ...invItem, equipped: false };
+        }
+        if (invItem.id === item.id) {
+          return { ...invItem, equipped: true };
+        }
+        return invItem;
+      });
+    }
+
+    const updatedCharacter = {
+      ...localCharacter,
+      inventory: updatedInventory,
+    };
+
+    onUpdateCharacter(updatedCharacter);
+    setLocalCharacter(updatedCharacter);
+    setConfirmingEquip(null);
+  };
+
+  const confirmEquip = () => {
+    if (confirmingEquip) {
+      handleEquip(confirmingEquip);
+    }
+  };
+
+  const cancelEquip = () => {
+    setConfirmingEquip(null);
   };
 
   const renderItemList = (items, categoryName) => (
@@ -276,6 +327,27 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
             </button>
             <button className="cancel-button" onClick={cancelPurchase}>
               No
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderEquipConfirmationDialog = () => {
+    if (!confirmingEquip) return null;
+
+    return (
+      <div className="confirmation-overlay">
+        <div className="confirmation-dialog">
+          <h3>Equip Item?</h3>
+          <p>Do you want to equip {confirmingEquip.name}?</p>
+          <div className="confirmation-buttons">
+            <button className="confirm-button" onClick={confirmEquip}>
+              Yes, Equip
+            </button>
+            <button className="cancel-button" onClick={cancelEquip}>
+              No, Keep in Inventory
             </button>
           </div>
         </div>
@@ -406,6 +478,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
       {renderTabs()}
       <div className="market-content">{renderContent()}</div>
       {renderConfirmationDialog()}
+      {renderEquipConfirmationDialog()}
     </div>
   );
 }

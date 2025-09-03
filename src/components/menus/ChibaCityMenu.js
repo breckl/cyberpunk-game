@@ -33,12 +33,12 @@ function ChibaCityMenu({ character, onNavigate }) {
             {option.key === "divider" ? (
               <div className="option-divider"></div>
             ) : (
-              <span
-                className="menu-item clickable"
+              <button
+                className="menu-button"
                 onClick={() => onNavigate(option.key)}
               >
                 {option.label}
-              </span>
+              </button>
             )}
           </div>
         ))}

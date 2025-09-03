@@ -24,12 +24,12 @@ function NetherworldMenu({ character, onNavigate }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span
-              className="menu-item clickable"
+            <button
+              className="menu-button"
               onClick={() => onNavigate(option.key)}
             >
               {option.label}
-            </span>
+            </button>
           </div>
         ))}
       </div>

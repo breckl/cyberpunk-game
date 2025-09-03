@@ -14,7 +14,7 @@ function StreetsMenu({
     options: [
       { key: "inventory", label: "Inventory" },
       { key: "market", label: "Market" },
-      { key: "travel", label: "Travel" },
+      // { key: "travel", label: "Travel" },
       { key: "combat", label: "Combat Zone" },
       { key: "help", label: "Help" },
     ],
@@ -31,14 +31,14 @@ function StreetsMenu({
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span
-              className="menu-item clickable"
+            <button
+              className="menu-button"
               onClick={() => {
                 onNavigate(option.key);
               }}
             >
               {option.label}
-            </span>
+            </button>
           </div>
         ))}
       </div>

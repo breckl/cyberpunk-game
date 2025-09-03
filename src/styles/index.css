@@ -72,7 +72,7 @@ h3 {
 }
 
 .white-text {
-  color: var(--white-text) !important;
+  color: var(--white-text);
 }
 
 :root {
@@ -343,20 +343,20 @@ h3 {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--dark-green-bg);
-  color: var(--neon-green);
-  padding: 10px 15px;
+  background: transparent;
+  border: 0;
+  color: #00ff41;
+  padding: 10px 0 18px 0;
   cursor: pointer;
+  font-size: 1rem;
   font-family: "Share Tech Mono", monospace;
-  font-size: 14px;
   transition: all 0.2s ease;
-  border: none;
   border-radius: 4px;
 }
 
 .mobile-back-button:hover {
-  background: var(--neon-green);
-  color: black;
+  background: rgba(0, 255, 65, 0.1);
+  box-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
 }
 
 .mobile-back-row {
@@ -368,6 +368,11 @@ h3 {
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
+  /* Increase base font size for mobile across entire app */
+  body {
+    font-size: 1rem;
+  }
+
   .location-screen {
     padding: 20px;
     max-width: 100%;
@@ -375,7 +380,9 @@ h3 {
 
   .options-grid {
     width: 100%;
-    padding: 15px;
+    padding: 0;
+    gap: 0.75rem;
+    background: transparent;
   }
 
   .option-divider {
@@ -383,11 +390,97 @@ h3 {
   }
 
   .location-description {
-    font-size: 14px;
     line-height: 1.5;
+    font-size: 1rem;
   }
 
   .location-header h2 {
     font-size: 1.3rem;
+  }
+
+  /* Mobile button styles for streets menu */
+  .menu-button {
+    width: 100%;
+    background: transparent;
+    border: 1px solid var(--neon-pink);
+    color: #00ff41;
+    padding: 12px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+    transition: all 0.2s ease;
+    display: block;
+  }
+
+  .menu-button:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+  }
+
+  .menu-button:active {
+    background: rgba(0, 255, 65, 0.2);
+  }
+
+  /* Hide mobile dropdown on desktop */
+  .help-mobile-dropdown {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .help-mobile-dropdown {
+    display: none;
+  }
+
+  /* Desktop header buttons for help page */
+  .location-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+  }
+
+  .header-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+  }
+
+  .header-buttons .back-button {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+
+  .header-buttons .back-button:hover {
+    transform: translateY(-2px);
+    border-color: var(--neon-pink);
+    background: rgba(255, 0, 255, 0.1);
+  }
+
+  .header-buttons .back-button:active {
+    transform: translateY(0);
+  }
+
+  .header-buttons .back-button .key {
+    background: #8c008c;
+    border-radius: 5px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    height: 30px;
+    width: 30px;
+    font-size: 1.1rem;
   }
 }

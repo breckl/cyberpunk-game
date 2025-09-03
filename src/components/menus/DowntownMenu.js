@@ -25,8 +25,8 @@ function DowntownMenu({ character, onNavigate, onShowInventory }) {
       <div className="options-grid">
         {location.options.map((option) => (
           <div key={option.key} className="option-row">
-            <span
-              className="menu-item clickable"
+            <button
+              className="menu-button"
               onClick={() => {
                 if (option.key === "inventory") {
                   onShowInventory();
@@ -36,7 +36,7 @@ function DowntownMenu({ character, onNavigate, onShowInventory }) {
               }}
             >
               {option.label}
-            </span>
+            </button>
           </div>
         ))}
       </div>

@@ -1294,10 +1294,10 @@ export const getLevelBasedEnemy = (playerLevel) => {
   // Define probability distribution for enemy levels
   const levelProbabilities = {
     [playerLevel - 2]: 5, // 5% chance for 2 levels below
-    [playerLevel - 1]: 20, // 20% chance for 1 level below
+    [playerLevel - 1]: 30, // 20% chance for 1 level below
     [playerLevel]: 50, // 50% chance for same level
-    [playerLevel + 1]: 20, // 20% chance for 1 level above
-    [playerLevel + 2]: 5, // 5% chance for 2 levels above
+    [playerLevel + 1]: 15, // 20% chance for 1 level above
+    [playerLevel + 2]: 0, // 5% chance for 2 levels above
   };
 
   // Generate random number for probability check

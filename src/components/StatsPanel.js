@@ -149,7 +149,7 @@ function StatsPanel({
           >
             Market
           </div>
-          <div
+          {/*<div
             className="nav-item"
             onClick={() => {
               onNavigate("travel");
@@ -157,7 +157,7 @@ function StatsPanel({
             }}
           >
             Travel
-          </div>
+          </div>*/}
           <div
             className="nav-item"
             onClick={() => {
@@ -171,9 +171,7 @@ function StatsPanel({
       )}
 
       <div className="character-info">
-        <h2>{character.name}</h2>
-        <div className="class-info">{character.class}</div>
-        <div className="level-info">Level {currentLevel}</div>
+        <h2>Level {currentLevel}</h2>
 
         {/* XP Progress Bar */}
         <div className="xp-progress">

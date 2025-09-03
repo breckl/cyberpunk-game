@@ -23,7 +23,7 @@
 .player-stats,
 .enemy-stats,
 .combat-controls {
-  background: var(--extra-dark-green-bg);
+  background: var(--dark-green-bg);
   border-radius: 4px;
   padding: 1.5rem 2rem;
 }
@@ -102,8 +102,8 @@
   flex: 1;
   overflow-y: auto;
   margin-bottom: 2rem;
-  line-height: 1.6;
-  padding: 2rem;
+  line-height: 1.4;
+  padding: 1.5rem;
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -112,6 +112,7 @@
   .combat-log {
     order: 1;
     margin-bottom: 0;
+    padding: 1rem 1.1rem;
   }
 }
 
@@ -295,18 +296,35 @@
   cursor: pointer;
   display: flex;
   gap: 0.35rem;
-  font-family: "Share Tech Mono", monospace;
   font-size: 1rem;
   transition: all 0.2s ease;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  font-weight: bold;
+  min-width: 50%;
 }
 
 .combat-button:hover {
   transform: translateY(-2px);
-  color: white;
 }
 
 .combat-button:active {
   transform: translateY(0);
+}
+
+.attack-button {
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+}
+
+.run-button {
+  border: 1px solid var(--neon-red);
+  color: var(--neon-red);
+}
+
+.leave-button {
+  border: 1px solid var(--neon-blue);
+  color: var(--neon-blue);
 }
 
 .button-key {
@@ -377,7 +395,6 @@
 .damage-message {
   color: #ff0000;
   font-weight: bold;
-  margin-left: 1rem;
 }
 
 /* Fade-in animation for combat messages */
@@ -419,6 +436,7 @@
   border-bottom: 5px solid var(--dark-green-bg);
   padding-bottom: 15px;
   margin-bottom: 15px;
+  font-size: 0.9rem;
 }
 
 .lose-message {
@@ -433,6 +451,15 @@
   font-weight: bold;
 }
 
+/* Combat credits display styling */
+.combat-credits-display {
+  background: var(--dark-green-bg);
+  border-radius: 4px;
+  padding: 1rem 1.5rem;
+  text-align: left;
+  margin-bottom: 0;
+}
+
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .combat-layout {
@@ -443,17 +470,30 @@
 
   .combat-screen .combat-stats-panel {
     width: 100%;
-    flex-direction: row;
+    flex-direction: column;
     gap: 0.5rem;
     padding: 1rem;
     background: rgba(0, 0, 0, 0.8);
-    border-top: 1px solid var(--border-color);
     order: 2;
+  }
+
+  /* Stats row container for mobile */
+  .stats-row {
+    display: flex;
+    gap: 0.5rem;
+    width: 100%;
   }
 
   .player-stats,
   .enemy-stats {
     flex: 1;
+    padding: 1rem;
+    margin: 0;
+  }
+
+  /* Credits display full width on mobile */
+  .combat-credits-display {
+    width: 100%;
     padding: 1rem;
     margin: 0;
   }
@@ -469,11 +509,11 @@
   }
 
   .stat-label {
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 
   .stat-value {
-    font-size: 0.75rem;
+    font-size: 1rem;
   }
 
   .hp-bar {
@@ -487,24 +527,19 @@
   }
 
   .combat-options {
-    justify-content: left;
-    margin-top: 0.5rem;
+    gap: 0.5rem;
+    margin-top: 1rem;
   }
 
-  /* Results phase buttons - stack vertically */
-  .next-fight-button,
-  .leave-button {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-
-  .next-fight-button + .leave-button {
-    margin-top: 0.5rem;
-  }
-
+  /* All combat buttons full width on mobile */
   .combat-button {
+    width: 100%;
     font-size: 1.1rem;
-    padding: 0rem 2.5rem 0.5rem 0rem;
+    padding: 1.25rem 1rem;
+    margin-bottom: 0.5rem;
+    justify-content: center;
+    border-radius: 5px;
+    font-weight: bold;
   }
 
   .button-key {
@@ -514,7 +549,7 @@
   }
 
   .combat-message {
-    font-size: 0.9rem;
+    font-size: 1rem;
     margin-bottom: 0.3rem;
   }
 

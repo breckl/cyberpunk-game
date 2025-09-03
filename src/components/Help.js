@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 
 function Help({ onExit }) {
   const [activeTopic, setActiveTopic] = useState("getting-started");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const helpTopics = [
     { key: "getting-started", label: "Getting Started" },
@@ -352,14 +354,62 @@ function Help({ onExit }) {
     },
   };
 
+  const handleTopicSelect = (topicKey) => {
+    setActiveTopic(topicKey);
+    setIsDropdownOpen(false);
+  };
+
+  const currentTopic = helpTopics.find((topic) => topic.key === activeTopic);
+
   return (
     <div className="location-screen">
-      <div className="location-header">
-        <h2>Help & Instructions</h2>
+      {/* Mobile Back Button Row */}
+      <div className="mobile-back-row">
+        <button className="mobile-back-button" onClick={onExit}>
+          <FaArrowLeft />
+          Back
+        </button>
       </div>
 
+      <div className="location-header">
+        <h2>Help & Instructions</h2>
+        <div className="header-buttons">
+          <span className="back-button desktop-only" onClick={onExit}>
+            <span className="key">B</span>ack
+          </span>
+        </div>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      <div className="help-mobile-dropdown">
+        <button
+          className="help-dropdown-button"
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
+          <span>{currentTopic?.label || "Select Topic"}</span>
+          <span className="dropdown-arrow">{isDropdownOpen ? "▲" : "▼"}</span>
+        </button>
+
+        {isDropdownOpen && (
+          <div className="help-dropdown-menu">
+            {helpTopics.map((topic) => (
+              <button
+                key={topic.key}
+                className={`help-dropdown-item ${
+                  activeTopic === topic.key ? "active" : ""
+                }`}
+                onClick={() => handleTopicSelect(topic.key)}
+              >
+                {topic.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Desktop Sidebar */}
       <div className="help-layout">
-        <div className="help-sidebar">
+        <div className="help-sidebar desktop-only">
           <div className="help-topics">
             {helpTopics.map((topic) => (
               <div key={topic.key} className="help-topic">
@@ -381,14 +431,6 @@ function Help({ onExit }) {
             <h3>{helpContent[activeTopic].title}</h3>
             <div className="help-text">{helpContent[activeTopic].content}</div>
           </div>
-        </div>
-      </div>
-
-      <div className="options-grid">
-        <div className="option-row">
-          <span className="menu-item clickable" onClick={onExit}>
-            <span className="key">B</span>ack to Game
-          </span>
         </div>
       </div>
     </div>

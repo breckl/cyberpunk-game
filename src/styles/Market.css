@@ -1,9 +1,9 @@
 .market {
-  height: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: "Share Tech Mono", monospace;
-  overflow-y: auto;
+  overflow: hidden;
   padding: 1rem;
   max-width: 1200px;
   margin: 0 auto;
@@ -362,7 +362,7 @@
 
   .item-list {
     grid-template-columns: 1fr;
-    padding: 0 20px;
+    padding: 0;
     gap: 1rem;
   }
 
@@ -373,16 +373,37 @@
 
   .market-content {
     padding: 0 20px;
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 
   .inventory-tabs {
     padding: 0 20px;
+  }
+
+  /* Make purchase and sell buttons full width on mobile */
+  .purchase-button,
+  .sell-button {
+    width: 100%;
+    flex: none;
+  }
+
+  .item-buttons {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
 @media (min-width: 769px) {
   .mobile-back-row {
     display: none;
+  }
+
+  .market-content {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 

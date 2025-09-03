@@ -186,9 +186,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               setIsRevealingMessages(false);
               setShowCombatOptions(true);
             }
-          }, 500); // Wait 0.5s after last message before completing
+          }, 200); // Wait 0.5s after last message before completing
         }
-      }, index * 500); // 0.5s delay between each message
+      }, index * 200); // 0.5s delay between each message
     });
   };
 
@@ -223,7 +223,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     // Prepare combat messages
     const playerAction = getPlayerActionDescription();
-    const playerMessage = `You ${playerAction} and hit ${enemy.name} for ${finalDamageRounded} damage!`;
+    const playerMessage = `You ${playerAction}!`;
     console.log("DEBUG - playerAction:", playerAction);
     console.log("DEBUG - playerMessage:", playerMessage);
 
@@ -295,7 +295,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         ];
     }
 
-    const enemyMessage = `${enemy.name} ${attackText} for ${enemyFinalDamageRounded} damage!`;
+    const enemyMessage = `${enemy.name} ${attackText}!`;
 
     if (newPlayerHp <= 0.01) {
       // Player defeated
@@ -478,45 +478,56 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           <div className="combat-stats-panel">
-            {/* Player Stats */}
-            <div className="player-stats mobile-hide-weapon">
-              <h3 className="stats-header">YOUR STATS</h3>
-              <div className="stat-row">
-                <span className="stat-label">Level</span>
-                <span className="stat-value">{currentLevel}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Weapon</span>
-                <span className="stat-value">{playerWeapon.name}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Attack</span>
-                <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Armor</span>
-                <span className="stat-value">
-                  {equippedArmor ? equippedArmor.name : "None"}
-                </span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Defense</span>
-                <span className="stat-value">{totalDefense.toFixed(1)}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">HP</span>
-                <span className="stat-value">
-                  {Math.round(playerHp)}/{playerTotalHp}
-                </span>
-              </div>
-              <div className="hp-bar-container">
-                <div className="hp-bar player-hp-bar">
-                  <div
-                    className="hp-fill player-hp-fill"
-                    style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                  ></div>
+            {/* Stats Row - Player and Enemy side by side on mobile */}
+            <div className="stats-row">
+              {/* Player Stats */}
+              <div className="player-stats mobile-hide-weapon">
+                <h3 className="stats-header">YOUR STATS</h3>
+                <div className="stat-row">
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{currentLevel}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{playerWeapon.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {totalAttack.toFixed(1)} ±2
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">
+                    {equippedArmor ? equippedArmor.name : "None"}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(playerHp)}/{playerTotalHp}
+                  </span>
+                </div>
+                <div className="hp-bar-container">
+                  <div className="hp-bar player-hp-bar">
+                    <div
+                      className="hp-fill player-hp-fill"
+                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
+                    ></div>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            {/* Credits Display - Full width row */}
+            <div className="combat-credits-display">
+              <span className="stat-label">Credit: </span>
+              <span className="stat-value">{character.credits}</span>
             </div>
           </div>
 
@@ -550,123 +561,134 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           <div className="combat-stats-panel">
-            {/* Player Stats */}
-            <div className="player-stats mobile-hide-weapon">
-              <h3 className="stats-header">YOUR STATS</h3>
-              <div className="stat-row">
-                <span className="stat-label">Level</span>
-                <span className="stat-value">{currentLevel}</span>
+            {/* Stats Row - Player and Enemy side by side on mobile */}
+            <div className="stats-row">
+              {/* Player Stats */}
+              <div className="player-stats mobile-hide-weapon">
+                <h3 className="stats-header">YOUR STATS</h3>
+                <div className="stat-row">
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{currentLevel}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{playerWeapon.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {totalAttack.toFixed(1)} ±2
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">
+                    {equippedArmor ? equippedArmor.name : "None"}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(playerHp)}/{playerTotalHp}
+                  </span>
+                </div>
+                <div className="hp-bar-container">
+                  <div className="hp-bar player-hp-bar">
+                    <div
+                      className="hp-fill player-hp-fill"
+                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
               </div>
-              <div className="stat-row">
-                <span className="stat-label">Weapon</span>
-                <span className="stat-value">{playerWeapon.name}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Attack</span>
-                <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Armor</span>
-                <span className="stat-value">
-                  {equippedArmor ? equippedArmor.name : "None"}
-                </span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Defense</span>
-                <span className="stat-value">{totalDefense.toFixed(1)}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">HP</span>
-                <span className="stat-value">
-                  {Math.round(playerHp)}/{playerTotalHp}
-                </span>
-              </div>
-              <div className="hp-bar-container">
-                <div className="hp-bar player-hp-bar">
-                  <div
-                    className="hp-fill player-hp-fill"
-                    style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                  ></div>
+
+              {/* Enemy Stats */}
+              <div className="enemy-stats mobile-hide-weapon">
+                <h3 className="stats-header">
+                  <TypeAnimation
+                    sequence={[enemy.name.toUpperCase()]}
+                    wrapper="span"
+                    speed={50}
+                    cursor={false}
+                  />
+                </h3>
+                <div
+                  className="stat-row fade-in"
+                  style={{ animationDelay: "0.5s" }}
+                >
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{enemy.level}</span>
+                </div>
+                <div
+                  className="stat-row fade-in"
+                  style={{ animationDelay: "1s" }}
+                >
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{enemy.weapon.name}</span>
+                </div>
+                <div
+                  className="stat-row fade-in"
+                  style={{ animationDelay: "1.5s" }}
+                >
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {(
+                      (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
+                    ).toFixed(1)}{" "}
+                    ±2
+                  </span>
+                </div>
+                <div
+                  className="stat-row fade-in"
+                  style={{ animationDelay: "2s" }}
+                >
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">{enemy.armor.name}</span>
+                </div>
+                <div
+                  className="stat-row fade-in"
+                  style={{ animationDelay: "2.5s" }}
+                >
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">
+                    {(levels[enemy.level]?.defense || 0).toFixed(1)}
+                  </span>
+                </div>
+                <div
+                  className="stat-row fade-in"
+                  style={{ animationDelay: "3s" }}
+                >
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
+                  </span>
+                </div>
+                <div
+                  className="hp-bar-container fade-in"
+                  style={{ animationDelay: "3s" }}
+                >
+                  <div className="hp-bar enemy-hp-bar">
+                    <div
+                      className="hp-fill enemy-hp-fill"
+                      style={{
+                        width: `${
+                          (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Enemy Stats */}
-            <div className="enemy-stats mobile-hide-weapon">
-              <h3 className="stats-header">
-                <TypeAnimation
-                  sequence={[enemy.name.toUpperCase()]}
-                  wrapper="span"
-                  speed={50}
-                  cursor={false}
-                />
-              </h3>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "0.5s" }}
-              >
-                <span className="stat-label">Level</span>
-                <span className="stat-value">{enemy.level}</span>
-              </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "1s" }}
-              >
-                <span className="stat-label">Weapon</span>
-                <span className="stat-value">{enemy.weapon.name}</span>
-              </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "1.5s" }}
-              >
-                <span className="stat-label">Attack</span>
-                <span className="stat-value">
-                  {(
-                    (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                  ).toFixed(1)}{" "}
-                  ±2
-                </span>
-              </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "2s" }}
-              >
-                <span className="stat-label">Armor</span>
-                <span className="stat-value">{enemy.armor.name}</span>
-              </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "2.5s" }}
-              >
-                <span className="stat-label">Defense</span>
-                <span className="stat-value">
-                  {(levels[enemy.level]?.defense || 0).toFixed(1)}
-                </span>
-              </div>
-              <div
-                className="stat-row fade-in"
-                style={{ animationDelay: "3s" }}
-              >
-                <span className="stat-label">HP</span>
-                <span className="stat-value">
-                  {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
-                </span>
-              </div>
-              <div
-                className="hp-bar-container fade-in"
-                style={{ animationDelay: "3s" }}
-              >
-                <div className="hp-bar enemy-hp-bar">
-                  <div
-                    className="hp-fill enemy-hp-fill"
-                    style={{
-                      width: `${
-                        (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                      }%`,
-                    }}
-                  ></div>
-                </div>
-              </div>
+            {/* Credits Display - Full width row */}
+            <div className="combat-credits-display">
+              <span className="stat-label">Credit: </span>
+              <span className="stat-value">{character.credits}</span>
             </div>
           </div>
 
@@ -701,95 +723,106 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           <div className="combat-stats-panel">
-            {/* Player Stats */}
-            <div className="player-stats mobile-hide-weapon">
-              <h3 className="stats-header">YOUR STATS</h3>
-              <div className="stat-row">
-                <span className="stat-label">Level</span>
-                <span className="stat-value">{currentLevel}</span>
+            {/* Stats Row - Player and Enemy side by side on mobile */}
+            <div className="stats-row">
+              {/* Player Stats */}
+              <div className="player-stats mobile-hide-weapon">
+                <h3 className="stats-header">YOUR STATS</h3>
+                <div className="stat-row">
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{currentLevel}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{playerWeapon.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {totalAttack.toFixed(1)} ±2
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">
+                    {equippedArmor ? equippedArmor.name : "None"}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(playerHp)}/{playerTotalHp}
+                  </span>
+                </div>
+                <div className="hp-bar-container">
+                  <div className="hp-bar player-hp-bar">
+                    <div
+                      className="hp-fill player-hp-fill"
+                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
               </div>
-              <div className="stat-row">
-                <span className="stat-label">Weapon</span>
-                <span className="stat-value">{playerWeapon.name}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Attack</span>
-                <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Armor</span>
-                <span className="stat-value">
-                  {equippedArmor ? equippedArmor.name : "None"}
-                </span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Defense</span>
-                <span className="stat-value">{totalDefense.toFixed(1)}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">HP</span>
-                <span className="stat-value">
-                  {Math.round(playerHp)}/{playerTotalHp}
-                </span>
-              </div>
-              <div className="hp-bar-container">
-                <div className="hp-bar player-hp-bar">
-                  <div
-                    className="hp-fill player-hp-fill"
-                    style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                  ></div>
+
+              {/* Enemy Stats */}
+              <div className="enemy-stats mobile-hide-weapon">
+                <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
+                <div className="stat-row">
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{enemy.level}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{enemy.weapon.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {(
+                      (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
+                    ).toFixed(1)}{" "}
+                    ±2
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">{enemy.armor.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">
+                    {(levels[enemy.level]?.defense || 0).toFixed(1)}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
+                  </span>
+                </div>
+                <div className="hp-bar-container">
+                  <div className="hp-bar enemy-hp-bar">
+                    <div
+                      className="hp-fill enemy-hp-fill"
+                      style={{
+                        width: `${
+                          (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Enemy Stats */}
-            <div className="enemy-stats mobile-hide-weapon">
-              <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
-              <div className="stat-row">
-                <span className="stat-label">Level</span>
-                <span className="stat-value">{enemy.level}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Weapon</span>
-                <span className="stat-value">{enemy.weapon.name}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Attack</span>
-                <span className="stat-value">
-                  {(
-                    (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                  ).toFixed(1)}{" "}
-                  ±2
-                </span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Armor</span>
-                <span className="stat-value">{enemy.armor.name}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Defense</span>
-                <span className="stat-value">
-                  {(levels[enemy.level]?.defense || 0).toFixed(1)}
-                </span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">HP</span>
-                <span className="stat-value">
-                  {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
-                </span>
-              </div>
-              <div className="hp-bar-container">
-                <div className="hp-bar enemy-hp-bar">
-                  <div
-                    className="hp-fill enemy-hp-fill"
-                    style={{
-                      width: `${
-                        (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                      }%`,
-                    }}
-                  ></div>
-                </div>
-              </div>
+            {/* Credits Display - Full width row */}
+            <div className="combat-credits-display">
+              <span className="stat-label">Credit: </span>
+              <span className="stat-value">{character.credits}</span>
             </div>
           </div>
 
@@ -841,13 +874,14 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
               // Check if this is an enemy attack message (contains enemy name)
               if (message.includes(enemy.name)) {
-                const enemyNameEnd = message.indexOf(" ") + 1;
+                const enemyNameEnd =
+                  message.indexOf(enemy.name) + enemy.name.length;
                 const actionText = message.substring(enemyNameEnd);
                 return (
                   <div key={index} className="combat-message">
                     <div className="enemy-attack">
                       <span className="enemy-name">{enemy.name}</span>
-                      <span className="action-text">{" " + actionText}</span>
+                      <span className="action-text">{actionText}</span>
                     </div>
                   </div>
                 );
@@ -869,12 +903,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                     className="combat-button attack-button"
                     onClick={handleAttack}
                   >
-                    <span className="button-key">A</span>
-                    <span className="button-text">TTACK</span>
+                    ATTACK
                   </div>
                   <div className="combat-button run-button" onClick={handleRun}>
-                    <span className="button-key">R</span>
-                    <span className="button-text">UN</span>
+                    RUN
                   </div>
                 </div>
               </div>
@@ -891,64 +923,75 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           <div className="combat-stats-panel">
-            {/* Player Stats */}
-            <div className="player-stats mobile-hide-weapon">
-              <h3 className="stats-header">YOUR STATS</h3>
-              <div className="stat-row">
-                <span className="stat-label">Level</span>
-                <span className="stat-value">{currentLevel}</span>
+            {/* Stats Row - Player and Results side by side on mobile */}
+            <div className="stats-row">
+              {/* Player Stats */}
+              <div className="player-stats mobile-hide-weapon">
+                <h3 className="stats-header">YOUR STATS</h3>
+                <div className="stat-row">
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{currentLevel}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{playerWeapon.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {totalAttack.toFixed(1)} ±2
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">
+                    {equippedArmor ? equippedArmor.name : "None"}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(playerHp)}/{playerTotalHp}
+                  </span>
+                </div>
+                <div className="hp-bar-container">
+                  <div className="hp-bar player-hp-bar">
+                    <div
+                      className="hp-fill player-hp-fill"
+                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
               </div>
-              <div className="stat-row">
-                <span className="stat-label">Weapon</span>
-                <span className="stat-value">{playerWeapon.name}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Attack</span>
-                <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Armor</span>
-                <span className="stat-value">
-                  {equippedArmor ? equippedArmor.name : "None"}
-                </span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">Defense</span>
-                <span className="stat-value">{totalDefense.toFixed(1)}</span>
-              </div>
-              <div className="stat-row">
-                <span className="stat-label">HP</span>
-                <span className="stat-value">
-                  {Math.round(playerHp)}/{playerTotalHp}
-                </span>
-              </div>
-              <div className="hp-bar-container">
-                <div className="hp-bar player-hp-bar">
-                  <div
-                    className="hp-fill player-hp-fill"
-                    style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                  ></div>
+
+              {/* Results Display */}
+              <div className="results-display">
+                <h3 className="stats-header">COMBAT RESULTS</h3>
+                <div className="result-message">
+                  {endResult?.type === "victory" && (
+                    <span className="win-message">VICTORY!</span>
+                  )}
+                  {endResult?.type === "defeat" && (
+                    <span className="lose-message">DEFEAT!</span>
+                  )}
+                  {endResult?.type === "escape" && (
+                    <span className="escape-message">ESCAPED!</span>
+                  )}
+                  {endResult?.type === "initialFlee" && (
+                    <span className="escape-message">ESCAPED!</span>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Results Display */}
-            <div className="results-display">
-              <h3 className="stats-header">COMBAT RESULTS</h3>
-              <div className="result-message">
-                {endResult?.type === "victory" && (
-                  <span className="win-message">VICTORY!</span>
-                )}
-                {endResult?.type === "defeat" && (
-                  <span className="lose-message">DEFEAT!</span>
-                )}
-                {endResult?.type === "escape" && (
-                  <span className="escape-message">ESCAPED!</span>
-                )}
-                {endResult?.type === "initialFlee" && (
-                  <span className="escape-message">ESCAPED!</span>
-                )}
-              </div>
+            {/* Credits Display - Full width row */}
+            <div className="combat-credits-display">
+              <span className="stat-label">Credit: </span>
+              <span className="stat-value">{character.credits}</span>
             </div>
           </div>
 
@@ -1000,7 +1043,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
               // Check if this is an enemy attack message (contains enemy name)
               if (message.includes(enemy.name)) {
-                const enemyNameEnd = message.indexOf(" ") + 1;
+                const enemyNameEnd =
+                  message.indexOf(enemy.name) + enemy.name.length;
                 const actionText = message.substring(enemyNameEnd);
                 return (
                   <div key={index} className="combat-message">
@@ -1022,18 +1066,16 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div className="combat-message">
               <div className="combat-options">
                 <div
-                  className="combat-button next-fight-button"
+                  className="combat-button attack-button"
                   onClick={() => restartCombat()}
                 >
-                  <span className="button-key">N</span>
-                  <span className="button-text">ext Fight</span>
+                  NEXT FIGHT
                 </div>
                 <div
                   className="combat-button leave-button"
                   onClick={() => onCombatEnd("leave", null)}
                 >
-                  <span className="button-key">L</span>
-                  <span className="button-text">eave for Streets</span>
+                  LEAVE COMBAT
                 </div>
               </div>
             </div>

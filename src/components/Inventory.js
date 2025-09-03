@@ -5,6 +5,7 @@ import { FaArrowLeft } from "react-icons/fa";
 function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   const [localCharacter, setLocalCharacter] = useState(character);
   const [selectedTab, setSelectedTab] = useState("all");
+  const [confirmingSell, setConfirmingSell] = useState(null);
 
   // Update local character when prop changes
   useEffect(() => {
@@ -32,6 +33,10 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   };
 
   const handleSell = (item) => {
+    setConfirmingSell(item);
+  };
+
+  const confirmSell = (item) => {
     const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
     const updatedInventory = localCharacter.inventory.filter(
       (invItem) => invItem.id !== item.id
@@ -56,6 +61,12 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     }
 
     onUpdateCharacter(updatedCharacter);
+    setLocalCharacter(updatedCharacter);
+    setConfirmingSell(null);
+  };
+
+  const cancelSell = () => {
+    setConfirmingSell(null);
   };
 
   const handleEquip = (item) => {
@@ -142,12 +153,41 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
 
         <div className="equipped-grid">
           <div className="equipped-slot">
-            <span className="slot-label">Weapon:</span>
+            <span className="slot-label">Weapon</span>
             <span className="slot-item">{equipped.weapon?.name || "None"}</span>
           </div>
           <div className="equipped-slot">
-            <span className="slot-label">Armor:</span>
+            <span className="slot-label">Armor</span>
             <span className="slot-item">{equipped.armor?.name || "None"}</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderConfirmationDialog = () => {
+    if (!confirmingSell) return null;
+
+    const sellPrice = Math.floor(confirmingSell.price * 0.1);
+
+    return (
+      <div className="confirmation-overlay">
+        <div className="confirmation-dialog">
+          <h3>Are you sure?</h3>
+          <p>
+            Do you want to sell {confirmingSell.name} for $
+            {formatCredits(sellPrice)}?
+          </p>
+          <div className="confirmation-buttons">
+            <button
+              className="confirm-button"
+              onClick={() => confirmSell(confirmingSell)}
+            >
+              Yes, Sell
+            </button>
+            <button className="cancel-button" onClick={cancelSell}>
+              No, Keep
+            </button>
           </div>
         </div>
       </div>
@@ -241,11 +281,14 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
       {renderTabs()}
       <div className="inventory-content">
         {localCharacter.inventory.length === 0 ? (
-          <div className="empty-inventory">Your inventory is empty.</div>
+          <div className="empty-inventory">
+            Your inventory is empty. Hit the streets, slacker!
+          </div>
         ) : (
           renderInventoryByType()
         )}
       </div>
+      {renderConfirmationDialog()}
     </div>
   );
 }
