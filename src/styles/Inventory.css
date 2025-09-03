@@ -246,7 +246,7 @@
 
   .item-grid {
     grid-template-columns: 1fr;
-    padding: 0 20px;
+    padding: 0;
   }
 
   .equipped-grid {
@@ -281,6 +281,12 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+  }
+
+  .sell-button,
+  .equip-button {
+    padding: 1.5rem 0.5rem;
+    font-size: 1rem;
   }
 }
 

@@ -438,6 +438,10 @@ h3 {
   .help-mobile-dropdown {
     display: block;
   }
+
+  .item-card:hover {
+    border: 0;
+  }
 }
 
 @media (min-width: 769px) {

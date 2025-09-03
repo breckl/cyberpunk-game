@@ -19,7 +19,7 @@ const enemies = [
       name: "Rusty Knife",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.2, // Scaled down for level 1
       attacks: [
-        "lunges with their rusty knife",
+        "lunges with their knife",
         "makes a desperate slash",
         "stabs wildly",
       ],
@@ -64,11 +64,7 @@ const enemies = [
     weapon: {
       name: "Switchblade",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.7,
-      attacks: [
-        "flicks open their switchblade",
-        "makes a quick stab",
-        "slashes in an arc",
-      ],
+      attacks: ["makes a quick stab", "slashes in an arc"],
     },
   },
   {
@@ -158,7 +154,7 @@ const enemies = [
       name: "Sling Blade",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.3,
       attacks: [
-        "swings their sling blade",
+        "swings their blade",
         "makes a quick strike",
         "darts in and out",
       ],
@@ -166,7 +162,7 @@ const enemies = [
   },
   {
     id: "drunken_chiba_port_sailor",
-    name: "Drunken Chiba Port Sailor",
+    name: "Drunken Sailor",
     description: "Brawler fresh off the docks, sloppy but strong when cornered",
     type: "Thug",
     level: 1,
@@ -181,7 +177,7 @@ const enemies = [
       name: "Broken Bottle",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.6,
       attacks: [
-        "swings their broken bottle",
+        "swings their bottle",
         "makes a drunken charge",
         "throws glass shards",
       ],
@@ -204,7 +200,7 @@ const enemies = [
       name: "Bar Stool Leg",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.2,
       attacks: [
-        "swings the stool leg wildly",
+        "swings a stool leg",
         "charges with drunken rage",
         "throws the broken furniture",
       ],
@@ -227,7 +223,7 @@ const enemies = [
       name: "Rusty Shiv",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.3,
       attacks: [
-        "lunges with their rusty shiv",
+        "lunges with their shiv",
         "makes a desperate slash",
         "stabs wildly",
       ],
@@ -251,7 +247,7 @@ const enemies = [
       name: "Malfunctioning Cyber Fist",
       damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.4,
       attacks: [
-        "swings malfunctioning cyber fist",
+        "swings a cyber fist",
         "makes a glitchy strike",
         "attacks with erratic movements",
       ],
@@ -276,7 +272,7 @@ const enemies = [
       attacks: [
         "lunges with sharpened claws",
         "makes a quick strike",
-        "charges with mechanical precision",
+        "charges with their claws",
       ],
     },
   },
@@ -391,7 +387,7 @@ const enemies = [
       name: "Switchblade",
       damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
       attacks: [
-        "flicks open their switchblade",
+        "flicks their switchblade",
         "makes a quick stab",
         "slashes in an arc",
       ],

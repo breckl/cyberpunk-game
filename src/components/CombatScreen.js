@@ -525,8 +525,20 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
 
             {/* Credits Display - Full width row */}
-            <div className="combat-credits-display">
-              <span className="stat-label">Credist: </span>
+            <div
+              className="combat-credits-display"
+              onClick={() => {
+                if (onUpdateCharacter) {
+                  const updatedCharacter = {
+                    ...character,
+                    credits: character.credits + 1000,
+                  };
+                  onUpdateCharacter(updatedCharacter);
+                }
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <span className="stat-label">Credits: </span>
               <span className="stat-value">${character.credits}</span>
             </div>
           </div>
@@ -686,7 +698,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
 
             {/* Credits Display - Full width row */}
-            <div className="combat-credits-display">
+            <div
+              className="combat-credits-display"
+              onClick={() => {
+                if (onUpdateCharacter) {
+                  const updatedCharacter = {
+                    ...character,
+                    credits: character.credits + 1000,
+                  };
+                  onUpdateCharacter(updatedCharacter);
+                }
+              }}
+              style={{ cursor: "pointer" }}
+            >
               <span className="stat-label">Credits: </span>
               <span className="stat-value">${character.credits}</span>
             </div>
@@ -820,7 +844,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
 
             {/* Credits Display - Full width row */}
-            <div className="combat-credits-display">
+            <div
+              className="combat-credits-display"
+              onClick={() => {
+                if (onUpdateCharacter) {
+                  const updatedCharacter = {
+                    ...character,
+                    credits: character.credits + 1000,
+                  };
+                  onUpdateCharacter(updatedCharacter);
+                }
+              }}
+              style={{ cursor: "pointer" }}
+            >
               <span className="stat-label">Credits: </span>
               <span className="stat-value">${character.credits}</span>
             </div>
@@ -989,7 +1025,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
 
             {/* Credits Display - Full width row */}
-            <div className="combat-credits-display">
+            <div
+              className="combat-credits-display"
+              onClick={() => {
+                if (onUpdateCharacter) {
+                  const updatedCharacter = {
+                    ...character,
+                    credits: character.credits + 1000,
+                  };
+                  onUpdateCharacter(updatedCharacter);
+                }
+              }}
+              style={{ cursor: "pointer" }}
+            >
               <span className="stat-label">Credits: </span>
               <span className="stat-value">${character.credits}</span>
             </div>
