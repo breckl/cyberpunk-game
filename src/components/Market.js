@@ -453,9 +453,9 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
 
   return (
     <div className="market">
-      {/* Mobile Back Button Row */}
-      <div className="mobile-back-row">
-        <button className="mobile-back-button" onClick={onExit}>
+      {/* Back Button Row */}
+      <div className="back-button-row">
+        <button className="back-button" onClick={onExit}>
           <FaArrowLeft />
           Back
         </button>
@@ -463,16 +463,8 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
 
       <div className="market-header">
         <h2>Market</h2>
-        <div className="header-buttons">
-          <span
-            className="back-button desktop-only"
-            onClick={() => onNavigate("inventory")}
-          >
-            <span className="key">I</span>nventory
-          </span>
-          <span className="back-button desktop-only" onClick={onExit}>
-            <span className="key">B</span>ack
-          </span>
+        <div className="header-credits">
+          ${formatCredits(localCharacter.credits)}
         </div>
       </div>
       {renderTabs()}

@@ -255,9 +255,9 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
 
   return (
     <div className="inventory-screen">
-      {/* Mobile Back Button Row */}
-      <div className="mobile-back-row">
-        <button className="mobile-back-button" onClick={onExit}>
+      {/* Back Button Row */}
+      <div className="back-button-row">
+        <button className="back-button" onClick={onExit}>
           <FaArrowLeft />
           Back
         </button>
@@ -265,16 +265,8 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
 
       <div className="inventory-header">
         <h2>Inventory</h2>
-        <div className="header-buttons">
-          <span
-            className="back-button desktop-only"
-            onClick={() => onNavigate("market")}
-          >
-            <span className="key">M</span>arket
-          </span>
-          <span className="back-button desktop-only" onClick={onExit}>
-            <span className="key">B</span>ack
-          </span>
+        <div className="header-credits">
+          ${formatCredits(localCharacter.credits)}
         </div>
       </div>
       {renderEquippedItems()}

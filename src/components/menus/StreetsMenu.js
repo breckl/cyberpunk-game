@@ -12,10 +12,10 @@ function StreetsMenu({
     description:
       "The neon-drenched streets of Night City stretch before you. The air is thick with the hum of hover vehicles and the chatter of street merchants. Holographic advertisements paint the smog in shifting colors.",
     options: [
-      { key: "inventory", label: "Inventory" },
-      { key: "market", label: "Market" },
-      // { key: "travel", label: "Travel" },
       { key: "combat", label: "Combat Zone" },
+      { key: "market", label: "Market" },
+      { key: "inventory", label: "Inventory" },
+      // { key: "travel", label: "Travel" },
       { key: "help", label: "Help" },
     ],
   };
@@ -42,11 +42,6 @@ function StreetsMenu({
           </div>
         ))}
       </div>
-
-      {/* <div className="global-menu-hint">
-        Press <span className="key">Esc</span> for quick access to Inventory,
-        Market, Travel, and more
-      </div> */}
     </div>
   );
 }

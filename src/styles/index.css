@@ -203,7 +203,7 @@ h3 {
 
 /* Location Screen Styling */
 .location-screen {
-  padding: px;
+  padding: 20px;
   max-width: 800px;
   margin: 0 auto;
 }
@@ -339,6 +339,17 @@ h3 {
   opacity: 1;
 }
 
+.back-button-row {
+  padding: 10px 0 0 20px;
+}
+
+.header-credits {
+  color: #ff00ff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-right: 20px;
+}
+
 .mobile-back-button {
   display: flex;
   align-items: center;
@@ -401,9 +412,9 @@ h3 {
   /* Mobile button styles for streets menu */
   .menu-button {
     width: 100%;
-    background: transparent;
-    border: 1px solid var(--neon-pink);
-    color: #00ff41;
+    background: var(--extra-dark-pink-bg);
+    border: 0;
+    color: white;
     padding: 12px 20px;
     font-size: 1rem;
     cursor: pointer;
@@ -411,6 +422,7 @@ h3 {
     text-align: center;
     transition: all 0.2s ease;
     display: block;
+    font-family: "Share Tech Mono", monospace;
   }
 
   .menu-button:hover {
@@ -482,5 +494,20 @@ h3 {
     height: 30px;
     width: 30px;
     font-size: 1.1rem;
+  }
+
+  .menu-button {
+    background: transparent;
+    border: 0;
+    color: var(--neon-green);
+    padding: 0.5rem;
+    font-family: "Share Tech Mono", monospace;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .menu-button:hover {
+    color: var(--neon-pink);
   }
 }

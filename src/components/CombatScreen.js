@@ -526,8 +526,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
             {/* Credits Display - Full width row */}
             <div className="combat-credits-display">
-              <span className="stat-label">Credit: </span>
-              <span className="stat-value">{character.credits}</span>
+              <span className="stat-label">Credist: </span>
+              <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
@@ -687,8 +687,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
             {/* Credits Display - Full width row */}
             <div className="combat-credits-display">
-              <span className="stat-label">Credit: </span>
-              <span className="stat-value">{character.credits}</span>
+              <span className="stat-label">Credits: </span>
+              <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
@@ -821,8 +821,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
             {/* Credits Display - Full width row */}
             <div className="combat-credits-display">
-              <span className="stat-label">Credit: </span>
-              <span className="stat-value">{character.credits}</span>
+              <span className="stat-label">Credits: </span>
+              <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
@@ -990,8 +990,8 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
             {/* Credits Display - Full width row */}
             <div className="combat-credits-display">
-              <span className="stat-label">Credit: </span>
-              <span className="stat-value">{character.credits}</span>
+              <span className="stat-label">Credits: </span>
+              <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 

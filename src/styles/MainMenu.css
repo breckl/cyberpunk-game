@@ -36,28 +36,6 @@
   max-width: 300px;
 }
 
-.menu-button {
-  background: transparent;
-  border: 2px solid var(--neon-pink);
-  color: var(--neon-green);
-  font-weight: bold;
-  padding: 1rem;
-  font-family: "Share Tech Mono", monospace;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.menu-button:hover:not(:disabled) {
-  background: rgba(0, 255, 65, 0.1);
-  box-shadow: 0 0 10px var(--neon-green);
-}
-
-.menu-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
 .version-info {
   position: absolute;
   bottom: 1rem;
