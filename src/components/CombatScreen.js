@@ -477,8 +477,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <div className="combat-screen">
         <div className="combat-layout">
+          {/* Combat Mode Header */}
+          <div className="combat-mode-header">
+            <span className="stats-header">
+              [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
+              ]]
+            </span>
+          </div>
+
+          {/* Stats Panel at Top */}
           <div className="combat-stats-panel">
-            {/* Stats Row - Player and Enemy side by side on mobile */}
+            {/* Stats Row - Player and Enemy side by side */}
             <div className="stats-row">
               {/* Player Stats */}
               <div className="player-stats mobile-hide-weapon">
@@ -522,6 +531,56 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                   </div>
                 </div>
               </div>
+
+              {/* Enemy Stats */}
+              <div className="enemy-stats mobile-hide-weapon">
+                <h3 className="stats-header">ENEMY STATS</h3>
+                <div className="stat-row">
+                  <span className="stat-label">Level</span>
+                  <span className="stat-value">{enemy.level}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Weapon</span>
+                  <span className="stat-value">{enemy.weapon.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Attack</span>
+                  <span className="stat-value">
+                    {(
+                      (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
+                    ).toFixed(1)}{" "}
+                    ±2
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Armor</span>
+                  <span className="stat-value">{enemy.armor.name}</span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">Defense</span>
+                  <span className="stat-value">
+                    {(levels[enemy.level]?.defense || 0).toFixed(1)}
+                  </span>
+                </div>
+                <div className="stat-row">
+                  <span className="stat-label">HP</span>
+                  <span className="stat-value">
+                    {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
+                  </span>
+                </div>
+                <div className="hp-bar-container">
+                  <div className="hp-bar enemy-hp-bar">
+                    <div
+                      className="hp-fill enemy-hp-fill"
+                      style={{
+                        width: `${
+                          (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
+                        }%`,
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Credits Display - Full width row */}
@@ -538,18 +597,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               }}
               style={{ cursor: "pointer" }}
             >
-              <span className="stat-label">Credits: </span>
+              <span className="stat-label">Credits </span>
               <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
+          {/* Combat Log Below Stats */}
           <div className="combat-log">
-            <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
-            </div>
             <div className="combat-message">
               <div className="scanning-status">
                 SCANNING {Math.round(scanProgress)}%
@@ -572,8 +626,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <div className="combat-screen">
         <div className="combat-layout">
+          {/* Combat Mode Header */}
+          <div className="combat-mode-header">
+            <span className="stats-header">
+              [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
+              ]]
+            </span>
+          </div>
+
+          {/* Stats Panel at Top */}
           <div className="combat-stats-panel">
-            {/* Stats Row - Player and Enemy side by side on mobile */}
+            {/* Stats Row - Player and Enemy side by side */}
             <div className="stats-row">
               {/* Player Stats */}
               <div className="player-stats mobile-hide-weapon">
@@ -711,18 +774,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               }}
               style={{ cursor: "pointer" }}
             >
-              <span className="stat-label">Credits: </span>
+              <span className="stat-label">Credits </span>
               <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
+          {/* Combat Log Below Stats */}
           <div className="combat-log">
-            <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
-            </div>
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
@@ -746,8 +804,16 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <div className="combat-screen">
         <div className="combat-layout">
+          {/* Combat Mode Header */}
+          <div className="combat-mode-header">
+            <h2>
+              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
+            </h2>
+          </div>
+
+          {/* Stats Panel at Top */}
           <div className="combat-stats-panel">
-            {/* Stats Row - Player and Enemy side by side on mobile */}
+            {/* Stats Row - Player and Enemy side by side */}
             <div className="stats-row">
               {/* Player Stats */}
               <div className="player-stats mobile-hide-weapon">
@@ -857,18 +923,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               }}
               style={{ cursor: "pointer" }}
             >
-              <span className="stat-label">Credits: </span>
+              <span className="stat-label">Credits </span>
               <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
+          {/* Combat Log Below Stats */}
           <div className="combat-log">
-            <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
-            </div>
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>
@@ -958,8 +1019,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <div className="combat-screen">
         <div className="combat-layout">
+          {/* Combat Mode Header */}
+          <div className="combat-mode-header">
+            <span className="stats-header">
+              [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
+              ]]
+            </span>
+          </div>
+
+          {/* Stats Panel at Top */}
           <div className="combat-stats-panel">
-            {/* Stats Row - Player and Results side by side on mobile */}
+            {/* Stats Row - Player and Results side by side */}
             <div className="stats-row">
               {/* Player Stats */}
               <div className="player-stats mobile-hide-weapon">
@@ -1038,18 +1108,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               }}
               style={{ cursor: "pointer" }}
             >
-              <span className="stat-label">Credits: </span>
+              <span className="stat-label">Credits </span>
               <span className="stat-value">${character.credits}</span>
             </div>
           </div>
 
+          {/* Combat Log Below Stats */}
           <div className="combat-log">
-            <div className="combat-message">
-              <span className="stats-header">
-                [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-                ]]
-              </span>
-            </div>
             <div className="combat-message">
               You have encountered <strong>{enemy.name}</strong>!!
             </div>

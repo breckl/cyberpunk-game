@@ -8,16 +8,31 @@
 
 .combat-layout {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  gap: 1rem;
   height: 100%;
 }
 
+.combat-mode-header {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
 .combat-screen .combat-stats-panel {
-  width: 300px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   flex-shrink: 0;
+}
+
+.stats-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
 }
 
 .player-stats,
@@ -26,6 +41,7 @@
   background: var(--dark-green-bg);
   border-radius: 4px;
   padding: 1.5rem 2rem;
+  flex: 1;
 }
 
 .stats-header {
@@ -101,18 +117,17 @@
 .combat-log {
   flex: 1;
   overflow-y: auto;
-  margin-bottom: 2rem;
   line-height: 1.4;
   padding: 1.5rem;
   background: rgba(0, 0, 0, 0.2);
+  min-height: 0; /* Allow flex item to shrink */
 }
 
 /* Mobile overrides for combat-log */
 @media (max-width: 768px) {
   .combat-log {
-    order: 1;
     margin-bottom: 0;
-    padding: 1rem 1.1rem;
+    padding: 0rem 1.1rem;
     flex: 1;
     min-height: 0; /* Allow flex item to shrink */
     overflow-y: auto;
@@ -221,11 +236,15 @@
   75% {
     color: white;
   }
+  100% {
+    color: var(--neon-blue);
+  }
 }
 
 .combat-mode-flash {
-  animation: combatModeFlash 1.5s infinite;
+  animation: combatModeFlash 0.5s ease-in-out 6, none 0s 3s forwards;
   font-weight: bold;
+  color: var(--neon-blue);
 }
 
 /* Scanning phase styles */
@@ -462,6 +481,9 @@
   text-align: left;
   margin-bottom: 0;
   transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .combat-credits-display:hover {
@@ -477,19 +499,26 @@
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .combat-layout {
-    flex-direction: column;
     height: 100dvh; /* Use dynamic viewport height for mobile */
     min-height: 100vh; /* Fallback for browsers that don't support dvh */
-    gap: 0;
+    gap: 0.5rem;
+  }
+
+  .combat-mode-header {
+    padding: 0.75rem 0.75rem 0 0.75rem;
+  }
+
+  .combat-mode-header h2 {
+    margin-bottom: 0;
+    font-size: 1.25rem;
   }
 
   .combat-screen .combat-stats-panel {
     width: 100%;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 0.75rem;
+    padding: 0rem 0.75rem 0 0.75rem;
     background: rgba(0, 0, 0, 0.8);
-    order: 2;
     flex-shrink: 0; /* Prevent stats panel from shrinking */
   }
 
@@ -505,6 +534,8 @@
     flex: 1;
     padding: 0.75rem;
     margin: 0;
+    background: transparent;
+    border: 1px solid var(--border-color);
   }
 
   /* Credits display full width on mobile */
@@ -512,6 +543,8 @@
     width: 100%;
     padding: 0.75rem;
     margin: 0;
+    background: transparent;
+    border: 1px solid var(--border-color);
   }
 
   .stats-header {
