@@ -479,10 +479,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           {/* Combat Mode Header */}
           <div className="combat-mode-header">
-            <span className="stats-header">
-              [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-              ]]
-            </span>
+            <h2>
+              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
+            </h2>
           </div>
 
           {/* Stats Panel at Top */}
@@ -628,10 +627,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           {/* Combat Mode Header */}
           <div className="combat-mode-header">
-            <span className="stats-header">
-              [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-              ]]
-            </span>
+            <h2>
+              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
+            </h2>
           </div>
 
           {/* Stats Panel at Top */}
@@ -1021,10 +1019,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         <div className="combat-layout">
           {/* Combat Mode Header */}
           <div className="combat-mode-header">
-            <span className="stats-header">
-              [[ <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-              ]]
-            </span>
+            <h2>
+              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
+            </h2>
           </div>
 
           {/* Stats Panel at Top */}

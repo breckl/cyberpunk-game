@@ -181,13 +181,26 @@
 .equip-button {
   flex: 1;
   padding: 8px 16px;
-  border: 1px solid #00ff41;
   background: transparent;
-  color: #00ff41;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: bold;
+}
+
+.equip-button {
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+}
+
+.equip-button.equipped {
+  background: var(--neon-green);
+  color: black;
+}
+
+.sell-button {
+  border: 1px solid var(--neon-red);
+  color: var(--neon-red);
 }
 
 .sell-button:hover {
@@ -287,6 +300,18 @@
   .equip-button {
     padding: 1.5rem 0.5rem;
     font-size: 1rem;
+  }
+
+  .sell-button:hover {
+    background: transparent;
+    border-color: var(--neon-red);
+    color: var(--neon-red);
+  }
+
+  .equip-button:hover {
+    background: transparent;
+    border-color: var(--neon-green);
+    color: var(--neon-green);
   }
 }
 

@@ -455,8 +455,6 @@
 }
 
 .enemy-description {
-  border-bottom: 5px solid var(--dark-green-bg);
-  padding-bottom: 15px;
   margin-bottom: 15px;
   font-size: 0.9rem;
 }
@@ -542,7 +540,7 @@
   .combat-credits-display {
     width: 100%;
     padding: 0.75rem;
-    margin: 0;
+    margin-bottom: 5px;
     background: transparent;
     border: 1px solid var(--border-color);
   }
