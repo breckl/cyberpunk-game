@@ -113,6 +113,9 @@
     order: 1;
     margin-bottom: 0;
     padding: 1rem 1.1rem;
+    flex: 1;
+    min-height: 0; /* Allow flex item to shrink */
+    overflow-y: auto;
   }
 }
 
@@ -464,7 +467,8 @@
 @media (max-width: 768px) {
   .combat-layout {
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh; /* Use dynamic viewport height for mobile */
+    min-height: 100vh; /* Fallback for browsers that don't support dvh */
     gap: 0;
   }
 
@@ -472,9 +476,10 @@
     width: 100%;
     flex-direction: column;
     gap: 0.5rem;
-    padding: 1rem;
+    padding: 0.75rem;
     background: rgba(0, 0, 0, 0.8);
     order: 2;
+    flex-shrink: 0; /* Prevent stats panel from shrinking */
   }
 
   /* Stats row container for mobile */
@@ -487,14 +492,14 @@
   .player-stats,
   .enemy-stats {
     flex: 1;
-    padding: 1rem;
+    padding: 0.75rem;
     margin: 0;
   }
 
   /* Credits display full width on mobile */
   .combat-credits-display {
     width: 100%;
-    padding: 1rem;
+    padding: 0.75rem;
     margin: 0;
   }
 
@@ -535,7 +540,7 @@
   .combat-button {
     width: 100%;
     font-size: 1.1rem;
-    padding: 1.25rem 1rem;
+    padding: 1rem;
     margin-bottom: 0.5rem;
     justify-content: center;
     border-radius: 5px;
