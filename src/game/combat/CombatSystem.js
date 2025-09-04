@@ -2,17 +2,11 @@ class CombatSystem {
   constructor() {
     this.criticalChance = 0.1; // Base 10% crit chance
     this.criticalMultiplier = 1.5;
-    this.dodgeBaseChance = 0.15; // Base 15% dodge chance
   }
 
   // Calculate attack damage
-  calculateDamage(attacker, defender, ability = null) {
+  calculateDamage(attacker, defender) {
     let damage = this.getBaseDamage(attacker);
-
-    // Apply ability modifiers
-    if (ability) {
-      damage *= ability.damageMultiplier || 1;
-    }
 
     // Check for critical hit
     const critRoll = Math.random();
@@ -30,8 +24,6 @@ class CombatSystem {
     return {
       damage: Math.floor(damage),
       isCritical,
-      wasBlocked: false,
-      wasDodged: false,
     };
   }
 
@@ -46,17 +38,6 @@ class CombatSystem {
     if (weapon) {
       baseDamage += weapon.damage || 0;
     }
-
-    // Add cybernetic bonuses
-    const combatCybernetics = attacker.cybernetics.filter(
-      (c) => c.statModifiers && c.statModifiers.combat
-    );
-    const cyberBonus = combatCybernetics.reduce(
-      (sum, cyber) => sum + (cyber.statModifiers.combat || 0),
-      0
-    );
-
-    baseDamage += cyberBonus;
 
     return baseDamage;
   }
@@ -79,31 +60,10 @@ class CombatSystem {
     return defense;
   }
 
-  // Check if attack is dodged
-  checkDodge(attacker, defender) {
-    const dodgeChance =
-      this.dodgeBaseChance +
-      defender.stats.stealth * 0.02 -
-      attacker.stats.combat * 0.01;
-
-    return Math.random() <= Math.min(0.75, dodgeChance); // Cap at 75%
-  }
-
   // Process a full combat round
-  processCombatRound(attacker, defender, ability = null) {
-    // Check for dodge
-    if (this.checkDodge(attacker, defender)) {
-      return {
-        damage: 0,
-        isCritical: false,
-        wasBlocked: false,
-        wasDodged: true,
-        message: `${defender.name} dodged the attack!`,
-      };
-    }
-
+  processCombatRound(attacker, defender) {
     // Calculate and apply damage
-    const result = this.calculateDamage(attacker, defender, ability);
+    const result = this.calculateDamage(attacker, defender);
     defender.takeDamage(result.damage);
 
     // Generate combat message
@@ -115,103 +75,6 @@ class CombatSystem {
     return {
       ...result,
       message,
-    };
-  }
-
-  // Process special ability use
-  processAbility(user, target, abilityName) {
-    const ability = user.abilities.find((a) => a.name === abilityName);
-    if (!ability) {
-      return {
-        success: false,
-        message: "Ability not found",
-      };
-    }
-
-    const useResult = user.useAbility(abilityName, target);
-    if (!useResult.success) {
-      return useResult;
-    }
-
-    // Different ability types
-    switch (ability.type) {
-      case "attack":
-        return this.processAttackAbility(user, target, ability);
-      case "hack":
-        return this.processHackAbility(user, target, ability);
-      case "buff":
-        return this.processBuffAbility(user, target, ability);
-      case "heal":
-        return this.processHealAbility(user, target, ability);
-      default:
-        return {
-          success: false,
-          message: "Unknown ability type",
-        };
-    }
-  }
-
-  // Process attack abilities
-  processAttackAbility(user, target, ability) {
-    const result = this.processCombatRound(user, target, ability);
-    return {
-      success: true,
-      ...result,
-      message: `${user.name} uses ${ability.name}! ${result.message}`,
-    };
-  }
-
-  // Process hacking abilities
-  processHackAbility(user, target, ability) {
-    const hackSuccess =
-      Math.random() < user.stats.hack * 0.1 - target.stats.tech * 0.05;
-
-    if (hackSuccess) {
-      const damage = Math.floor(user.stats.hack * ability.powerMultiplier);
-      target.takeDamage(damage);
-
-      return {
-        success: true,
-        damage,
-        message: `${user.name} successfully hacks ${target.name} for ${damage} damage!`,
-      };
-    }
-
-    return {
-      success: false,
-      damage: 0,
-      message: `${target.name} resisted the hack attempt!`,
-    };
-  }
-
-  // Process buff abilities
-  processBuffAbility(user, target, ability) {
-    const buff = {
-      stat: ability.buffStat,
-      amount: ability.buffAmount,
-      duration: ability.duration,
-    };
-
-    target.addStatusEffect(buff);
-
-    return {
-      success: true,
-      message: `${user.name} buffs ${target.name}'s ${buff.stat}!`,
-    };
-  }
-
-  // Process healing abilities
-  processHealAbility(user, target, ability) {
-    const healAmount = Math.floor(user.stats.tech * ability.healMultiplier);
-
-    const oldHp = target.hp;
-    target.heal(healAmount);
-    const actualHeal = target.hp - oldHp;
-
-    return {
-      success: true,
-      healAmount: actualHeal,
-      message: `${user.name} heals ${target.name} for ${actualHeal} HP!`,
     };
   }
 
@@ -230,49 +93,53 @@ class CombatSystem {
 
   // Generate combat rewards
   generateRewards(winner, losers) {
-    const baseCredits = 25;
-    const creditsMultiplier = 1 + winner.level * 0.1;
-    const levelDifference = Math.max(
-      0,
-      Math.max(...losers.map((l) => l.level)) - winner.level
-    );
+    const baseCredits = 30;
+    const baseExperience = 30;
+    const creditsMultiplier = 1 + winner.level * 0.2;
+
+    // Get the highest level enemy for scaling
+    const enemyLevel = Math.max(...losers.map((l) => l.level));
+    const levelDifference = Math.max(0, enemyLevel - winner.level);
+
+    // Base scaling based on enemy level (higher level enemies = more base rewards)
+    const enemyLevelCreditsBonus = 1 + enemyLevel * 0.3; // 30% more credits per enemy level
+    const enemyLevelExperienceBonus = 1 + enemyLevel * 0.5; // 50% more XP per enemy level
+
+    // Much more aggressive scaling for higher level enemies (level difference bonus)
+    const levelDifferenceBonus =
+      levelDifference > 0 ? Math.pow(1.5, levelDifference) : 1;
+    const creditsLevelBonus = 1 + levelDifference * 0.6; // 60% per level difference
+    const experienceLevelBonus = 1 + levelDifference * 0.6; // 60% per level difference
 
     return {
       credits: Math.floor(
-        baseCredits * creditsMultiplier * (1 + levelDifference * 0.2)
+        baseCredits *
+          creditsMultiplier *
+          enemyLevelCreditsBonus *
+          creditsLevelBonus *
+          levelDifferenceBonus
       ),
-      experience: Math.floor(30 * (1 + levelDifference * 0.5)),
+      experience: Math.floor(
+        baseExperience *
+          enemyLevelExperienceBonus *
+          experienceLevelBonus *
+          levelDifferenceBonus
+      ),
     };
   }
 
   // Penalty calculation methods
-  calculateInitialFleePenalty(enemy) {
-    return enemy.level * 5;
+  calculateInitialFleePenalty(playerLevel = 1) {
+    if (playerLevel > 1) {
+      return playerLevel * 10;
+    }
+    return 5;
   }
 
-  calculateCombatFleePenalty(enemy, combatRounds) {
-    const basePenalty = enemy.level * 10;
-    const durationMultiplier = 1 + combatRounds * 0.1;
+  calculateCombatPenalty(enemy, combatRounds) {
+    const basePenalty = enemy.level * 5;
+    const durationMultiplier = 1 + combatRounds * 0.2;
     return Math.floor(basePenalty * durationMultiplier);
-  }
-
-  calculateDefeatPenalty(enemy, combatRounds) {
-    const basePenalty = enemy.level * 10;
-    const durationMultiplier = 1 + combatRounds * 0.15;
-    return Math.floor(basePenalty * durationMultiplier);
-  }
-
-  getEnemyTypeBonus(enemy) {
-    const typeBonuses = {
-      Yakuza: 0.3, // 30% extra penalty
-      Corporate: 0.25, // 25% extra penalty
-      Assassin: 0.2, // 20% extra penalty
-      Heavy: 0.15, // 15% extra penalty
-      Thug: 0.0, // No bonus penalty
-      Hacker: 0.1, // 10% extra penalty
-    };
-
-    return typeBonuses[enemy.type] || 0.0;
   }
 
   getPenaltyFlavorText(penaltyType, enemy, amount) {

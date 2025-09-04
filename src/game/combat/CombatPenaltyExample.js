@@ -75,8 +75,8 @@ export const demonstratePenaltySystem = () => {
 
     // Combat flee penalties at different rounds
     for (let rounds = 1; rounds <= 4; rounds++) {
-      const combatFlee = combatSystem.calculateCombatFleePenalty(enemy, rounds);
-      const defeat = combatSystem.calculateDefeatPenalty(enemy, rounds);
+      const combatFlee = combatSystem.calculateCombatPenalty(enemy, rounds);
+      const defeat = combatSystem.calculateCombatPenalty(enemy, rounds);
 
       console.log(`Round ${rounds}:`);
       console.log(`  Flee: ${combatFlee} credits`);
@@ -149,8 +149,8 @@ export const demonstrateRiskReward = () => {
 
   // Calculate penalties
   const initialFlee = combatSystem.calculateInitialFleePenalty(enemy);
-  const combatFlee3 = combatSystem.calculateCombatFleePenalty(enemy, 3);
-  const defeat3 = combatSystem.calculateDefeatPenalty(enemy, 3);
+  const combatFlee3 = combatSystem.calculateCombatPenalty(enemy, 3);
+  const defeat3 = combatSystem.calculateCombatPenalty(enemy, 3);
 
   console.log(`Penalties:`);
   console.log(

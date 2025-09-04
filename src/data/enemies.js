@@ -17,7 +17,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Knife",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.2, // Scaled down for level 1
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.2, // Scaled down for level 1
       attacks: [
         "lunges with their knife",
         "makes a desperate slash",
@@ -40,7 +40,7 @@ const enemies = [
     },
     weapon: {
       name: "Broken Bottle",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.5,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.5,
       attacks: [
         "swings their broken bottle",
         "makes a reckless charge",
@@ -63,7 +63,7 @@ const enemies = [
     },
     weapon: {
       name: "Switchblade",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.7,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.7,
       attacks: ["makes a quick stab", "slashes in an arc"],
     },
   },
@@ -105,7 +105,7 @@ const enemies = [
     },
     weapon: {
       name: "Bare Fists",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.6,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.6,
       attacks: [
         "swings a wild haymaker",
         "charges with drunken rage",
@@ -129,7 +129,7 @@ const enemies = [
     },
     weapon: {
       name: "Stun Rig",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Tech") * 0.5,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Medium") * 0.5,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -152,7 +152,7 @@ const enemies = [
     },
     weapon: {
       name: "Sling Blade",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.3,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.3,
       attacks: [
         "swings their blade",
         "makes a quick strike",
@@ -175,7 +175,7 @@ const enemies = [
     },
     weapon: {
       name: "Broken Bottle",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.6,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.6,
       attacks: [
         "swings their bottle",
         "makes a drunken charge",
@@ -198,7 +198,7 @@ const enemies = [
     },
     weapon: {
       name: "Bar Stool Leg",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.2,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.2,
       attacks: [
         "swings a stool leg",
         "charges with drunken rage",
@@ -221,7 +221,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.3,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.3,
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -245,7 +245,7 @@ const enemies = [
     },
     weapon: {
       name: "Malfunctioning Cyber Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.4,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.4,
       attacks: [
         "swings a cyber fist",
         "makes a glitchy strike",
@@ -268,7 +268,7 @@ const enemies = [
     },
     weapon: {
       name: "Sharpened Claws",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Power") * 0.6,
+      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 0.6,
       attacks: [
         "lunges with sharpened claws",
         "makes a quick strike",
@@ -293,7 +293,7 @@ const enemies = [
     },
     weapon: {
       name: "Pipe Wrench",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
       attacks: [
         "swings their pipe wrench",
         "makes a heavy strike",
@@ -316,7 +316,7 @@ const enemies = [
     },
     weapon: {
       name: "Scrap Club",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power") * 0.8,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light") * 0.8,
       attacks: [
         "swings their scrap club",
         "makes a desperate strike",
@@ -339,7 +339,7 @@ const enemies = [
     },
     weapon: {
       name: "Shock Baton",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Tech"),
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -362,7 +362,7 @@ const enemies = [
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -385,7 +385,7 @@ const enemies = [
     },
     weapon: {
       name: "Switchblade",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
       attacks: [
         "flicks their switchblade",
         "makes a quick stab",
@@ -408,7 +408,7 @@ const enemies = [
     },
     weapon: {
       name: "Shock Baton",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Tech"),
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -431,7 +431,7 @@ const enemies = [
     },
     weapon: {
       name: "Shiv",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power") * 0.8,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light") * 0.8,
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -455,7 +455,7 @@ const enemies = [
     },
     weapon: {
       name: "Hacker-Controlled Fists",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power") * 0.7,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light") * 0.7,
       attacks: [
         "moves with unnatural precision",
         "executes a calculated strike",
@@ -479,7 +479,7 @@ const enemies = [
     },
     weapon: {
       name: "Enhanced Fists",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Power") * 0.8,
+      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light") * 0.8,
       attacks: [
         "moves with drug-enhanced speed",
         "delivers a rapid strike",
@@ -504,7 +504,7 @@ const enemies = [
     },
     weapon: {
       name: "Pulse Laser",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech") * 0.5, // Scaled down for easier combat
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.5, // Scaled down for easier combat
       attacks: [
         "fires a pulse laser burst",
         "takes aim with mechanical precision",
@@ -528,7 +528,7 @@ const enemies = [
     },
     weapon: {
       name: "Cyber Fangs",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power") * 0.6, // Scaled down for easier combat
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light") * 0.6, // Scaled down for easier combat
       attacks: [
         "lunges with cybernetic fangs",
         "makes a quick snap attack",
@@ -551,7 +551,7 @@ const enemies = [
     },
     weapon: {
       name: "Stun Baton",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech") * 0.5, // Reduced tech damage
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.5, // Reduced tech damage
       attacks: [
         "swings their stun baton nervously",
         "makes a panicked strike",
@@ -574,7 +574,7 @@ const enemies = [
     },
     weapon: {
       name: "Power Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power") * 1.2,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light") * 1.2,
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -597,7 +597,7 @@ const enemies = [
     },
     weapon: {
       name: "Dark Energy Blade",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech") * 0.8,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.8,
       attacks: [
         "swings a blade of dark energy",
         "creates a spectral aura",
@@ -621,7 +621,7 @@ const enemies = [
     },
     weapon: {
       name: "Neural Spike",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech") * 0.7,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.7,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -644,7 +644,7 @@ const enemies = [
     },
     weapon: {
       name: "Power Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power") * 1.0,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light") * 1.0,
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -668,7 +668,7 @@ const enemies = [
     },
     weapon: {
       name: "Cyber Fangs",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power") * 0.7,
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light") * 0.7,
       attacks: [
         "lunges with cybernetic fangs",
         "makes a quick snap attack",
@@ -691,7 +691,7 @@ const enemies = [
     },
     weapon: {
       name: "Pulse Lasers",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech") * 0.4, // Scaled down for easier combat
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.4, // Scaled down for easier combat
       attacks: [
         "fires a coordinated burst of pulse lasers",
         "takes aim with mechanical precision",
@@ -716,7 +716,7 @@ const enemies = [
     },
     weapon: {
       name: "Restraint Gun",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech"),
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
       attacks: [
         "fires a restraint net",
         "takes aim with precision",
@@ -739,7 +739,7 @@ const enemies = [
     },
     weapon: {
       name: "Combat Knife",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"),
       attacks: [
         "makes a precise stab",
         "swings their combat knife",
@@ -762,7 +762,7 @@ const enemies = [
     },
     weapon: {
       name: "SMG",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"),
       attacks: [
         "fires a burst from their SMG",
         "takes aim with precision",
@@ -786,7 +786,7 @@ const enemies = [
     },
     weapon: {
       name: "Cyber Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Tech"),
+      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
       attacks: [
         "swings their cyber fist",
         "delivers a crushing blow",
@@ -812,7 +812,7 @@ const enemies = [
     },
     weapon: {
       name: "Razor Claws",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Tech"),
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium"),
       attacks: [
         "slashes with cyberclaws",
         "makes a precision strike",
@@ -835,7 +835,7 @@ const enemies = [
     },
     weapon: {
       name: "Spiked Gauntlets",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light"),
       attacks: [
         "swings spiked gauntlets",
         "delivers a crushing blow",
@@ -859,7 +859,7 @@ const enemies = [
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light"),
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -885,7 +885,7 @@ const enemies = [
     },
     weapon: {
       name: "Monowire",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Tech") * 0.7, // Scaled down damage
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium") * 0.7, // Scaled down damage
       attacks: [
         "whips their monowire with precision",
         "makes a calculated slice",
@@ -908,7 +908,7 @@ const enemies = [
     },
     weapon: {
       name: "Combat Rifle",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Power") * 0.6, // Scaled down damage
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light") * 0.6, // Scaled down damage
       attacks: [
         "fires a controlled burst",
         "takes aim with professional precision",
@@ -931,7 +931,7 @@ const enemies = [
     },
     weapon: {
       name: "Cyberdeck",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Tech") * 0.5, // Scaled down damage
+      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium") * 0.5, // Scaled down damage
       attacks: [
         "executes a hacking protocol",
         "launches a neural attack",
@@ -956,7 +956,7 @@ const enemies = [
     },
     weapon: {
       name: "Katana",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
       attacks: [
         "draws their katana with precision",
         "makes a swift strike",
@@ -979,7 +979,7 @@ const enemies = [
     },
     weapon: {
       name: "Heavy Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
       attacks: [
         "takes aim with military precision",
         "fires a controlled burst",
@@ -1002,7 +1002,7 @@ const enemies = [
     },
     weapon: {
       name: "Power Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power") * 1.5,
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light") * 1.5,
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -1025,7 +1025,7 @@ const enemies = [
     },
     weapon: {
       name: "Pulse Cannon",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power") * 1.0,
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light") * 1.0,
       attacks: [
         "fires a pulse laser burst",
         "takes aim with mechanical precision",
@@ -1049,7 +1049,7 @@ const enemies = [
     },
     weapon: {
       name: "Masterwork Katana",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Power") * 1.2,
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light") * 1.2,
       attacks: [
         "draws their masterwork katana",
         "executes a perfect strike",
@@ -1074,7 +1074,7 @@ const enemies = [
     },
     weapon: {
       name: "Viral Code",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Tech") * 0.9,
+      damage: ProgressionCalculator.calculateWeaponDamage(5, "Medium") * 0.9,
       attacks: [
         "executes viral code injection",
         "corrupts your cyberware",
@@ -1099,7 +1099,7 @@ const enemies = [
     },
     weapon: {
       name: "Shock Staff",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Tech"),
+      damage: ProgressionCalculator.calculateWeaponDamage(6, "Medium"),
       attacks: [
         "swings their shock staff",
         "delivers an electric strike",
@@ -1123,7 +1123,7 @@ const enemies = [
     },
     weapon: {
       name: "Silenced Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(6, "Light"),
       attacks: [
         "takes a silent shot",
         "makes a precision strike",
@@ -1204,7 +1204,7 @@ export const generateBalancedEnemy = (level, type = "Thug", region = null) => {
     },
     weapon: {
       name: "Generated Weapon",
-      damage: ProgressionCalculator.calculateWeaponDamage(level, "Power"),
+      damage: ProgressionCalculator.calculateWeaponDamage(level, "Light"),
       attacks: [
         "attacks with their weapon",
         "makes a strike",

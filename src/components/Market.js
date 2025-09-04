@@ -224,82 +224,98 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     setConfirmingEquip(null);
   };
 
-  const renderItemList = (items, categoryName) => (
-    <div className="store-section">
-      <div className="item-list">
-        {items.map((item) => (
-          <div key={item.id} className="item-card">
-            <div className="item-header">
-              <span className="item-name">{item.name}</span>
-              <span className="item-price">${formatCredits(item.price)}</span>
-            </div>
-            <div className="item-description">{item.description}</div>
-            <div className="item-stats">
-              {item.defense && (
-                <div className="item-stat">
-                  Reduces damage by {item.defense}%
-                </div>
-              )}
-              <div className="item-stat-row">
-                {item.level && (
-                  <span className="stat-badge level">LVL {item.level}</span>
-                )}
-                {item.damage && (
-                  <span className="stat-badge damage">DMG {item.damage}</span>
-                )}
+  const renderItemList = (items, categoryName) => {
+    // Sort items by level first, then by price
+    const sortedItems = [...items].sort((a, b) => {
+      const levelA = a.level || 1;
+      const levelB = b.level || 1;
+
+      // First sort by level
+      if (levelA !== levelB) {
+        return levelA - levelB;
+      }
+
+      // If levels are equal, sort by price
+      return a.price - b.price;
+    });
+
+    return (
+      <div className="store-section">
+        <div className="item-list">
+          {sortedItems.map((item) => (
+            <div key={item.id} className="item-card">
+              <div className="item-header">
+                <span className="item-name">{item.name}</span>
+                <span className="item-price">${formatCredits(item.price)}</span>
               </div>
+              <div className="item-description">{item.description}</div>
+              <div className="item-stats">
+                {item.defense && (
+                  <div className="item-stat">
+                    Reduces damage by {item.defense}%
+                  </div>
+                )}
+                <div className="item-stat-row">
+                  {item.level && (
+                    <span className="stat-badge level">LVL {item.level}</span>
+                  )}
+                  {item.damage && (
+                    <span className="stat-badge damage">DMG {item.damage}</span>
+                  )}
+                </div>
+              </div>
+              {(() => {
+                const isInInventory = localCharacter.inventory.some(
+                  (invItem) => invItem.id === item.id
+                );
+
+                if (isInInventory) {
+                  const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
+                  return (
+                    <button
+                      className="sell-button"
+                      onClick={() => handleSell(item)}
+                    >
+                      Sell for ${formatCredits(sellPrice)}
+                    </button>
+                  );
+                } else {
+                  // Check level requirement
+                  const characterLevel = getCurrentLevel(
+                    localCharacter.experience
+                  );
+                  const itemLevel = item.level || 1;
+                  const meetsLevelRequirement = characterLevel >= itemLevel;
+
+                  return (
+                    <button
+                      className={`purchase-button ${
+                        localCharacter.credits >= item.price &&
+                        meetsLevelRequirement
+                          ? ""
+                          : "disabled"
+                      }`}
+                      onClick={() => handlePurchase(item)}
+                      disabled={
+                        localCharacter.credits < item.price ||
+                        !meetsLevelRequirement
+                      }
+                    >
+                      {!meetsLevelRequirement
+                        ? `Requires Level ${itemLevel}`
+                        : localCharacter.credits >= item.price
+                        ? "Buy"
+                        : "Not Enough Credits"}
+                    </button>
+                  );
+                }
+              })()}
             </div>
-            {(() => {
-              const isInInventory = localCharacter.inventory.some(
-                (invItem) => invItem.id === item.id
-              );
-
-              if (isInInventory) {
-                const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
-                return (
-                  <button
-                    className="sell-button"
-                    onClick={() => handleSell(item)}
-                  >
-                    Sell for ${formatCredits(sellPrice)}
-                  </button>
-                );
-              } else {
-                // Check level requirement
-                const characterLevel = getCurrentLevel(
-                  localCharacter.experience
-                );
-                const itemLevel = item.level || 1;
-                const meetsLevelRequirement = characterLevel >= itemLevel;
-
-                return (
-                  <button
-                    className={`purchase-button ${
-                      localCharacter.credits >= item.price &&
-                      meetsLevelRequirement
-                        ? ""
-                        : "disabled"
-                    }`}
-                    onClick={() => handlePurchase(item)}
-                    disabled={
-                      localCharacter.credits < item.price ||
-                      !meetsLevelRequirement
-                    }
-                  >
-                    {!meetsLevelRequirement
-                      ? `Requires Level ${itemLevel}`
-                      : localCharacter.credits >= item.price
-                      ? "Buy"
-                      : "Not Enough Credits"}
-                  </button>
-                );
-              }
-            })()}
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const renderConfirmationDialog = () => {
     if (!confirmingPurchase) return null;
@@ -358,9 +374,20 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   const renderContent = () => {
     switch (selectedTab) {
       case "weapons":
-        // Get all weapons and sort by price
+        // Get all weapons and sort by level first, then by price
         const allWeapons = Object.values(market.weapons).flat();
-        const sortedWeapons = allWeapons.sort((a, b) => a.price - b.price);
+        const sortedWeapons = allWeapons.sort((a, b) => {
+          const levelA = a.level || 1;
+          const levelB = b.level || 1;
+
+          // First sort by level
+          if (levelA !== levelB) {
+            return levelA - levelB;
+          }
+
+          // If levels are equal, sort by price
+          return a.price - b.price;
+        });
 
         return (
           <div className="store-section">
@@ -442,11 +469,20 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
       case "armor":
         return renderItemList(market.armor, "ARMOR");
       default:
-        // Get all weapons and sort by price for default view
+        // Get all weapons and sort by level first, then by price for default view
         const defaultWeapons = Object.values(market.weapons).flat();
-        const defaultSortedWeapons = defaultWeapons.sort(
-          (a, b) => a.price - b.price
-        );
+        const defaultSortedWeapons = defaultWeapons.sort((a, b) => {
+          const levelA = a.level || 1;
+          const levelB = b.level || 1;
+
+          // First sort by level
+          if (levelA !== levelB) {
+            return levelA - levelB;
+          }
+
+          // If levels are equal, sort by price
+          return a.price - b.price;
+        });
         return renderItemList(defaultSortedWeapons, "WEAPONS");
     }
   };

@@ -51,10 +51,9 @@ export class ProgressionCalculator {
     const baseDamage = 1 + level * 0.7;
 
     const typeMultipliers = {
-      Power: 1.0, // Baseline - standard melee weapons
-      Tech: 1.1, // 10% stronger - electronic advantage
-      Energy: 1.15, // 15% stronger - energy weapons
-      Heavy: 1.25, // 25% stronger - heavy weapons
+      Light: 0.75, // Baseline - standard melee weapons
+      Medium: 1, // 10% stronger - electronic advantage
+      Heavy: 1.25, // 15% stronger - energy weapons
     };
 
     // Round to exactly 2 decimal places
@@ -65,104 +64,56 @@ export class ProgressionCalculator {
     const baseDefense = 0.3 + level * 1.2;
 
     const typeMultipliers = {
-      Light: 1.0,
-      Medium: 1.3,
-      Heavy: 1.6,
-      Powered: 2.0,
+      Light: 0.75,
+      Medium: 1,
+      Heavy: 1.25,
     };
 
     // Round to exactly 2 decimal places
     return Math.round(baseDefense * typeMultipliers[armorType] * 100) / 100;
   }
 
-  static calculatePrice(basePrice, level, rarity = "common") {
+  static calculatePrice(basePrice, level) {
     const levelMultiplier = Math.pow(1.4, level - 1);
-
-    const rarityMultipliers = {
-      common: 1.0,
-      uncommon: 1.5,
-      rare: 2.5,
-      epic: 4.0,
-      legendary: 8.0,
-    };
-
-    return Math.round(basePrice * levelMultiplier * rarityMultipliers[rarity]);
+    return Math.round(basePrice * levelMultiplier);
   }
 
   // New function: Calculate price based on damage for more intuitive pricing
-  static calculatePriceWithDamage(
-    damage,
-    level,
-    rarity = "common",
-    weaponType = "Power"
-  ) {
+  static calculatePriceWithDamage(damage, level, weaponType = "Light") {
     // Increased base price from 25 to 50 credits per point of damage
     const basePrice = Math.round(damage * 50);
 
     // Level multiplier (higher levels = more expensive)
     const levelMultiplier = Math.pow(1.3, level - 1); // Reduced from 1.4 to 1.3 for better balance
 
-    // Rarity multiplier
-    const rarityMultipliers = {
-      common: 1.0,
-      uncommon: 1.3, // Reduced from 1.5
-      rare: 2.0, // Reduced from 2.5
-      epic: 3.0, // Reduced from 4.0
-      legendary: 5.0, // Reduced from 8.0
-    };
-
     // Weapon type modifier (some types are more expensive to manufacture)
     const typeModifiers = {
-      Power: 1.0, // Standard melee weapons
-      Tech: 1.2, // Electronic weapons cost more
-      Energy: 1.4, // Energy weapons are expensive
-      Heavy: 1.6, // Heavy weapons are complex
+      Light: 0.75, // Standard melee weapons
+      Medium: 1, // Electronic weapons cost more
+      Heavy: 1.25, // Energy weapons are expensive
     };
 
-    const finalPrice =
-      basePrice *
-      levelMultiplier *
-      rarityMultipliers[rarity] *
-      typeModifiers[weaponType];
+    const finalPrice = basePrice * levelMultiplier * typeModifiers[weaponType];
 
     return Math.round(finalPrice);
   }
 
   // New function: Calculate armor price based on defense
-  static calculateArmorPriceWithDefense(
-    defense,
-    level,
-    rarity = "common",
-    armorType = "Light"
-  ) {
+  static calculateArmorPriceWithDefense(defense, level, armorType = "Light") {
     // Increased base price from 30 to 60 credits per point of defense
     const basePrice = Math.round(defense * 60);
 
     // Level multiplier
     const levelMultiplier = Math.pow(1.3, level - 1);
 
-    // Rarity multiplier
-    const rarityMultipliers = {
-      common: 1.0,
-      uncommon: 1.3,
-      rare: 2.0,
-      epic: 3.0,
-      legendary: 5.0,
-    };
-
     // Armor type modifier
     const typeModifiers = {
-      Light: 1.0, // Standard armor
-      Medium: 1.3, // Better materials
-      Heavy: 1.6, // Heavy armor is complex
-      Powered: 2.0, // Powered armor is very expensive
+      Light: 0.75,
+      Medium: 1,
+      Heavy: 1.25,
     };
 
-    const finalPrice =
-      basePrice *
-      levelMultiplier *
-      rarityMultipliers[rarity] *
-      typeModifiers[armorType];
+    const finalPrice = basePrice * levelMultiplier * typeModifiers[armorType];
 
     return Math.round(finalPrice);
   }

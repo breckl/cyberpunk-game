@@ -299,7 +299,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     if (newPlayerHp <= 0.01) {
       // Player defeated
-      const defeatPenalty = combatSystem.calculateDefeatPenalty(
+      const defeatPenalty = combatSystem.calculateCombatPenalty(
         enemy,
         combatRounds
       );
@@ -310,8 +310,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         `>> ${finalDamageRounded} DAMAGE`,
         enemyMessage,
         `>> ${enemyFinalDamageRounded} DAMAGE`,
-        `You have been defeated by ${enemy.name}!`,
-        `You lose ${actualPenalty} credits!`,
+        combatSystem.getPenaltyFlavorText("defeat", enemy, actualPenalty),
       ];
 
       revealCombatMessages(defeatMessages, () => {
@@ -360,31 +359,40 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setVisibleMessages([]);
 
     if (combatRounds === 0) {
-      // Initial flee
+      // Initial flee - now with penalty based on player level
+      const currentLevel = getCurrentLevel(character.experience);
+      const fleePenalty =
+        combatSystem.calculateInitialFleePenalty(currentLevel);
+      const actualPenalty = Math.min(fleePenalty, character.credits);
+
       const fleeMessages = [
         "You slip away before combat begins!",
-        "No penalty for smart tactical thinking.",
+        combatSystem.getPenaltyFlavorText("initialFlee", enemy, actualPenalty),
       ];
       revealCombatMessages(fleeMessages, () => {
         setCombatEnded(true);
-        setEndResult({ type: "initialFlee" });
+        setEndResult({ type: "initialFlee", penalty: actualPenalty });
         setSequencePhase("results");
       });
 
       if (onUpdateCharacter) {
-        onUpdateCharacter(character);
+        const updatedCharacter = { ...character };
+        updatedCharacter.credits = Math.max(
+          0,
+          updatedCharacter.credits - actualPenalty
+        );
+        onUpdateCharacter(updatedCharacter);
       }
     } else {
       // Combat flee
-      const escapePenalty = combatSystem.calculateCombatFleePenalty(
+      const escapePenalty = combatSystem.calculateCombatPenalty(
         enemy,
         combatRounds
       );
       const actualPenalty = Math.min(escapePenalty, character.credits);
 
       const fleeMessages = [
-        "You manage to escape!",
-        `You lose ${actualPenalty} credits!`,
+        combatSystem.getPenaltyFlavorText("combatFlee", enemy, actualPenalty),
       ];
 
       revealCombatMessages(fleeMessages, () => {
