@@ -29,6 +29,216 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const levelInfo = levels[currentLevel];
   const playerTotalHp = levelInfo?.hp || 30;
 
+  // Helper function to render combat mode header
+  const renderCombatModeHeader = () => (
+    <div className="combat-mode-header" onClick={handleTestPopupOpen}>
+      <h2>
+        <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
+      </h2>
+    </div>
+  );
+
+  // Helper function to render credits display
+  const renderCreditsDisplay = () => (
+    <div className="combat-credits-display" style={{ cursor: "pointer" }}>
+      <span className="stat-label">Credits </span>
+      <span className="stat-value">${character.credits}</span>
+    </div>
+  );
+
+  // Helper function to render player stats
+  const renderPlayerStats = () => (
+    <div className="player-stats mobile-hide-weapon">
+      <h3 className="stats-header">YOUR STATS</h3>
+      <div className="stat-row">
+        <span className="stat-label">Level</span>
+        <span className="stat-value">{currentLevel}</span>
+      </div>
+      <div className="stat-row">
+        <span className="stat-label">Weapon</span>
+        <span className="stat-value">{playerWeapon.name}</span>
+      </div>
+      <div className="stat-row">
+        <span className="stat-label">Attack</span>
+        <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
+      </div>
+      <div className="stat-row">
+        <span className="stat-label">Armor</span>
+        <span className="stat-value">
+          {equippedArmor ? equippedArmor.name : "None"}
+        </span>
+      </div>
+      <div className="stat-row">
+        <span className="stat-label">Defense</span>
+        <span className="stat-value">{totalDefense.toFixed(1)}</span>
+      </div>
+      <div className="stat-row">
+        <span className="stat-label">HP</span>
+        <span className="stat-value">
+          {Math.round(playerHp)}/{playerTotalHp}
+        </span>
+      </div>
+      <div className="hp-bar-container">
+        <div className="hp-bar player-hp-bar">
+          <div
+            className="hp-fill player-hp-fill"
+            style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
+          ></div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // Helper function to render enemy stats
+  const renderEnemyStats = (withAnimations = false, isScanning = false) => (
+    <div className="enemy-stats mobile-hide-weapon">
+      {isScanning ? (
+        <div className="enemy-stats-blackout">
+          <div className="scanning-overlay">
+            <div className="scanning-text">{Math.round(scanProgress)}%</div>
+          </div>
+        </div>
+      ) : (
+        <>
+          <h3 className="stats-header">
+            {withAnimations ? (
+              <TypeAnimation
+                sequence={[enemy.name.toUpperCase()]}
+                wrapper="span"
+                speed={50}
+                cursor={false}
+              />
+            ) : (
+              enemy.name.toUpperCase()
+            )}
+          </h3>
+          <div
+            className={`stat-row ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "0.5s" } : {}}
+          >
+            <span className="stat-label">Level</span>
+            <span className="stat-value">{enemy.level}</span>
+          </div>
+          <div
+            className={`stat-row ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "1s" } : {}}
+          >
+            <span className="stat-label">Weapon</span>
+            <span className="stat-value">{enemy.weapon.name}</span>
+          </div>
+          <div
+            className={`stat-row ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "1.5s" } : {}}
+          >
+            <span className="stat-label">Attack</span>
+            <span className="stat-value">
+              {(
+                (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
+              ).toFixed(1)}{" "}
+              ±2
+            </span>
+          </div>
+          <div
+            className={`stat-row ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "2s" } : {}}
+          >
+            <span className="stat-label">Armor</span>
+            <span className="stat-value">{enemy.armor.name}</span>
+          </div>
+          <div
+            className={`stat-row ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "2.5s" } : {}}
+          >
+            <span className="stat-label">Defense</span>
+            <span className="stat-value">
+              {(levels[enemy.level]?.defense || 0).toFixed(1)}
+            </span>
+          </div>
+          <div
+            className={`stat-row ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "3s" } : {}}
+          >
+            <span className="stat-label">HP</span>
+            <span className="stat-value">
+              {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
+            </span>
+          </div>
+          <div
+            className={`hp-bar-container ${withAnimations ? "fade-in" : ""}`}
+            style={withAnimations ? { animationDelay: "3s" } : {}}
+          >
+            <div className="hp-bar enemy-hp-bar">
+              <div
+                className="hp-fill enemy-hp-fill"
+                style={{
+                  width: `${
+                    (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
+                  }%`,
+                }}
+              ></div>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  );
+
+  // Helper function to render results display
+  const renderResultsDisplay = () => (
+    <div className="results-display">
+      <h3 className="stats-header">COMBAT RESULTS</h3>
+      <div className="result-message">
+        {endResult?.type === "victory" && (
+          <span className="win-message">VICTORY!</span>
+        )}
+        {endResult?.type === "defeat" && (
+          <span className="lose-message">DEFEAT!</span>
+        )}
+        {endResult?.type === "escape" && (
+          <span className="escape-message">ESCAPED!</span>
+        )}
+        {endResult?.type === "initialFlee" && (
+          <span className="escape-message">ESCAPED!</span>
+        )}
+      </div>
+    </div>
+  );
+
+  // Helper function to render unified combat stats panel
+  const renderCombatStatsPanel = (phase) => (
+    <div className="combat-stats-panel">
+      {/* Stats Row - Player and Enemy/Results side by side */}
+      <div className="stats-row">
+        {/* Player Stats */}
+        {renderPlayerStats()}
+
+        {/* Right side content based on phase */}
+        {phase === "results"
+          ? renderResultsDisplay()
+          : renderEnemyStats(phase === "stats", phase === "scanning")}
+      </div>
+
+      {/* Credits Display - Full width row */}
+      {renderCreditsDisplay()}
+    </div>
+  );
+
+  // Helper function to render unified combat layout
+  const renderCombatLayout = (phase, combatLogContent) => (
+    <div className="combat-screen">
+      <div className="combat-layout">
+        {/* Combat Mode Header */}
+        {renderCombatModeHeader()}
+
+        {/* Stats Panel at Top */}
+        {renderCombatStatsPanel(phase)}
+
+        {/* Combat Log Below Stats */}
+        <div className="combat-log">{combatLogContent}</div>
+      </div>
+    </div>
+  );
+
   // Find equipped weapon from inventory
   const equippedWeapon = character.inventory?.find(
     (item) => item.type === "weapon" && item.equipped === true
@@ -570,138 +780,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Render scanning phase
   if (sequencePhase === "scanning") {
-    return (
-      <div className="combat-screen">
-        <div className="combat-layout">
-          {/* Combat Mode Header */}
-          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
-            <h2>
-              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
-            </h2>
-          </div>
-
-          {/* Stats Panel at Top */}
-          <div className="combat-stats-panel">
-            {/* Stats Row - Player and Enemy side by side */}
-            <div className="stats-row">
-              {/* Player Stats */}
-              <div className="player-stats mobile-hide-weapon">
-                <h3 className="stats-header">YOUR STATS</h3>
-                <div className="stat-row">
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{currentLevel}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{playerWeapon.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {totalAttack.toFixed(1)} ±2
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">
-                    {equippedArmor ? equippedArmor.name : "None"}
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(playerHp)}/{playerTotalHp}
-                  </span>
-                </div>
-                <div className="hp-bar-container">
-                  <div className="hp-bar player-hp-bar">
-                    <div
-                      className="hp-fill player-hp-fill"
-                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enemy Stats */}
-              <div className="enemy-stats mobile-hide-weapon">
-                <h3 className="stats-header">ENEMY STATS</h3>
-                <div className="stat-row">
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{enemy.level}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{enemy.weapon.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {(
-                      (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                    ).toFixed(1)}{" "}
-                    ±2
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">{enemy.armor.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">
-                    {(levels[enemy.level]?.defense || 0).toFixed(1)}
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
-                  </span>
-                </div>
-                <div className="hp-bar-container">
-                  <div className="hp-bar enemy-hp-bar">
-                    <div
-                      className="hp-fill enemy-hp-fill"
-                      style={{
-                        width: `${
-                          (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Credits Display - Full width row */}
-            <div
-              className="combat-credits-display"
-              style={{ cursor: "pointer" }}
-            >
-              <span className="stat-label">Credits </span>
-              <span className="stat-value">${character.credits}</span>
-            </div>
-          </div>
-
-          {/* Combat Log Below Stats */}
-          <div className="combat-log">
-            <div className="combat-message">
-              <div className="scanning-status">
-                SCANNING {Math.round(scanProgress)}%
-              </div>
-              <div className="scan-progress-bar">
-                <div
-                  className="scan-progress-fill"
-                  style={{ width: `${scanProgress}%` }}
-                ></div>
-              </div>
-            </div>
-          </div>
+    return renderCombatLayout(
+      "scanning",
+      <div className="combat-message">
+        <div className="scanning-status">
+          SCANNING {Math.round(scanProgress)}%
+        </div>
+        <div className="scan-progress-bar">
+          <div
+            className="scan-progress-fill"
+            style={{ width: `${scanProgress}%` }}
+          ></div>
         </div>
       </div>
     );
@@ -709,549 +798,193 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Render stats phase
   if (sequencePhase === "stats") {
-    return (
-      <div className="combat-screen">
-        <div className="combat-layout">
-          {/* Combat Mode Header */}
-          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
-            <h2>
-              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-            </h2>
-          </div>
-
-          {/* Stats Panel at Top */}
-          <div className="combat-stats-panel">
-            {/* Stats Row - Player and Enemy side by side */}
-            <div className="stats-row">
-              {/* Player Stats */}
-              <div className="player-stats mobile-hide-weapon">
-                <h3 className="stats-header">YOUR STATS</h3>
-                <div className="stat-row">
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{currentLevel}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{playerWeapon.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {totalAttack.toFixed(1)} ±2
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">
-                    {equippedArmor ? equippedArmor.name : "None"}
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(playerHp)}/{playerTotalHp}
-                  </span>
-                </div>
-                <div className="hp-bar-container">
-                  <div className="hp-bar player-hp-bar">
-                    <div
-                      className="hp-fill player-hp-fill"
-                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enemy Stats */}
-              <div className="enemy-stats mobile-hide-weapon">
-                <h3 className="stats-header">
-                  <TypeAnimation
-                    sequence={[enemy.name.toUpperCase()]}
-                    wrapper="span"
-                    speed={50}
-                    cursor={false}
-                  />
-                </h3>
-                <div
-                  className="stat-row fade-in"
-                  style={{ animationDelay: "0.5s" }}
-                >
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{enemy.level}</span>
-                </div>
-                <div
-                  className="stat-row fade-in"
-                  style={{ animationDelay: "1s" }}
-                >
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{enemy.weapon.name}</span>
-                </div>
-                <div
-                  className="stat-row fade-in"
-                  style={{ animationDelay: "1.5s" }}
-                >
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {(
-                      (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                    ).toFixed(1)}{" "}
-                    ±2
-                  </span>
-                </div>
-                <div
-                  className="stat-row fade-in"
-                  style={{ animationDelay: "2s" }}
-                >
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">{enemy.armor.name}</span>
-                </div>
-                <div
-                  className="stat-row fade-in"
-                  style={{ animationDelay: "2.5s" }}
-                >
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">
-                    {(levels[enemy.level]?.defense || 0).toFixed(1)}
-                  </span>
-                </div>
-                <div
-                  className="stat-row fade-in"
-                  style={{ animationDelay: "3s" }}
-                >
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
-                  </span>
-                </div>
-                <div
-                  className="hp-bar-container fade-in"
-                  style={{ animationDelay: "3s" }}
-                >
-                  <div className="hp-bar enemy-hp-bar">
-                    <div
-                      className="hp-fill enemy-hp-fill"
-                      style={{
-                        width: `${
-                          (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Credits Display - Full width row */}
-            <div
-              className="combat-credits-display"
-              style={{ cursor: "pointer" }}
-            >
-              <span className="stat-label">Credits </span>
-              <span className="stat-value">${character.credits}</span>
-            </div>
-          </div>
-
-          {/* Combat Log Below Stats */}
-          <div className="combat-log">
-            <div className="combat-message">
-              You have encountered <strong>{enemy.name}</strong>!!
-            </div>
-            <div className="enemy-description white-text">
-              <TypeAnimation
-                sequence={[enemy.description]}
-                wrapper="em"
-                speed={60}
-                cursor={false}
-                style={{ animationDelay: "3.5s" }}
-              />
-            </div>
-          </div>
+    return renderCombatLayout(
+      "stats",
+      <>
+        <div className="combat-message">
+          You have encountered <strong>{enemy.name}</strong>!!
         </div>
-      </div>
+        <div className="enemy-description white-text">
+          <TypeAnimation
+            sequence={[enemy.description]}
+            wrapper="em"
+            speed={60}
+            cursor={false}
+            style={{ animationDelay: "3.5s" }}
+          />
+        </div>
+      </>
     );
   }
 
   // Render combat phase
   if (sequencePhase === "combat") {
-    return (
-      <div className="combat-screen">
-        <div className="combat-layout">
-          {/* Combat Mode Header */}
-          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
-            <h2>
-              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
-            </h2>
-          </div>
-
-          {/* Stats Panel at Top */}
-          <div className="combat-stats-panel">
-            {/* Stats Row - Player and Enemy side by side */}
-            <div className="stats-row">
-              {/* Player Stats */}
-              <div className="player-stats mobile-hide-weapon">
-                <h3 className="stats-header">YOUR STATS</h3>
-                <div className="stat-row">
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{currentLevel}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{playerWeapon.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {totalAttack.toFixed(1)} ±2
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">
-                    {equippedArmor ? equippedArmor.name : "None"}
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(playerHp)}/{playerTotalHp}
-                  </span>
-                </div>
-                <div className="hp-bar-container">
-                  <div className="hp-bar player-hp-bar">
-                    <div
-                      className="hp-fill player-hp-fill"
-                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Enemy Stats */}
-              <div className="enemy-stats mobile-hide-weapon">
-                <h3 className="stats-header">{enemy.name.toUpperCase()}</h3>
-                <div className="stat-row">
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{enemy.level}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{enemy.weapon.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {(
-                      (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
-                    ).toFixed(1)}{" "}
-                    ±2
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">{enemy.armor.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">
-                    {(levels[enemy.level]?.defense || 0).toFixed(1)}
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(enemyHp)}/{levels[enemy.level]?.hp || 30}
-                  </span>
-                </div>
-                <div className="hp-bar-container">
-                  <div className="hp-bar enemy-hp-bar">
-                    <div
-                      className="hp-fill enemy-hp-fill"
-                      style={{
-                        width: `${
-                          (enemyHp / (levels[enemy.level]?.hp || 30)) * 100
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Credits Display - Full width row */}
-            <div
-              className="combat-credits-display"
-              style={{ cursor: "pointer" }}
-            >
-              <span className="stat-label">Credits </span>
-              <span className="stat-value">${character.credits}</span>
-            </div>
-          </div>
-
-          {/* Combat Log Below Stats */}
-          <div className="combat-log">
-            <div className="combat-message">
-              You have encountered <strong>{enemy.name}</strong>!!
-            </div>
-            <div className="enemy-description white-text">
-              <em>{enemy.description}</em>
-            </div>
-            {visibleMessages.map((message, index) => {
-              // Safety check for undefined messages
-              if (!message) {
-                return null;
-              }
-
-              // Check if this is a damage message (starts with >>)
-              if (message.startsWith(">>")) {
-                const damageText = message.substring(2); // Remove the ">>" prefix
-                return (
-                  <div key={index} className="combat-message">
-                    <span className="damage-message">
-                      <FaArrowRight className="damage-icon" />
-                      {damageText}
-                    </span>
-                  </div>
-                );
-              }
-
-              // Check if this is a player attack message (starts with "YOU")
-              if (message.startsWith("You")) {
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="player-attack">
-                      <span className="player-name">You</span>
-                      <span className="action-text">
-                        {" " + message.substring(4)}
-                      </span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Check if this is an enemy attack message (contains enemy name)
-              if (message.includes(enemy.name)) {
-                const enemyNameEnd =
-                  message.indexOf(enemy.name) + enemy.name.length;
-                const actionText = message.substring(enemyNameEnd);
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="enemy-attack">
-                      <span className="enemy-name">{enemy.name}</span>
-                      <span className="action-text">{actionText}</span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Default message styling
-              return (
-                <div key={index} className="combat-message">
-                  <span className="action-text">{message}</span>
-                </div>
-              );
-            })}
-
-            {/* Combat Options at the bottom */}
-            {showCombatOptions && !isRevealingMessages && (
-              <div className="combat-message">
-                <div className="combat-options">
-                  <div
-                    className="combat-button attack-button"
-                    onClick={handleAttack}
-                  >
-                    ATTACK
-                  </div>
-                  <div className="combat-button run-button" onClick={handleRun}>
-                    RUN
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
+    return renderCombatLayout(
+      "combat",
+      <>
+        <div className="combat-message">
+          You have encountered <strong>{enemy.name}</strong>!!
         </div>
-      </div>
+        <div className="enemy-description white-text">
+          <em>{enemy.description}</em>
+        </div>
+        {visibleMessages.map((message, index) => {
+          // Safety check for undefined messages
+          if (!message) {
+            return null;
+          }
+
+          // Check if this is a damage message (starts with >>)
+          if (message.startsWith(">>")) {
+            const damageText = message.substring(2); // Remove the ">>" prefix
+            return (
+              <div key={index} className="combat-message">
+                <span className="damage-message">
+                  <FaArrowRight className="damage-icon" />
+                  {damageText}
+                </span>
+              </div>
+            );
+          }
+
+          // Check if this is a player attack message (starts with "YOU")
+          if (message.startsWith("You")) {
+            return (
+              <div key={index} className="combat-message">
+                <div className="player-attack">
+                  <span className="player-name">You</span>
+                  <span className="action-text">
+                    {" " + message.substring(4)}
+                  </span>
+                </div>
+              </div>
+            );
+          }
+
+          // Check if this is an enemy attack message (contains enemy name)
+          if (message.includes(enemy.name)) {
+            const enemyNameEnd =
+              message.indexOf(enemy.name) + enemy.name.length;
+            const actionText = message.substring(enemyNameEnd);
+            return (
+              <div key={index} className="combat-message">
+                <div className="enemy-attack">
+                  <span className="enemy-name">{enemy.name}</span>
+                  <span className="action-text">{actionText}</span>
+                </div>
+              </div>
+            );
+          }
+
+          // Default message styling
+          return (
+            <div key={index} className="combat-message">
+              <span className="action-text">{message}</span>
+            </div>
+          );
+        })}
+
+        {/* Combat Options at the bottom */}
+        {showCombatOptions && !isRevealingMessages && (
+          <div className="combat-message">
+            <div className="combat-options">
+              <div
+                className="combat-button attack-button"
+                onClick={handleAttack}
+              >
+                ATTACK
+              </div>
+              <div className="combat-button run-button" onClick={handleRun}>
+                RUN
+              </div>
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 
   // Render results phase
   if (sequencePhase === "results") {
-    return (
-      <div className="combat-screen">
-        <div className="combat-layout">
-          {/* Combat Mode Header */}
-          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
-            <h2>
-              <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
-            </h2>
-          </div>
+    return renderCombatLayout(
+      "results",
+      <>
+        <div className="combat-message">
+          You have encountered <strong>{enemy.name}</strong>!!
+        </div>
+        <div className="enemy-description white-text">
+          <em>{enemy.description}</em>
+        </div>
+        {visibleMessages.map((message, index) => {
+          // Safety check for undefined messages
+          if (!message) {
+            return null;
+          }
 
-          {/* Stats Panel at Top */}
-          <div className="combat-stats-panel">
-            {/* Stats Row - Player and Results side by side */}
-            <div className="stats-row">
-              {/* Player Stats */}
-              <div className="player-stats mobile-hide-weapon">
-                <h3 className="stats-header">YOUR STATS</h3>
-                <div className="stat-row">
-                  <span className="stat-label">Level</span>
-                  <span className="stat-value">{currentLevel}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Weapon</span>
-                  <span className="stat-value">{playerWeapon.name}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Attack</span>
-                  <span className="stat-value">
-                    {totalAttack.toFixed(1)} ±2
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Armor</span>
-                  <span className="stat-value">
-                    {equippedArmor ? equippedArmor.name : "None"}
-                  </span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">Defense</span>
-                  <span className="stat-value">{totalDefense.toFixed(1)}</span>
-                </div>
-                <div className="stat-row">
-                  <span className="stat-label">HP</span>
-                  <span className="stat-value">
-                    {Math.round(playerHp)}/{playerTotalHp}
-                  </span>
-                </div>
-                <div className="hp-bar-container">
-                  <div className="hp-bar player-hp-bar">
-                    <div
-                      className="hp-fill player-hp-fill"
-                      style={{ width: `${(playerHp / playerTotalHp) * 100}%` }}
-                    ></div>
-                  </div>
+          // Check if this is a damage message (starts with >>)
+          if (message.startsWith(">>")) {
+            const damageText = message.substring(2); // Remove the ">>" prefix
+            return (
+              <div key={index} className="combat-message">
+                <span className="damage-message">
+                  <FaArrowRight className="damage-icon" />
+                  {damageText}
+                </span>
+              </div>
+            );
+          }
+
+          // Check if this is a player attack message (starts with "YOU")
+          if (message.startsWith("You")) {
+            return (
+              <div key={index} className="combat-message">
+                <div className="player-attack">
+                  <span className="player-name">You </span>
+                  <span className="action-text">{message.substring(4)}</span>
                 </div>
               </div>
+            );
+          }
 
-              {/* Results Display */}
-              <div className="results-display">
-                <h3 className="stats-header">COMBAT RESULTS</h3>
-                <div className="result-message">
-                  {endResult?.type === "victory" && (
-                    <span className="win-message">VICTORY!</span>
-                  )}
-                  {endResult?.type === "defeat" && (
-                    <span className="lose-message">DEFEAT!</span>
-                  )}
-                  {endResult?.type === "escape" && (
-                    <span className="escape-message">ESCAPED!</span>
-                  )}
-                  {endResult?.type === "initialFlee" && (
-                    <span className="escape-message">ESCAPED!</span>
-                  )}
+          // Check if this is an enemy attack message (contains enemy name)
+          if (message.includes(enemy.name)) {
+            const enemyNameEnd =
+              message.indexOf(enemy.name) + enemy.name.length;
+            const actionText = message.substring(enemyNameEnd);
+            return (
+              <div key={index} className="combat-message">
+                <div className="enemy-attack">
+                  <span className="enemy-name">{enemy.name}</span>
+                  <span className="action-text">{actionText}</span>
                 </div>
               </div>
+            );
+          }
+
+          // Default message styling
+          return (
+            <div key={index} className="combat-message">
+              <span className="action-text">{message}</span>
             </div>
-
-            {/* Credits Display - Full width row */}
+          );
+        })}
+        <div className="combat-message">
+          <div className="combat-options">
             <div
-              className="combat-credits-display"
-              style={{ cursor: "pointer" }}
+              className="combat-button attack-button"
+              onClick={() => restartCombat()}
             >
-              <span className="stat-label">Credits </span>
-              <span className="stat-value">${character.credits}</span>
+              NEXT FIGHT
             </div>
-          </div>
-
-          {/* Combat Log Below Stats */}
-          <div className="combat-log">
-            <div className="combat-message">
-              You have encountered <strong>{enemy.name}</strong>!!
-            </div>
-            <div className="enemy-description white-text">
-              <em>{enemy.description}</em>
-            </div>
-            {visibleMessages.map((message, index) => {
-              // Safety check for undefined messages
-              if (!message) {
-                return null;
-              }
-
-              // Check if this is a damage message (starts with >>)
-              if (message.startsWith(">>")) {
-                const damageText = message.substring(2); // Remove the ">>" prefix
-                return (
-                  <div key={index} className="combat-message">
-                    <span className="damage-message">
-                      <FaArrowRight className="damage-icon" />
-                      {damageText}
-                    </span>
-                  </div>
-                );
-              }
-
-              // Check if this is a player attack message (starts with "YOU")
-              if (message.startsWith("You")) {
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="player-attack">
-                      <span className="player-name">You </span>
-                      <span className="action-text">
-                        {message.substring(4)}
-                      </span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Check if this is an enemy attack message (contains enemy name)
-              if (message.includes(enemy.name)) {
-                const enemyNameEnd =
-                  message.indexOf(enemy.name) + enemy.name.length;
-                const actionText = message.substring(enemyNameEnd);
-                return (
-                  <div key={index} className="combat-message">
-                    <div className="enemy-attack">
-                      <span className="enemy-name">{enemy.name}</span>
-                      <span className="action-text">{actionText}</span>
-                    </div>
-                  </div>
-                );
-              }
-
-              // Default message styling
-              return (
-                <div key={index} className="combat-message">
-                  <span className="action-text">{message}</span>
-                </div>
-              );
-            })}
-            <div className="combat-message">
-              <div className="combat-options">
-                <div
-                  className="combat-button attack-button"
-                  onClick={() => restartCombat()}
-                >
-                  NEXT FIGHT
-                </div>
-                <div
-                  className="combat-button leave-button"
-                  onClick={() => onCombatEnd("leave", null)}
-                >
-                  LEAVE COMBAT
-                </div>
-              </div>
+            <div
+              className="combat-button leave-button"
+              onClick={() => onCombatEnd("leave", null)}
+            >
+              LEAVE COMBAT
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 
