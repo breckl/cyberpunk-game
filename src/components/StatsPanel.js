@@ -171,6 +171,8 @@ function StatsPanel({
       )}
 
       <div className="character-info">
+        <div className="character-name">{character.name}</div>
+        <div className="character-class">{character.class}</div>
         <h2>Level {currentLevel}</h2>
 
         {/* XP Progress Bar */}

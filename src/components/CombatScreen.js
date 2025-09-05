@@ -21,6 +21,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Calculate total HP including armor based on character's current level
   const currentLevel = getCurrentLevel(character.experience);
+
+  // Testing popup states
+  const [showTestPopup, setShowTestPopup] = useState(false);
+  const [testLevel, setTestLevel] = useState(currentLevel);
+  const [testCredits, setTestCredits] = useState(character.credits);
   const levelInfo = levels[currentLevel];
   const playerTotalHp = levelInfo?.hp || 30;
 
@@ -103,6 +108,12 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const enemyLevelHp = levels[enemy.level]?.hp || 30;
     setEnemyHp(parseFloat(enemyLevelHp.toFixed(2)));
   }, [enemy]);
+
+  // Update test values when character changes
+  useEffect(() => {
+    setTestLevel(currentLevel);
+    setTestCredits(character.credits);
+  }, [currentLevel, character.credits]);
 
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [combatEnded, setCombatEnded] = useState(false);
@@ -412,6 +423,41 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     }
   }, [combatRounds, character, enemy, onUpdateCharacter, combatSystem]);
 
+  // Test popup handlers
+  const handleTestPopupOpen = useCallback(
+    (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      console.log("Test popup opened!");
+      setTestLevel(currentLevel);
+      setTestCredits(character.credits);
+      setShowTestPopup(true);
+    },
+    [currentLevel, character.credits]
+  );
+
+  const handleTestPopupSave = useCallback(() => {
+    if (onUpdateCharacter) {
+      // Get XP for the selected level
+      const selectedLevelInfo = levels[testLevel];
+      const newXP = selectedLevelInfo ? selectedLevelInfo.xp : 0;
+
+      const updatedCharacter = {
+        ...character,
+        experience: newXP,
+        credits: testCredits,
+      };
+      onUpdateCharacter(updatedCharacter);
+    }
+    setShowTestPopup(false);
+  }, [character, testLevel, testCredits, onUpdateCharacter]);
+
+  const handleTestPopupCancel = useCallback(() => {
+    setTestLevel(currentLevel);
+    setTestCredits(character.credits);
+    setShowTestPopup(false);
+  }, [currentLevel, character.credits]);
+
   // Stats reveal sequence
   useEffect(() => {
     if (sequencePhase === "stats") {
@@ -480,13 +526,55 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     handleRun,
   ]);
 
+  // Render test popup first (highest priority)
+  if (showTestPopup) {
+    return (
+      <div className="test-popup-overlay">
+        <div className="test-popup">
+          <h3>Testing Mode - Set Player Stats</h3>
+          <div className="test-form">
+            <div className="form-group">
+              <label htmlFor="test-level">Level (1-10):</label>
+              <input
+                id="test-level"
+                type="number"
+                min="1"
+                max="10"
+                value={testLevel}
+                onChange={(e) => setTestLevel(parseInt(e.target.value) || 1)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="test-credits">Credits:</label>
+              <input
+                id="test-credits"
+                type="number"
+                min="0"
+                value={testCredits}
+                onChange={(e) => setTestCredits(parseInt(e.target.value) || 0)}
+              />
+            </div>
+            <div className="form-actions">
+              <button className="save-button" onClick={handleTestPopupSave}>
+                Save
+              </button>
+              <button className="cancel-button" onClick={handleTestPopupCancel}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Render scanning phase
   if (sequencePhase === "scanning") {
     return (
       <div className="combat-screen">
         <div className="combat-layout">
           {/* Combat Mode Header */}
-          <div className="combat-mode-header">
+          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
             <h2>
               <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
             </h2>
@@ -593,15 +681,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             {/* Credits Display - Full width row */}
             <div
               className="combat-credits-display"
-              onClick={() => {
-                if (onUpdateCharacter) {
-                  const updatedCharacter = {
-                    ...character,
-                    credits: character.credits + 1000,
-                  };
-                  onUpdateCharacter(updatedCharacter);
-                }
-              }}
               style={{ cursor: "pointer" }}
             >
               <span className="stat-label">Credits </span>
@@ -634,7 +713,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           {/* Combat Mode Header */}
-          <div className="combat-mode-header">
+          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
             <h2>
               <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
             </h2>
@@ -769,15 +848,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             {/* Credits Display - Full width row */}
             <div
               className="combat-credits-display"
-              onClick={() => {
-                if (onUpdateCharacter) {
-                  const updatedCharacter = {
-                    ...character,
-                    credits: character.credits + 1000,
-                  };
-                  onUpdateCharacter(updatedCharacter);
-                }
-              }}
               style={{ cursor: "pointer" }}
             >
               <span className="stat-label">Credits </span>
@@ -811,7 +881,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           {/* Combat Mode Header */}
-          <div className="combat-mode-header">
+          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
             <h2>
               <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>
             </h2>
@@ -918,15 +988,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             {/* Credits Display - Full width row */}
             <div
               className="combat-credits-display"
-              onClick={() => {
-                if (onUpdateCharacter) {
-                  const updatedCharacter = {
-                    ...character,
-                    credits: character.credits + 1000,
-                  };
-                  onUpdateCharacter(updatedCharacter);
-                }
-              }}
               style={{ cursor: "pointer" }}
             >
               <span className="stat-label">Credits </span>
@@ -1026,7 +1087,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <div className="combat-screen">
         <div className="combat-layout">
           {/* Combat Mode Header */}
-          <div className="combat-mode-header">
+          <div className="combat-mode-header" onClick={handleTestPopupOpen}>
             <h2>
               <span className="combat-mode-flash">COMBAT MODE ACTIVE</span>{" "}
             </h2>
@@ -1102,15 +1163,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             {/* Credits Display - Full width row */}
             <div
               className="combat-credits-display"
-              onClick={() => {
-                if (onUpdateCharacter) {
-                  const updatedCharacter = {
-                    ...character,
-                    credits: character.credits + 1000,
-                  };
-                  onUpdateCharacter(updatedCharacter);
-                }
-              }}
               style={{ cursor: "pointer" }}
             >
               <span className="stat-label">Credits </span>

@@ -19,6 +19,12 @@
   background: rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.combat-mode-header:hover {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .combat-screen .combat-stats-panel {
@@ -323,7 +329,7 @@
   padding: 0.75rem 1rem;
   border-radius: 5px;
   font-weight: bold;
-  min-width: 50%;
+  flex: 1;
 }
 
 .combat-button:hover {
@@ -337,11 +343,13 @@
 .attack-button {
   border: 1px solid var(--neon-green);
   color: var(--neon-green);
+  flex: 0 0 60%;
 }
 
 .run-button {
   border: 1px solid var(--neon-red);
   color: var(--neon-red);
+  flex: 0 0 40%;
 }
 
 .leave-button {
@@ -484,16 +492,6 @@
   align-items: center;
 }
 
-.combat-credits-display:hover {
-  background: rgba(0, 255, 65, 0.1);
-  border: 1px solid var(--neon-green);
-}
-
-.combat-credits-display:active {
-  background: rgba(0, 255, 65, 0.2);
-  transform: scale(0.98);
-}
-
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
   .combat-layout {
@@ -503,7 +501,7 @@
   }
 
   .combat-mode-header {
-    padding: 0.75rem 0.75rem 0 0.75rem;
+    padding: 1rem 0rem 0.3rem;
   }
 
   .combat-mode-header h2 {
@@ -578,15 +576,23 @@
     margin-top: 1rem;
   }
 
-  /* All combat buttons full width on mobile */
+  /* Combat buttons with specific widths on mobile */
   .combat-button {
-    width: 100%;
     font-size: 1.1rem;
     padding: 1rem;
     margin-bottom: 0.5rem;
     justify-content: center;
     border-radius: 5px;
     font-weight: bold;
+    text-align: center;
+  }
+
+  .attack-button {
+    flex: 0 0 65%;
+  }
+
+  .run-button {
+    flex: 0 0 35%;
   }
 
   .button-key {
@@ -602,5 +608,122 @@
 
   .scan-progress-bar {
     width: 100%;
+  }
+}
+
+/* Test popup styles */
+.test-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.test-popup {
+  background: var(--dark-green-bg);
+  border: 2px solid #00ff41;
+  border-radius: 8px;
+  padding: 2rem;
+  min-width: 300px;
+  max-width: 500px;
+  box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+.test-popup h3 {
+  color: #00ff41;
+  margin: 0 0 1.5rem 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.test-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  color: #0088ff;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #00ff41;
+  border-radius: 4px;
+  padding: 0.75rem;
+  color: #00ff41;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #0088ff;
+  box-shadow: 0 0 5px rgba(0, 136, 255, 0.3);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.save-button,
+.cancel-button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-family: "Share Tech Mono", monospace;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.save-button {
+  background: #00ff41;
+  color: #000;
+}
+
+.save-button:hover {
+  background: #00cc33;
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.cancel-button {
+  background: #ff4444;
+  color: #fff;
+}
+
+.cancel-button:hover {
+  background: #cc3333;
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+}
+
+/* Mobile popup styles */
+@media (max-width: 768px) {
+  .test-popup {
+    margin: 1rem;
+    padding: 1.5rem;
+    min-width: auto;
+  }
+
+  .form-actions {
+    flex-direction: column;
   }
 }

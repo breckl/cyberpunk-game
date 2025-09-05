@@ -4,6 +4,7 @@
   flex-direction: column;
   background: var(--dark-bg);
   padding: 2rem;
+  overflow-y: auto;
 }
 
 .creation-screen {
@@ -11,14 +12,12 @@
   border: 1px solid var(--neon-green);
   border-radius: 4px;
   padding: 2rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto;
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
-  overflow: hidden;
 }
 
 .screen-header {
@@ -29,26 +28,80 @@
   color: var(--neon-blue);
   margin: 0;
   font-size: 1.8rem;
-  text-shadow: 0 0 10px rgba(0, 153, 255, 0.5);
 }
 
 .screen-description {
   color: var(--neon-green);
   margin-bottom: 2rem;
   line-height: 1.6;
-  text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
+}
+
+.class-selection h3 {
+  color: var(--neon-blue);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.class-option {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--neon-green);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.class-option.selected {
+  background: transparent;
+  border-color: var(--neon-pink);
+}
+
+.class-name {
+  color: var(--neon-blue);
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.class-description {
+  color: var(--neon-green);
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+/* Name Selection */
+.name-selection {
+  margin-bottom: 2rem;
+}
+
+.name-selection h3 {
+  color: var(--neon-blue);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.name-input {
+  background: transparent;
+  border: 1px solid var(--neon-green);
+  color: var(--neon-green);
+  padding: 0.75rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.2rem;
+  outline: none;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 4px;
 }
 
 .option-key {
   color: var(--neon-pink);
   font-weight: bold;
   min-width: 3ch;
-  text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
 }
 
 .option-label {
   color: var(--neon-green);
-  text-shadow: 0 0 5px rgba(0, 255, 65, 0.3);
 }
 
 .name-form {
@@ -68,10 +121,6 @@
   outline: none;
 }
 
-.name-form input:focus {
-  box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
-}
-
 .name-form button {
   background: transparent;
   border: 1px solid var(--neon-green);
@@ -84,31 +133,73 @@
 
 .name-form button:hover {
   background: rgba(0, 255, 65, 0.1);
-  box-shadow: 0 0 10px var(--neon-green);
 }
 
 /* Character Summary */
 .character-summary {
   background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--neon-green);
   border-radius: 6px;
-  padding: 1.5rem 0;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.summary-row {
-  align-items: center;
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 4px;
-}
-
-.summary-row .label {
+.character-summary h3 {
   color: var(--neon-blue);
-  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
 }
 
-.summary-row .value {
+.summary-info {
   color: var(--neon-green);
+  line-height: 1.6;
+}
+
+.summary-info p {
+  margin: 0.5rem 0;
+}
+
+.summary-info strong {
+  color: var(--neon-blue);
+}
+
+/* Create Character Button */
+.create-button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.create-character-btn {
+  background: transparent;
+  border: 2px solid var(--neon-pink);
+  color: white;
+  padding: 1rem 2rem;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 1.1rem;
   font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.create-character-btn.enabled:hover {
+  background: rgba(0, 255, 65, 0.2);
+  transform: translateY(-2px);
+}
+
+.create-character-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: #666;
+  color: #666;
+}
+
+.create-character-btn.disabled:hover {
+  background: transparent;
+  transform: none;
 }
 
 /* Starting Info */

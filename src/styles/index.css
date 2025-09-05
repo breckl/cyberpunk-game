@@ -247,12 +247,6 @@ h3 {
   gap: 0rem;
 }
 
-.options-grid .menu-item:hover::before {
-  content: "// ";
-  color: var(--neon-pink);
-  margin-right: 4px;
-}
-
 .option-row {
   display: flex;
   justify-content: flex-start;
@@ -412,8 +406,8 @@ h3 {
   /* Mobile button styles for streets menu */
   .menu-button {
     width: 100%;
-    background: var(--extra-dark-pink-bg);
-    border: 0;
+    background: transparent;
+    border: 1px solid var(--neon-pink);
     color: white;
     padding: 12px 20px;
     font-size: 1rem;
