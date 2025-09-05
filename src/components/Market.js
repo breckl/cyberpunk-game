@@ -45,7 +45,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     const categories = ["weapons", "armor"];
 
     return (
-      <div className="inventory-tabs">
+      <div className="content-tabs">
         {categories.map((category) => (
           <button
             key={category}
@@ -82,12 +82,8 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     const getItemType = () => {
       if (selectedTab === "weapons") {
         return "weapon";
-      } else if (selectedTab === "netgear") {
-        return "netgear";
       } else if (selectedTab === "armor") {
         return "armor";
-      } else if (selectedTab === "cyberware") {
-        return "cyberware";
       } else {
         return selectedTab; // fallback
       }
@@ -128,9 +124,6 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
       `Purchased ${item.name}`
     );
     updatedCharacter.credits = creditResult.remainingCredits;
-
-    console.log("Credit result:", creditResult);
-    console.log("Final character state:", updatedCharacter);
 
     onUpdateCharacter(updatedCharacter);
     setLocalCharacter(updatedCharacter);
@@ -240,79 +233,77 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     });
 
     return (
-      <div className="store-section">
-        <div className="item-list">
-          {sortedItems.map((item) => (
-            <div key={item.id} className="item-card">
-              <div className="item-header">
-                <span className="item-name">{item.name}</span>
-                <span className="item-price">${formatCredits(item.price)}</span>
-              </div>
-              <div className="item-description">{item.description}</div>
-              <div className="item-stats">
-                {item.defense && (
-                  <div className="item-stat">
-                    Reduces damage by {item.defense}%
-                  </div>
-                )}
-                <div className="item-stat-row">
-                  {item.level && (
-                    <span className="stat-badge level">LVL {item.level}</span>
-                  )}
-                  {item.damage && (
-                    <span className="stat-badge damage">DMG {item.damage}</span>
-                  )}
-                </div>
-              </div>
-              {(() => {
-                const isInInventory = localCharacter.inventory.some(
-                  (invItem) => invItem.id === item.id
-                );
-
-                if (isInInventory) {
-                  const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
-                  return (
-                    <button
-                      className="sell-button"
-                      onClick={() => handleSell(item)}
-                    >
-                      Sell for ${formatCredits(sellPrice)}
-                    </button>
-                  );
-                } else {
-                  // Check level requirement
-                  const characterLevel = getCurrentLevel(
-                    localCharacter.experience
-                  );
-                  const itemLevel = item.level || 1;
-                  const meetsLevelRequirement = characterLevel >= itemLevel;
-
-                  return (
-                    <button
-                      className={`purchase-button ${
-                        localCharacter.credits >= item.price &&
-                        meetsLevelRequirement
-                          ? ""
-                          : "disabled"
-                      }`}
-                      onClick={() => handlePurchase(item)}
-                      disabled={
-                        localCharacter.credits < item.price ||
-                        !meetsLevelRequirement
-                      }
-                    >
-                      {!meetsLevelRequirement
-                        ? `Requires Level ${itemLevel}`
-                        : localCharacter.credits >= item.price
-                        ? "Buy"
-                        : "Not Enough Credits"}
-                    </button>
-                  );
-                }
-              })()}
+      <div className="item-list">
+        {sortedItems.map((item) => (
+          <div key={item.id} className="item-card">
+            <div className="item-header">
+              <span className="item-name">{item.name}</span>
+              <span className="item-price">${formatCredits(item.price)}</span>
             </div>
-          ))}
-        </div>
+            <div className="item-description">{item.description}</div>
+            <div className="item-stats">
+              {item.defense && (
+                <div className="item-stat">
+                  Reduces damage by {item.defense}%
+                </div>
+              )}
+              <div className="item-stat-row">
+                {item.level && (
+                  <span className="stat-badge level">LVL {item.level}</span>
+                )}
+                {item.damage && (
+                  <span className="stat-badge damage">DMG {item.damage}</span>
+                )}
+              </div>
+            </div>
+            {(() => {
+              const isInInventory = localCharacter.inventory.some(
+                (invItem) => invItem.id === item.id
+              );
+
+              if (isInInventory) {
+                const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
+                return (
+                  <button
+                    className="item-button sell-button"
+                    onClick={() => handleSell(item)}
+                  >
+                    SELL FOR ${formatCredits(sellPrice)}
+                  </button>
+                );
+              } else {
+                // Check level requirement
+                const characterLevel = getCurrentLevel(
+                  localCharacter.experience
+                );
+                const itemLevel = item.level || 1;
+                const meetsLevelRequirement = characterLevel >= itemLevel;
+
+                return (
+                  <button
+                    className={`item-button purchase-button ${
+                      localCharacter.credits >= item.price &&
+                      meetsLevelRequirement
+                        ? ""
+                        : "disabled"
+                    }`}
+                    onClick={() => handlePurchase(item)}
+                    disabled={
+                      localCharacter.credits < item.price ||
+                      !meetsLevelRequirement
+                    }
+                  >
+                    {!meetsLevelRequirement
+                      ? `Requires Level ${itemLevel}`
+                      : localCharacter.credits >= item.price
+                      ? "Buy"
+                      : "Not Enough Credits"}
+                  </button>
+                );
+              }
+            })()}
+          </div>
+        ))}
       </div>
     );
   };
@@ -332,9 +323,8 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     return (
       <div className="confirmation-overlay">
         <div className="confirmation-dialog">
-          <h3>Are you sure?</h3>
           <p>
-            Do you want to {actionText} {confirmingPurchase.name} for{" "}
+            Are you sure you want to {actionText} {confirmingPurchase.name} for{" "}
             {priceText}?
           </p>
           <div className="confirmation-buttons">
@@ -356,14 +346,13 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     return (
       <div className="confirmation-overlay">
         <div className="confirmation-dialog">
-          <h3>Equip Item?</h3>
           <p>Do you want to equip {confirmingEquip.name}?</p>
           <div className="confirmation-buttons">
             <button className="confirm-button" onClick={confirmEquip}>
-              Yes, Equip
+              YES
             </button>
             <button className="cancel-button" onClick={cancelEquip}>
-              No, Keep in Inventory
+              NO
             </button>
           </div>
         </div>
@@ -390,80 +379,76 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
         });
 
         return (
-          <div className="store-section">
-            <div className="item-list">
-              {sortedWeapons.map((item) => (
-                <div key={item.id} className="item-card">
-                  <div className="item-header">
-                    <span className="item-name">{item.name}</span>
-                    <span className="item-price">
-                      ${formatCredits(item.price)}
-                    </span>
-                  </div>
-                  <div className="item-description">{item.description}</div>
-                  <div className="item-stats">
-                    <div className="item-stat-row">
-                      {item.level && (
-                        <span className="stat-badge level">
-                          LVL {item.level}
-                        </span>
-                      )}
-                      {item.damage && (
-                        <span className="stat-badge damage">
-                          DMG {item.damage.toFixed(2)}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                  {(() => {
-                    const isInInventory = localCharacter.inventory.some(
-                      (invItem) => invItem.id === item.id
-                    );
-
-                    if (isInInventory) {
-                      const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
-                      return (
-                        <button
-                          className="sell-button"
-                          onClick={() => handleSell(item)}
-                        >
-                          Sell for ${formatCredits(sellPrice)}
-                        </button>
-                      );
-                    } else {
-                      // Check level requirement
-                      const characterLevel = getCurrentLevel(
-                        localCharacter.experience
-                      );
-                      const itemLevel = item.level || 1;
-                      const meetsLevelRequirement = characterLevel >= itemLevel;
-
-                      return (
-                        <button
-                          className={`purchase-button ${
-                            localCharacter.credits >= item.price &&
-                            meetsLevelRequirement
-                              ? ""
-                              : "disabled"
-                          }`}
-                          onClick={() => handlePurchase(item)}
-                          disabled={
-                            localCharacter.credits < item.price ||
-                            !meetsLevelRequirement
-                          }
-                        >
-                          {!meetsLevelRequirement
-                            ? `Requires Level ${itemLevel}`
-                            : localCharacter.credits >= item.price
-                            ? "Buy"
-                            : "Not Enough Credits"}
-                        </button>
-                      );
-                    }
-                  })()}
+          <div className="item-list">
+            {sortedWeapons.map((item) => (
+              <div key={item.id} className="item-card">
+                <div className="item-header">
+                  <span className="item-name">{item.name}</span>
+                  <span className="item-price">
+                    ${formatCredits(item.price)}
+                  </span>
                 </div>
-              ))}
-            </div>
+                <div className="item-description">{item.description}</div>
+                <div className="item-stats">
+                  <div className="item-stat-row">
+                    {item.level && (
+                      <span className="stat-badge level">LVL {item.level}</span>
+                    )}
+                    {item.damage && (
+                      <span className="stat-badge damage">
+                        DMG {item.damage.toFixed(2)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {(() => {
+                  const isInInventory = localCharacter.inventory.some(
+                    (invItem) => invItem.id === item.id
+                  );
+
+                  if (isInInventory) {
+                    const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
+                    return (
+                      <button
+                        className="item-button sell-button"
+                        onClick={() => handleSell(item)}
+                      >
+                        SELL FOR ${formatCredits(sellPrice)}
+                      </button>
+                    );
+                  } else {
+                    // Check level requirement
+                    const characterLevel = getCurrentLevel(
+                      localCharacter.experience
+                    );
+                    const itemLevel = item.level || 1;
+                    const meetsLevelRequirement = characterLevel >= itemLevel;
+
+                    return (
+                      <button
+                        className={`item-button purchase-button ${
+                          localCharacter.credits >= item.price &&
+                          meetsLevelRequirement
+                            ? ""
+                            : "disabled"
+                        }`}
+                        onClick={() => handlePurchase(item)}
+                        disabled={
+                          localCharacter.credits < item.price ||
+                          !meetsLevelRequirement
+                        }
+                      >
+                        {!meetsLevelRequirement
+                          ? `Requires Level ${itemLevel}`
+                          : localCharacter.credits >= item.price
+                          ? "BUY"
+                          : "Not Enough Credits"}
+                      </button>
+                    );
+                  }
+                })()}
+              </div>
+            ))}
           </div>
         );
       case "armor":
@@ -488,7 +473,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   };
 
   return (
-    <div className="market">
+    <div className="page-container">
       {/* Back Button Row */}
       <div className="back-button-row">
         <button className="back-button" onClick={onExit}>
@@ -497,14 +482,14 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
         </button>
       </div>
 
-      <div className="market-header">
+      <div className="header-bar">
         <h2>Market</h2>
         <div className="header-credits">
           ${formatCredits(localCharacter.credits)}
         </div>
       </div>
       {renderTabs()}
-      <div className="market-content">{renderContent()}</div>
+      <div className="content-area">{renderContent()}</div>
       {renderConfirmationDialog()}
       {renderEquipConfirmationDialog()}
     </div>

@@ -6,9 +6,6 @@ function TravelMenu({ character, onNavigate }) {
     description: "Where would you like to go in Night City?",
     options: [
       { key: "chiba-city", label: "Chiba City" },
-      /*{ key: "uptown", label: "Uptown" },
-      { key: "downtown", label: "Downtown" },
-      { key: "corporate", label: "Corporate District" },*/
       { key: "divider", label: "divider" },
       { key: "streets", label: "Back to Streets" },
     ],

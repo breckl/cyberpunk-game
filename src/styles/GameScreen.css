@@ -240,11 +240,7 @@
   }
 }
 
-@media (min-width: 769px) {
-  .mobile-back-row {
-    display: none;
-  }
-}
+/* Desktop media queries removed - mobile-only app */
 
 .help-text {
   line-height: 1.6;
@@ -306,42 +302,7 @@
     visibility: visible;
   }
 
-  .mobile-stats-toggle {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 1001;
-  }
-
-  .mobile-stats-button {
-    color: var(--neon-green);
-    background: transparent;
-    padding: 8px 10px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: all 0.2s ease;
-  }
-
-  .mobile-stats-button:hover {
-    background: var(--extra-dark-green-bg);
-    color: var(--neon-green);
-  }
+  /* Mobile stats classes moved to index.css */
 }
 
-@media (min-width: 769px) {
-  .mobile-stats-toggle {
-    display: none;
-  }
-
-  .stats-panel {
-    position: relative;
-    right: auto;
-    width: 300px;
-    height: auto;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-  }
-}
+/* Desktop media queries removed - mobile-only app */

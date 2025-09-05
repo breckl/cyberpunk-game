@@ -117,7 +117,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     const categories = ["all", "weapon", "armor"];
 
     return (
-      <div className="inventory-tabs">
+      <div className="content-tabs">
         {categories.map((category) => (
           <button
             key={category}
@@ -173,9 +173,8 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     return (
       <div className="confirmation-overlay">
         <div className="confirmation-dialog">
-          <h3>Are you sure?</h3>
           <p>
-            Do you want to sell {confirmingSell.name} for $
+            Are you sure you want to sell {confirmingSell.name} for $
             {formatCredits(sellPrice)}?
           </p>
           <div className="confirmation-buttons">
@@ -216,8 +215,8 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     }, {});
 
     return Object.entries(groupedItems).map(([type, items]) => (
-      <div key={type} className="inventory-section">
-        <div className="item-grid">
+      <div key={type}>
+        <div className="item-list">
           {items.map((item, index) => (
             <div key={`${item.id}-${index}`} className="item-card">
               <div className="item-header">
@@ -234,16 +233,18 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
               )}
               <div className="item-buttons">
                 <button
-                  className="sell-button"
-                  onClick={() => handleSell(item)}
-                >
-                  Sell for ${formatCredits(Math.floor(item.price * 0.1))}
-                </button>
-                <button
-                  className={`equip-button ${item.equipped ? "equipped" : ""}`}
+                  className={`item-button equip-button ${
+                    item.equipped ? "equipped" : ""
+                  }`}
                   onClick={() => handleEquip(item)}
                 >
-                  {item.equipped ? "Equipped" : "Equip"}
+                  {item.equipped ? "EQUIPPED" : "EQUIP"}
+                </button>
+                <button
+                  className="item-button sell-button"
+                  onClick={() => handleSell(item)}
+                >
+                  SELL FOR ${formatCredits(Math.floor(item.price * 0.1))}
                 </button>
               </div>
             </div>
@@ -254,8 +255,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   };
 
   return (
-    <div className="inventory-screen">
-      {/* Back Button Row */}
+    <div className="page-containers">
       <div className="back-button-row">
         <button className="back-button" onClick={onExit}>
           <FaArrowLeft />
@@ -263,7 +263,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
         </button>
       </div>
 
-      <div className="inventory-header">
+      <div className="header-bar">
         <h2>Inventory</h2>
         <div className="header-credits">
           ${formatCredits(localCharacter.credits)}
@@ -271,7 +271,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
       </div>
       {renderEquippedItems()}
       {renderTabs()}
-      <div className="inventory-content">
+      <div className="content-area">
         {localCharacter.inventory.length === 0 ? (
           <div className="empty-inventory">
             Your inventory is empty. Hit the streets, slacker!

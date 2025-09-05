@@ -121,7 +121,7 @@ function StatsPanel({
     >
       {/* Mobile Navigation Menu */}
       {showMobileStats && onNavigate && (
-        <div className="mobile-nav-menu">
+        <div className="nav-menu">
           <div
             className="nav-item"
             onClick={() => {

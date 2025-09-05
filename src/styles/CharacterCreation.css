@@ -19,17 +19,6 @@
   flex-direction: column;
   position: relative;
 }
-
-.screen-header {
-  margin-bottom: 2rem;
-}
-
-.screen-header h2 {
-  color: var(--neon-blue);
-  margin: 0;
-  font-size: 1.8rem;
-}
-
 .screen-description {
   color: var(--neon-green);
   margin-bottom: 2rem;
