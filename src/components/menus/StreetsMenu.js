@@ -1,4 +1,5 @@
 import React from "react";
+import { playClickSound } from "../../utils/soundUtils.js";
 
 function StreetsMenu({
   character,
@@ -34,6 +35,7 @@ function StreetsMenu({
             <button
               className="menu-button"
               onClick={() => {
+                playClickSound();
                 onNavigate(option.key);
               }}
             >

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/StatsPanel.css";
 import levels, {
   getCurrentLevel,
   getNextLevelXP,
   getXPProgress,
 } from "../data/levels.js";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import { useSound } from "../contexts/SoundContext.js";
+import { setGlobalSoundState } from "../utils/soundUtils.js";
 
 function StatsPanel({
   character,
@@ -13,12 +16,18 @@ function StatsPanel({
   onNavigate,
   onCloseMobileStats,
 }) {
+  const { soundsEnabled, toggleSounds } = useSound();
   const [tooltip, setTooltip] = useState({
     show: false,
     item: null,
     x: 0,
     y: 0,
   });
+
+  // Update global sound state when context changes
+  useEffect(() => {
+    setGlobalSoundState(soundsEnabled);
+  }, [soundsEnabled]);
 
   if (!character) return null;
 
@@ -171,9 +180,24 @@ function StatsPanel({
       )}
 
       <div className="character-info">
-        <div className="character-name">{character.name}</div>
-        <div className="character-class">{character.class}</div>
-        <h2>Level {currentLevel}</h2>
+        <div className="character-header">
+          <div className="character-name">{character.name}</div>
+          <div className="character-class">{character.class}</div>
+        </div>
+        <div className="character-controls">
+          <h2>Level {currentLevel}</h2>
+          <button
+            className="sound-toggle"
+            onClick={toggleSounds}
+            title={soundsEnabled ? "Disable sounds" : "Enable sounds"}
+          >
+            {soundsEnabled ? (
+              <HiSpeakerWave className="sound-icon enabled" />
+            ) : (
+              <HiSpeakerXMark className="sound-icon disabled" />
+            )}
+          </button>
+        </div>
 
         {/* XP Progress Bar */}
         <div className="xp-progress">

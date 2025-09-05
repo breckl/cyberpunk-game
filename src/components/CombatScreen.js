@@ -6,6 +6,8 @@ import { getLevelBasedEnemy } from "../data/enemies.js";
 import levels, { getCurrentLevel } from "../data/levels.js";
 import market from "../data/market.js";
 import CombatSystem from "../game/combat/CombatSystem.js";
+import LevelUpOverlay from "./LevelUpOverlay.js";
+import { playVictorySound, playDefeatSound } from "../utils/soundUtils.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatSystem = useMemo(() => new CombatSystem(), []);
@@ -25,9 +27,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   // Testing popup states
   const [showTestPopup, setShowTestPopup] = useState(false);
   const [testLevel, setTestLevel] = useState(currentLevel);
+  const [testXP, setTestXP] = useState(character.experience);
   const [testCredits, setTestCredits] = useState(character.credits);
   const levelInfo = levels[currentLevel];
   const playerTotalHp = levelInfo?.hp || 30;
+
+  // Level-up overlay states
+  const [showLevelUpOverlay, setShowLevelUpOverlay] = useState(false);
+  const [newLevel, setNewLevel] = useState(null);
+  const [previousLevel, setPreviousLevel] = useState(currentLevel);
 
   // Helper function to render combat mode header
   const renderCombatModeHeader = () => (
@@ -322,8 +330,18 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   // Update test values when character changes
   useEffect(() => {
     setTestLevel(currentLevel);
+    setTestXP(character.experience);
     setTestCredits(character.credits);
-  }, [currentLevel, character.credits]);
+  }, [currentLevel, character.experience, character.credits]);
+
+  // Detect level-up and show overlay
+  useEffect(() => {
+    if (currentLevel > previousLevel) {
+      setNewLevel(currentLevel);
+      setShowLevelUpOverlay(true);
+    }
+    setPreviousLevel(currentLevel);
+  }, [currentLevel, previousLevel]);
 
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [combatEnded, setCombatEnded] = useState(false);
@@ -460,6 +478,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         `You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!`,
       ];
 
+      // Play random victory sound
+      playVictorySound();
+
       revealCombatMessages(victoryMessages, () => {
         setCombatEnded(true);
         setEndResult({
@@ -533,6 +554,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         `>> ${enemyFinalDamageRounded} DAMAGE`,
         combatSystem.getPenaltyFlavorText("defeat", enemy, actualPenalty),
       ];
+
+      // Play random defeat sound
+      playDefeatSound();
 
       revealCombatMessages(defeatMessages, () => {
         setCombatEnded(true);
@@ -640,17 +664,22 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       e.stopPropagation();
       console.log("Test popup opened!");
       setTestLevel(currentLevel);
+      setTestXP(character.experience);
       setTestCredits(character.credits);
       setShowTestPopup(true);
     },
-    [currentLevel, character.credits]
+    [currentLevel, character.experience, character.credits]
   );
 
   const handleTestPopupSave = useCallback(() => {
     if (onUpdateCharacter) {
-      // Get XP for the selected level
+      // Use provided XP or default to level's starting XP
       const selectedLevelInfo = levels[testLevel];
-      const newXP = selectedLevelInfo ? selectedLevelInfo.xp : 0;
+      const levelStartingXP = selectedLevelInfo ? selectedLevelInfo.xp : 0;
+      const newXP =
+        testXP !== null && testXP !== undefined && testXP !== ""
+          ? testXP
+          : levelStartingXP;
 
       const updatedCharacter = {
         ...character,
@@ -660,13 +689,20 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       onUpdateCharacter(updatedCharacter);
     }
     setShowTestPopup(false);
-  }, [character, testLevel, testCredits, onUpdateCharacter]);
+  }, [character, testLevel, testXP, testCredits, onUpdateCharacter]);
 
   const handleTestPopupCancel = useCallback(() => {
     setTestLevel(currentLevel);
+    setTestXP(character.experience);
     setTestCredits(character.credits);
     setShowTestPopup(false);
-  }, [currentLevel, character.credits]);
+  }, [currentLevel, character.experience, character.credits]);
+
+  // Handle level-up overlay completion
+  const handleLevelUpComplete = useCallback(() => {
+    setShowLevelUpOverlay(false);
+    setNewLevel(null);
+  }, []);
 
   // Stats reveal sequence
   useEffect(() => {
@@ -741,7 +777,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <div className="test-popup-overlay">
         <div className="test-popup">
-          <h3>Testing Mode - Set Player Stats</h3>
+          <h3>Set Player Stats</h3>
           <div className="test-form">
             <div className="form-group">
               <label htmlFor="test-level">Level (1-10):</label>
@@ -752,6 +788,25 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                 max="10"
                 value={testLevel}
                 onChange={(e) => setTestLevel(parseInt(e.target.value) || 1)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="test-xp">
+                XP (leave blank for level's starting XP):
+              </label>
+              <input
+                id="test-xp"
+                type="number"
+                min="0"
+                value={testXP}
+                onChange={(e) =>
+                  setTestXP(
+                    e.target.value === "" ? "" : parseInt(e.target.value) || 0
+                  )
+                }
+                placeholder={`Level ${testLevel} starts at ${
+                  levels[testLevel]?.xp || 0
+                } XP`}
               />
             </div>
             <div className="form-group">
@@ -775,6 +830,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           </div>
         </div>
       </div>
+    );
+  }
+
+  // Render level-up overlay (second highest priority)
+  if (showLevelUpOverlay && newLevel) {
+    return (
+      <LevelUpOverlay level={newLevel} onComplete={handleLevelUpComplete} />
     );
   }
 

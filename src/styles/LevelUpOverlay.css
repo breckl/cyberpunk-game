@@ -1,0 +1,88 @@
+.level-up-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.level-up-content {
+  text-align: center;
+  color: var(--neon-green);
+  max-width: 90%;
+  margin-top: 30px;
+  align-self: flex-start;
+}
+
+.level-up-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--neon-green);
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.level-number {
+  font-size: 5rem;
+  font-weight: bold;
+  color: var(--neon-blue);
+  margin-bottom: 2rem;
+}
+
+.upgrading-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--neon-pink);
+  margin-bottom: 2rem;
+  animation: flashing 0.5s ease-in-out infinite;
+}
+
+@keyframes flashing {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.3;
+  }
+}
+
+.progress-container {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: black;
+  border: 1px solid var(--neon-pink);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--neon-pink);
+  background-size: 200% 100%;
+  animation: progressShimmer 1s ease-in-out infinite;
+  transition: width 0.1s ease;
+}
+
+@keyframes progressShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

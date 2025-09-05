@@ -561,15 +561,78 @@ button {
   font-weight: bold;
 }
 
+.item-name {
+  font-weight: bold;
+  color: #00ff41;
+  font-size: 1.1em;
+}
+
+.item-price {
+  color: #ffff00;
+  font-weight: bold;
+}
+
+.item-description {
+  color: #cccccc;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.item-stat {
+  color: #00ffff;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.item-stat {
+  color: #0088ff;
+  margin-bottom: 0.5rem;
+}
+
+.item-stat-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.stat-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid;
+}
+
+.stat-badge.level {
+  background: rgba(0, 255, 65, 0.1);
+  color: #00ff41;
+  border-color: #00ff41;
+}
+
+.stat-badge.damage {
+  background: rgba(255, 0, 102, 0.1);
+  color: var(--neon-blue);
+  border-color: var(--neon-blue);
+}
+
 .equip-button {
   border: 1px solid var(--neon-pink);
   color: var(--neon-pink);
 }
 
 .sell-button {
-  background: var(--neon-green);
+  color: var(--neon-green);
   border: 1px solid var(--neon-green);
-  color: black;
 }
 
 .purchase-button {
@@ -596,6 +659,14 @@ button {
 .equip-button.equipped {
   background: #00ff41;
   color: black;
+}
+
+.empty-inventory {
+  color: #666;
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  grid-column: 1 / -1;
 }
 
 /* Confirmation Dialog Styles */
@@ -642,7 +713,8 @@ button {
 }
 
 .confirm-button,
-.cancel-button {
+.cancel-button,
+.save-button {
   padding: 0.75rem 1.5rem;
   border: 1px solid;
   background: transparent;
@@ -655,6 +727,7 @@ button {
   transition: all 0.2s ease;
 }
 
+.save-button,
 .confirm-button {
   border-color: #00ff41;
   color: #00ff41;

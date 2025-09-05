@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Inventory.css";
 import { FaArrowLeft } from "react-icons/fa";
+import {
+  playClickSound,
+  playCashRegisterSound,
+  playBeepSound,
+} from "../utils/soundUtils.js";
 
 function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   const [localCharacter, setLocalCharacter] = useState(character);
@@ -37,6 +42,8 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   };
 
   const confirmSell = (item) => {
+    console.log("Attempting to play cash register sound...");
+    playCashRegisterSound();
     const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
     const updatedInventory = localCharacter.inventory.filter(
       (invItem) => invItem.id !== item.id
@@ -71,7 +78,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
 
   const handleEquip = (item) => {
     let updatedInventory = [...localCharacter.inventory];
-
+    playBeepSound();
     if (item.equipped) {
       // Unequip the item
       updatedInventory = updatedInventory.map((invItem) => {
@@ -100,12 +107,6 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
 
     onUpdateCharacter(updatedCharacter);
     setLocalCharacter(updatedCharacter);
-  };
-
-  const playClickSound = () => {
-    const audio = new Audio("/sfx/mouse-click.mp3");
-    audio.volume = 0.4;
-    audio.play().catch((e) => console.log("Audio play failed:", e));
   };
 
   const handleTabClick = (category) => {
@@ -222,14 +223,18 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
               <div className="item-header">
                 <span className="item-name">{item.name}</span>
               </div>
-              <div className="item-description">{item.description}</div>
+              <div className="item-description">
+                <em>{item.description}</em>
+              </div>
               {item.defense && (
                 <div className="item-stat">
                   Reduces damage by {item.defense}%
                 </div>
               )}
               {item.damage && (
-                <div className="item-stat">Damage: {item.damage}</div>
+                <div className="item-stat">
+                  Damage: {Math.round(item.damage * 100) / 100}
+                </div>
               )}
               <div className="item-buttons">
                 <button

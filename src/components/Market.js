@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import market from "../data/market";
-import "../styles/Market.css";
 import { getCurrentLevel } from "../data/levels.js";
 import { FaArrowLeft } from "react-icons/fa";
+import {
+  playClickSound,
+  playCashRegisterSound,
+  playBeepSound,
+} from "../utils/soundUtils.js";
 
 function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   const [selectedTab, setSelectedTab] = useState("weapons");
@@ -15,30 +19,8 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     setLocalCharacter(character);
   }, [character]);
 
-  // Simple keyboard handling
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      const key = e.key.toUpperCase();
-
-      if (key === "B") {
-        onExit();
-      } else if (key === "I") {
-        onNavigate("inventory");
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onExit, onNavigate]);
-
   const formatCredits = (amount) => {
     return new Intl.NumberFormat().format(amount);
-  };
-
-  const playClickSound = () => {
-    const audio = new Audio("/sfx/mouse-click.mp3");
-    audio.volume = 0.4;
-    audio.play().catch((e) => console.log("Audio play failed:", e));
   };
 
   const renderTabs = () => {
@@ -76,8 +58,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   };
 
   const confirmPurchase = (item) => {
-    console.log("confirmPurchase called with item:", item);
-
+    playCashRegisterSound();
     // Add type to the item for inventory categorization
     const getItemType = () => {
       if (selectedTab === "weapons") {
@@ -136,6 +117,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
   };
 
   const confirmSell = (item) => {
+    playCashRegisterSound();
     const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
 
     // Use safe credit management
@@ -209,6 +191,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
 
   const confirmEquip = () => {
     if (confirmingEquip) {
+      playBeepSound();
       handleEquip(confirmingEquip);
     }
   };
@@ -240,7 +223,9 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
               <span className="item-name">{item.name}</span>
               <span className="item-price">${formatCredits(item.price)}</span>
             </div>
-            <div className="item-description">{item.description}</div>
+            <div className="item-description">
+              <em>{item.description}</em>
+            </div>
             <div className="item-stats">
               {item.defense && (
                 <div className="item-stat">

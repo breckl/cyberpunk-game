@@ -4,6 +4,7 @@ import MainMenu from "./components/MainMenu";
 import CharacterCreation from "./components/CharacterCreation";
 import GameScreen from "./components/GameScreen";
 import { saveCharacter, loadCharacter } from "./utils/localStorage";
+import { SoundProvider } from "./contexts/SoundContext";
 
 function App() {
   const [gameState, setGameState] = useState({
@@ -76,7 +77,11 @@ function App() {
     }
   };
 
-  return <div className="App">{renderScreen()}</div>;
+  return (
+    <SoundProvider>
+      <div className="App">{renderScreen()}</div>
+    </SoundProvider>
+  );
 }
 
 export default App;
