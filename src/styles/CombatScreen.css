@@ -616,3 +616,101 @@
 .form-actions {
   flex-direction: column;
 }
+
+/* Test popup tabs */
+.test-tabs {
+  display: flex;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.test-tab {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: var(--text-color);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.test-tab:hover {
+  color: var(--neon-green);
+}
+
+.test-tab.active {
+  color: var(--neon-green);
+  border-bottom-color: var(--neon-green);
+}
+
+/* Test results */
+.test-results {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--dark-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+}
+
+.test-results h4 {
+  color: var(--neon-green);
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.result-label {
+  color: var(--text-color);
+  font-weight: bold;
+}
+
+.result-value {
+  color: var(--neon-blue);
+}
+
+.enemy-level-distribution {
+  margin-top: 1rem;
+}
+
+.enemy-level-distribution h5 {
+  color: var(--neon-pink);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.distribution-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.distribution-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0.5rem;
+  background: var(--darker-bg);
+  border-radius: 2px;
+}
+
+.level-label {
+  color: var(--text-color);
+  font-size: 0.9rem;
+}
+
+.level-count {
+  color: var(--neon-blue);
+  font-size: 0.9rem;
+}

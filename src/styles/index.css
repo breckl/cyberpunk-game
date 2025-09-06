@@ -516,6 +516,10 @@ body {
   font-size: 1.3rem;
 }
 
+.menu-options {
+  width: 100%;
+}
+
 /* Mobile button styles for streets menu */
 .menu-button {
   width: 100%;
@@ -741,6 +745,19 @@ button {
 /* Mobile dropdown always visible */
 .help-mobile-dropdown {
   display: block;
+}
+
+/* XP Display for Combat Results */
+.xp-display {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.xp-earned {
+  color: var(--neon-pink);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 /* Desktop media queries removed - mobile-only app */

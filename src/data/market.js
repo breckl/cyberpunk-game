@@ -1,4 +1,9 @@
-import ProgressionCalculator from "../utils/progressionCalculator.js";
+import {
+  calculatePriceWithDamage,
+  calculateArmorPriceWithDefense,
+  calculateWeaponDamage,
+  calculateArmorDefense,
+} from "../config/gameBalance.js";
 
 const market = {
   armor: [
@@ -8,9 +13,9 @@ const market = {
       description: "Ragged hoodie, minimal protection",
       brand: "Ravenlock Apparel",
       level: 1,
-      defense: ProgressionCalculator.calculateArmorDefense(1, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      defense: calculateArmorDefense(1, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(1, "Light"),
         1,
         "Light"
       ),
@@ -22,9 +27,9 @@ const market = {
       description: "Classic ganger look, light padding",
       brand: "Ravenlock Apparel",
       level: 1,
-      defense: ProgressionCalculator.calculateArmorDefense(1, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(1, "Medium"),
+      defense: calculateArmorDefense(1, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(1, "Medium"),
         1,
         "Medium"
       ),
@@ -36,9 +41,9 @@ const market = {
       description: "Cheap foam-padded vest",
       brand: "Ravenlock Apparel",
       level: 1,
-      defense: ProgressionCalculator.calculateArmorDefense(1, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(1, "Heavy"),
+      defense: calculateArmorDefense(1, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(1, "Heavy"),
         1,
         "Heavy"
       ),
@@ -50,9 +55,9 @@ const market = {
       description: "Entry-level bullet resistant liner",
       brand: "Orchid Dynamics",
       level: 2,
-      defense: ProgressionCalculator.calculateArmorDefense(2, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(2, "Light"),
+      defense: calculateArmorDefense(2, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(2, "Light"),
         2,
         "Light"
       ),
@@ -64,9 +69,9 @@ const market = {
       description: "Discount police surplus armor",
       brand: "Ironjaw Arsenal",
       level: 2,
-      defense: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(2, "Medium"),
+      defense: calculateArmorDefense(2, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(2, "Medium"),
         2,
         "Medium"
       ),
@@ -78,9 +83,9 @@ const market = {
       description: "Heavy stitched jacket with inserts",
       brand: "Ravenlock Apparel",
       level: 2,
-      defense: ProgressionCalculator.calculateArmorDefense(2, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(2, "Heavy"),
+      defense: calculateArmorDefense(2, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(2, "Heavy"),
         2,
         "Heavy"
       ),
@@ -92,9 +97,9 @@ const market = {
       description: "Strap-on polymer pads, knee/elbow",
       brand: "NeuroForge",
       level: 3,
-      defense: ProgressionCalculator.calculateArmorDefense(3, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(3, "Light"),
+      defense: calculateArmorDefense(3, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(3, "Light"),
         3,
         "Light"
       ),
@@ -106,9 +111,9 @@ const market = {
       description: "Bolted metal plates, crude and heavy",
       brand: "Czarov Ballistics",
       level: 3,
-      defense: ProgressionCalculator.calculateArmorDefense(3, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(3, "Medium"),
+      defense: calculateArmorDefense(3, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(3, "Medium"),
         3,
         "Medium"
       ),
@@ -120,9 +125,9 @@ const market = {
       description: "Standard PMC body armor",
       brand: "Atlas Defense Corp",
       level: 3,
-      defense: ProgressionCalculator.calculateArmorDefense(3, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(3, "Heavy"),
+      defense: calculateArmorDefense(3, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(3, "Heavy"),
         3,
         "Heavy"
       ),
@@ -134,9 +139,9 @@ const market = {
       description: "Sleek corp-grade protection",
       brand: "Orchid Dynamics",
       level: 4,
-      defense: ProgressionCalculator.calculateArmorDefense(4, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(4, "Light"),
+      defense: calculateArmorDefense(4, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(4, "Light"),
         4,
         "Light"
       ),
@@ -148,9 +153,9 @@ const market = {
       description: "Military webbing with plates",
       brand: "TitanForge Munitions",
       level: 4,
-      defense: ProgressionCalculator.calculateArmorDefense(4, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(4, "Medium"),
+      defense: calculateArmorDefense(4, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(4, "Medium"),
         4,
         "Medium"
       ),
@@ -162,9 +167,9 @@ const market = {
       description: "Mid-grade synthetic blend vest",
       brand: "Pharos OpticWorks",
       level: 4,
-      defense: ProgressionCalculator.calculateArmorDefense(4, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(4, "Heavy"),
+      defense: calculateArmorDefense(4, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(4, "Heavy"),
         4,
         "Heavy"
       ),
@@ -176,9 +181,9 @@ const market = {
       description: "Blends business suit + hidden plates",
       brand: "Orchid Dynamics",
       level: 5,
-      defense: ProgressionCalculator.calculateArmorDefense(5, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(5, "Light"),
+      defense: calculateArmorDefense(5, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(5, "Light"),
         5,
         "Light"
       ),
@@ -190,9 +195,9 @@ const market = {
       description: "Advanced flexible armor mesh",
       brand: "Spectra Interface",
       level: 5,
-      defense: ProgressionCalculator.calculateArmorDefense(5, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(5, "Medium"),
+      defense: calculateArmorDefense(5, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(5, "Medium"),
         5,
         "Medium"
       ),
@@ -204,9 +209,9 @@ const market = {
       description: "First-gen subdermal implant mesh",
       brand: "NeuroForge",
       level: 5,
-      defense: ProgressionCalculator.calculateArmorDefense(5, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(5, "Heavy"),
+      defense: calculateArmorDefense(5, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(5, "Heavy"),
         5,
         "Heavy"
       ),
@@ -218,9 +223,9 @@ const market = {
       description: "Full-body composite weave",
       brand: "Atlas Defense Corp",
       level: 6,
-      defense: ProgressionCalculator.calculateArmorDefense(6, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(6, "Light"),
+      defense: calculateArmorDefense(6, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(6, "Light"),
         6,
         "Light"
       ),
@@ -232,9 +237,9 @@ const market = {
       description: "High-end PMC protection suit",
       brand: "Atlas Defense Corp",
       level: 6,
-      defense: ProgressionCalculator.calculateArmorDefense(6, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(6, "Medium"),
+      defense: calculateArmorDefense(6, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(6, "Medium"),
         6,
         "Medium"
       ),
@@ -246,9 +251,9 @@ const market = {
       description: "Improved dermal implant plating",
       brand: "NeuroForge",
       level: 6,
-      defense: ProgressionCalculator.calculateArmorDefense(6, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(6, "Heavy"),
+      defense: calculateArmorDefense(6, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(6, "Heavy"),
         6,
         "Heavy"
       ),
@@ -260,9 +265,9 @@ const market = {
       description: "Full body police riot armor",
       brand: "Ironjaw Arsenal",
       level: 7,
-      defense: ProgressionCalculator.calculateArmorDefense(7, "Light"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(7, "Light"),
+      defense: calculateArmorDefense(7, "Light"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(7, "Light"),
         7,
         "Light"
       ),
@@ -274,9 +279,9 @@ const market = {
       description: "Military composite body armor",
       brand: "Atlas Defense Corp",
       level: 7,
-      defense: ProgressionCalculator.calculateArmorDefense(7, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(7, "Medium"),
+      defense: calculateArmorDefense(7, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(7, "Medium"),
         7,
         "Medium"
       ),
@@ -288,9 +293,9 @@ const market = {
       description: "Powered exo-assisted combat suit",
       brand: "TitanForge Munitions",
       level: 7,
-      defense: ProgressionCalculator.calculateArmorDefense(7, "Heavy"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(7, "Heavy"),
+      defense: calculateArmorDefense(7, "Heavy"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(7, "Heavy"),
         7,
         "Heavy"
       ),
@@ -302,9 +307,9 @@ const market = {
       description: "Enhanced powered armor suit",
       brand: "Atlas Defense Corp",
       level: 8,
-      defense: ProgressionCalculator.calculateArmorDefense(8, "Medium"),
-      price: ProgressionCalculator.calculateArmorPriceWithDefense(
-        ProgressionCalculator.calculateArmorDefense(8, "Medium"),
+      defense: calculateArmorDefense(8, "Medium"),
+      price: calculateArmorPriceWithDefense(
+        calculateArmorDefense(8, "Medium"),
         8,
         "Medium"
       ),
@@ -319,9 +324,9 @@ const market = {
       name: "Rusty Knife",
       description: "Cracked blade scavenged from junk",
       actionDescription: "stab",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(1, "Light"),
         1,
         "Light"
       ),
@@ -333,9 +338,9 @@ const market = {
       name: "Brass Knuckles",
       description: "Boosts melee punches",
       actionDescription: "punch",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light") * 1.05,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(1, "Light") * 1.05,
+      damage: calculateWeaponDamage(1, "Light") * 1.05,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(1, "Light") * 1.05,
         1,
         "Light"
       ),
@@ -349,9 +354,9 @@ const market = {
       name: "Switchblade",
       description: "Fold-out knife, fast but fragile",
       actionDescription: "slash",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(1, "Medium"),
+      damage: calculateWeaponDamage(1, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(1, "Medium"),
         1,
         "Medium"
       ),
@@ -363,9 +368,9 @@ const market = {
       name: "Stun Gun",
       description: "Handheld shock weapon, short range",
       actionDescription: "discharge",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Medium") * 1.15,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(1, "Medium") * 1.15,
+      damage: calculateWeaponDamage(1, "Medium") * 1.15,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(1, "Medium") * 1.15,
         1,
         "Medium"
       ),
@@ -379,9 +384,9 @@ const market = {
       name: "Stun Rod",
       description: "Extended taser staff, disabling strikes",
       actionDescription: "jab",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(1, "Heavy"),
+      damage: calculateWeaponDamage(1, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(1, "Heavy"),
         1,
         "Heavy"
       ),
@@ -394,9 +399,9 @@ const market = {
       name: "Polymer Pistol",
       description: "Mass-market sidearm, easily concealed",
       actionDescription: "take a shot",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Heavy") * 1.15,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(1, "Heavy") * 1.15,
+      damage: calculateWeaponDamage(1, "Heavy") * 1.15,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(1, "Heavy") * 1.15,
         1,
         "Heavy"
       ),
@@ -410,9 +415,9 @@ const market = {
       name: "Rusty Katana",
       description: "Worn but still deadly blade, scavenged from the ruins",
       actionDescription: "slash",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Light"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Light"),
         2,
         "Light"
       ),
@@ -424,9 +429,9 @@ const market = {
       name: "Fabrique Nationale 5.7mm",
       description: "Sleek Belgian pistol, high velocity",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Heavy") * 1.15,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Heavy") * 1.15,
+      damage: calculateWeaponDamage(2, "Heavy") * 1.15,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Heavy") * 1.15,
         2,
         "Heavy"
       ),
@@ -440,9 +445,9 @@ const market = {
       name: "Smith & Wesson .38",
       description: "Classic revolver, cheap and common",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium") * 1.1,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Medium") * 1.1,
+      damage: calculateWeaponDamage(2, "Medium") * 1.1,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Medium") * 1.1,
         2,
         "Medium"
       ),
@@ -454,9 +459,9 @@ const market = {
       name: "Stun Gun",
       description: "Homemade neural stunner",
       actionDescription: "discharge",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light") * 0.8,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Light") * 0.8,
+      damage: calculateWeaponDamage(2, "Light") * 0.8,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Light") * 0.8,
         2,
         "Light"
       ),
@@ -468,9 +473,9 @@ const market = {
       name: "Flechette Pistole (Mk I)",
       description: "Needle pistol, early model",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium") * 1.2,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Medium") * 1.2,
+      damage: calculateWeaponDamage(2, "Medium") * 1.2,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Medium") * 1.2,
         2,
         "Medium"
       ),
@@ -482,9 +487,9 @@ const market = {
       name: "Ravenlock Arms .45",
       description: "Advanced pistol with integrated targeting systems",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Medium"),
+      damage: calculateWeaponDamage(2, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Medium"),
         2,
         "Medium"
       ),
@@ -498,9 +503,9 @@ const market = {
       name: "NYPD Tactical 9mm",
       description: "Standard police-issue sidearm, sturdy",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(2, "Heavy"),
+      damage: calculateWeaponDamage(2, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(2, "Heavy"),
         2,
         "Heavy"
       ),
@@ -514,9 +519,9 @@ const market = {
       name: "Combat Knife",
       description: "Military-grade fighting blade, balanced and deadly",
       actionDescription: "stab",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light") * 0.9,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Light") * 0.9,
+      damage: calculateWeaponDamage(3, "Light") * 0.9,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Light") * 0.9,
         3,
         "Light"
       ),
@@ -528,9 +533,9 @@ const market = {
       name: "Basic Katana",
       description: "Traditional Japanese sword, sharp and reliable",
       actionDescription: "slash",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Light"),
+      damage: calculateWeaponDamage(3, "Light"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Light"),
         3,
         "Light"
       ),
@@ -542,9 +547,9 @@ const market = {
       name: "Bamboo Bow with Razor Arrows",
       description: "Traditional bow, enhanced arrows",
       actionDescription: "loose an arrow",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light") * 1.05,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Light") * 1.05,
+      damage: calculateWeaponDamage(3, "Light") * 1.05,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Light") * 1.05,
         3,
         "Light"
       ),
@@ -556,9 +561,9 @@ const market = {
       name: "Heckler & Koch SMG",
       description: "German-made submachine gun, reliable",
       actionDescription: "fire a short burst",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.9,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 0.9,
+      damage: calculateWeaponDamage(3, "Medium") * 0.9,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Medium") * 0.9,
         3,
         "Light"
       ),
@@ -572,9 +577,9 @@ const market = {
       name: "Kobayashi Tech Pistol",
       description: "High-quality sidearm with enhanced ergonomics",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 1.15,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 1.15,
+      damage: calculateWeaponDamage(3, "Medium") * 1.15,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Medium") * 1.15,
         3,
         "Medium"
       ),
@@ -586,9 +591,9 @@ const market = {
       name: "Flechette Pistole (Mk II)",
       description: "Upgraded needle pistol, better penetration",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
+      damage: calculateWeaponDamage(3, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Medium"),
         3,
         "Medium"
       ),
@@ -600,9 +605,9 @@ const market = {
       name: "Bamboo Bow with Explosive Arrows",
       description: "Bamboo bow upgrade, arrowheads explode",
       actionDescription: "loose an explosive arrow",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 1.05,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Medium") * 1.05,
+      damage: calculateWeaponDamage(3, "Medium") * 1.05,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Medium") * 1.05,
         3,
         "Medium"
       ),
@@ -616,9 +621,9 @@ const market = {
       name: "Double-Barrel Shotgun",
       description: "Street brawler's favorite, brutal close-range",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Heavy"),
+      damage: calculateWeaponDamage(3, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Heavy"),
         3,
         "Heavy"
       ),
@@ -630,9 +635,9 @@ const market = {
       name: "Fabrique Nationale Carbine",
       description: "Lightweight rifle, accurate and fast",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Heavy") * 1.1,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Heavy") * 1.1,
+      damage: calculateWeaponDamage(3, "Heavy") * 1.1,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Heavy") * 1.1,
         3,
         "Heavy"
       ),
@@ -643,9 +648,9 @@ const market = {
       id: "we1",
       name: "Steiner-Optic Scoped Rifle",
       description: "Precision rifle with advanced optics",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Heavy") * 1.25,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(3, "Heavy") * 1.25,
+      damage: calculateWeaponDamage(3, "Heavy") * 1.25,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(3, "Heavy") * 1.25,
         3,
         "Heavy"
       ),
@@ -659,9 +664,9 @@ const market = {
       name: "Heckler & Koch AR-19",
       description: "Advanced assault rifle with modular design",
       actionDescription: "fire a burst",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(4, "Light"),
+      damage: calculateWeaponDamage(4, "Light"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(4, "Light"),
         4,
         "Light"
       ),
@@ -675,9 +680,9 @@ const market = {
       name: "Razor Claws",
       description: "Retractable nail blades, iconic cybermod",
       actionDescription: "slash",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(4, "Medium"),
+      damage: calculateWeaponDamage(4, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(4, "Medium"),
         4,
         "Medium"
       ),
@@ -689,9 +694,9 @@ const market = {
       name: "Icarus Systems Laser Rifle",
       description: "Advanced laser weapon with precision targeting",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium") * 0.9,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(4, "Medium") * 0.9,
+      damage: calculateWeaponDamage(4, "Medium") * 0.9,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(4, "Medium") * 0.9,
         4,
         "Medium"
       ),
@@ -705,9 +710,9 @@ const market = {
       name: "Railgun",
       description: "Electromagnetic projectile launcher, devastating power",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Heavy") * 1.15,
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(4, "Heavy") * 1.15,
+      damage: calculateWeaponDamage(4, "Heavy") * 1.15,
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(4, "Heavy") * 1.15,
         4,
         "Heavy"
       ),
@@ -719,9 +724,9 @@ const market = {
       name: "Pharos SMG",
       description: "High-capacity submachine gun with rapid fire",
       actionDescription: "fire a rapid burst",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(5, "Medium"),
+      damage: calculateWeaponDamage(5, "Light"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(5, "Medium"),
         5,
         "Medium"
       ),
@@ -732,9 +737,9 @@ const market = {
       id: "wt10",
       name: "Spectra Neural Stunner",
       description: "Cybernetic pulse device, disrupts nerves",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(5, "Medium"),
+      damage: calculateWeaponDamage(5, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(5, "Medium"),
         5,
         "Medium"
       ),
@@ -748,9 +753,9 @@ const market = {
       name: "Icarus Tech Pistol",
       description: "High-caliber sidearm, reliable firepower",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(5, "Heavy"),
+      damage: calculateWeaponDamage(5, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(5, "Heavy"),
         5,
         "Heavy"
       ),
@@ -764,9 +769,9 @@ const market = {
       name: "Blackline Scoped Rifle",
       description: "Long-range, high-precision weapon",
       actionDescription: "take a shot",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Light"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(6, "Light"),
+      damage: calculateWeaponDamage(6, "Light"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(6, "Light"),
         6,
         "Light"
       ),
@@ -779,9 +784,9 @@ const market = {
       id: "wt11",
       name: "Monofilament Wire",
       description: "Nearly invisible garrote, slices steel",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(6, "Medium"),
+      damage: calculateWeaponDamage(6, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(6, "Medium"),
         6,
         "Medium"
       ),
@@ -792,9 +797,9 @@ const market = {
       id: "wt12",
       name: "Helix Tech Pistol",
       description: "AI-assisted targeting sidearm",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(6, "Medium"),
+      damage: calculateWeaponDamage(6, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(6, "Medium"),
         6,
         "Medium"
       ),
@@ -808,9 +813,9 @@ const market = {
       name: "Grenade Launcher",
       description: "40mm grenade launcher",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(6, "Heavy"),
+      damage: calculateWeaponDamage(6, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(6, "Heavy"),
         6,
         "Heavy"
       ),
@@ -823,9 +828,9 @@ const market = {
       id: "wt13",
       name: "Vibro-Katana",
       description: "Enhanced blade with ultrasonic edge",
-      damage: ProgressionCalculator.calculateWeaponDamage(7, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(7, "Medium"),
+      damage: calculateWeaponDamage(7, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(7, "Medium"),
         7,
         "Medium"
       ),
@@ -838,9 +843,9 @@ const market = {
       id: "we2",
       name: "Helix Pulse Rifle",
       description: "Corporate energy rifle with devastating output",
-      damage: ProgressionCalculator.calculateWeaponDamage(7, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(7, "Heavy"),
+      damage: calculateWeaponDamage(7, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(7, "Heavy"),
         7,
         "Heavy"
       ),
@@ -852,9 +857,9 @@ const market = {
       name: "Heavy Machine Gun",
       description: "Belt-fed heavy weapon system",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(7, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(7, "Heavy"),
+      damage: calculateWeaponDamage(7, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(7, "Heavy"),
         7,
         "Heavy"
       ),
@@ -867,9 +872,9 @@ const market = {
       id: "wt15",
       name: "High-Frequency Katana",
       description: "Top-tier sword vibrating at sonic edge",
-      damage: ProgressionCalculator.calculateWeaponDamage(8, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(8, "Medium"),
+      damage: calculateWeaponDamage(8, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(8, "Medium"),
         8,
         "Medium"
       ),
@@ -883,9 +888,9 @@ const market = {
       name: "Plasma Cannon",
       description: "High-energy plasma weapon",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(8, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(8, "Heavy"),
+      damage: calculateWeaponDamage(8, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(8, "Heavy"),
         8,
         "Heavy"
       ),
@@ -897,9 +902,9 @@ const market = {
       name: "Rocket Launcher",
       description: "Anti-tank rocket system",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(8, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(8, "Heavy"),
+      damage: calculateWeaponDamage(8, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(8, "Heavy"),
         8,
         "Heavy"
       ),
@@ -912,9 +917,9 @@ const market = {
       id: "wt16",
       name: "ICE Lance",
       description: "Black ICE program, neural spear in VR",
-      damage: ProgressionCalculator.calculateWeaponDamage(9, "Medium"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(9, "Medium"),
+      damage: calculateWeaponDamage(9, "Medium"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(9, "Medium"),
         9,
         "Medium"
       ),
@@ -928,9 +933,9 @@ const market = {
       name: "ZetaTech Rotary Cannon",
       description: "Heavy rotating machinegun, tank-tier firepower",
       actionDescription: "unleash a devastating burst",
-      damage: ProgressionCalculator.calculateWeaponDamage(9, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(9, "Heavy"),
+      damage: calculateWeaponDamage(9, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(9, "Heavy"),
         9,
         "Heavy"
       ),
@@ -942,9 +947,9 @@ const market = {
       name: "Quantum Rifle",
       description: "Experimental quantum energy weapon",
       actionDescription: "fire",
-      damage: ProgressionCalculator.calculateWeaponDamage(9, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(9, "Heavy"),
+      damage: calculateWeaponDamage(9, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(9, "Heavy"),
         9,
         "Heavy"
       ),
@@ -956,9 +961,9 @@ const market = {
       name: "ZetaTech Rotary Cannon",
       description: "Heavy rotating machinegun, tank-tier firepower",
       actionDescription: "unleash a devastating burst",
-      damage: ProgressionCalculator.calculateWeaponDamage(9, "Heavy"),
-      price: ProgressionCalculator.calculatePriceWithDamage(
-        ProgressionCalculator.calculateWeaponDamage(9, "Heavy"),
+      damage: calculateWeaponDamage(9, "Heavy"),
+      price: calculatePriceWithDamage(
+        calculateWeaponDamage(9, "Heavy"),
         9,
         "Heavy"
       ),

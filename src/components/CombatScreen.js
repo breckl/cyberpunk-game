@@ -26,9 +26,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Testing popup states
   const [showTestPopup, setShowTestPopup] = useState(false);
+  const [testTab, setTestTab] = useState("stats"); // "stats" or "combat"
   const [testLevel, setTestLevel] = useState(currentLevel);
   const [testXP, setTestXP] = useState(character.experience);
   const [testCredits, setTestCredits] = useState(character.credits);
+
+  // Combat testing states
+  const [testPlayerLevel, setTestPlayerLevel] = useState(currentLevel);
+  const [testPlayerAttack, setTestPlayerAttack] = useState(5);
+  const [testPlayerDefense, setTestPlayerDefense] = useState(3);
+  const [testResults, setTestResults] = useState(null);
+  const [isRunningTest, setIsRunningTest] = useState(false);
   const levelInfo = levels[currentLevel];
   const playerTotalHp = levelInfo?.hp || 30;
 
@@ -191,26 +199,54 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     </div>
   );
 
+  // Counter animation for XP earned
+  const [xpCounter, setXpCounter] = useState(0);
+
   // Helper function to render results display
-  const renderResultsDisplay = () => (
-    <div className="results-display">
-      <h3 className="stats-header">COMBAT RESULTS</h3>
-      <div className="result-message">
-        {endResult?.type === "victory" && (
-          <span className="win-message">VICTORY!</span>
-        )}
-        {endResult?.type === "defeat" && (
-          <span className="lose-message">DEFEAT!</span>
-        )}
-        {endResult?.type === "escape" && (
-          <span className="escape-message">ESCAPED!</span>
-        )}
-        {endResult?.type === "initialFlee" && (
-          <span className="escape-message">ESCAPED!</span>
-        )}
+  const renderResultsDisplay = () => {
+    const xpProgress = endResult ? getXPProgress() : null;
+
+    return (
+      <div className="results-display">
+        <h3 className="stats-header">COMBAT RESULTS</h3>
+        <div className="result-message">
+          {endResult?.type === "victory" && (
+            <>
+              <span className="win-message">VICTORY!</span>
+              {xpProgress && (
+                <div className="xp-display">
+                  <div className="xp-earned">+{xpCounter} XP</div>
+                  <div className="stat-bar">
+                    <div className="bar">
+                      <div
+                        className="fill"
+                        style={{
+                          width: `${Math.min(xpProgress.progress, 100)}%`,
+                        }}
+                      ></div>
+                    </div>
+                    <div className="value">
+                      {xpProgress.currentXP - xpProgress.currentLevelXP}/
+                      {xpProgress.nextLevelXP - xpProgress.currentLevelXP}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+          {endResult?.type === "defeat" && (
+            <span className="lose-message">DEFEAT!</span>
+          )}
+          {endResult?.type === "escape" && (
+            <span className="escape-message">ESCAPED!</span>
+          )}
+          {endResult?.type === "initialFlee" && (
+            <span className="escape-message">ESCAPED!</span>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // Helper function to render unified combat stats panel
   const renderCombatStatsPanel = (phase) => (
@@ -346,6 +382,54 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const [isPlayerTurn, setIsPlayerTurn] = useState(true);
   const [combatEnded, setCombatEnded] = useState(false);
   const [endResult, setEndResult] = useState(null);
+
+  // Calculate XP progress for victory display
+  const getXPProgress = useCallback(() => {
+    if (!endResult || endResult.type !== "victory" || !endResult.rewards)
+      return null;
+
+    const currentXP = character.experience;
+    const earnedXP = endResult.rewards.experience;
+    const newXP = currentXP + earnedXP;
+    const currentLevel = getCurrentLevel(currentXP);
+    const nextLevel = currentLevel + 1;
+    const currentLevelXP = levels[currentLevel]?.xp || 0;
+    const nextLevelXP = levels[nextLevel]?.xp || 0;
+
+    return {
+      earnedXP,
+      currentXP: newXP,
+      currentLevelXP,
+      nextLevelXP,
+      progress:
+        ((newXP - currentLevelXP) / (nextLevelXP - currentLevelXP)) * 100,
+    };
+  }, [endResult, character.experience]);
+
+  // Start XP counter animation when victory occurs
+  useEffect(() => {
+    const xpProgress = endResult ? getXPProgress() : null;
+
+    if (xpProgress && endResult?.type === "victory") {
+      setXpCounter(0);
+
+      const duration = 1000; // 1 second
+      const steps = xpProgress.earnedXP;
+      const stepDuration = duration / steps;
+
+      let currentStep = 0;
+      const interval = setInterval(() => {
+        currentStep++;
+        setXpCounter(currentStep);
+
+        if (currentStep >= xpProgress.earnedXP) {
+          clearInterval(interval);
+        }
+      }, stepDuration);
+
+      return () => clearInterval(interval);
+    }
+  }, [endResult, getXPProgress]);
 
   // Combat Mode Active flashing effect
   useEffect(() => {
@@ -666,6 +750,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       setTestLevel(currentLevel);
       setTestXP(character.experience);
       setTestCredits(character.credits);
+      setTestPlayerLevel(currentLevel);
+      setTestPlayerAttack(5);
+      setTestPlayerDefense(3);
+      setTestResults(null);
       setShowTestPopup(true);
     },
     [currentLevel, character.experience, character.credits]
@@ -673,18 +761,20 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   const handleTestPopupSave = useCallback(() => {
     if (onUpdateCharacter) {
+      // Convert string inputs to numbers
+      const levelNum = parseFloat(testLevel) || 1;
+      const xpNum = parseFloat(testXP) || 0;
+      const creditsNum = parseFloat(testCredits) || 0;
+
       // Use provided XP or default to level's starting XP
-      const selectedLevelInfo = levels[testLevel];
+      const selectedLevelInfo = levels[levelNum];
       const levelStartingXP = selectedLevelInfo ? selectedLevelInfo.xp : 0;
-      const newXP =
-        testXP !== null && testXP !== undefined && testXP !== ""
-          ? testXP
-          : levelStartingXP;
+      const newXP = xpNum || levelStartingXP;
 
       const updatedCharacter = {
         ...character,
         experience: newXP,
-        credits: testCredits,
+        credits: creditsNum,
       };
       onUpdateCharacter(updatedCharacter);
     }
@@ -703,6 +793,121 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setShowLevelUpOverlay(false);
     setNewLevel(null);
   }, []);
+
+  // Combat simulation function
+  const runCombatSimulation = useCallback(() => {
+    setIsRunningTest(true);
+    setTestResults(null);
+
+    // Convert string inputs to numbers
+    const playerLevel = parseFloat(testPlayerLevel) || 1;
+    const playerAttack = parseFloat(testPlayerAttack) || 1;
+    const playerDefense = parseFloat(testPlayerDefense) || 0;
+
+    // Simulate 100 fights
+    const results = {
+      wins: 0,
+      losses: 0,
+      totalXP: 0,
+      totalCredits: 0,
+      creditsEarned: 0,
+      creditsLost: 0,
+      enemyLevels: {},
+      fightsToNextLevel: 0,
+      currentXP: 0,
+    };
+
+    // Calculate starting XP for the test level
+    const startingXP = levels[playerLevel]?.xp || 0;
+    let currentXP = startingXP;
+    let currentLevel = playerLevel;
+
+    for (let i = 0; i < 100; i++) {
+      // Get random enemy
+      const enemy = getLevelBasedEnemy(currentLevel);
+      results.enemyLevels[enemy.level] =
+        (results.enemyLevels[enemy.level] || 0) + 1;
+
+      // Simulate combat
+      const playerHp = levels[currentLevel]?.hp || 30;
+      const enemyHp = levels[enemy.level]?.hp || 30;
+
+      // Simple combat simulation (player attacks first)
+      let playerCurrentHp = playerHp;
+      let enemyCurrentHp = enemyHp;
+      let rounds = 0;
+      const maxRounds = 20; // Prevent infinite loops
+
+      while (playerCurrentHp > 0 && enemyCurrentHp > 0 && rounds < maxRounds) {
+        rounds++;
+
+        // Player attack
+        const playerDamage = Math.max(
+          1,
+          playerAttack - 2 + Math.floor(Math.random() * 5)
+        );
+        const enemyDefense =
+          (levels[enemy.level]?.defense || 0) + (enemy.armor?.rating || 0);
+        const actualPlayerDamage = Math.max(
+          0.01,
+          (playerDamage * (100 - enemyDefense)) / 100
+        );
+        enemyCurrentHp -= actualPlayerDamage;
+
+        if (enemyCurrentHp <= 0) {
+          results.wins++;
+          const rewards = combatSystem.generateRewards(
+            { level: currentLevel },
+            [enemy]
+          );
+          results.totalXP += rewards.experience;
+          results.totalCredits += rewards.credits;
+          results.creditsEarned += rewards.credits;
+          currentXP += rewards.experience;
+
+          // Check for level up
+          const newLevel = getCurrentLevel(currentXP);
+          if (newLevel > currentLevel) {
+            results.fightsToNextLevel = i + 1;
+            currentLevel = newLevel;
+          }
+          break;
+        }
+
+        // Enemy attack
+        const enemyDamage = Math.max(
+          1,
+          (levels[enemy.level]?.attack || 0) +
+            (enemy.weapon?.damage || 0) -
+            2 +
+            Math.floor(Math.random() * 5)
+        );
+        const actualEnemyDamage = Math.max(
+          0.01,
+          (enemyDamage * (100 - playerDefense)) / 100
+        );
+        playerCurrentHp -= actualEnemyDamage;
+
+        if (playerCurrentHp <= 0) {
+          results.losses++;
+          // Note: In real combat, there would be a penalty here
+          // For simulation purposes, we'll track 0 credits lost
+          results.creditsLost += 0;
+          break;
+        }
+      }
+
+      // If we hit max rounds, count as loss
+      if (rounds >= maxRounds) {
+        results.losses++;
+        results.creditsLost += 0;
+      }
+    }
+
+    results.currentXP = currentXP;
+    setTestResults(results);
+    setIsRunningTest(false);
+  }, [testPlayerLevel, testPlayerAttack, testPlayerDefense, combatSystem]);
 
   // Stats reveal sequence
   useEffect(() => {
@@ -777,57 +982,202 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <div className="test-popup-overlay">
         <div className="test-popup">
-          <h3>Set Player Stats</h3>
-          <div className="test-form">
-            <div className="form-group">
-              <label htmlFor="test-level">Level (1-10):</label>
-              <input
-                id="test-level"
-                type="number"
-                min="1"
-                max="10"
-                value={testLevel}
-                onChange={(e) => setTestLevel(parseInt(e.target.value) || 1)}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="test-xp">
-                XP (leave blank for level's starting XP):
-              </label>
-              <input
-                id="test-xp"
-                type="number"
-                min="0"
-                value={testXP}
-                onChange={(e) =>
-                  setTestXP(
-                    e.target.value === "" ? "" : parseInt(e.target.value) || 0
-                  )
-                }
-                placeholder={`Level ${testLevel} starts at ${
-                  levels[testLevel]?.xp || 0
-                } XP`}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="test-credits">Credits:</label>
-              <input
-                id="test-credits"
-                type="number"
-                min="0"
-                value={testCredits}
-                onChange={(e) => setTestCredits(parseInt(e.target.value) || 0)}
-              />
-            </div>
-            <div className="form-actions">
-              <button className="save-button" onClick={handleTestPopupSave}>
-                Save
-              </button>
-              <button className="cancel-button" onClick={handleTestPopupCancel}>
-                Cancel
-              </button>
-            </div>
+          <h3>Debug Tools</h3>
+
+          {/* Tab Navigation */}
+          <div className="test-tabs">
+            <button
+              className={`test-tab ${testTab === "stats" ? "active" : ""}`}
+              onClick={() => setTestTab("stats")}
+            >
+              Player Stats
+            </button>
+            <button
+              className={`test-tab ${testTab === "combat" ? "active" : ""}`}
+              onClick={() => setTestTab("combat")}
+            >
+              Combat Test
+            </button>
           </div>
+
+          {/* Stats Tab */}
+          {testTab === "stats" && (
+            <div className="test-form">
+              <div className="form-group">
+                <label htmlFor="test-level">Level:</label>
+                <input
+                  id="test-level"
+                  type="text"
+                  value={testLevel}
+                  onChange={(e) => setTestLevel(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="test-xp">
+                  XP (leave blank for level's starting XP):
+                </label>
+                <input
+                  id="test-xp"
+                  type="text"
+                  value={testXP}
+                  onChange={(e) => setTestXP(e.target.value)}
+                  placeholder={`Level ${testLevel} starts at ${
+                    levels[testLevel]?.xp || 0
+                  } XP`}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="test-credits">Credits:</label>
+                <input
+                  id="test-credits"
+                  type="text"
+                  value={testCredits}
+                  onChange={(e) => setTestCredits(e.target.value)}
+                />
+              </div>
+              <div className="form-actions">
+                <button className="save-button" onClick={handleTestPopupSave}>
+                  Save
+                </button>
+                <button
+                  className="cancel-button"
+                  onClick={handleTestPopupCancel}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Combat Test Tab */}
+          {testTab === "combat" && (
+            <div className="test-form">
+              <div className="form-group">
+                <label htmlFor="test-player-level">Player Level:</label>
+                <input
+                  id="test-player-level"
+                  type="text"
+                  value={testPlayerLevel}
+                  onChange={(e) => setTestPlayerLevel(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="test-player-attack">Attack Power:</label>
+                <input
+                  id="test-player-attack"
+                  type="text"
+                  value={testPlayerAttack}
+                  onChange={(e) => setTestPlayerAttack(e.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="test-player-defense">Defense:</label>
+                <input
+                  id="test-player-defense"
+                  type="text"
+                  value={testPlayerDefense}
+                  onChange={(e) => setTestPlayerDefense(e.target.value)}
+                />
+              </div>
+              <div className="form-actions">
+                <button
+                  className="save-button"
+                  onClick={runCombatSimulation}
+                  disabled={isRunningTest}
+                >
+                  {isRunningTest ? "Running Test..." : "Run 100 Fights"}
+                </button>
+                <button
+                  className="cancel-button"
+                  onClick={handleTestPopupCancel}
+                >
+                  Close
+                </button>
+              </div>
+
+              {/* Test Results */}
+              {testResults && (
+                <div className="test-results">
+                  <h4>Combat Test Results (100 Fights)</h4>
+                  <div className="results-grid">
+                    <div className="result-item">
+                      <span className="result-label">Wins:</span>
+                      <span className="result-value">{testResults.wins}</span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">Losses:</span>
+                      <span className="result-value">{testResults.losses}</span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">Win Rate:</span>
+                      <span className="result-value">
+                        {((testResults.wins / 100) * 100).toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">Total XP Gained:</span>
+                      <span className="result-value">
+                        {testResults.totalXP}
+                      </span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">Total Credits:</span>
+                      <span className="result-value">
+                        {testResults.totalCredits}
+                      </span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">Avg Credits per Win:</span>
+                      <span className="result-value">
+                        {testResults.wins > 0
+                          ? (
+                              testResults.creditsEarned / testResults.wins
+                            ).toFixed(1)
+                          : "0"}
+                      </span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">
+                        Avg Credits per Loss:
+                      </span>
+                      <span className="result-value">
+                        {testResults.losses > 0
+                          ? (
+                              testResults.creditsLost / testResults.losses
+                            ).toFixed(1)
+                          : "0"}
+                      </span>
+                    </div>
+                    <div className="result-item">
+                      <span className="result-label">
+                        Fights to Next Level:
+                      </span>
+                      <span className="result-value">
+                        {testResults.fightsToNextLevel || "Didn't level up"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="enemy-level-distribution">
+                    <h5>Enemy Level Distribution:</h5>
+                    <div className="distribution-chart">
+                      {Object.entries(testResults.enemyLevels)
+                        .sort(([a], [b]) => parseInt(a) - parseInt(b))
+                        .map(([level, count]) => (
+                          <div key={level} className="distribution-item">
+                            <span className="level-label">Level {level}:</span>
+                            <span className="level-count">
+                              {count} fights ({((count / 100) * 100).toFixed(1)}
+                              %)
+                            </span>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     );

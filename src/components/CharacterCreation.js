@@ -46,7 +46,7 @@ function CharacterCreation({ onCreateCharacter }) {
         class: selectedClass.name,
         level: 1,
         experience: 0,
-        credits: 100,
+        credits: 25,
         inventory: [],
       };
       onCreateCharacter(character);
@@ -108,7 +108,7 @@ function CharacterCreation({ onCreateCharacter }) {
                 <strong>Level:</strong> 1
               </p>
               <p>
-                <strong>Starting Credits:</strong> $100
+                <strong>Starting Credits:</strong> $25
               </p>
             </div>
           </div>

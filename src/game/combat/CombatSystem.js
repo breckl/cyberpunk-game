@@ -1,3 +1,9 @@
+import {
+  generateRewards,
+  calculateInitialFleePenalty,
+  calculateCombatPenalty,
+} from "../../config/gameBalance.js";
+
 class CombatSystem {
   constructor() {
     this.criticalChance = 0.1; // Base 10% crit chance
@@ -93,53 +99,18 @@ class CombatSystem {
 
   // Generate combat rewards
   generateRewards(winner, losers) {
-    const baseCredits = 30;
-    const baseExperience = 30;
-    const creditsMultiplier = 1 + winner.level * 0.2;
-
-    // Get the highest level enemy for scaling
-    const enemyLevel = Math.max(...losers.map((l) => l.level));
-    const levelDifference = Math.max(0, enemyLevel - winner.level);
-
-    // Base scaling based on enemy level (higher level enemies = more base rewards)
-    const enemyLevelCreditsBonus = 1 + enemyLevel * 0.3; // 30% more credits per enemy level
-    const enemyLevelExperienceBonus = 1 + enemyLevel * 0.5; // 50% more XP per enemy level
-
-    // Much more aggressive scaling for higher level enemies (level difference bonus)
-    const levelDifferenceBonus =
-      levelDifference > 0 ? Math.pow(1.5, levelDifference) : 1;
-    const creditsLevelBonus = 1 + levelDifference * 0.6; // 60% per level difference
-    const experienceLevelBonus = 1 + levelDifference * 0.6; // 60% per level difference
-
-    return {
-      credits: Math.floor(
-        baseCredits *
-          creditsMultiplier *
-          enemyLevelCreditsBonus *
-          creditsLevelBonus *
-          levelDifferenceBonus
-      ),
-      experience: Math.floor(
-        baseExperience *
-          enemyLevelExperienceBonus *
-          experienceLevelBonus *
-          levelDifferenceBonus
-      ),
-    };
+    return generateRewards(winner, losers);
   }
 
   // Penalty calculation methods
   calculateInitialFleePenalty(playerLevel = 1) {
-    if (playerLevel > 1) {
-      return playerLevel * 10;
-    }
-    return 5;
+    // This method is kept for backward compatibility
+    // The actual calculation is now in the config file
+    return calculateInitialFleePenalty(playerLevel * 100); // Convert level to approximate credits
   }
 
   calculateCombatPenalty(enemy, combatRounds) {
-    const basePenalty = enemy.level * 5;
-    const durationMultiplier = 1 + combatRounds * 0.2;
-    return Math.floor(basePenalty * durationMultiplier);
+    return calculateCombatPenalty(enemy, combatRounds);
   }
 
   getPenaltyFlavorText(penaltyType, enemy, amount) {

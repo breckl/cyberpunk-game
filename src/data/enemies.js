@@ -1,4 +1,7 @@
-import ProgressionCalculator from "../utils/progressionCalculator.js";
+import {
+  calculateWeaponDamage,
+  calculateArmorDefense,
+} from "../config/gameBalance.js";
 
 const enemies = [
   // Level 1 Enemies
@@ -15,7 +18,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Knife",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"), // Scaled down for level 1
+      damage: 0,
       attacks: [
         "lunges with their knife",
         "makes a desperate slash",
@@ -32,11 +35,11 @@ const enemies = [
     region: "Iron Maze",
     armor: {
       name: "Black Hoodie",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Broken Bottle",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: 0,
       attacks: [
         "swings their broken bottle",
         "makes a reckless charge",
@@ -53,11 +56,11 @@ const enemies = [
     region: "Iron Maze",
     armor: {
       name: "Leather Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Medium"),
+      rating: 0,
     },
     weapon: {
       name: "Switchblade",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Medium"),
+      damage: calculateWeaponDamage(1, "Light"),
       attacks: ["makes a quick stab", "slashes in an arc"],
     },
   },
@@ -70,7 +73,7 @@ const enemies = [
     region: "Chiba Market",
     armor: {
       name: "Heavy Coat",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Bare Fists",
@@ -91,11 +94,11 @@ const enemies = [
     region: "Chiba Bars",
     armor: {
       name: "Heavy Coat",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Heavy"),
+      rating: 0,
     },
     weapon: {
       name: "Bare Fists",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light"),
       attacks: [
         "swings a wild haymaker",
         "charges with drunken rage",
@@ -112,11 +115,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Leather Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      rating: calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Stun Rig",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Medium"),
+      damage: 0,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -133,11 +136,11 @@ const enemies = [
     region: "Iron Maze Rooftops",
     armor: {
       name: "Heavy Coat",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      rating: calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Sling Blade",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: 0,
       attacks: [
         "swings their blade",
         "makes a quick strike",
@@ -147,18 +150,18 @@ const enemies = [
   },
   {
     id: "drunken_chiba_port_sailor",
-    name: "Drunken Sailor",
+    name: "Rowdy Sailor",
     description: "Brawler fresh off the docks, sloppy but strong when cornered",
     type: "Thug",
     level: 1,
     region: "Ninsei Strip",
     armor: {
       name: "Heavy Jacket",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      rating: calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Broken Bottle",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: 0,
       attacks: [
         "swings their bottle",
         "makes a drunken charge",
@@ -179,7 +182,7 @@ const enemies = [
     },
     weapon: {
       name: "Bar Stool Leg",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light"),
       attacks: [
         "swings a stool leg",
         "charges with drunken rage",
@@ -200,7 +203,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Heavy"),
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -222,7 +225,7 @@ const enemies = [
     },
     weapon: {
       name: "Malfunctioning Cyber Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Medium"),
       attacks: [
         "swings a cyber fist",
         "makes a glitchy strike",
@@ -239,11 +242,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Scrap Metal Hide",
-      rating: ProgressionCalculator.calculateArmorDefense(1, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Sharpened Claws",
-      damage: ProgressionCalculator.calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light"),
       attacks: [
         "lunges with sharpened claws",
         "makes a quick strike",
@@ -262,11 +265,11 @@ const enemies = [
     region: "Sprawl Streets",
     armor: {
       name: "Leather Jacket",
-      rating: ProgressionCalculator.calculateArmorDefense(2, "Light"),
+      rating: calculateArmorDefense(2, "Light"),
     },
     weapon: {
       name: "Pipe Wrench",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Light"),
       attacks: [
         "swings their pipe wrench",
         "makes a heavy strike",
@@ -283,11 +286,11 @@ const enemies = [
     region: "Dog Solitude",
     armor: {
       name: "None",
-      rating: 0,
+      rating: calculateWeaponDamage(2, "Medium"),
     },
     weapon: {
       name: "Scrap Club",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Medium"),
       attacks: [
         "swings their scrap club",
         "makes a desperate strike",
@@ -304,11 +307,11 @@ const enemies = [
     region: "Chiba Clinics",
     armor: {
       name: "Padded Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
+      rating: calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Shock Baton",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium"),
+      damage: calculateWeaponDamage(2, "Medium"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -325,11 +328,11 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "Leather Jacket",
-      rating: ProgressionCalculator.calculateArmorDefense(2, "Light"),
+      rating: calculateArmorDefense(2, "Light"),
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Light"),
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -346,11 +349,11 @@ const enemies = [
     region: "Ninsei / Pachinko Parlor",
     armor: {
       name: "Reinforced Jacket",
-      rating: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
+      rating: calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Switchblade",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Heavy"),
       attacks: [
         "flicks their switchblade",
         "makes a quick stab",
@@ -367,11 +370,11 @@ const enemies = [
     region: "Ninsei / Chatsubo",
     armor: {
       name: "Padded Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(2, "Medium"),
+      rating: calculateArmorDefense(2, "Heavy"),
     },
     weapon: {
       name: "Shock Baton",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Medium"),
+      damage: calculateWeaponDamage(2, "Heavy"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -388,11 +391,11 @@ const enemies = [
     region: "Ninsei Alley",
     armor: {
       name: "Hoodie",
-      rating: 0,
+      rating: calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Shiv",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Medium"),
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -410,11 +413,11 @@ const enemies = [
     region: "Ninsei Alley",
     armor: {
       name: "Tattered Clothes",
-      rating: ProgressionCalculator.calculateArmorDefense(2, "Light"),
+      rating: calculateArmorDefense(2, "Heavy"),
     },
     weapon: {
       name: "Hacker-Controlled Fists",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Heavy"),
       attacks: [
         "moves with unnatural precision",
         "executes a calculated strike",
@@ -432,11 +435,11 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "None",
-      rating: 0,
+      rating: calculateArmorDefense(2, "Medium"),
     },
     weapon: {
       name: "Enhanced Fists",
-      damage: ProgressionCalculator.calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(2, "Heavy"),
       attacks: [
         "moves with drug-enhanced speed",
         "delivers a rapid strike",
@@ -455,11 +458,11 @@ const enemies = [
     region: "Chiba Market",
     armor: {
       name: "Light Alloy Frame",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Light"), // Light drone armor
+      rating: calculateArmorDefense(3, "Light"), // Light drone armor
     },
     weapon: {
       name: "Pulse Laser",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"), // Scaled down for easier combat
+      damage: calculateWeaponDamage(3, "Light"), // Scaled down for easier combat
       attacks: [
         "fires a pulse laser burst",
         "takes aim with mechanical precision",
@@ -477,11 +480,11 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "Cybernetic Hide",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"), // Light cyber armor
+      rating: calculateArmorDefense(3, "Medium"), // Light cyber armor
     },
     weapon: {
       name: "Cyber Fangs",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"), // Scaled down for easier combat
+      damage: calculateWeaponDamage(3, "Light"), // Scaled down for easier combat
       attacks: [
         "lunges with cybernetic fangs",
         "makes a quick snap attack",
@@ -498,11 +501,11 @@ const enemies = [
     region: "Corporate District",
     armor: {
       name: "Business Suit",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"), // Minimal protection
+      rating: calculateArmorDefense(3, "Medium"), // Minimal protection
     },
     weapon: {
       name: "Stun Baton",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"), // Reduced tech damage
+      damage: calculateWeaponDamage(3, "Medium"), // Reduced tech damage
       attacks: [
         "swings their stun baton nervously",
         "makes a panicked strike",
@@ -519,11 +522,11 @@ const enemies = [
     region: "Chiba Docks",
     armor: {
       name: "Cybernetic Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Heavy"),
+      rating: calculateArmorDefense(3, "Heavy"),
     },
     weapon: {
       name: "Power Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Heavy"),
+      damage: calculateWeaponDamage(3, "Heavy"),
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -540,11 +543,11 @@ const enemies = [
     region: "Ninsei Alley",
     armor: {
       name: "Tattered Robes",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"),
+      rating: calculateArmorDefense(3, "Medium"),
     },
     weapon: {
       name: "Dark Energy Blade",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
+      damage: calculateWeaponDamage(3, "Medium"),
       attacks: [
         "swings a blade of dark energy",
         "creates a spectral aura",
@@ -561,11 +564,11 @@ const enemies = [
     region: "Netherworld",
     armor: {
       name: "Neural Interface Suit",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Light"),
+      rating: calculateArmorDefense(3, "Light"),
     },
     weapon: {
       name: "Neural Spike",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
+      damage: calculateWeaponDamage(3, "Medium"),
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -582,11 +585,11 @@ const enemies = [
     region: "Corporate District",
     armor: {
       name: "Business Suit",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"),
+      rating: calculateArmorDefense(3, "Medium"),
     },
     weapon: {
       name: "Power Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"),
+      damage: calculateWeaponDamage(3, "Light"),
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -604,11 +607,11 @@ const enemies = [
     region: "Chiba Docks",
     armor: {
       name: "Cybernetic Hide",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"),
+      rating: calculateArmorDefense(3, "Medium"),
     },
     weapon: {
       name: "Cyber Fangs",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Light"),
+      damage: calculateWeaponDamage(3, "Light"),
       attacks: [
         "lunges with cybernetic fangs",
         "makes a quick snap attack",
@@ -625,11 +628,11 @@ const enemies = [
     region: "Chiba Market",
     armor: {
       name: "Light Alloy Frame",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Light"), // Scaled down for easier combat
+      rating: calculateArmorDefense(3, "Light"), // Scaled down for easier combat
     },
     weapon: {
       name: "Pulse Lasers",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"), // Scaled down for easier combat
+      damage: calculateWeaponDamage(3, "Medium"), // Scaled down for easier combat
       attacks: [
         "fires a coordinated burst of pulse lasers",
         "takes aim with mechanical precision",
@@ -648,11 +651,11 @@ const enemies = [
     region: "Chiba Clinics",
     armor: {
       name: "Light Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Light"),
+      rating: calculateArmorDefense(3, "Light"),
     },
     weapon: {
       name: "Restraint Gun",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
+      damage: calculateWeaponDamage(3, "Medium"),
       attacks: [
         "fires a restraint net",
         "takes aim with precision",
@@ -669,11 +672,11 @@ const enemies = [
     region: "Glass Quarter",
     armor: {
       name: "Light Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Medium"),
+      rating: calculateArmorDefense(3, "Medium"),
     },
     weapon: {
       name: "Combat Knife",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Medium"),
+      damage: calculateWeaponDamage(3, "Medium"),
       attacks: [
         "makes a precise stab",
         "swings their combat knife",
@@ -690,11 +693,11 @@ const enemies = [
     region: "Ninsei / Black Clinic",
     armor: {
       name: "Kevlar Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Heavy"),
+      rating: calculateArmorDefense(3, "Heavy"),
     },
     weapon: {
       name: "SMG",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Heavy"),
+      damage: calculateWeaponDamage(3, "Heavy"),
       attacks: [
         "fires a burst from their SMG",
         "takes aim with precision",
@@ -712,11 +715,11 @@ const enemies = [
     region: "Ninsei Warehouses",
     armor: {
       name: "Dermal Plating I",
-      rating: ProgressionCalculator.calculateArmorDefense(3, "Heavy"),
+      rating: calculateArmorDefense(3, "Heavy"),
     },
     weapon: {
       name: "Cyber Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(3, "Heavy"),
+      damage: calculateWeaponDamage(3, "Heavy"),
       attacks: [
         "swings their cyber fist",
         "delivers a crushing blow",
@@ -735,11 +738,11 @@ const enemies = [
     region: "Chiba Shadows",
     armor: {
       name: "Leather Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(4, "Medium"),
+      rating: calculateArmorDefense(4, "Medium"),
     },
     weapon: {
       name: "Razor Claws",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium"),
+      damage: calculateWeaponDamage(4, "Medium"),
       attacks: [
         "slashes with cyberclaws",
         "makes a precision strike",
@@ -756,11 +759,11 @@ const enemies = [
     region: "Iron Maze",
     armor: {
       name: "Dermal Plating I",
-      rating: ProgressionCalculator.calculateArmorDefense(4, "Heavy"),
+      rating: calculateArmorDefense(4, "Heavy"),
     },
     weapon: {
       name: "Spiked Gauntlets",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light"),
+      damage: calculateWeaponDamage(4, "Light"),
       attacks: [
         "swings spiked gauntlets",
         "delivers a crushing blow",
@@ -778,11 +781,11 @@ const enemies = [
     region: "Corporate District",
     armor: {
       name: "Leather Jacket",
-      rating: ProgressionCalculator.calculateArmorDefense(4, "Light"),
+      rating: calculateArmorDefense(4, "Light"),
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light"),
+      damage: calculateWeaponDamage(4, "Light"),
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -802,11 +805,11 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "Chrome Mesh",
-      rating: ProgressionCalculator.calculateArmorDefense(4, "Light"), // Light chrome armor
+      rating: calculateArmorDefense(4, "Light"), // Light chrome armor
     },
     weapon: {
       name: "Monowire",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium"), // Scaled down damage
+      damage: calculateWeaponDamage(4, "Medium"), // Scaled down damage
       attacks: [
         "whips their monowire with precision",
         "makes a calculated slice",
@@ -823,11 +826,11 @@ const enemies = [
     region: "Downtown",
     armor: {
       name: "Tactical Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(4, "Light"), // Light tactical armor
+      rating: calculateArmorDefense(4, "Light"), // Light tactical armor
     },
     weapon: {
       name: "Combat Rifle",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Light"), // Scaled down damage
+      damage: calculateWeaponDamage(4, "Light"), // Scaled down damage
       attacks: [
         "fires a controlled burst",
         "takes aim with professional precision",
@@ -844,11 +847,11 @@ const enemies = [
     region: "Netherworld",
     armor: {
       name: "Neural Interface Suit",
-      rating: ProgressionCalculator.calculateArmorDefense(4, "Light"), // Light neural armor
+      rating: calculateArmorDefense(4, "Light"), // Light neural armor
     },
     weapon: {
       name: "Cyberdeck",
-      damage: ProgressionCalculator.calculateWeaponDamage(4, "Medium"), // Scaled down damage
+      damage: calculateWeaponDamage(4, "Medium"), // Scaled down damage
       attacks: [
         "executes a hacking protocol",
         "launches a neural attack",
@@ -867,11 +870,11 @@ const enemies = [
     region: "Chiba Docks",
     armor: {
       name: "Kevlar Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(5, "Medium"),
+      rating: calculateArmorDefense(5, "Medium"),
     },
     weapon: {
       name: "Katana",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
+      damage: calculateWeaponDamage(5, "Light"),
       attacks: [
         "draws their katana with precision",
         "makes a swift strike",
@@ -888,11 +891,11 @@ const enemies = [
     region: "Sprawl Hubs",
     armor: {
       name: "Combat Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(5, "Medium"),
+      rating: calculateArmorDefense(5, "Medium"),
     },
     weapon: {
       name: "Heavy Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
+      damage: calculateWeaponDamage(5, "Light"),
       attacks: [
         "takes aim with military precision",
         "fires a controlled burst",
@@ -909,11 +912,11 @@ const enemies = [
     region: "Chiba Docks",
     armor: {
       name: "Cybernetic Hide",
-      rating: ProgressionCalculator.calculateArmorDefense(5, "Heavy"), // Heavy cyber armor
+      rating: calculateArmorDefense(5, "Heavy"), // Heavy cyber armor
     },
     weapon: {
       name: "Power Fist",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
+      damage: calculateWeaponDamage(5, "Light"),
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -930,11 +933,11 @@ const enemies = [
     region: "Corporate District",
     armor: {
       name: "Cybernetic Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(5, "Heavy"), // Heavy cyber armor
+      rating: calculateArmorDefense(5, "Heavy"), // Heavy cyber armor
     },
     weapon: {
       name: "Pulse Cannon",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Heavy"),
+      damage: calculateWeaponDamage(5, "Heavy"),
       attacks: [
         "fires a pulse laser burst",
         "takes aim with mechanical precision",
@@ -952,11 +955,11 @@ const enemies = [
     region: "Chiba Docks",
     armor: {
       name: "Traditional Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(5, "Medium"),
+      rating: calculateArmorDefense(5, "Medium"),
     },
     weapon: {
       name: "Masterwork Katana",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Light"),
+      damage: calculateWeaponDamage(5, "Light"),
       attacks: [
         "draws their masterwork katana",
         "executes a perfect strike",
@@ -974,11 +977,11 @@ const enemies = [
     region: "Netherworld",
     armor: {
       name: "Digital Barrier",
-      rating: ProgressionCalculator.calculateArmorDefense(5, "Light"),
+      rating: calculateArmorDefense(5, "Light"),
     },
     weapon: {
       name: "Viral Code",
-      damage: ProgressionCalculator.calculateWeaponDamage(5, "Medium"),
+      damage: calculateWeaponDamage(5, "Medium"),
       attacks: [
         "executes viral code injection",
         "corrupts your cyberware",
@@ -997,11 +1000,11 @@ const enemies = [
     region: "Highspire Towers",
     armor: {
       name: "Tactical Vest",
-      rating: ProgressionCalculator.calculateArmorDefense(6, "Heavy"),
+      rating: calculateArmorDefense(6, "Heavy"),
     },
     weapon: {
       name: "Shock Staff",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Medium"),
+      damage: calculateWeaponDamage(6, "Medium"),
       attacks: [
         "swings their shock staff",
         "delivers an electric strike",
@@ -1018,11 +1021,11 @@ const enemies = [
     region: "Chiba Shadows",
     armor: {
       name: "Kevlar Mesh",
-      rating: ProgressionCalculator.calculateArmorDefense(6, "Light"),
+      rating: calculateArmorDefense(6, "Light"),
     },
     weapon: {
       name: "Silenced Pistol",
-      damage: ProgressionCalculator.calculateWeaponDamage(6, "Light"),
+      damage: calculateWeaponDamage(6, "Light"),
       attacks: [
         "takes a silent shot",
         "makes a precision strike",
@@ -1095,11 +1098,11 @@ export const generateBalancedEnemy = (level, type = "Thug", region = null) => {
     region: region || "Generated",
     armor: {
       name: "Generated Armor",
-      rating: ProgressionCalculator.calculateArmorDefense(level, "Light"),
+      rating: calculateArmorDefense(level, "Light"),
     },
     weapon: {
       name: "Generated Weapon",
-      damage: ProgressionCalculator.calculateWeaponDamage(level, "Light"),
+      damage: calculateWeaponDamage(level, "Light"),
       attacks: [
         "attacks with their weapon",
         "makes a strike",
@@ -1163,13 +1166,19 @@ const getLocationBasedEnemy = (locationEnemies) => {
 // New function for level-based enemy selection with probability distribution
 export const getLevelBasedEnemy = (playerLevel) => {
   // Define probability distribution for enemy levels
-  const levelProbabilities = {
-    [playerLevel - 2]: 0, // 5% chance for 2 levels below
-    [playerLevel - 1]: 30, // 20% chance for 1 level below
-    [playerLevel]: 55, // 50% chance for same level
-    [playerLevel + 1]: 15, // 20% chance for 1 level above
-    [playerLevel + 2]: 0, // 5% chance for 2 levels above
-  };
+  const levelProbabilities =
+    playerLevel === 1
+      ? {
+          [playerLevel]: 75, // 75% chance for same level (Level 1)
+          [playerLevel + 1]: 25, // 25% chance for 1 level above (Level 2)
+        }
+      : {
+          [playerLevel - 2]: 0, // 5% chance for 2 levels below
+          [playerLevel - 1]: 20, // 20% chance for 1 level below
+          [playerLevel]: 60, // 50% chance for same level
+          [playerLevel + 1]: 20, // 20% chance for 1 level above
+          [playerLevel + 2]: 0, // 5% chance for 2 levels above
+        };
 
   // Generate random number for probability check
   const rand = Math.random() * 100;

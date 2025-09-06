@@ -3,6 +3,8 @@
  * Ensures weapons, armor, enemies, and prices scale appropriately with player level
  */
 
+// Removed imports - other files should import directly from gameBalance.js
+
 export class ProgressionCalculator {
   // Base progression formulas
   static calculatePlayerStats(level) {
@@ -46,14 +48,14 @@ export class ProgressionCalculator {
     };
   }
 
-  static calculateWeaponDamage(level, weaponType = "Power") {
+  static calculateWeaponDamage(level, weaponType = "Light") {
     // Reduced base damage scaling from 1.5 to 1.0 per level
     const baseDamage = 1 + level * 0.7;
 
     const typeMultipliers = {
-      Light: 0.75, // Baseline - standard melee weapons
-      Medium: 1, // 10% stronger - electronic advantage
-      Heavy: 1.25, // 15% stronger - energy weapons
+      Light: 1, // Baseline - standard melee weapons
+      Medium: 1.25, // 10% stronger - electronic advantage
+      Heavy: 1.5, // 15% stronger - energy weapons
     };
 
     // Round to exactly 2 decimal places
@@ -64,9 +66,9 @@ export class ProgressionCalculator {
     const baseDefense = 0.3 + level * 1.2;
 
     const typeMultipliers = {
-      Light: 0.75,
-      Medium: 1,
-      Heavy: 1.25,
+      Light: 1,
+      Medium: 1.25,
+      Heavy: 1.5,
     };
 
     // Round to exactly 2 decimal places
@@ -78,45 +80,9 @@ export class ProgressionCalculator {
     return Math.round(basePrice * levelMultiplier);
   }
 
-  // New function: Calculate price based on damage for more intuitive pricing
-  static calculatePriceWithDamage(damage, level, weaponType = "Light") {
-    // Increased base price from 25 to 50 credits per point of damage
-    const basePrice = Math.round(damage * 50);
-
-    // Level multiplier (higher levels = more expensive)
-    const levelMultiplier = Math.pow(1.3, level - 1); // Reduced from 1.4 to 1.3 for better balance
-
-    // Weapon type modifier (some types are more expensive to manufacture)
-    const typeModifiers = {
-      Light: 0.75, // Standard melee weapons
-      Medium: 1, // Electronic weapons cost more
-      Heavy: 1.25, // Energy weapons are expensive
-    };
-
-    const finalPrice = basePrice * levelMultiplier * typeModifiers[weaponType];
-
-    return Math.round(finalPrice);
-  }
-
-  // New function: Calculate armor price based on defense
-  static calculateArmorPriceWithDefense(defense, level, armorType = "Light") {
-    // Increased base price from 30 to 60 credits per point of defense
-    const basePrice = Math.round(defense * 60);
-
-    // Level multiplier
-    const levelMultiplier = Math.pow(1.3, level - 1);
-
-    // Armor type modifier
-    const typeModifiers = {
-      Light: 0.75,
-      Medium: 1,
-      Heavy: 1.25,
-    };
-
-    const finalPrice = basePrice * levelMultiplier * typeModifiers[armorType];
-
-    return Math.round(finalPrice);
-  }
+  // Note: calculatePriceWithDamage and calculateArmorPriceWithDefense
+  // are now available directly from gameBalance.js
+  // Other files should import them directly instead of using this class
 
   static calculateCombatBalance(
     playerLevel,
