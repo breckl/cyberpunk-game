@@ -45,6 +45,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const [newLevel, setNewLevel] = useState(null);
   const [previousLevel, setPreviousLevel] = useState(currentLevel);
 
+  // Store the selected enemy description for the current fight
+  const [selectedEnemyDescription, setSelectedEnemyDescription] =
+    useState(null);
+
   // Helper function to render combat mode header
   const renderCombatModeHeader = () => (
     <div className="combat-mode-header" onClick={handleTestPopupOpen}>
@@ -61,6 +65,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       <span className="stat-value">${character.credits}</span>
     </div>
   );
+
+  // Helper function to get random description
+  const getRandomDescription = (descriptions) => {
+    if (!descriptions || descriptions.length === 0) return "A mysterious enemy";
+    if (Array.isArray(descriptions)) {
+      return descriptions[Math.floor(Math.random() * descriptions.length)];
+    }
+    return descriptions; // Fallback for non-array descriptions
+  };
 
   // Helper function to render player stats
   const renderPlayerStats = () => (
@@ -347,6 +360,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return randomEnemy;
   });
 
+  // Initialize selected enemy description
+  useEffect(() => {
+    setSelectedEnemyDescription(getRandomDescription(enemy.description));
+  }, [enemy]);
+
   const [playerHp, setPlayerHp] = useState(
     parseFloat(playerTotalHp.toFixed(2))
   );
@@ -471,6 +489,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const restartCombat = useCallback(() => {
     const newEnemy = getLevelBasedEnemy(currentLevel);
     setEnemy(newEnemy);
+    setSelectedEnemyDescription(getRandomDescription(newEnemy.description));
     setPlayerHp(parseFloat(playerTotalHp.toFixed(2)));
     setEnemyHp(parseFloat((levels[newEnemy.level]?.hp || 30).toFixed(2)));
     setIsPlayerTurn(true);
@@ -1271,11 +1290,11 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       "stats",
       <>
         <div className="combat-message">
-          You have encountered <strong>{enemy.name}</strong>!!
+          You have encountered <strong>{enemy.name}</strong>!
         </div>
         <div className="enemy-description white-text">
           <TypeAnimation
-            sequence={[enemy.description]}
+            sequence={[selectedEnemyDescription || "A mysterious enemy"]}
             wrapper="em"
             speed={60}
             cursor={false}
@@ -1292,10 +1311,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       "combat",
       <>
         <div className="combat-message">
-          You have encountered <strong>{enemy.name}</strong>!!
+          You have encountered <strong>{enemy.name}</strong>!
         </div>
         <div className="enemy-description white-text">
-          <em>{enemy.description}</em>
+          <em>{selectedEnemyDescription || "A mysterious enemy"}</em>
         </div>
         {visibleMessages.map((message, index) => {
           // Safety check for undefined messages
@@ -1379,10 +1398,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       "results",
       <>
         <div className="combat-message">
-          You have encountered <strong>{enemy.name}</strong>!!
+          You have encountered <strong>{enemy.name}</strong>!
         </div>
         <div className="enemy-description white-text">
-          <em>{enemy.description}</em>
+          <em>{selectedEnemyDescription || "A mysterious enemy"}</em>
         </div>
         {visibleMessages.map((message, index) => {
           // Safety check for undefined messages

@@ -8,7 +8,12 @@ const enemies = [
   {
     id: "simstim_junkie",
     name: "Simstim Junkie",
-    description: "Neural-feed addict, violent but fragile",
+    description: [
+      "Neural-feed addict, violent but fragile",
+      "Wired into cheap simstim, twitching with withdrawal",
+      "Desperate for another hit, lashes out at anything",
+      "Neural interface fried, mind lost to digital dreams",
+    ],
     type: "Thug",
     level: 1,
     region: "Chiba Alleys",
@@ -28,8 +33,13 @@ const enemies = [
   },
   {
     id: "street_punk",
-    name: "Street Punk",
-    description: "Loud, brash, easily put down",
+    name: "Chiba Street Punk",
+    description: [
+      "Loud, brash, easily put down",
+      "All attitude, no substance, just noise",
+      "Thinks they're tough, but folds under pressure",
+      "Spray-painted jacket, empty threats",
+    ],
     type: "Thug",
     level: 1,
     region: "Iron Maze",
@@ -50,7 +60,12 @@ const enemies = [
   {
     id: "neon_jackal",
     name: "Neon Jackal",
-    description: "Low-level gang member, thrives in chaos",
+    description: [
+      "Low-level gang member, thrives in chaos",
+      "Pack hunter, weak alone but dangerous in numbers",
+      "Scavenges the neon-lit streets for easy prey",
+      "Gang colors flash under the city lights",
+    ],
     type: "Thug",
     level: 1,
     region: "Iron Maze",
@@ -67,7 +82,12 @@ const enemies = [
   {
     id: "noodle_thief",
     name: "Noodle Thief",
-    description: "Desperate vagrant, steals food, lashes out",
+    description: [
+      "Desperate vagrant, steals food, lashes out",
+      "Starving and cornered, fights like a wild animal",
+      "Steals from street vendors, runs when caught",
+      "Hunger drives them to violence",
+    ],
     type: "Thug",
     level: 1,
     region: "Chiba Market",
@@ -87,8 +107,13 @@ const enemies = [
   },
   {
     id: "bar_brawler",
-    name: "Bar Brawler",
-    description: "Drunk, fists flying, unpredictable",
+    name: "Chiba Bar Brawler",
+    description: [
+      "Drunk, fists flying, unpredictable",
+      "Alcohol-fueled rage, swings wildly",
+      "Stumbles around the bar, looking for trouble",
+      "Drunk courage makes them dangerous",
+    ],
     type: "Thug",
     level: 1,
     region: "Chiba Bars",
@@ -108,8 +133,13 @@ const enemies = [
   },
   {
     id: "data_rat",
-    name: "Data Rat",
-    description: "Wannabe decker, uses cheap stun device",
+    name: "Sense/Net Data Rat",
+    description: [
+      "Wannabe decker, uses cheap stun device",
+      "Scavenges data from the digital underground",
+      "Cheap cyberdeck, expensive dreams",
+      "Hides in the shadows of the net",
+    ],
     type: "Hacker",
     level: 1,
     region: "Chiba Alleys",
@@ -129,8 +159,13 @@ const enemies = [
   },
   {
     id: "rooftop_sneak",
-    name: "Rooftop Sneak",
-    description: "Agile petty thief, quick but weak",
+    name: "Ninsei Rooftop Sneak",
+    description: [
+      "Agile petty thief, quick but weak",
+      "Leaps between buildings, steals from windows",
+      "Light on their feet, heavy on the trouble",
+      "Urban acrobat with sticky fingers",
+    ],
     type: "Thug",
     level: 1,
     region: "Iron Maze Rooftops",
@@ -150,8 +185,13 @@ const enemies = [
   },
   {
     id: "drunken_chiba_port_sailor",
-    name: "Drunken Sailor",
-    description: "Brawler fresh off the docks, sloppy but strong when cornered",
+    name: "Salty Chiba Sailor",
+    description: [
+      "Brawler fresh off the docks, strong when cornered",
+      "Sea legs and sea stories, all of them tall",
+      "Drunk on cheap booze and cheaper dreams",
+      "Fights like a cornered animal",
+    ],
     type: "Thug",
     level: 1,
     region: "Ninsei Strip",
@@ -172,7 +212,12 @@ const enemies = [
   {
     id: "chatsubo_drunk",
     name: "Chatsubo Drunk",
-    description: "Regular at the bar, staggers with sudden swings",
+    description: [
+      "Regular at the bar, staggers with sudden swings",
+      "Knows every stool in the place, falls off most",
+      "Drunk on nostalgia and cheaper whiskey",
+      "Fights dirty when the booze kicks in",
+    ],
     type: "Thug",
     level: 1,
     region: "Ninsei / Chatsubo",
@@ -193,7 +238,12 @@ const enemies = [
   {
     id: "simstim_burnout",
     name: "Simstim Burnout",
-    description: "Addict fried on neural feeds, lashes out unpredictably",
+    description: [
+      "Addict fried on neural feeds, lashes out unpredictably",
+      "Neural pathways burned out, mind in fragments",
+      "Lost in digital dreams, reality is a nightmare",
+      "Wired too deep, can't tell what's real",
+    ],
     type: "Thug",
     level: 1,
     region: "Ninsei Alley",
@@ -214,8 +264,12 @@ const enemies = [
   {
     id: "augment_burnout",
     name: "Augment Burnout",
-    description:
-      "Cybernetic addict whose implants are failing, erratic and dangerous",
+    description: [
+      "Cybernetic addict, erratic and dangerous",
+      "Chrome gone wrong, body rejecting the tech",
+      "Implants glitch and spark, pain drives them mad",
+      "Too much chrome, not enough humanity",
+    ],
     type: "Thug",
     level: 1,
     region: "Ninsei Alley",
@@ -235,8 +289,13 @@ const enemies = [
   },
   {
     id: "cyber_scav",
-    name: "Cyber Scav",
-    description: "Robotic animal that stalks the alleyways, hunting for scrap",
+    name: "Hosaka Cyber Scav",
+    description: [
+      "Robotic animal that stalks the alleyways",
+      "Mechanical predator, eyes glowing in the dark",
+      "Scavenges for spare parts and broken dreams",
+      "Half machine, half animal, all dangerous",
+    ],
     type: "Thug",
     level: 1,
     region: "Chiba Alleys",
@@ -259,7 +318,12 @@ const enemies = [
   {
     id: "sprawl_ganger",
     name: "Sprawl Ganger",
-    description: "Generic gang soldier, fights in numbers",
+    description: [
+      "Generic gang soldier, fights in numbers",
+      "Gang mentality, no individual thought",
+      "Strength in numbers, weakness alone",
+      "Territory markers and broken promises",
+    ],
     type: "Thug",
     level: 2,
     region: "Sprawl Streets",
@@ -280,7 +344,12 @@ const enemies = [
   {
     id: "alley_scav",
     name: "Alley Scav",
-    description: "Scrapper with improvised gear",
+    description: [
+      "Scrapper with improvised gear",
+      "Makes weapons from whatever they can find",
+      "Survivalist mentality, everything is a weapon",
+      "Junk collector with a violent streak",
+    ],
     type: "Thug",
     level: 2,
     region: "Dog Solitude",
@@ -300,8 +369,13 @@ const enemies = [
   },
   {
     id: "clinic_bouncer",
-    name: "Clinic Bouncer",
-    description: "Black clinic guard, simple muscle",
+    name: "Black Clinic Bouncer",
+    description: [
+      "Black clinic guard, simple muscle",
+      "Keeps the riff-raff out of the ripperdoc's office",
+      "Big, dumb, and dangerous when provoked",
+      "Protects the clinic's dark secrets",
+    ],
     type: "Heavy",
     level: 2,
     region: "Chiba Clinics",
@@ -322,7 +396,12 @@ const enemies = [
   {
     id: "ninsei_strip_hustler",
     name: "Ninsei Hustler",
-    description: "Smooth-talking fixer, fights dirty when deals go bad",
+    description: [
+      "Smooth-talking fixer, fights dirty when deals go bad",
+      "Words are weapons until the bullets fly",
+      "Knows every angle, plays every side",
+      "Charm and violence in equal measure",
+    ],
     type: "Thug",
     level: 2,
     region: "Ninsei Strip",
@@ -343,7 +422,12 @@ const enemies = [
   {
     id: "pachinko_ganger",
     name: "Pachinko Ganger",
-    description: "Runs a backroom parlor, defends turf with a blade",
+    description: [
+      "Runs a backroom parlor, defends turf with a blade",
+      "Gambling den operator with a violent streak",
+      "Protects their illegal operation with steel",
+      "Numbers and knives, both can kill",
+    ],
     type: "Thug",
     level: 2,
     region: "Ninsei / Pachinko Parlor",
@@ -364,7 +448,12 @@ const enemies = [
   {
     id: "chatsubo_bouncer",
     name: "Chatsubo Bouncer",
-    description: "Keeps order at Ratz's bar; heavy fists and thicker skin",
+    description: [
+      "Keeps order at Ratz's bar; heavy fists and thicker skin",
+      "Ratz's muscle, keeps the peace with violence",
+      "Big enough to throw out the biggest drunks",
+      "Bar security with a mean streak",
+    ],
     type: "Heavy",
     level: 2,
     region: "Ninsei / Chatsubo",
@@ -385,7 +474,12 @@ const enemies = [
   {
     id: "street_snatcher",
     name: "Street Snatcher",
-    description: "Grabs purses and chips, fights when cornered",
+    description: [
+      "Grabs purses and chips, fights when cornered",
+      "Quick hands, quicker feet, desperate times",
+      "Preys on the weak, runs from the strong",
+      "Thief by trade, fighter by necessity",
+    ],
     type: "Thug",
     level: 2,
     region: "Ninsei Alley",
@@ -405,9 +499,13 @@ const enemies = [
   },
   {
     id: "meat_puppet",
-    name: "Meat Puppet",
-    description:
-      "Junkie controlled by a remote hacker, moves with unnatural precision",
+    name: "Sense/Net Meat Puppet",
+    description: [
+      "Junkie controlled by a remote hacker",
+      "Body without a soul, controlled by another's will",
+      "Neural implants hijacked, mind enslaved",
+      "Flesh puppet dancing to a hacker's tune",
+    ],
     type: "Thug",
     level: 2,
     region: "Ninsei Alley",
@@ -428,8 +526,12 @@ const enemies = [
   {
     id: "simstim_fanatic",
     name: "Simstim Fanatic",
-    description:
-      "Addicted to neural stimulation, fights with enhanced reflexes",
+    description: [
+      "Addicted to neural stim, fights with enhanced reflexes",
+      "Neural boost junkie, speed is their drug",
+      "Wired for combat, wired for destruction",
+      "Enhanced reflexes, diminished humanity",
+    ],
     type: "Thug",
     level: 2,
     region: "Ninsei Strip",
@@ -451,8 +553,13 @@ const enemies = [
   // Additional Level 3 Enemies (Light)
   {
     id: "armed_drone",
-    name: "Armed Drone",
-    description: "Automated security drone with basic combat protocols",
+    name: "Hosaka Armed Drone",
+    description: [
+      "Automated security drone with basic combat protocols",
+      "Mechanical guardian, no mercy, no fear",
+      "Flying death machine with a simple mission",
+      "Corporate security, automated and lethal",
+    ],
     type: "Thug",
     level: 3,
     region: "Chiba Market",
@@ -473,8 +580,12 @@ const enemies = [
   {
     id: "slamhound",
     name: "Slamhound",
-    description:
-      "Cyborg attack dog with enhanced reflexes and cybernetic fangs",
+    description: [
+      "Cyborg attack dog with enhanced reflexes and steel fangs",
+      "Man's best friend, cybernetically enhanced for violence",
+      "Loyal to its master, deadly to everyone else",
+      "Half dog, half machine, all predator",
+    ],
     type: "Thug",
     level: 3,
     region: "Ninsei Strip",
@@ -495,7 +606,12 @@ const enemies = [
   {
     id: "corporate_intern",
     name: "Corporate Intern",
-    description: "Overworked and undertrained, panics easily",
+    description: [
+      "Overworked and undertrained, panics easily",
+      "Corporate drone with a stun baton and a prayer",
+      "Fresh out of business school, in over their head",
+      "Desperate to prove themselves, dangerous when cornered",
+    ],
     type: "Thug",
     level: 3,
     region: "Corporate District",
@@ -515,8 +631,13 @@ const enemies = [
   },
   {
     id: "cyber_bruiser",
-    name: "Cyber Bruiser",
-    description: "Cybernetic muscle-bound thug, fights with brute strength",
+    name: "BAMA Cyber Bruiser",
+    description: [
+      "Cybernetic thug, fights with brute strength",
+      "Chrome muscle and steel fists, brain optional",
+      "Enhanced strength, diminished intelligence",
+      "Big, dumb, and dangerous with cybernetic upgrades",
+    ],
     type: "Thug",
     level: 3,
     region: "Chiba Docks",
@@ -537,7 +658,12 @@ const enemies = [
   {
     id: "voodoo_construct",
     name: "Voodoo Construct",
-    description: "Cybernetic puppeteer, uses dark magic to control foes",
+    description: [
+      "Cybernetic puppeteer, uses matrix magic to control foes",
+      "Tech and mysticism, a dangerous combination",
+      "Pulls strings both digital and spiritual",
+      "Ancient magic meets modern technology",
+    ],
     type: "Thug",
     level: 3,
     region: "Ninsei Alley",
@@ -558,7 +684,12 @@ const enemies = [
   {
     id: "memory_thief",
     name: "Memory Thief",
-    description: "Hacker with advanced neural implants, steals memories",
+    description: [
+      "Hacker with advanced neural implants, steals memories",
+      "Digital pickpocket, takes what you hold dear",
+      "Neural interface specialist, mind is their playground",
+      "Steals your past, leaves you empty",
+    ],
     type: "Hacker",
     level: 3,
     region: "Netherworld",
@@ -578,8 +709,13 @@ const enemies = [
   },
   {
     id: "street_enforcer",
-    name: "Street Enforcer",
-    description: "Corp-backed muscle, brutal and efficient",
+    name: "Sprawl Street Enforcer",
+    description: [
+      "Corp-backed muscle, brutal and efficient",
+      "Corporate thug with a license to kill",
+      "Protects corporate interests with extreme prejudice",
+      "Business suit, violent methods",
+    ],
     type: "Thug",
     level: 3,
     region: "Corporate District",
@@ -599,9 +735,13 @@ const enemies = [
   },
   {
     id: "organ_broker",
-    name: "Organ Broker",
-    description:
-      "Cybernetic organ broker, trades cybernetic enhancements for organs",
+    name: "Ninsei Organ Broker",
+    description: [
+      "Cybernetic organ broker, trades tech upgrades for organs",
+      "Black market surgeon with a violent streak",
+      "Trades flesh for chrome, life for profit",
+      "Body parts dealer, death is good business",
+    ],
     type: "Thug",
     level: 3,
     region: "Chiba Docks",
@@ -622,7 +762,12 @@ const enemies = [
   {
     id: "drone_swarm",
     name: "Drone Swarm",
-    description: "A group of automated drones, coordinated for combat",
+    description: [
+      "A group of automated drones, coordinated for combat",
+      "Mechanical hive mind, death from above",
+      "Swarm intelligence, swarm violence",
+      "Multiple drones, single purpose: eliminate",
+    ],
     type: "Thug",
     level: 3,
     region: "Chiba Market",
@@ -645,7 +790,12 @@ const enemies = [
   {
     id: "clinic_repoman",
     name: "Clinic Repoman",
-    description: "Tracks debtors, extracts implants",
+    description: [
+      "Tracks debtors, extracts implants",
+      "Ripperdoc's debt collector, takes what's owed",
+      "Surgical precision, violent methods",
+      "Repossession agent with a scalpel",
+    ],
     type: "Heavy",
     level: 3,
     region: "Chiba Clinics",
@@ -666,7 +816,12 @@ const enemies = [
   {
     id: "syndicate_runner",
     name: "Syndicate Runner",
-    description: "Courier for syndicate, quick & armed",
+    description: [
+      "Courier for syndicate, quick & armed",
+      "Syndicate messenger, delivers more than packages",
+      "Fast on their feet, faster with a blade",
+      "Criminal courier with a violent streak",
+    ],
     type: "Thug",
     level: 3,
     region: "Glass Quarter",
@@ -687,7 +842,12 @@ const enemies = [
   {
     id: "black_clinic_security",
     name: "Black Clinic Security",
-    description: "Guards for a ripperdoc, loyal and armed",
+    description: [
+      "Guards for a clinic, loyal and armed",
+      "Protects the clinic's dark secrets",
+      "Clinic's muscle, keeps the peace with violence",
+      "Black market security, no questions asked",
+    ],
     type: "Heavy",
     level: 3,
     region: "Ninsei / Black Clinic",
@@ -708,8 +868,12 @@ const enemies = [
   {
     id: "biosoft_heavy",
     name: "Augmented Heavy",
-    description:
+    description: [
       "Syndicate-backed, defends biosoft shipments with chrome muscle",
+      "Corporate muscle with syndicate backing",
+      "Protects valuable cargo with enhanced strength",
+      "Chrome bodyguard, loyalty bought and paid for",
+    ],
     type: "Heavy",
     level: 3,
     region: "Ninsei Warehouses",
@@ -732,7 +896,12 @@ const enemies = [
   {
     id: "razorgirl",
     name: "Razorgirl",
-    description: "Augmented street fighter with cyberclaws",
+    description: [
+      "Augmented street fighter with cyberclaws",
+      "Chrome claws and a killer instinct",
+      "Street assassin with cybernetic enhancements",
+      "Deadly beauty with razor-sharp edges",
+    ],
     type: "Assassin",
     level: 4,
     region: "Chiba Shadows",
@@ -752,8 +921,13 @@ const enemies = [
   },
   {
     id: "pit_fighter",
-    name: "Pit Fighter",
-    description: "Arena-trained cyber brawler",
+    name: "BAMA Pit Fighter",
+    description: [
+      "Arena-trained cyber brawler",
+      "Gladiator of the underground fighting pits",
+      "Trained to kill for entertainment",
+      "Arena champion, death is their profession",
+    ],
     type: "Heavy",
     level: 4,
     region: "Iron Maze",
@@ -774,8 +948,12 @@ const enemies = [
   {
     id: "corpo_fixer",
     name: "Corpo Fixer",
-    description:
-      "Smooth-talking, well-connected fixer, fights dirty when deals go bad",
+    description: [
+      "Smooth-talking, fights dirty when deals go bad",
+      "Corporate middleman with a violent streak",
+      "Deals in information and death",
+      "Business suit, criminal mind",
+    ],
     type: "Thug",
     level: 4,
     region: "Corporate District",
@@ -798,8 +976,39 @@ const enemies = [
   {
     id: "panther_modern",
     name: "Panther Modern",
-    description:
+    description: [
       "Techno-fetish anarchist with chrome enhancements and anti-corp ideology",
+      "Cyberpunk revolutionary with a monowire",
+      "Fights the system with enhanced chrome",
+      "Anarchist warrior, technology is their weapon",
+    ],
+    type: "Thug",
+    level: 4,
+    region: "Ninsei Strip",
+    armor: {
+      name: "Chrome Mesh",
+      rating: calculateArmorDefense(4, "Light"), // Light chrome armor
+    },
+    weapon: {
+      name: "Monowire",
+      damage: calculateWeaponDamage(4, "Medium"), // Scaled down damage
+      attacks: [
+        "whips their monowire with precision",
+        "makes a calculated slice",
+        "executes a cyber-enhanced strike",
+      ],
+    },
+  },
+  // Additional Level 4 Enemies (Light)
+  {
+    id: "lupus_yonderboy",
+    name: "Lupus Yonderboy",
+    description: [
+      "Panther Modern: techno-fetish anarchist with anti-corp ideology",
+      "Cyberpunk revolutionary",
+      "Fights the system with enhanced chrome",
+      "Anarchist warrior, technology is his weapon",
+    ],
     type: "Thug",
     level: 4,
     region: "Ninsei Strip",
@@ -819,8 +1028,13 @@ const enemies = [
   },
   {
     id: "bounty_hunter",
-    name: "Bounty Hunter",
-    description: "Independent contractor tracking targets for credits",
+    name: "Ninsei Bounty Hunter",
+    description: [
+      "Independent contractor tracking targets for credits",
+      "Professional hunter, death is their business",
+      "Tracks targets for profit, kills for sport",
+      "Mercenary with a license to hunt",
+    ],
     type: "Thug",
     level: 4,
     region: "Downtown",
@@ -841,7 +1055,12 @@ const enemies = [
   {
     id: "console_cowboy",
     name: "Console Cowboy",
-    description: "Netrunner hacker with cyberdeck and neural interface",
+    description: [
+      "Netrunner hacker with cyberdeck and neural interface",
+      "Digital gunslinger, code is their weapon",
+      "Rides the net like a digital outlaw",
+      "Cyberpunk hacker with a cowboy attitude",
+    ],
     type: "Thug",
     level: 4,
     region: "Netherworld",
@@ -864,7 +1083,12 @@ const enemies = [
   {
     id: "yakuza_enforcer",
     name: "Yakuza Enforcer",
-    description: "Syndicate soldier, disciplined",
+    description: [
+      "Syndicate soldier, disciplined",
+      "Yakuza muscle, honor and violence",
+      "Syndicate enforcer with a code of honor",
+      "Organized crime soldier, death is their duty",
+    ],
     type: "Heavy",
     level: 5,
     region: "Chiba Docks",
@@ -884,8 +1108,13 @@ const enemies = [
   },
   {
     id: "mercenary",
-    name: "Mercenary",
-    description: "Professional freelance fighter",
+    name: "Maas Biolabs Merc",
+    description: [
+      "Professional freelance fighter",
+      "Soldier of fortune, death is their trade",
+      "Hired gun with military training",
+      "Professional killer, loyalty to the highest bidder",
+    ],
     type: "Heavy",
     level: 5,
     region: "Sprawl Hubs",
@@ -905,8 +1134,13 @@ const enemies = [
   },
   {
     id: "cyber_war_beast",
-    name: "Cyber War Beast",
-    description: "Cybernetic monstrosity, combines brute strength and agility",
+    name: "Cyber Warbeast",
+    description: [
+      "Cybernetic monstrosity, combines brute strength and agility",
+      "Bio-engineered killing machine",
+      "Animal instincts, cybernetic enhancements",
+      "War machine disguised as a beast",
+    ],
     type: "Heavy",
     level: 5,
     region: "Chiba Docks",
@@ -926,8 +1160,13 @@ const enemies = [
   },
   {
     id: "corporate_mech",
-    name: "Corporate Mech",
-    description: "Cybernetic combat suit, defends corporate assets",
+    name: "Hosaka Corporate Mech",
+    description: [
+      "Cybernetic combat suit, defends corporate assets",
+      "Corporate war machine, no mercy",
+      "Business suit with a pulse cannon",
+      "Corporate security, automated and lethal",
+    ],
     type: "Heavy",
     level: 5,
     region: "Corporate District",
@@ -948,8 +1187,12 @@ const enemies = [
   {
     id: "yakuza_ronin",
     name: "Yakuza Ronin",
-    description:
+    description: [
       "Masterless Yakuza warrior, fights with honor and deadly skill",
+      "Samurai without a master, death is their art",
+      "Honor-bound warrior, blade is their soul",
+      "Masterless samurai, death is their destiny",
+    ],
     type: "Heavy",
     level: 5,
     region: "Chiba Docks",
@@ -970,8 +1213,12 @@ const enemies = [
   {
     id: "ice_phantom",
     name: "ICE Phantom",
-    description:
+    description: [
       "Console virus that manifests as a digital phantom, corrupts systems",
+      "Digital ghost, corrupts everything it touches",
+      "Viral entity, death in the digital realm",
+      "Phantom of the net, destruction is its purpose",
+    ],
     type: "Hacker",
     level: 5,
     region: "Netherworld",
@@ -993,8 +1240,13 @@ const enemies = [
   // Level 6+ Enemies (High-level examples)
   {
     id: "bodyguard",
-    name: "Bodyguard",
-    description: "Corporate protector, intercepts blows",
+    name: "Maas BiolabsBodyguard",
+    description: [
+      "Corporate protector, intercepts blows",
+      "Professional protector, death is their job",
+      "Corporate muscle, keeps the VIPs safe",
+      "Bodyguard with a license to kill",
+    ],
     type: "Heavy",
     level: 6,
     region: "Highspire Towers",
@@ -1015,7 +1267,12 @@ const enemies = [
   {
     id: "assassin",
     name: "Assassin",
-    description: "Precision killer, stealth-based",
+    description: [
+      "Precision killer, stealth-based",
+      "Professional killer, death is their art",
+      "Silent death, precision murder",
+      "Assassin for hire, death is their trade",
+    ],
     type: "Assassin",
     level: 6,
     region: "Chiba Shadows",
@@ -1030,6 +1287,292 @@ const enemies = [
         "takes a silent shot",
         "makes a precision strike",
         "uses stealth tactics",
+      ],
+    },
+  },
+  {
+    id: "turing_police",
+    name: "Turing Police",
+    description: [
+      "AI-hunting law enforcement, enforces the Turing Act",
+      "Cybernetic detectives hunting rogue artificial intelligence",
+      "Special ops unit with advanced neural interfaces",
+      "Protectors of humanity from AI threats, death is their duty",
+    ],
+    type: "Heavy",
+    level: 4,
+    region: "Corporate District",
+    armor: {
+      name: "Neural Interface Suit",
+      rating: calculateArmorDefense(4, "Medium"),
+    },
+    weapon: {
+      name: "Neural Disruptor",
+      damage: calculateWeaponDamage(4, "Medium"),
+      attacks: [
+        "launches a neural disruption pulse",
+        "executes an AI containment protocol",
+        "activates anti-cybernetic countermeasures",
+      ],
+    },
+  },
+  {
+    id: "turing_enforcer",
+    name: "Turing Enforcer",
+    description: [
+      "Elite AI-hunting specialist, enforces the Turing Act with extreme prejudice",
+      "Advanced cybernetic detective with enhanced neural interfaces",
+      "Senior special ops unit, hunts the most dangerous rogue AIs",
+      "Elite protector of humanity, death to all artificial intelligence",
+    ],
+    type: "Heavy",
+    level: 5,
+    region: "Corporate District",
+    armor: {
+      name: "Advanced Neural Interface Suit",
+      rating: calculateArmorDefense(5, "Light"),
+    },
+    weapon: {
+      name: "Advanced Neural Disruptor",
+      damage: calculateWeaponDamage(5, "Light"),
+      attacks: [
+        "launches an advanced neural disruption pulse",
+        "executes a high-level AI containment protocol",
+        "activates enhanced anti-cybernetic countermeasures",
+      ],
+    },
+  },
+  {
+    id: "armitage",
+    name: "Armitage",
+    description: [
+      "Former Screaming Fist colonel, now corporate operative with cybernetic enhancements",
+      "Military veteran with reconstructed eyes, legs, and jaw from the war",
+      "Corporate fixer with a troubled past and mysterious benefactors",
+      "Cold-blooded operative, death is just another business transaction",
+    ],
+    type: "Heavy",
+    level: 4,
+    region: "Corporate District",
+    armor: {
+      name: "Somber Italian Suit",
+      rating: calculateArmorDefense(4, "Medium"),
+    },
+    weapon: {
+      name: "Military-Grade Pistol",
+      damage: calculateWeaponDamage(4, "Heavy"),
+      attacks: [
+        "takes aim with military precision",
+        "fires a controlled burst",
+        "executes a tactical maneuver",
+      ],
+    },
+  },
+  {
+    id: "peter_riviera",
+    name: "Peter Riviera",
+    description: [
+      "Psychopathic drug addict with holographic implants and a Nambu pistol",
+      "Compulsive Judas who betrays those who love him",
+      "Beautiful face from Chiba surgery, hides a monstrous nature within",
+      "Creates terrifying holographic illusions to mask his true depravity",
+    ],
+    type: "Thug",
+    level: 4,
+    region: "Chiba City",
+    armor: {
+      name: "None",
+      rating: 0,
+    },
+    weapon: {
+      name: "Nambu Pistol",
+      damage: calculateWeaponDamage(4, "Medium"),
+      attacks: [
+        "fires his Nambu with cold precision",
+        "creates a holographic distraction before shooting",
+        "uses his implants to disorient before attacking",
+      ],
+    },
+  },
+  {
+    id: "dixie_flatline",
+    name: "Dixie Flatline",
+    description: [
+      "Legendary console cowboy preserved as a ROM construct after death",
+      "Digital ghost of the greatest netrunner who ever lived",
+      "ROM personality construct with all the skills of the original",
+      "Dead hacker's consciousness trapped in cyberspace forever",
+    ],
+    type: "Hacker",
+    level: 5,
+    region: "Netherworld",
+    armor: {
+      name: "Digital Barrier",
+      rating: calculateArmorDefense(5, "Light"),
+    },
+    weapon: {
+      name: "Cyberdeck",
+      damage: calculateWeaponDamage(5, "Light"),
+      attacks: [
+        "executes advanced hacking protocols",
+        "launches a devastating neural attack",
+        "activates legendary cybernetic defenses",
+      ],
+    },
+  },
+  {
+    id: "tessier_ashpool_merc",
+    name: "Tessier-Ashpool Merc",
+    description: [
+      "Corporate mercenary working for the powerful Tessier-Ashpool family",
+      "Well-equipped corporate soldier with advanced weaponry",
+      "Protects the interests of the Villa Straylight space station",
+      "Corporate muscle with deep pockets and deadly training",
+    ],
+    type: "Heavy",
+    level: 3,
+    region: "Corporate District",
+    armor: {
+      name: "Corporate Combat Suit",
+      rating: calculateArmorDefense(3, "Heavy"),
+    },
+    weapon: {
+      name: "Assault Rifle",
+      damage: calculateWeaponDamage(3, "Heavy"),
+      attacks: [
+        "fires a controlled burst from their assault rifle",
+        "takes aim with corporate precision",
+        "executes a tactical combat maneuver",
+      ],
+    },
+  },
+  {
+    id: "slick_henry",
+    name: "Slick Henry",
+    description: [
+      "Cyberpunk artist and sculptor who creates art from scrap and junk",
+      "Talented cybernetic sculptor with a dangerous edge",
+      "Creates art from the detritus of the Sprawl, often incorporating tech",
+      "Artist with a violent streak, uses his creations as weapons",
+    ],
+    type: "Thug",
+    level: 3,
+    region: "Sprawl Streets",
+    armor: {
+      name: "Scrap Metal Armor",
+      rating: calculateArmorDefense(3, "Medium"),
+    },
+    weapon: {
+      name: "Improvised Cyber Weapon",
+      damage: calculateWeaponDamage(3, "Medium"),
+      attacks: [
+        "swings his improvised cyber weapon",
+        "makes a creative strike with scrap metal",
+        "uses his artistic skills to craft a deadly attack",
+      ],
+    },
+  },
+  {
+    id: "molly_millions",
+    name: "Molly Millions",
+    description: [
+      "Razor girl assassin with mirror shades and retractable razor claws",
+      "Cyberpunk street fighter with extensive cybernetic enhancements",
+      "Professional killer with a reputation for precision and violence",
+      "Mirror-shaded assassin, death is her art and her trade",
+    ],
+    type: "Assassin",
+    level: 6,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Leather Armor",
+      rating: calculateArmorDefense(6, "Light"),
+    },
+    weapon: {
+      name: "Razor Claws",
+      damage: calculateWeaponDamage(6, "Heavy"),
+      attacks: [
+        "slashes with her retractable razor claws",
+        "makes a precision strike with deadly accuracy",
+        "unleashes a flurry of razor-sharp cuts",
+      ],
+    },
+  },
+  {
+    id: "automatic_jack",
+    name: "Automatic Jack",
+    description: [
+      "Legendary console cowboy with exceptional netrunning skills",
+      "Master hacker who navigates the matrix with deadly precision",
+      "Cyberpunk netrunner with a reputation for impossible feats",
+      "Digital outlaw who makes the impossible look routine",
+    ],
+    type: "Hacker",
+    level: 4,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Interface Suit",
+      rating: calculateArmorDefense(4, "Light"),
+    },
+    weapon: {
+      name: "Cyberdeck",
+      damage: calculateWeaponDamage(4, "Heavy"),
+      attacks: [
+        "executes advanced hacking protocols",
+        "launches a devastating neural attack",
+        "activates legendary cybernetic defenses",
+      ],
+    },
+  },
+  {
+    id: "conroy",
+    name: "Conroy",
+    description: [
+      "Corporate executive and fixer with extensive connections",
+      "Smooth-talking corporate middleman who gets things done",
+      "Business suit and corporate power, death is just another deal",
+      "Corporate fixer with a license to kill and a budget to match",
+    ],
+    type: "Heavy",
+    level: 5,
+    region: "Corporate District",
+    armor: {
+      name: "Business Suit",
+      rating: calculateArmorDefense(5, "Medium"),
+    },
+    weapon: {
+      name: "Concealed Pistol",
+      damage: calculateWeaponDamage(5, "Medium"),
+      attacks: [
+        "draws his concealed pistol with corporate precision",
+        "takes aim with business-like efficiency",
+        "executes a corporate-sanctioned elimination",
+      ],
+    },
+  },
+  {
+    id: "tessier_ashpool_assassin",
+    name: "Tessier-Ashpool Assassin",
+    description: [
+      "Elite corporate assassin working for the powerful Tessier-Ashpool family",
+      "Top-tier killer with advanced training and cutting-edge equipment",
+      "Protects Villa Straylight's most sensitive operations with deadly precision",
+      "Corporate death dealer with unlimited resources and zero mercy",
+    ],
+    type: "Assassin",
+    level: 5,
+    region: "Corporate District",
+    armor: {
+      name: "Advanced Corporate Suit",
+      rating: calculateArmorDefense(5, "Light"),
+    },
+    weapon: {
+      name: "Silenced Pistol",
+      damage: calculateWeaponDamage(5, "Heavy"),
+      attacks: [
+        "takes a silent shot with deadly precision",
+        "executes a corporate assassination with surgical accuracy",
+        "eliminates targets with professional efficiency",
       ],
     },
   },
