@@ -1,6 +1,5 @@
 import {
   generateRewards,
-  calculateInitialFleePenalty,
   calculateCombatPenalty,
 } from "../../config/gameBalance.js";
 
@@ -103,14 +102,48 @@ class CombatSystem {
   }
 
   // Penalty calculation methods
-  calculateInitialFleePenalty(playerLevel = 1) {
-    // This method is kept for backward compatibility
-    // The actual calculation is now in the config file
-    return calculateInitialFleePenalty(playerLevel * 100); // Convert level to approximate credits
+  calculateInitialFleePenalty(
+    playerLevel = 1,
+    enemy = null,
+    playerHp = 30,
+    playerMaxHp = 30,
+    enemyHp = 30,
+    enemyMaxHp = 30
+  ) {
+    // This method now uses the unified penalty system
+    // For backward compatibility, provide default values if not given
+    if (!enemy) {
+      enemy = { level: 1 }; // Default enemy level 1
+    }
+    return calculateCombatPenalty(
+      playerLevel,
+      enemy,
+      0,
+      playerHp,
+      playerMaxHp,
+      enemyHp,
+      enemyMaxHp
+    );
   }
 
-  calculateCombatPenalty(enemy, combatRounds) {
-    return calculateCombatPenalty(enemy, combatRounds);
+  calculateCombatPenalty(
+    playerLevel,
+    enemy,
+    combatRounds,
+    playerFinalHp,
+    playerMaxHp,
+    enemyFinalHp,
+    enemyMaxHp
+  ) {
+    return calculateCombatPenalty(
+      playerLevel,
+      enemy,
+      combatRounds,
+      playerFinalHp,
+      playerMaxHp,
+      enemyFinalHp,
+      enemyMaxHp
+    );
   }
 
   getPenaltyFlavorText(penaltyType, enemy, amount) {

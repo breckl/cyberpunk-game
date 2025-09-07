@@ -47,6 +47,160 @@ CREDITS_SCALING: 1.5,  // Was 1.2 (50% more per level instead of 20%)
 EXP_SCALING: 1.3,      // Was 1.15 (30% more per level instead of 15%)
 ```
 
+## Weapon Prices - The Easy Way
+
+Weapons cost money based on their **damage** and **type**. Here's how it works:
+
+**The Simple Formula:**
+
+- **Light Weapon Level 1**: 50 credits (1 damage × 50 × 1.0)
+- **Medium Weapon Level 1**: 62 credits (1 damage × 50 × 1.25)
+- **Heavy Weapon Level 1**: 75 credits (1 damage × 50 × 1.5)
+- **Light Weapon Level 5**: 250 credits (5 damage × 50 × 1.0)
+
+**What Controls This:**
+
+- `DAMAGE_PRICE_MULTIPLIER: 50` = Base price per damage point
+- `WEAPON_TYPE_MULTIPLIERS` = Price multipliers for each type:
+  - Light: 1.0 (normal price)
+  - Medium: 1.25 (25% more expensive)
+  - Heavy: 1.5 (50% more expensive)
+
+**To Make It Simpler:**
+
+- **Want cheaper weapons?** Lower `DAMAGE_PRICE_MULTIPLIER` (try 25 for half price)
+- **Want expensive weapons?** Raise `DAMAGE_PRICE_MULTIPLIER` (try 100 for double price)
+- **Want Heavy weapons cheaper?** Lower Heavy multiplier (try 1.2 instead of 1.5)
+
+## Weapon Damage - The Easy Way
+
+Weapon damage increases with level and varies by type. Here's how it works:
+
+**The Simple Formula:**
+
+- **Light Weapon Level 1**: 1 damage
+- **Medium Weapon Level 1**: 1.25 damage (25% stronger)
+- **Heavy Weapon Level 1**: 1.5 damage (50% stronger)
+- **Light Weapon Level 5**: 4.5 damage
+
+**What Controls This:**
+
+- `WEAPON_BASE_DAMAGE: 1` = Starting damage at level 1
+- `WEAPON_DAMAGE_PER_LEVEL: 0.7` = How much damage increases per level
+- `WEAPON_TYPE_MULTIPLIERS` = Damage multipliers for each type
+
+**To Make It Simpler:**
+
+- **Want stronger weapons?** Increase `WEAPON_DAMAGE_PER_LEVEL` (try 1.0 for more damage)
+- **Want weaker weapons?** Decrease `WEAPON_DAMAGE_PER_LEVEL` (try 0.5 for less damage)
+- **Want Heavy weapons much stronger?** Increase Heavy multiplier (try 2.0 instead of 1.5)
+
+## Armor Prices - The Easy Way
+
+Armor costs money based on its **defense** and **type**. Here's how it works:
+
+**The Simple Formula:**
+
+- **Light Armor Level 1**: 50 credits (1 defense × 50 × 1.0)
+- **Medium Armor Level 1**: 62 credits (1 defense × 50 × 1.25)
+- **Heavy Armor Level 1**: 75 credits (1 defense × 50 × 1.5)
+- **Light Armor Level 5**: 250 credits (5 defense × 50 × 1.0)
+
+**What Controls This:**
+
+- `DEFENSE_PRICE_MULTIPLIER: 50` = Base price per defense point
+- `ARMOR_TYPE_MULTIPLIERS` = Price multipliers for each type (same as weapons)
+
+**To Make It Simpler:**
+
+- **Want cheaper armor?** Lower `DEFENSE_PRICE_MULTIPLIER` (try 25 for half price)
+- **Want expensive armor?** Raise `DEFENSE_PRICE_MULTIPLIER` (try 100 for double price)
+
+## Armor Defense - The Easy Way
+
+Armor defense increases with level and varies by type. Here's how it works:
+
+**The Simple Formula:**
+
+- **Light Armor Level 1**: 1.5% damage reduction
+- **Medium Armor Level 1**: 1.875% damage reduction (25% better)
+- **Heavy Armor Level 1**: 2.25% damage reduction (50% better)
+- **Light Armor Level 5**: 6.3% damage reduction
+
+**What Controls This:**
+
+- `ARMOR_BASE_DEFENSE: 0.3` = Starting defense at level 1
+- `ARMOR_DEFENSE_PER_LEVEL: 1.2` = How much defense increases per level
+- `ARMOR_TYPE_MULTIPLIERS` = Defense multipliers for each type
+
+**To Make It Simpler:**
+
+- **Want stronger armor?** Increase `ARMOR_DEFENSE_PER_LEVEL` (try 1.5 for more defense)
+- **Want weaker armor?** Decrease `ARMOR_DEFENSE_PER_LEVEL` (try 0.8 for less defense)
+
+## Defeat Penalties - The Easy Way
+
+When you lose a fight, you lose money. Here's how it works:
+
+**The Simple Formula:**
+
+- **Quick Loss (1 round)**: Lose 10% of your credits
+- **Long Fight (5 rounds)**: Lose 20% of your credits (10% + 2% per round)
+- **Maximum Loss**: Never lose more than 50% of your credits
+
+**What Controls This:**
+
+- `COMBAT_PENALTY_BASE: 0.1` = Base penalty (10% of credits)
+- `COMBAT_PENALTY_PER_ROUND: 0.02` = Extra penalty per round (2% per round)
+- `COMBAT_PENALTY_MAX: 0.5` = Maximum penalty (50% of credits)
+- `MIN_COMBAT_PENALTY: 20` = Minimum credits lost (even if percentage is lower)
+
+**To Make It Simpler:**
+
+- **Want lighter penalties?** Lower `COMBAT_PENALTY_BASE` (try 0.05 for 5% base)
+- **Want harsher penalties?** Raise `COMBAT_PENALTY_BASE` (try 0.2 for 20% base)
+- **Want no extra penalty for long fights?** Set `COMBAT_PENALTY_PER_ROUND` to 0
+
+## Flee Penalties - The Easy Way
+
+When you run from combat, you lose money. Here's how it works:
+
+**The Simple Formula:**
+
+- **First Time Fleeing**: Lose 5% of your credits (or minimum 10 credits)
+- **Subsequent Fleeing**: Lose more based on how many times you've fled
+
+**What Controls This:**
+
+- `INITIAL_FLEE_PENALTY: 0.05` = First flee penalty (5% of credits)
+- `MIN_FLEE_PENALTY: 10` = Minimum credits lost when fleeing
+
+**To Make It Simpler:**
+
+- **Want lighter flee penalty?** Lower `INITIAL_FLEE_PENALTY` (try 0.02 for 2%)
+- **Want harsher flee penalty?** Raise `INITIAL_FLEE_PENALTY` (try 0.1 for 10%)
+
+## Enemy Balance - The Easy Way
+
+Enemies get stronger as their level increases. Here's how it works:
+
+**The Simple Formula:**
+
+- **Level 1 Enemy**: 1 damage weapon, 1.5% armor defense
+- **Level 2 Enemy**: 1.7 damage weapon, 2.7% armor defense
+- **Level 5 Enemy**: 4.5 damage weapon, 6.3% armor defense
+
+**What Controls This:**
+
+- Enemies use the same `calculateWeaponDamage()` and `calculateArmorDefense()` functions as players
+- Enemy stats scale with their level using the same formulas
+
+**To Make It Simpler:**
+
+- **Want easier enemies?** Lower the damage/defense per level in the calculation functions
+- **Want harder enemies?** Raise the damage/defense per level in the calculation functions
+- **Want to check enemy balance?** Use the Combat Test tab in the debug tools
+
 ## Usage
 
 ### Quick Tweaks

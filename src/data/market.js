@@ -9,8 +9,8 @@ const market = {
   armor: [
     {
       id: "street_hoodie",
-      name: "Street Hoodie",
-      description: "Ragged hoodie, minimal protection",
+      name: "Worn Trench Coat",
+      description: "Ragged trench coat, minimal protection",
       brand: "Ravenlock Apparel",
       level: 1,
       defense: calculateArmorDefense(1, "Light"),
@@ -347,8 +347,6 @@ const market = {
       level: 1,
       type: "Light",
     },
-
-    // LEVEL 1 - Medium
     {
       id: "w2",
       name: "Switchblade",
@@ -364,44 +362,13 @@ const market = {
       type: "Medium",
     },
     {
-      id: "wt1",
-      name: "Stun Gun",
-      description: "Handheld shock weapon, short range",
-      actionDescription: "discharge",
-      damage: calculateWeaponDamage(1, "Medium") * 1.15,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(1, "Medium") * 1.15,
-        1,
-        "Medium"
-      ),
-      level: 1,
-      type: "Medium",
-    },
-
-    // LEVEL 1 - Heavy
-    {
-      id: "w3",
-      name: "Stun Rod",
-      description: "Extended taser staff, disabling strikes",
-      actionDescription: "jab",
-      damage: calculateWeaponDamage(1, "Heavy"),
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(1, "Heavy"),
-        1,
-        "Heavy"
-      ),
-      level: 1,
-      type: "Heavy",
-    },
-
-    {
       id: "w4",
       name: "Polymer Pistol",
       description: "Mass-market sidearm, easily concealed",
       actionDescription: "take a shot",
-      damage: calculateWeaponDamage(1, "Heavy") * 1.15,
+      damage: calculateWeaponDamage(1, "Heavy") * 1.02,
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(1, "Heavy") * 1.15,
+        calculateWeaponDamage(1, "Heavy") * 1.02,
         1,
         "Heavy"
       ),
@@ -409,7 +376,7 @@ const market = {
       type: "Heavy",
     },
 
-    // LEVEL 2 - Light
+    // LEVEL 2
     {
       id: "w5",
       name: "Rusty Katana",
@@ -425,57 +392,13 @@ const market = {
       type: "Light",
     },
     {
-      id: "w9",
-      name: "Fabrique Nationale 5.7mm",
-      description: "Sleek Belgian pistol, high velocity",
-      actionDescription: "fire",
-      damage: calculateWeaponDamage(2, "Heavy") * 1.15,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(2, "Heavy") * 1.15,
-        2,
-        "Heavy"
-      ),
-      level: 2,
-      type: "Heavy",
-    },
-
-    // LEVEL 2 - Medium
-    {
-      id: "w7",
-      name: "Smith & Wesson .38",
-      description: "Classic revolver, cheap and common",
-      actionDescription: "fire",
-      damage: calculateWeaponDamage(2, "Medium") * 1.1,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(2, "Medium") * 1.1,
-        2,
-        "Medium"
-      ),
-      level: 2,
-      type: "Medium",
-    },
-    {
-      id: "wt2",
-      name: "Stun Gun",
-      description: "Homemade neural stunner",
-      actionDescription: "discharge",
-      damage: calculateWeaponDamage(2, "Light") * 0.8,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(2, "Light") * 0.8,
-        2,
-        "Light"
-      ),
-      level: 2,
-      type: "Light",
-    },
-    {
       id: "wt3",
-      name: "Flechette Pistole (Mk I)",
+      name: "Flechette Pistole",
       description: "Needle pistol, early model",
       actionDescription: "fire",
-      damage: calculateWeaponDamage(2, "Medium") * 1.2,
+      damage: calculateWeaponDamage(2, "Medium") * 1.02,
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(2, "Medium") * 1.2,
+        calculateWeaponDamage(2, "Medium") * 1.02,
         2,
         "Medium"
       ),
@@ -496,8 +419,6 @@ const market = {
       level: 2,
       type: "Medium",
     },
-
-    // LEVEL 2 - Heavy
     {
       id: "w8",
       name: "NYPD Tactical 9mm",
@@ -511,22 +432,6 @@ const market = {
       ),
       level: 2,
       type: "Heavy",
-    },
-
-    // LEVEL 3 - Light
-    {
-      id: "w10",
-      name: "Combat Knife",
-      description: "Military-grade fighting blade, balanced and deadly",
-      actionDescription: "stab",
-      damage: calculateWeaponDamage(3, "Light") * 0.9,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(3, "Light") * 0.9,
-        3,
-        "Light"
-      ),
-      level: 3,
-      type: "Light",
     },
     {
       id: "w11",
@@ -561,35 +466,20 @@ const market = {
       name: "Heckler & Koch SMG",
       description: "German-made submachine gun, reliable",
       actionDescription: "fire a short burst",
-      damage: calculateWeaponDamage(3, "Medium") * 0.9,
+      damage: calculateWeaponDamage(3, "Medium") * 1.02,
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(3, "Medium") * 0.9,
+        calculateWeaponDamage(3, "Medium") * 1.02,
         3,
         "Light"
       ),
       level: 3,
       type: "Light",
     },
-
     // LEVEL 3 - Medium
     {
       id: "w12",
       name: "Kobayashi Tech Pistol",
       description: "High-quality sidearm with enhanced ergonomics",
-      actionDescription: "fire",
-      damage: calculateWeaponDamage(3, "Medium") * 1.15,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(3, "Medium") * 1.15,
-        3,
-        "Medium"
-      ),
-      level: 3,
-      type: "Medium",
-    },
-    {
-      id: "wt6",
-      name: "Flechette Pistole (Mk II)",
-      description: "Upgraded needle pistol, better penetration",
       actionDescription: "fire",
       damage: calculateWeaponDamage(3, "Medium"),
       price: calculatePriceWithDamage(
@@ -614,8 +504,6 @@ const market = {
       level: 3,
       type: "Medium",
     },
-
-    // LEVEL 3 - Heavy
     {
       id: "w16",
       name: "Double-Barrel Shotgun",
@@ -631,26 +519,12 @@ const market = {
       type: "Heavy",
     },
     {
-      id: "w17",
-      name: "Fabrique Nationale Carbine",
-      description: "Lightweight rifle, accurate and fast",
-      actionDescription: "fire",
-      damage: calculateWeaponDamage(3, "Heavy") * 1.1,
-      price: calculatePriceWithDamage(
-        calculateWeaponDamage(3, "Heavy") * 1.1,
-        3,
-        "Heavy"
-      ),
-      level: 3,
-      type: "Heavy",
-    },
-    {
       id: "we1",
       name: "Steiner-Optic Scoped Rifle",
       description: "Precision rifle with advanced optics",
-      damage: calculateWeaponDamage(3, "Heavy") * 1.25,
+      damage: calculateWeaponDamage(3, "Heavy") * 1.02,
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(3, "Heavy") * 1.25,
+        calculateWeaponDamage(3, "Heavy") * 1.02,
         3,
         "Heavy"
       ),
@@ -658,7 +532,7 @@ const market = {
       type: "Heavy",
     },
 
-    // LEVEL 4 - Light
+    // LEVEL 4
     {
       id: "w19",
       name: "Heckler & Koch AR-19",
@@ -673,8 +547,6 @@ const market = {
       level: 4,
       type: "Light",
     },
-
-    // LEVEL 4 - Medium
     {
       id: "wt8",
       name: "Razor Claws",
@@ -704,7 +576,7 @@ const market = {
       type: "Medium",
     },
 
-    // LEVEL 4 - Heavy
+    // LEVEL 4
     {
       id: "w18",
       name: "Railgun",

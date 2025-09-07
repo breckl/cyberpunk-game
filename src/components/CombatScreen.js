@@ -625,9 +625,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
     if (newPlayerHp <= 0.01) {
       // Player defeated
+      const currentLevel = getCurrentLevel(character.experience);
+      const playerMaxHp = playerTotalHp;
+      const enemyMaxHp = levels[enemy.level]?.hp || 30;
       const defeatPenalty = combatSystem.calculateCombatPenalty(
+        currentLevel,
         enemy,
-        combatRounds
+        combatRounds,
+        newPlayerHp,
+        playerMaxHp,
+        enemyHp,
+        enemyMaxHp
       );
       const actualPenalty = Math.min(defeatPenalty, character.credits);
 
@@ -675,6 +683,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     enemy,
     playerHp,
     enemyHp,
+    playerTotalHp,
     combatRounds,
     onUpdateCharacter,
     equippedWeapon,
@@ -688,10 +697,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setVisibleMessages([]);
 
     if (combatRounds === 0) {
-      // Initial flee - now with penalty based on player level
+      // Initial flee - use unified penalty system
       const currentLevel = getCurrentLevel(character.experience);
-      const fleePenalty =
-        combatSystem.calculateInitialFleePenalty(currentLevel);
+      const playerMaxHp = playerTotalHp;
+      const enemyMaxHp = levels[enemy.level]?.hp || 30;
+      const fleePenalty = combatSystem.calculateCombatPenalty(
+        currentLevel,
+        enemy,
+        0, // 0 rounds for initial flee
+        playerHp,
+        playerMaxHp,
+        enemyHp,
+        enemyMaxHp
+      );
       const actualPenalty = Math.min(fleePenalty, character.credits);
 
       const fleeMessages = [
@@ -714,9 +732,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       }
     } else {
       // Combat flee
+      const currentLevel = getCurrentLevel(character.experience);
+      const playerMaxHp = playerTotalHp;
+      const enemyMaxHp = levels[enemy.level]?.hp || 30;
       const escapePenalty = combatSystem.calculateCombatPenalty(
+        currentLevel,
         enemy,
-        combatRounds
+        combatRounds,
+        playerHp,
+        playerMaxHp,
+        enemyHp,
+        enemyMaxHp
       );
       const actualPenalty = Math.min(escapePenalty, character.credits);
 
@@ -739,7 +765,16 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         onUpdateCharacter(updatedCharacter);
       }
     }
-  }, [combatRounds, character, enemy, onUpdateCharacter, combatSystem]);
+  }, [
+    combatRounds,
+    character,
+    enemy,
+    playerHp,
+    enemyHp,
+    playerTotalHp,
+    onUpdateCharacter,
+    combatSystem,
+  ]);
 
   // Test popup handlers
   const handleTestPopupOpen = useCallback(
@@ -890,9 +925,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
         if (playerCurrentHp <= 0) {
           results.losses++;
-          // Note: In real combat, there would be a penalty here
-          // For simulation purposes, we'll track 0 credits lost
-          results.creditsLost += 0;
+          // Calculate combat penalty for defeat
+          const playerMaxHp = levels[currentLevel]?.hp || 30;
+          const enemyMaxHp = levels[enemy.level]?.hp || 30;
+          const penalty = combatSystem.calculateCombatPenalty(
+            currentLevel,
+            enemy,
+            rounds,
+            playerCurrentHp,
+            playerMaxHp,
+            enemyCurrentHp,
+            enemyMaxHp
+          );
+          results.creditsLost += penalty;
           break;
         }
       }
@@ -900,7 +945,19 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       // If we hit max rounds, count as loss
       if (rounds >= maxRounds) {
         results.losses++;
-        results.creditsLost += 0;
+        // Calculate combat penalty for max rounds loss
+        const playerMaxHp = levels[currentLevel]?.hp || 30;
+        const enemyMaxHp = levels[enemy.level]?.hp || 30;
+        const penalty = combatSystem.calculateCombatPenalty(
+          currentLevel,
+          enemy,
+          rounds,
+          playerCurrentHp,
+          playerMaxHp,
+          enemyCurrentHp,
+          enemyMaxHp
+        );
+        results.creditsLost += penalty;
       }
     }
 

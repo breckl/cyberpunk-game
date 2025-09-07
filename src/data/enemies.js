@@ -150,7 +150,7 @@ const enemies = [
   },
   {
     id: "drunken_chiba_port_sailor",
-    name: "Rowdy Sailor",
+    name: "Drunken Sailor",
     description: "Brawler fresh off the docks, sloppy but strong when cornered",
     type: "Thug",
     level: 1,
