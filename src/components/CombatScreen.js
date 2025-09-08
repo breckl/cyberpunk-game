@@ -7,7 +7,14 @@ import levels, { getCurrentLevel } from "../data/levels.js";
 import market from "../data/market.js";
 import CombatSystem from "../game/combat/CombatSystem.js";
 import LevelUpOverlay from "./LevelUpOverlay.js";
+import DailyLimitOverlay from "./DailyLimitOverlay.js";
 import { playVictorySound, playDefeatSound } from "../utils/soundUtils.js";
+import {
+  incrementFightCount,
+  isDailyLimitExceeded,
+  getCurrentFightCount,
+  getDailyFightLimit,
+} from "../utils/dailyFightTracker.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatSystem = useMemo(() => new CombatSystem(), []);
@@ -44,6 +51,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const [showLevelUpOverlay, setShowLevelUpOverlay] = useState(false);
   const [newLevel, setNewLevel] = useState(null);
   const [previousLevel, setPreviousLevel] = useState(currentLevel);
+
+  // Daily fight limit states
+  const [showDailyLimitOverlay, setShowDailyLimitOverlay] = useState(false);
+  const [currentFightCount, setCurrentFightCount] = useState(0);
 
   // Store the selected enemy description for the current fight
   const [selectedEnemyDescription, setSelectedEnemyDescription] =
@@ -356,14 +367,33 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Initialize enemy
   const [enemy, setEnemy] = useState(() => {
+    // Check daily limit before initializing first fight
+    if (isDailyLimitExceeded()) {
+      return null; // Will be handled by the daily limit overlay
+    }
+
+    // Increment fight count for initial fight
+    incrementFightCount();
     const randomEnemy = getLevelBasedEnemy(currentLevel);
     return randomEnemy;
   });
 
   // Initialize selected enemy description
   useEffect(() => {
-    setSelectedEnemyDescription(getRandomDescription(enemy.description));
+    if (enemy) {
+      setSelectedEnemyDescription(getRandomDescription(enemy.description));
+    }
   }, [enemy]);
+
+  // Check daily fight limit on component mount
+  useEffect(() => {
+    const fightCount = getCurrentFightCount();
+    setCurrentFightCount(fightCount);
+
+    if (isDailyLimitExceeded()) {
+      setShowDailyLimitOverlay(true);
+    }
+  }, []);
 
   const [playerHp, setPlayerHp] = useState(
     parseFloat(playerTotalHp.toFixed(2))
@@ -371,14 +401,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Initialize enemy HP after enemy is set
   const [enemyHp, setEnemyHp] = useState(() => {
+    if (!enemy) return 0;
     const enemyLevelHp = levels[enemy.level]?.hp || 30;
     return parseFloat(enemyLevelHp.toFixed(2));
   });
 
   // Update enemy HP when enemy changes
   useEffect(() => {
-    const enemyLevelHp = levels[enemy.level]?.hp || 30;
-    setEnemyHp(parseFloat(enemyLevelHp.toFixed(2)));
+    if (enemy) {
+      const enemyLevelHp = levels[enemy.level]?.hp || 30;
+      setEnemyHp(parseFloat(enemyLevelHp.toFixed(2)));
+    }
   }, [enemy]);
 
   // Update test values when character changes
@@ -487,6 +520,16 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Define restartCombat function before it's used in useEffect
   const restartCombat = useCallback(() => {
+    // Check daily limit before starting a new fight
+    if (isDailyLimitExceeded()) {
+      setShowDailyLimitOverlay(true);
+      return;
+    }
+
+    // Increment fight count
+    const newFightCount = incrementFightCount();
+    setCurrentFightCount(newFightCount);
+
     const newEnemy = getLevelBasedEnemy(currentLevel);
     setEnemy(newEnemy);
     setSelectedEnemyDescription(getRandomDescription(newEnemy.description));
@@ -1264,6 +1307,21 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     return (
       <LevelUpOverlay level={newLevel} onComplete={handleLevelUpComplete} />
     );
+  }
+
+  // Show daily limit overlay if exceeded
+  if (showDailyLimitOverlay) {
+    return (
+      <DailyLimitOverlay
+        fightCount={currentFightCount}
+        dailyLimit={getDailyFightLimit()}
+      />
+    );
+  }
+
+  // If no enemy (due to daily limit), don't render combat content
+  if (!enemy) {
+    return null;
   }
 
   // Render scanning phase

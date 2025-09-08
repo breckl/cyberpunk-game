@@ -59,11 +59,23 @@ function CharacterCreation({ onCreateCharacter }) {
   return (
     <div className="character-creation">
       <div className="creation-screen">
-        <h2>Character Creation</h2>
+        <h2>ENTER YOUR NAME</h2>
+
+        {/* Name Input */}
+        <div className="name-selection">
+          <input
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="Type your name..."
+            maxLength={20}
+            className="name-input"
+          />
+        </div>
 
         {/* Class Selection */}
         <div className="class-selection">
-          <h3>Choose Your Class</h3>
+          <h3>Choose Your Character</h3>
           <div className="options-grid">
             {Object.values(classes).map((classInfo) => (
               <div
@@ -80,19 +92,6 @@ function CharacterCreation({ onCreateCharacter }) {
           </div>
         </div>
 
-        {/* Name Input */}
-        <div className="name-selection">
-          <h3>Enter Your Name</h3>
-          <input
-            type="text"
-            value={name}
-            onChange={handleNameChange}
-            placeholder="Type your name..."
-            maxLength={20}
-            className="name-input"
-          />
-        </div>
-
         {/* Character Summary */}
         {selectedClass && (
           <div className="character-summary">
@@ -102,7 +101,7 @@ function CharacterCreation({ onCreateCharacter }) {
                 <strong>Name:</strong> {name || "Enter name above"}
               </p>
               <p>
-                <strong>Class:</strong> {selectedClass.name}
+                <strong>Profile:</strong> {selectedClass.name}
               </p>
               <p>
                 <strong>Level:</strong> 1

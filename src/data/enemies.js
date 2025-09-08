@@ -1236,37 +1236,9 @@ const enemies = [
       ],
     },
   },
-
-  // Level 6+ Enemies (High-level examples)
-  {
-    id: "bodyguard",
-    name: "Maas BiolabsBodyguard",
-    description: [
-      "Corporate protector, intercepts blows",
-      "Professional protector, death is their job",
-      "Corporate muscle, keeps the VIPs safe",
-      "Bodyguard with a license to kill",
-    ],
-    type: "Heavy",
-    level: 6,
-    region: "Highspire Towers",
-    armor: {
-      name: "Tactical Vest",
-      rating: calculateArmorDefense(6, "Heavy"),
-    },
-    weapon: {
-      name: "Shock Staff",
-      damage: calculateWeaponDamage(6, "Medium"),
-      attacks: [
-        "swings their shock staff",
-        "delivers an electric strike",
-        "uses defensive positioning",
-      ],
-    },
-  },
   {
     id: "assassin",
-    name: "Assassin",
+    name: "Hired Assassin",
     description: [
       "Precision killer, stealth-based",
       "Professional killer, death is their art",

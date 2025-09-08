@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./styles/App.css";
+import RegistrationScreen from "./components/RegistrationScreen";
 import MainMenu from "./components/MainMenu";
 import CharacterCreation from "./components/CharacterCreation";
 import GameScreen from "./components/GameScreen";
@@ -8,24 +9,45 @@ import { SoundProvider } from "./contexts/SoundContext";
 
 function App() {
   const [gameState, setGameState] = useState({
-    screen: "main-menu", // main-menu, character-creation, game
+    screen: "registration", // registration, main-menu, character-creation, game
     character: null,
     location: "streets",
     gameLog: [],
   });
 
-  // Load character from localStorage on app start
+  // Check registration status and load character on app start
   useEffect(() => {
+    const isRegistered = localStorage.getItem("cyberpunk_registered");
     const savedCharacter = loadCharacter();
-    if (savedCharacter) {
+
+    if (isRegistered) {
+      if (savedCharacter) {
+        setGameState((prev) => ({
+          ...prev,
+          character: savedCharacter,
+          screen: "game",
+          gameLog: [`Welcome back to Night City. Your journey continues...`],
+        }));
+      } else {
+        setGameState((prev) => ({
+          ...prev,
+          screen: "main-menu",
+        }));
+      }
+    } else {
       setGameState((prev) => ({
         ...prev,
-        character: savedCharacter,
-        screen: "game",
-        gameLog: [`Welcome back to Night City. Your journey continues...`],
+        screen: "registration",
       }));
     }
   }, []);
+
+  const handleRegistrationComplete = () => {
+    setGameState((prev) => ({
+      ...prev,
+      screen: "main-menu",
+    }));
+  };
 
   const handleStartGame = () => {
     setGameState((prev) => ({
@@ -60,6 +82,12 @@ function App() {
 
   const renderScreen = () => {
     switch (gameState.screen) {
+      case "registration":
+        return (
+          <RegistrationScreen
+            onRegistrationComplete={handleRegistrationComplete}
+          />
+        );
       case "main-menu":
         return <MainMenu onStartGame={handleStartGame} />;
       case "character-creation":
@@ -73,7 +101,11 @@ function App() {
           />
         );
       default:
-        return <MainMenu onStartGame={handleStartGame} />;
+        return (
+          <RegistrationScreen
+            onRegistrationComplete={handleRegistrationComplete}
+          />
+        );
     }
   };
 

@@ -21,29 +21,7 @@ export const calculateWeaponDamage = (level, weaponType = "Light") => {
 };
 
 /**
- * Calculate armor defense based on level and type
- * @param {number} level - Armor level
- * @param {string} armorType - Armor type (Light, Medium, Heavy)
- * @returns {number} - Calculated defense percentage
- */
-export const calculateArmorDefense = (level, armorType = "Light") => {
-  const armorBaseDefense = 0.3; // Base defense at level 1
-  const armorDefensePerLevel = 1; // Defense increase per level
-  const armorTypeMultipliers = {
-    Light: 1,
-    Medium: 1.05,
-    Heavy: 1.1,
-  };
-
-  const baseDefense = armorBaseDefense + level * armorDefensePerLevel;
-  const typeMultiplier = armorTypeMultipliers[armorType] || 1.0;
-
-  // Round to exactly 2 decimal places
-  return Math.round(baseDefense * typeMultiplier * 100) / 100;
-};
-
-/**
- * Calculate price with damage scaling
+ * Calculate price with damage scaling using exponential growth
  * @param {number} damage - Damage value
  * @param {number} level - Item level
  * @param {string} weaponType - Weapon type (Light, Medium, Heavy)
@@ -55,10 +33,11 @@ export const calculatePriceWithDamage = (
   weaponType = "Light"
 ) => {
   const damagePriceMultiplier = 35; // Base price per damage point
-  let levelPriceMultiplier = 2.5;
-  if (level === 1) {
-    levelPriceMultiplier = 1.0;
-  }
+  const exponentialBase = 1.5; // Exponential growth base (1.8x per level)
+
+  // Calculate exponential level multiplier
+  // Level 1: 1.0, Level 2: 1.8, Level 3: 3.24, Level 4: 5.83, etc.
+  const levelPriceMultiplier = Math.pow(exponentialBase, level - 1);
 
   const weaponTypeMultipliers = {
     Light: 1,
@@ -73,7 +52,29 @@ export const calculatePriceWithDamage = (
 };
 
 /**
- * Calculate armor price with defense scaling
+ * Calculate armor defense based on level and type
+ * @param {number} level - Armor level
+ * @param {string} armorType - Armor type (Light, Medium, Heavy)
+ * @returns {number} - Calculated defense percentage
+ */
+export const calculateArmorDefense = (level, armorType = "Light") => {
+  const armorBaseDefense = 0.3; // Base defense at level 1
+  const armorDefensePerLevel = 1.5; // Defense increase per level
+  const armorTypeMultipliers = {
+    Light: 1,
+    Medium: 1.05,
+    Heavy: 1.1,
+  };
+
+  const baseDefense = armorBaseDefense + level * armorDefensePerLevel;
+  const typeMultiplier = armorTypeMultipliers[armorType] || 1.0;
+
+  // Round to exactly 2 decimal places
+  return Math.round(baseDefense * typeMultiplier * 100) / 100;
+};
+
+/**
+ * Calculate armor price with defense scaling using exponential growth
  * @param {number} defense - Defense percentage
  * @param {number} level - Item level
  * @param {string} armorType - Armor type (Light, Medium, Heavy)
@@ -84,19 +85,18 @@ export const calculateArmorPriceWithDefense = (
   level = 1,
   armorType = "Light"
 ) => {
-  const defensePriceMultiplier = 15; // Base price per defense percentage
-  let levelPriceMultiplier = 1.5;
-  if (level === 1) {
-    levelPriceMultiplier = 1.0;
-  }
+  const defensePriceMultiplier = 25; // Base price per defense percentage
+  const exponentialBase = 1.5; // Exponential growth base (1.5x per level for armor)
+
+  // Calculate exponential level multiplier
+  // Level 1: 1.0, Level 2: 1.5, Level 3: 2.25, Level 4: 3.38, etc.
+  const levelMultiplier = Math.pow(exponentialBase, level - 1);
 
   const typeMultiplier = {
     Light: 1,
     Medium: 1.05,
     Heavy: 1.1,
   };
-
-  const levelMultiplier = Math.pow(levelPriceMultiplier, level - 1);
 
   return Math.round(
     defense *

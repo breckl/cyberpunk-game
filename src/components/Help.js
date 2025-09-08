@@ -9,10 +9,8 @@ function Help({ onExit }) {
     { key: "getting-started", label: "Getting Started" },
     { key: "combat", label: "Combat System" },
     { key: "inventory", label: "Inventory & Equipment" },
-    { key: "market", label: "Market & Trading" },
-    { key: "travel", label: "Travel & Locations" },
+    { key: "market", label: "Market" },
     { key: "character", label: "Character Progression" },
-    { key: "controls", label: "Controls & Navigation" },
   ];
 
   const helpContent = {
@@ -21,15 +19,17 @@ function Help({ onExit }) {
       content: (
         <div>
           <p>
-            Welcome to Cyberpunk Text Adventure! You're a street operative in
-            Night City, navigating the neon-lit streets and corporate intrigue.
+            Welcome to Night City, the world of William Gibson's Sprawl Trilogy
+            where you'll navigate the neon-lit streets of corporate intrigue and
+            where only the strong survive.
           </p>
 
           <h3>Your Journey Begins</h3>
           <p>
-            Start by exploring the Night City Streets. You'll find various
-            locations to visit, each offering different opportunities and
-            challenges.
+            Start by exploring the Market and then venture into the Combat Zone.
+            If you put in the work, you'll level, can upgrade your gear and meet
+            various characters from Neuromancer, Count Zero, and Mona Lisa
+            Overdrive.
           </p>
 
           <h3>Basic Goals</h3>
@@ -61,11 +61,10 @@ function Help({ onExit }) {
           <h3>Combat Actions</h3>
           <ul>
             <li>
-              <strong>Attack (A key or click):</strong> Deal damage to your
-              enemy
+              <strong>Attack:</strong> Deal damage to your enemy
             </li>
             <li>
-              <strong>Run (R key or click):</strong> Attempt to escape combat
+              <strong>Run:</strong> Attempt to escape combat (costs credits)
             </li>
           </ul>
 
@@ -82,6 +81,12 @@ function Help({ onExit }) {
           <p>
             <strong>Damage Range:</strong> Final Damage = Total Attack ± 2
             (random variance)
+          </p>
+          <p>
+            <em>
+              Example: Level 3 character with +2 damage weapon = 5 total attack,
+              dealing 3-7 damage per hit.
+            </em>
           </p>
 
           <h3>How Armor & Defense Works</h3>
@@ -105,6 +110,38 @@ function Help({ onExit }) {
             </em>
           </p>
 
+          <h3>Fleeing from Combat</h3>
+          <p>
+            You can run from combat at any time, but it costs credits. The
+            penalty depends on:
+          </p>
+          <ul>
+            <li>
+              <strong>Your level:</strong> Higher level = higher base penalty
+            </li>
+            <li>
+              <strong>Combat duration:</strong> Longer fights = higher penalty
+            </li>
+            <li>
+              <strong>Enemy level:</strong> Fighting higher level enemies =
+              lower penalty
+            </li>
+          </ul>
+          <p>
+            <strong>Flee Penalty Examples:</strong>
+          </p>
+          <ul>
+            <li>Level 1: ~$10-15 penalty</li>
+            <li>Level 3: ~$25-35 penalty</li>
+            <li>Level 5: ~$40-55 penalty</li>
+          </ul>
+          <p>
+            <em>
+              Tip: Fleeing early in combat costs less than fleeing after a long
+              fight.
+            </em>
+          </p>
+
           <h3>Health Points (HP)</h3>
           <p>
             Your HP is determined by your character level. When your HP reaches
@@ -115,26 +152,33 @@ function Help({ onExit }) {
           <h3>Combat Rewards</h3>
           <ul>
             <li>
-              <strong>Victory:</strong> Gain credits and experience
+              <strong>Victory:</strong> Gain credits and experience based on
+              enemy level
             </li>
             <li>
-              <strong>Defeat:</strong> Lose credits as a penalty
+              <strong>Defeat:</strong> Lose credits as a penalty (10-50% of your
+              credits)
             </li>
             <li>
-              <strong>Escape:</strong> May lose some credits depending on combat
-              rounds
+              <strong>Escape:</strong> Lose credits based on combat duration and
+              your level
             </li>
           </ul>
 
           <h3>Combat Tips</h3>
           <ul>
-            <li>Better weapons increase your damage output</li>
-            <li>Better armor reduces incoming damage significantly</li>
+            <li>Better weapons increase your damage output significantly</li>
+            <li>Better armor reduces incoming damage by percentage</li>
             <li>
               Higher level enemies are more dangerous but give better rewards
             </li>
-            <li>You can run from combat before it starts without penalty</li>
+            <li>
+              You can run from combat before it starts for minimal penalty
+            </li>
             <li>Balance offense and defense for optimal survivability</li>
+            <li>
+              Consider fleeing if you're low on HP rather than risking defeat
+            </li>
           </ul>
         </div>
       ),
@@ -156,10 +200,6 @@ function Help({ onExit }) {
             <li>
               <strong>Armor:</strong> Reduce incoming damage
             </li>
-            <li>
-              <strong>Cybernetics:</strong> Provide various bonuses and
-              abilities
-            </li>
           </ul>
 
           <h3>Equipping Items</h3>
@@ -168,7 +208,7 @@ function Help({ onExit }) {
             one armor piece can be equipped at a time.
           </p>
 
-          <h3>Item Rarity</h3>
+          <h3>Item Quality</h3>
           <p>
             Items come in different quality levels that affect their stats and
             prices. Higher quality items provide better bonuses.
@@ -184,7 +224,7 @@ function Help({ onExit }) {
       ),
     },
     market: {
-      title: "Market & Trading",
+      title: "Market",
       content: (
         <div>
           <p>
@@ -194,67 +234,46 @@ function Help({ onExit }) {
 
           <h3>Buying Items</h3>
           <ul>
-            <li>Browse available weapons, armor, and cybernetics</li>
+            <li>Browse available weapons and armor</li>
             <li>Check item stats and prices before purchasing</li>
             <li>Make sure you have enough credits</li>
+            <li>Items have level requirements - check before buying</li>
           </ul>
 
           <h3>Selling Items</h3>
           <p>
             You can sell items from your inventory to get credits back. Items
-            typically sell for less than their purchase price.
+            sell for 10% of their purchase price.
           </p>
+
+          <h3>Item Categories</h3>
+          <ul>
+            <li>
+              <strong>Weapons:</strong> Increase your attack damage
+            </li>
+            <li>
+              <strong>Armor:</strong> Reduce incoming damage by percentage
+            </li>
+          </ul>
 
           <h3>Market Tips</h3>
           <ul>
             <li>Compare item stats before buying</li>
             <li>Save credits for significant upgrades</li>
             <li>Consider selling old equipment when upgrading</li>
-            <li>Some items may be rare or limited availability</li>
+            <li>
+              Higher level items are more expensive but much more effective
+            </li>
+            <li>
+              Check your level before buying - you can't use items above your
+              level
+            </li>
           </ul>
 
           <h3>Credit Management</h3>
           <p>
             Credits are earned through combat victories and can be lost through
-            defeats. Manage your finances carefully!
-          </p>
-        </div>
-      ),
-    },
-    travel: {
-      title: "Travel & Locations",
-      content: (
-        <div>
-          <p>
-            The travel system in this game is currently designed as a love
-            letter to William Gibson's Sprawl trilogy novels (Neuromancer, Count
-            Zero, and Mona Lisa Overdrive). At the moment, travel is primarily
-            for exploring the rich cyberpunk world that Gibson created.
-          </p>
-
-          <h3>About the Sprawl</h3>
-          <p>
-            The locations you can visit are inspired by Gibson's vision of a
-            future where technology and humanity have merged in complex ways.
-            From the neon-lit streets of Night City to the corporate towers of
-            Chiba City, each area reflects the themes and atmosphere of the
-            original novels.
-          </p>
-
-          <h3>Current Travel Features</h3>
-          <p>
-            While travel is currently focused on world exploration and
-            atmospheric storytelling, you can still find combat opportunities
-            and basic services in various districts. The main gameplay loop
-            (combat, equipment, progression) is centered around the Night City
-            Streets area.
-          </p>
-
-          <h3>Future Development</h3>
-          <p>
-            Travel may be expanded in future updates to include more gameplay
-            mechanics, but for now, it serves as an immersive way to experience
-            the cyberpunk world that inspired this text adventure.
+            defeats or fleeing. Manage your finances carefully!
           </p>
         </div>
       ),
@@ -265,31 +284,64 @@ function Help({ onExit }) {
         <div>
           <p>
             Your character grows stronger through experience and better
-            equipment.
+            equipment. Understanding how stats work is crucial for success.
           </p>
 
           <h3>Experience & Levels</h3>
           <ul>
             <li>Gain experience through combat victories</li>
             <li>Level up to increase your base stats</li>
-            <li>Higher levels unlock access to better equipment and areas</li>
+            <li>Higher levels unlock access to better equipment</li>
+            <li>Each level requires more experience than the last</li>
           </ul>
 
-          <h3>Character Stats</h3>
+          <h3>Character Stats Explained</h3>
           <ul>
             <li>
               <strong>HP:</strong> Your health points - when they reach 0,
-              you're defeated
+              you're defeated and lose credits
             </li>
             <li>
-              <strong>Attack:</strong> Base damage you deal in combat
+              <strong>Attack:</strong> Base damage you deal in combat (increases
+              with level)
             </li>
             <li>
-              <strong>Defense:</strong> Reduces incoming damage
+              <strong>Defense:</strong> Reduces incoming damage by percentage
+              (increases with level)
             </li>
             <li>
-              <strong>Level:</strong> Determines your base stats and available
-              content
+              <strong>Level:</strong> Determines your base stats and equipment
+              requirements
+            </li>
+          </ul>
+
+          <h3>How Stats Scale with Level</h3>
+          <p>Your base stats increase significantly with each level:</p>
+          <ul>
+            <li>
+              <strong>HP:</strong> Increases by ~15-20 points per level
+            </li>
+            <li>
+              <strong>Attack:</strong> Increases by ~1-2 points per level
+            </li>
+            <li>
+              <strong>Defense:</strong> Increases by ~1-2% per level
+            </li>
+          </ul>
+
+          <h3>Equipment vs Level Stats</h3>
+          <p>Equipment provides bonuses on top of your base stats:</p>
+          <ul>
+            <li>
+              <strong>Weapons:</strong> Add damage to your base attack
+            </li>
+            <li>
+              <strong>Armor:</strong> Add defense percentage to your base
+              defense
+            </li>
+            <li>
+              <strong>Higher level equipment:</strong> Provides much larger
+              bonuses
             </li>
           </ul>
 
@@ -298,56 +350,8 @@ function Help({ onExit }) {
             <li>Focus on combat to gain experience quickly</li>
             <li>Invest in better equipment as you level up</li>
             <li>Balance offense and defense for optimal survivability</li>
-            <li>Higher levels open up more dangerous but rewarding areas</li>
-          </ul>
-        </div>
-      ),
-    },
-    controls: {
-      title: "Controls & Navigation",
-      content: (
-        <div>
-          <p>
-            Learn how to navigate the game interface and use keyboard shortcuts.
-          </p>
-
-          <h3>Keyboard Shortcuts</h3>
-          <ul>
-            <li>
-              <strong>Esc:</strong> Open global menu for quick access to main
-              features
-            </li>
-            <li>
-              <strong>A:</strong> Attack in combat
-            </li>
-            <li>
-              <strong>R:</strong> Run from combat
-            </li>
-            <li>
-              <strong>N:</strong> Next fight (after combat ends)
-            </li>
-            <li>
-              <strong>L:</strong> Leave combat area
-            </li>
-            <li>
-              <strong>Enter:</strong> Confirm selections and continue
-            </li>
-          </ul>
-
-          <h3>Mouse Controls</h3>
-          <ul>
-            <li>Click on menu items to navigate</li>
-            <li>Click on combat buttons to perform actions</li>
-            <li>Click on inventory items to equip/use them</li>
-            <li>Click on market items to buy them</li>
-          </ul>
-
-          <h3>Navigation Tips</h3>
-          <ul>
-            <li>Use the global menu (Esc) for quick access to key features</li>
-            <li>Most actions can be performed with either keyboard or mouse</li>
-            <li>Pay attention to highlighted keys in menus for shortcuts</li>
-            <li>Use the back buttons to return to previous screens</li>
+            <li>Higher level equipment is exponentially more effective</li>
+            <li>Don't waste credits on equipment you'll outlevel quickly</li>
           </ul>
         </div>
       ),
@@ -362,22 +366,17 @@ function Help({ onExit }) {
   const currentTopic = helpTopics.find((topic) => topic.key === activeTopic);
 
   return (
-    <div className="location-screen">
-      {/* Mobile Back Button Row */}
-      <div className="mobile-back-row">
-        <button className="mobile-back-button" onClick={onExit}>
+    <div className="page-container">
+      {/* Back Button Row */}
+      <div className="back-button-row">
+        <button className="back-button" onClick={onExit}>
           <FaArrowLeft />
           Back
         </button>
       </div>
 
-      <div className="location-header">
+      <div className="header-bar">
         <h2>Help & Instructions</h2>
-        <div className="header-buttons">
-          <span className="back-button desktop-only" onClick={onExit}>
-            <span className="key">B</span>ack
-          </span>
-        </div>
       </div>
 
       {/* Mobile Dropdown Menu */}
@@ -407,30 +406,11 @@ function Help({ onExit }) {
         )}
       </div>
 
-      {/* Desktop Sidebar */}
-      <div className="help-layout">
-        <div className="help-sidebar desktop-only">
-          <div className="help-topics">
-            {helpTopics.map((topic) => (
-              <div key={topic.key} className="help-topic">
-                <span
-                  className={`help-topic-item ${
-                    activeTopic === topic.key ? "active" : ""
-                  }`}
-                  onClick={() => setActiveTopic(topic.key)}
-                >
-                  {topic.label}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="help-content">
-          <div className="help-topic-content">
-            <h3>{helpContent[activeTopic].title}</h3>
-            <div className="help-text">{helpContent[activeTopic].content}</div>
-          </div>
+      {/* Content Area with Scrolling */}
+      <div className="content-area help-content">
+        <div className="help-topic-content">
+          <h3>{helpContent[activeTopic].title}</h3>
+          <div className="help-text">{helpContent[activeTopic].content}</div>
         </div>
       </div>
     </div>

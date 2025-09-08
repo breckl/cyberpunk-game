@@ -30,25 +30,12 @@ const TextReveal = ({
 
   return (
     <span className={`text-reveal ${className}`}>
-      {text.split(" ").map((word, wordIndex) => (
-        <span key={wordIndex} className="word">
-          {word.split("").map((letter, letterIndex) => {
-            const globalIndex =
-              text.split(" ").slice(0, wordIndex).join(" ").length +
-              wordIndex +
-              letterIndex;
-            return (
-              <span
-                key={`${wordIndex}-${letterIndex}`}
-                className={`letter ${
-                  globalIndex < visibleLetters ? "visible" : "hidden"
-                }`}
-              >
-                {letter}
-              </span>
-            );
-          })}
-          {wordIndex < text.split(" ").length - 1 && " "}
+      {text.split("").map((char, index) => (
+        <span
+          key={index}
+          className={`letter ${index < visibleLetters ? "visible" : "hidden"}`}
+        >
+          {char}
         </span>
       ))}
     </span>

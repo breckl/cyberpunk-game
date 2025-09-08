@@ -760,4 +760,112 @@ button {
   margin-bottom: 1rem;
 }
 
+/* Help Page Styles */
+.help-content {
+  padding: 0 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1;
+}
+
+.help-topic-content {
+  max-width: 100%;
+}
+
+.help-text {
+  line-height: 1.6;
+  color: var(--white-text);
+}
+
+.help-text h3 {
+  color: var(--neon-pink);
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.help-text h3:first-child {
+  margin-top: 0;
+}
+
+.help-text p {
+  margin: 1rem 0;
+  color: var(--white-text);
+}
+
+.help-text ul {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.help-text li {
+  margin: 0.5rem 0;
+  color: var(--white-text);
+}
+
+.help-text strong {
+  color: var(--neon-cyan);
+  font-weight: bold;
+}
+
+.help-text em {
+  color: var(--neon-blue);
+  font-style: italic;
+}
+
+.help-mobile-dropdown {
+  margin: 1rem 0;
+}
+
+.help-dropdown-button {
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--neon-pink);
+  color: white;
+  padding: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Share Tech Mono", monospace;
+}
+
+.help-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid var(--neon-pink);
+  border-top: none;
+  z-index: 1000;
+}
+
+.help-dropdown-item {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Share Tech Mono", monospace;
+  transition: background-color 0.2s ease;
+}
+
+.help-dropdown-item:hover {
+  background: rgba(255, 0, 255, 0.1);
+}
+
+.help-dropdown-item.active {
+  background: rgba(255, 0, 255, 0.2);
+  color: var(--neon-pink);
+}
+
+.dropdown-arrow {
+  color: var(--neon-pink);
+  font-size: 0.8rem;
+}
+
 /* Desktop media queries removed - mobile-only app */
