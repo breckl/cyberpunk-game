@@ -71,7 +71,8 @@ function RegistrationScreen({ onRegistrationComplete }) {
 
     // Simulate processing delay
     setTimeout(() => {
-      if (inviteCode.trim().toLowerCase() !== "3jane2025") {
+      const normalizedCode = inviteCode.trim().toLowerCase();
+      if (normalizedCode !== "3jane2025" && normalizedCode !== "lady3jane") {
         setError("Invalid invite code");
         setIsLoading(false);
         return;
