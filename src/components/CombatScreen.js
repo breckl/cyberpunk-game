@@ -155,21 +155,21 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           </h3>
           <div
             className={`stat-row ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "0.5s" } : {}}
+            style={withAnimations ? { animationDelay: "0.3s" } : {}}
           >
             <span className="stat-label">Level</span>
             <span className="stat-value">{enemy.level}</span>
           </div>
           <div
             className={`stat-row ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "1s" } : {}}
+            style={withAnimations ? { animationDelay: "0.3" } : {}}
           >
             <span className="stat-label">Weapon</span>
             <span className="stat-value">{enemy.weapon.name}</span>
           </div>
           <div
             className={`stat-row ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "1.5s" } : {}}
+            style={withAnimations ? { animationDelay: "0.6s" } : {}}
           >
             <span className="stat-label">Attack</span>
             <span className="stat-value">
@@ -181,14 +181,14 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           </div>
           <div
             className={`stat-row ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "2s" } : {}}
+            style={withAnimations ? { animationDelay: "0.9s" } : {}}
           >
             <span className="stat-label">Armor</span>
             <span className="stat-value">{enemy.armor.name}</span>
           </div>
           <div
             className={`stat-row ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "2.5s" } : {}}
+            style={withAnimations ? { animationDelay: "1.2s" } : {}}
           >
             <span className="stat-label">Defense</span>
             <span className="stat-value">
@@ -197,7 +197,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           </div>
           <div
             className={`stat-row ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "3s" } : {}}
+            style={withAnimations ? { animationDelay: "1.5s" } : {}}
           >
             <span className="stat-label">HP</span>
             <span className="stat-value">
@@ -206,7 +206,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           </div>
           <div
             className={`hp-bar-container ${withAnimations ? "fade-in" : ""}`}
-            style={withAnimations ? { animationDelay: "3s" } : {}}
+            style={withAnimations ? { animationDelay: "1.8s" } : {}}
           >
             <div className="hp-bar enemy-hp-bar">
               <div
@@ -1053,7 +1053,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       const timer = setTimeout(() => {
         setShowCombatOptions(true);
         setSequencePhase("combat");
-      }, 4000); // Wait for all stats to be revealed + typewriter effects
+      }, 2000); // Wait for all stats to be revealed + typewriter effects
 
       return () => clearTimeout(timer);
     }
@@ -1383,9 +1383,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           <TypeAnimation
             sequence={[selectedEnemyDescription || "A mysterious enemy"]}
             wrapper="em"
-            speed={60}
+            speed={90}
             cursor={false}
-            style={{ animationDelay: "3.5s" }}
+            style={{ animationDelay: "3s" }}
           />
         </div>
       </>
