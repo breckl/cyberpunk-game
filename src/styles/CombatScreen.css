@@ -599,6 +599,20 @@
   box-shadow: 0 0 5px rgba(0, 136, 255, 0.3);
 }
 
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+  accent-color: #00ff41;
+}
+
 .form-actions {
   display: flex;
   gap: 1rem;

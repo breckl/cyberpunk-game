@@ -253,7 +253,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: calculateWeaponDamage(1, "Heavy"),
+      damage: calculateWeaponDamage(1, "Medium"),
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -1814,8 +1814,7 @@ export const getLevelBasedEnemy = (playerLevel) => {
   const levelProbabilities =
     playerLevel === 1
       ? {
-          [playerLevel]: 75, // 75% chance for same level (Level 1)
-          [playerLevel + 1]: 25, // 25% chance for 1 level above (Level 2)
+          [playerLevel]: 100, // 100% chance for same level (Level 1)
         }
       : {
           [playerLevel - 2]: 0, // 5% chance for 2 levels below

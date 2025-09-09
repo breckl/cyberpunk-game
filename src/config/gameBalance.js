@@ -115,16 +115,16 @@ export const calculateArmorPriceWithDefense = (
 export const generateRewards = (winner, enemies) => {
   // Base rewards per enemy level (Level 1: $15-30, Level 2: $25-45, Level 3: $40-60)
   const baseCredits = {
-    1: 22.5, // Midpoint of $15-30 range
-    2: 35, // Midpoint of $25-45 range
-    3: 50, // Midpoint of $40-60 range
+    1: 25, // Midpoint of $15-30 range
+    2: 45, // Midpoint of $25-45 range
+    3: 70, // Midpoint of $40-60 range
   };
 
   // Base XP per enemy level (Level 1: ~30, Level 2: ~50, Level 3: ~80)
   const baseExp = {
-    1: 30,
-    2: 50,
-    3: 80,
+    1: 20,
+    2: 40,
+    3: 65,
   };
 
   // Scaling for levels beyond 3
@@ -174,17 +174,9 @@ export const generateRewards = (winner, enemies) => {
  * @param {number} enemyMaxHp - Enemy's maximum HP
  * @returns {number} - Penalty amount in credits
  */
-export const calculateCombatPenalty = (
-  playerLevel,
-  enemy,
-  combatRounds,
-  playerFinalHp,
-  playerMaxHp,
-  enemyFinalHp,
-  enemyMaxHp
-) => {
+export const calculateCombatPenalty = (playerLevel, enemy, combatRounds) => {
   // Base penalty scales with player level (Level 1: $10, Level 2: $17.5, Level 3: $25)
-  const basePenalty = 10 + (playerLevel - 1) * 7.5; // $10 base, +$7.5 per level
+  const basePenalty = 3 + (playerLevel - 1) * 7.5; // $10 base, +$7.5 per level
 
   // Time-based progression (not round-specific)
   let roundMultiplier = 1.0;

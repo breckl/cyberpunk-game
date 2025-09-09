@@ -44,6 +44,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const [testPlayerDefense, setTestPlayerDefense] = useState(3);
   const [testResults, setTestResults] = useState(null);
   const [isRunningTest, setIsRunningTest] = useState(false);
+  const [testProgression, setTestProgression] = useState(true);
   const levelInfo = levels[currentLevel];
   const playerTotalHp = levelInfo?.hp || 30;
 
@@ -847,9 +848,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       setTestLevel(currentLevel);
       setTestXP(character.experience);
       setTestCredits(character.credits);
-      setTestPlayerLevel(currentLevel);
+      setTestPlayerLevel(1); // Always start test at level 1
       setTestPlayerAttack(5);
       setTestPlayerDefense(3);
+      setTestProgression(true); // Default to progression testing
       setTestResults(null);
       setShowTestPopup(true);
     },
@@ -925,6 +927,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       results.enemyLevels[enemy.level] =
         (results.enemyLevels[enemy.level] || 0) + 1;
 
+      // Debug: Log first 10 enemies to see what's happening
+      if (i < 10) {
+        console.log(
+          `Fight ${i + 1}: Player Level ${currentLevel} -> Enemy Level ${
+            enemy.level
+          } (${enemy.name})`
+        );
+      }
+
       // Simulate combat
       const playerHp = levels[currentLevel]?.hp || 30;
       const enemyHp = levels[enemy.level]?.hp || 30;
@@ -962,11 +973,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           results.creditsEarned += rewards.credits;
           currentXP += rewards.experience;
 
-          // Check for level up
-          const newLevel = getCurrentLevel(currentXP);
-          if (newLevel > currentLevel) {
-            results.fightsToNextLevel = i + 1;
-            currentLevel = newLevel;
+          // Check for level up (only if progression testing is enabled)
+          if (testProgression) {
+            const newLevel = getCurrentLevel(currentXP);
+            if (newLevel > currentLevel) {
+              results.fightsToNextLevel = i + 1;
+              currentLevel = newLevel;
+            }
           }
           break;
         }
@@ -1026,7 +1039,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     results.currentXP = currentXP;
     setTestResults(results);
     setIsRunningTest(false);
-  }, [testPlayerLevel, testPlayerAttack, testPlayerDefense, combatSystem]);
+  }, [
+    testPlayerLevel,
+    testPlayerAttack,
+    testPlayerDefense,
+    testProgression,
+    combatSystem,
+  ]);
 
   // Stats reveal sequence
   useEffect(() => {
@@ -1197,6 +1216,16 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
                   value={testPlayerDefense}
                   onChange={(e) => setTestPlayerDefense(e.target.value)}
                 />
+              </div>
+              <div className="form-group">
+                <label className="checkbox-label">
+                  <input
+                    type="checkbox"
+                    checked={testProgression}
+                    onChange={(e) => setTestProgression(e.target.checked)}
+                  />
+                  Test Progression (player levels up during test)
+                </label>
               </div>
               <div className="form-actions">
                 <button
