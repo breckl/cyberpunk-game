@@ -313,8 +313,112 @@ const enemies = [
       ],
     },
   },
+  {
+    id: "braun_microdrone",
+    name: "Braun Microdrone",
+    description: [
+      "Spider-like surveillance drone, quick and agile",
+      "Mechanical arachnid with multiple sensor arrays",
+      "Corporate spy device, death from above",
+      "Eight-legged hunter, digital eyes watching",
+    ],
+    type: "Thug",
+    level: 1,
+    region: "Chiba Alleys",
+    armor: {
+      name: "Light Alloy Frame",
+      rating: 0,
+    },
+    weapon: {
+      name: "Sharpened Legs",
+      damage: calculateWeaponDamage(1, "Light"),
+      attacks: [
+        "lunges with sharpened legs",
+        "makes a quick strike",
+        "scuttles forward to attack",
+      ],
+    },
+  },
+  {
+    id: "freeside_refugee",
+    name: "Freeside Refugee",
+    description: [
+      "Weary traveler from Freeside, sharp teeth bared in desperation",
+      "Mismatched clothing and haunted eyes, clutching a makeshift weapon",
+      "The scent of ganja lingers around them, a remnant of better days",
+      "Soft hum of dub music escapes their lips, a tune from Zion",
+    ],
+    type: "Thug",
+    level: 1,
+    region: "Chiba Alleys",
+    armor: {
+      name: "Patchwork Vest",
+      rating: 0,
+    },
+    weapon: {
+      name: "Rusty Knife",
+      damage: 0,
+      attacks: [
+        "slashes wildly with their knife",
+        "makes a desperate stab",
+        "swings in a wide arc",
+      ],
+    },
+  },
+  {
+    id: "zionist_outcast",
+    name: "Zionist Outcast",
+    description: [
+      "Banished from Zion, sharp teeth glinting with defiance",
+      "Mix of Zionite robes and urban attire, fractured identity",
+      "Strong scent of ganja, a defiant nod to their heritage",
+      "Portable speaker blares dub music, rebellious anthem",
+    ],
+    type: "Thug",
+    level: 1,
+    region: "Chiba Alleys",
+    armor: {
+      name: "Tattered Cloak",
+      rating: 0,
+    },
+    weapon: {
+      name: "Broken Pipe",
+      damage: calculateWeaponDamage(1, "Light"),
+      attacks: [
+        "swings their pipe with reckless abandon",
+        "feints a retreat before lunging forward",
+        "brings the pipe down in a crushing strike",
+      ],
+    },
+  },
 
   // Level 2 Enemies
+  {
+    id: "zionist_apostate",
+    name: "Zionist Apostate",
+    description: [
+      "Former Zionite, sharp teeth bared in defiance",
+      "Clad in tattered garments, eyes gleam with regret and aggression",
+      "Scent of ganja lingers around them, remnant of their past life in Zion",
+      "Dub music echoes faintly, haunting reminder of his roots",
+    ],
+    type: "Thug",
+    level: 2,
+    region: "Chiba Alleys",
+    armor: {
+      name: "Worn Leather Jacket",
+      rating: calculateArmorDefense(2, "Light"),
+    },
+    weapon: {
+      name: "Modified Stun Baton",
+      damage: calculateWeaponDamage(2, "Medium"),
+      attacks: [
+        "lunges forward, swinging their stun baton with practiced ease",
+        "attempts to jab the baton into your side, aiming to incapacitate",
+        "feints to the left before delivering a powerful strike",
+      ],
+    },
+  },
   {
     id: "sprawl_ganger",
     name: "Sprawl Ganger",
@@ -551,6 +655,32 @@ const enemies = [
   },
 
   // Additional Level 3 Enemies (Light)
+  {
+    id: "straylight_merc",
+    name: "Straylight Mercenary",
+    description: [
+      "Hardened mercenary from Straylight, cybernetic enhancements gleaming",
+      "High-tech combat gear, exudes an aura of lethal efficiency",
+      "Corporate soldier with Tessier-Ashpool backing, no mercy for targets",
+      "Professional killer with unlimited resources and zero conscience",
+    ],
+    type: "Thug",
+    level: 3,
+    region: "Chiba Alleys",
+    armor: {
+      name: "Reinforced Combat Suit",
+      rating: calculateArmorDefense(3, "Medium"),
+    },
+    weapon: {
+      name: "Plasma Rifle",
+      damage: calculateWeaponDamage(3, "Heavy"),
+      attacks: [
+        "takes aim with their plasma rifle",
+        "activates a shoulder-mounted drone, firing a barrage of micro-missiles",
+        "draws a combat knife, attempting a close-quarters strike",
+      ],
+    },
+  },
   {
     id: "armed_drone",
     name: "Hosaka Armed Drone",
