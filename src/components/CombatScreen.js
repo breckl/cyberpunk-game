@@ -526,6 +526,36 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Define restartCombat function before it's used in useEffect
   const restartCombat = useCallback(() => {
+    // Process combat rewards if there's an end result
+    if (endResult && endResult.type === "victory" && onUpdateCharacter) {
+      const calculatedRewards = endResult.rewards;
+      const droppedItem = endResult.droppedItem;
+
+      // Ensure experience is a number, default to 0 if undefined/null
+      const currentExp =
+        typeof character.experience === "number" ? character.experience : 0;
+      const rewardExp =
+        typeof calculatedRewards.experience === "number"
+          ? calculatedRewards.experience
+          : 0;
+
+      const updatedCharacter = {
+        ...character,
+        experience: currentExp + rewardExp,
+        credits: character.credits + calculatedRewards.credits,
+      };
+
+      // Add dropped item to inventory if one was dropped
+      if (droppedItem) {
+        updatedCharacter.inventory = [
+          ...updatedCharacter.inventory,
+          droppedItem,
+        ];
+      }
+
+      onUpdateCharacter(updatedCharacter);
+    }
+
     // Check daily limit before starting a new fight
     if (isDailyLimitExceeded()) {
       setShowDailyLimitOverlay(true);
@@ -563,7 +593,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setVisibleMessages([]);
     setShowCombatOptions(false);
     setIsRevealingMessages(false);
-  }, [currentLevel, playerTotalHp]);
+  }, [currentLevel, playerTotalHp, endResult, character, onUpdateCharacter]);
 
   // Function to handle random event completion
   const handleRandomEventComplete = useCallback(() => {
@@ -696,31 +726,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
       setEnemyHp(0);
 
-      if (onUpdateCharacter) {
-        // Ensure experience is a number, default to 0 if undefined/null
-        const currentExp =
-          typeof character.experience === "number" ? character.experience : 0;
-        const rewardExp =
-          typeof calculatedRewards.experience === "number"
-            ? calculatedRewards.experience
-            : 0;
-
-        const updatedCharacter = {
-          ...character,
-          experience: currentExp + rewardExp,
-          credits: character.credits + calculatedRewards.credits,
-        };
-
-        // Add dropped item to inventory if one was dropped
-        if (droppedItem) {
-          updatedCharacter.inventory = [
-            ...updatedCharacter.inventory,
-            droppedItem,
-          ];
-        }
-
-        onUpdateCharacter(updatedCharacter);
-      }
+      // Rewards will be processed when player clicks CONTINUE or LEAVE
       return;
     }
 
@@ -1677,14 +1683,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div
               className="combat-button attack-button"
               onClick={() => {
-                // Pass combat results to parent before restarting
-                if (onCombatEnd && endResult) {
-                  onCombatEnd(
-                    "victory",
-                    endResult.rewards,
-                    endResult.droppedItem
-                  );
-                }
+                // Just restart combat without calling onCombatEnd
                 restartCombat();
               }}
             >
@@ -1692,7 +1691,46 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             </div>
             <div
               className="combat-button leave-button"
-              onClick={() => onCombatEnd("leave", null)}
+              onClick={() => {
+                // Process combat rewards before leaving
+                if (
+                  endResult &&
+                  endResult.type === "victory" &&
+                  onUpdateCharacter
+                ) {
+                  const calculatedRewards = endResult.rewards;
+                  const droppedItem = endResult.droppedItem;
+
+                  // Ensure experience is a number, default to 0 if undefined/null
+                  const currentExp =
+                    typeof character.experience === "number"
+                      ? character.experience
+                      : 0;
+                  const rewardExp =
+                    typeof calculatedRewards.experience === "number"
+                      ? calculatedRewards.experience
+                      : 0;
+
+                  const updatedCharacter = {
+                    ...character,
+                    experience: currentExp + rewardExp,
+                    credits: character.credits + calculatedRewards.credits,
+                  };
+
+                  // Add dropped item to inventory if one was dropped
+                  if (droppedItem) {
+                    updatedCharacter.inventory = [
+                      ...updatedCharacter.inventory,
+                      droppedItem,
+                    ];
+                  }
+
+                  onUpdateCharacter(updatedCharacter);
+                }
+
+                // Now call onCombatEnd to return to streets
+                onCombatEnd("leave", null);
+              }}
             >
               LEAVE STREETS
             </div>
