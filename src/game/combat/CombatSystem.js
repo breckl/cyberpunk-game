@@ -2,6 +2,7 @@ import {
   generateRewards,
   calculateCombatPenalty,
 } from "../../config/gameBalance.js";
+import market from "../../data/market.js";
 
 class CombatSystem {
   constructor() {
@@ -99,6 +100,42 @@ class CombatSystem {
   // Generate combat rewards
   generateRewards(winner, losers) {
     return generateRewards(winner, losers);
+  }
+
+  // Generate random item drop from defeated enemy
+  generateEnemyDrop(enemy) {
+    // 20% chance for enemy to drop an item
+    const dropChance = 0.2;
+
+    if (Math.random() > dropChance) {
+      return null; // No drop
+    }
+
+    const enemyLevel = enemy.level || 1;
+
+    // Get all armor and weapons for this enemy's level
+    const levelArmor = market.armor.filter((item) => item.level === enemyLevel);
+    const levelWeapons = market.weapons.filter(
+      (item) => item.level === enemyLevel
+    );
+
+    // Combine armor and weapons
+    const availableItems = [...levelArmor, ...levelWeapons];
+
+    if (availableItems.length === 0) {
+      return null; // No items available for this level
+    }
+
+    // Select random item
+    const randomItem =
+      availableItems[Math.floor(Math.random() * availableItems.length)];
+
+    // Return item with proper type and equipped status
+    return {
+      ...randomItem,
+      type: levelArmor.includes(randomItem) ? "armor" : "weapon",
+      equipped: false,
+    };
   }
 
   // Penalty calculation methods

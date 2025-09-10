@@ -33,7 +33,7 @@ const enemies = [
   },
   {
     id: "street_punk",
-    name: "Chiba Street Punk",
+    name: "Street Punk",
     description: [
       "Loud, brash, easily put down",
       "All attitude, no substance, just noise",
@@ -107,7 +107,7 @@ const enemies = [
   },
   {
     id: "bar_brawler",
-    name: "Chiba Bar Brawler",
+    name: "Bar Brawler",
     description: [
       "Drunk, fists flying, unpredictable",
       "Alcohol-fueled rage, swings wildly",
@@ -133,7 +133,7 @@ const enemies = [
   },
   {
     id: "data_rat",
-    name: "Sense/Net Data Rat",
+    name: "Data Rat",
     description: [
       "Wannabe decker, uses cheap stun device",
       "Scavenges data from the digital underground",
@@ -159,7 +159,7 @@ const enemies = [
   },
   {
     id: "rooftop_sneak",
-    name: "Ninsei Rooftop Sneak",
+    name: "Rooftop Sneak",
     description: [
       "Agile petty thief, quick but weak",
       "Leaps between buildings, steals from windows",
@@ -185,7 +185,7 @@ const enemies = [
   },
   {
     id: "drunken_chiba_port_sailor",
-    name: "Salty Chiba Sailor",
+    name: "Chiba Sailor",
     description: [
       "Brawler fresh off the docks, strong when cornered",
       "Sea legs and sea stories, all of them tall",
@@ -289,7 +289,7 @@ const enemies = [
   },
   {
     id: "cyber_scav",
-    name: "Hosaka Cyber Scav",
+    name: "Cyber Scav",
     description: [
       "Robotic animal that stalks the alleyways",
       "Mechanical predator, eyes glowing in the dark",
@@ -473,7 +473,7 @@ const enemies = [
   },
   {
     id: "clinic_bouncer",
-    name: "Black Clinic Bouncer",
+    name: "Clinic Bouncer",
     description: [
       "Black clinic guard, simple muscle",
       "Keeps the riff-raff out of the ripperdoc's office",
@@ -603,7 +603,7 @@ const enemies = [
   },
   {
     id: "meat_puppet",
-    name: "Sense/Net Meat Puppet",
+    name: "Meat Puppet",
     description: [
       "Junkie controlled by a remote hacker",
       "Body without a soul, controlled by another's will",
@@ -657,7 +657,7 @@ const enemies = [
   // Additional Level 3 Enemies (Light)
   {
     id: "straylight_merc",
-    name: "Straylight Mercenary",
+    name: "Straylight Merc",
     description: [
       "Hardened mercenary from Straylight, cybernetic enhancements gleaming",
       "High-tech combat gear, exudes an aura of lethal efficiency",
@@ -683,7 +683,7 @@ const enemies = [
   },
   {
     id: "armed_drone",
-    name: "Hosaka Armed Drone",
+    name: "Armed Drone",
     description: [
       "Automated security drone with basic combat protocols",
       "Mechanical guardian, no mercy, no fear",
@@ -761,7 +761,7 @@ const enemies = [
   },
   {
     id: "cyber_bruiser",
-    name: "BAMA Cyber Bruiser",
+    name: "Cyber Bruiser",
     description: [
       "Cybernetic thug, fights with brute strength",
       "Chrome muscle and steel fists, brain optional",
@@ -839,7 +839,7 @@ const enemies = [
   },
   {
     id: "street_enforcer",
-    name: "Sprawl Street Enforcer",
+    name: "Street Enforcer",
     description: [
       "Corp-backed muscle, brutal and efficient",
       "Corporate thug with a license to kill",
@@ -865,7 +865,7 @@ const enemies = [
   },
   {
     id: "organ_broker",
-    name: "Ninsei Organ Broker",
+    name: "Organ Broker",
     description: [
       "Cybernetic organ broker, trades tech upgrades for organs",
       "Black market surgeon with a violent streak",
@@ -971,7 +971,7 @@ const enemies = [
   },
   {
     id: "black_clinic_security",
-    name: "Black Clinic Security",
+    name: "Clinic Security",
     description: [
       "Guards for a clinic, loyal and armed",
       "Protects the clinic's dark secrets",
@@ -1051,7 +1051,7 @@ const enemies = [
   },
   {
     id: "pit_fighter",
-    name: "BAMA Pit Fighter",
+    name: "Pit Fighter",
     description: [
       "Arena-trained cyber brawler",
       "Gladiator of the underground fighting pits",
@@ -1158,7 +1158,7 @@ const enemies = [
   },
   {
     id: "bounty_hunter",
-    name: "Ninsei Bounty Hunter",
+    name: "Bounty Hunter",
     description: [
       "Independent contractor tracking targets for credits",
       "Professional hunter, death is their business",
@@ -1238,7 +1238,7 @@ const enemies = [
   },
   {
     id: "mercenary",
-    name: "Maas Biolabs Merc",
+    name: "Maas-Biolabs Merc",
     description: [
       "Professional freelance fighter",
       "Soldier of fortune, death is their trade",
@@ -1290,7 +1290,7 @@ const enemies = [
   },
   {
     id: "corporate_mech",
-    name: "Hosaka Corporate Mech",
+    name: "Hosaka Corpo Mech",
     description: [
       "Cybernetic combat suit, defends corporate assets",
       "Corporate war machine, no mercy",
@@ -1368,7 +1368,7 @@ const enemies = [
   },
   {
     id: "assassin",
-    name: "Hired Assassin",
+    name: "Straylight Assassin",
     description: [
       "Precision killer, stealth-based",
       "Professional killer, death is their art",
@@ -1654,7 +1654,7 @@ const enemies = [
   },
   {
     id: "tessier_ashpool_assassin",
-    name: "Tessier-Ashpool Assassin",
+    name: "Freeside Assassin",
     description: [
       "Elite corporate assassin working for the powerful Tessier-Ashpool family",
       "Top-tier killer with advanced training and cutting-edge equipment",

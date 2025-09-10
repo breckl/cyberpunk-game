@@ -22,9 +22,29 @@ function App() {
 
     if (isRegistered) {
       if (savedCharacter) {
+        // Ensure character has all required fields with proper defaults
+        const validatedCharacter = {
+          name: savedCharacter.name || "Unknown",
+          class: savedCharacter.class || "Street Samurai",
+          level:
+            typeof savedCharacter.level === "number" ? savedCharacter.level : 1,
+          experience:
+            typeof savedCharacter.experience === "number"
+              ? savedCharacter.experience
+              : 0,
+          credits:
+            typeof savedCharacter.credits === "number"
+              ? savedCharacter.credits
+              : 25,
+          inventory: Array.isArray(savedCharacter.inventory)
+            ? savedCharacter.inventory
+            : [],
+          ...savedCharacter, // Keep any other properties
+        };
+
         setGameState((prev) => ({
           ...prev,
-          character: savedCharacter,
+          character: validatedCharacter,
           screen: "game",
           gameLog: [`Welcome back to Night City. Your journey continues...`],
         }));

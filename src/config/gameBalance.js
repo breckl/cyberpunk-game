@@ -115,8 +115,8 @@ export const calculateArmorPriceWithDefense = (
 export const generateRewards = (winner, enemies) => {
   // Base rewards per enemy level (Level 1: $15-30, Level 2: $25-45, Level 3: $40-60)
   const baseCredits = {
-    1: 25, // Midpoint of $15-30 range
-    2: 45, // Midpoint of $25-45 range
+    1: 20, // Midpoint of $15-30 range
+    2: 40, // Midpoint of $25-45 range
     3: 70, // Midpoint of $40-60 range
   };
 

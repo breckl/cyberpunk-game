@@ -25,20 +25,34 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
     setShowMobileStats(!showMobileStats);
   };
 
-  const handleCombatEnd = (result, rewards) => {
+  const handleCombatEnd = (result, rewards, droppedItem) => {
     console.log("Combat ended with result:", result, "and rewards:", rewards);
+    console.log("Dropped item:", droppedItem);
     console.log(
       "Current character credits before update:",
       gameState.character?.credits
     );
+    console.log(
+      "Current character experience before update:",
+      gameState.character?.experience
+    );
+    console.log("Rewards experience:", rewards?.experience);
 
     setCurrentScreen("streets");
     if (result === "victory" && rewards) {
       console.log("Processing victory rewards...");
       setGameState((prev) => {
+        // Ensure experience is a number, default to 0 if undefined/null
+        const currentExp =
+          typeof prev.character.experience === "number"
+            ? prev.character.experience
+            : 0;
+        const rewardExp =
+          typeof rewards.experience === "number" ? rewards.experience : 0;
+
         const updatedCharacter = {
           ...prev.character,
-          experience: prev.character.experience + rewards.exp,
+          experience: currentExp + rewardExp,
         };
 
         // Use safe credit management
@@ -52,6 +66,15 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
         } else {
           // Fallback if gainCredits method doesn't exist
           updatedCharacter.credits = prev.character.credits + rewards.credits;
+        }
+
+        // Add dropped item to inventory if one was dropped
+        if (droppedItem) {
+          updatedCharacter.inventory = [
+            ...updatedCharacter.inventory,
+            droppedItem,
+          ];
+          console.log("Added dropped item to inventory:", droppedItem);
         }
 
         console.log("Updated character credits:", updatedCharacter.credits);

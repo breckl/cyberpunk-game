@@ -666,12 +666,20 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       const winner = { level: currentLevel };
       const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
 
+      // Check for enemy drop
+      const droppedItem = combatSystem.generateEnemyDrop(enemy);
+
       const victoryMessages = [
         playerMessage,
         `>> ${finalDamageRounded} DAMAGE`,
         `You have defeated ${enemy.name}!`,
         `You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!`,
       ];
+
+      // Add drop message if item was dropped
+      if (droppedItem) {
+        victoryMessages.push(`The enemy dropped ${droppedItem.name}!`);
+      }
 
       // Play random victory sound
       playVictorySound();
@@ -681,6 +689,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         setEndResult({
           type: "victory",
           rewards: calculatedRewards,
+          droppedItem: droppedItem,
         });
         setSequencePhase("results");
       });
@@ -688,11 +697,28 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       setEnemyHp(0);
 
       if (onUpdateCharacter) {
+        // Ensure experience is a number, default to 0 if undefined/null
+        const currentExp =
+          typeof character.experience === "number" ? character.experience : 0;
+        const rewardExp =
+          typeof calculatedRewards.experience === "number"
+            ? calculatedRewards.experience
+            : 0;
+
         const updatedCharacter = {
           ...character,
-          experience: character.experience + calculatedRewards.experience,
+          experience: currentExp + rewardExp,
           credits: character.credits + calculatedRewards.credits,
         };
+
+        // Add dropped item to inventory if one was dropped
+        if (droppedItem) {
+          updatedCharacter.inventory = [
+            ...updatedCharacter.inventory,
+            droppedItem,
+          ];
+        }
+
         onUpdateCharacter(updatedCharacter);
       }
       return;
@@ -1630,6 +1656,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             );
           }
 
+          // Check if this is a dropped item message
+          if (message.includes("dropped") && message.includes(">>")) {
+            return (
+              <div key={index} className="combat-message">
+                <span className="dropped-item-message">{message}</span>
+              </div>
+            );
+          }
+
           // Default message styling
           return (
             <div key={index} className="combat-message">
@@ -1641,7 +1676,17 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           <div className="combat-options">
             <div
               className="combat-button attack-button"
-              onClick={() => restartCombat()}
+              onClick={() => {
+                // Pass combat results to parent before restarting
+                if (onCombatEnd && endResult) {
+                  onCombatEnd(
+                    "victory",
+                    endResult.rewards,
+                    endResult.droppedItem
+                  );
+                }
+                restartCombat();
+              }}
             >
               CONTINUE
             </div>
