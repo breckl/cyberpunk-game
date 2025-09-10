@@ -14,7 +14,7 @@ function StreetsMenu({
       "The neon-drenched streets of Night City stretch before you. The air is thick with the hum of hover vehicles and the chatter of street merchants. Holographic advertisements paint the smog in shifting colors.",
     options: [
       { key: "combat", label: "Combat Zone" },
-      { key: "market", label: "Market" },
+      { key: "market", label: "Black Market" },
       { key: "inventory", label: "Inventory" },
       // { key: "travel", label: "Travel" },
       { key: "help", label: "Help" },

@@ -5,12 +5,40 @@ function Help({ onExit }) {
   const [activeTopic, setActiveTopic] = useState("getting-started");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Helper function to clear localStorage and reset character
+  const resetPlayerData = () => {
+    if (
+      window.confirm("This will clear all saved player data. Are you sure?")
+    ) {
+      // Clear the main character data
+      localStorage.removeItem("cyberpunk_character");
+
+      // Also clear any other potential old data keys
+      const keysToRemove = [
+        "cyberpunk_character",
+        "cyberpunk_save",
+        "character_data",
+        "game_state",
+      ];
+
+      keysToRemove.forEach((key) => {
+        if (localStorage.getItem(key)) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      alert("Player data cleared! The game will now reload.");
+      window.location.reload();
+    }
+  };
+
   const helpTopics = [
     { key: "getting-started", label: "Getting Started" },
     { key: "combat", label: "Combat System" },
     { key: "inventory", label: "Inventory & Equipment" },
-    { key: "market", label: "Market" },
+    { key: "market", label: "Black Market" },
     { key: "character", label: "Character Progression" },
+    { key: "support", label: "Support & Feedback" },
   ];
 
   const helpContent = {
@@ -19,17 +47,17 @@ function Help({ onExit }) {
       content: (
         <div>
           <p>
-            Welcome to Night City, the world of William Gibson's Sprawl Trilogy
-            where you'll navigate the neon-lit streets of corporate intrigue and
-            where only the strong survive.
+            Night City: the world of William Gibson's Sprawl Trilogy where
+            you'll navigate the neon-lit streets of corporate intrigue and where
+            only the strong survive.
           </p>
 
           <h3>Your Journey Begins</h3>
           <p>
-            Start by exploring the Market and then venture into the Combat Zone.
-            If you put in the work, you'll level, can upgrade your gear and meet
-            various characters from Neuromancer, Count Zero, and Mona Lisa
-            Overdrive.
+            Start by exploring the Black Market and then venture into the Combat
+            Zone. If you put in the work, you'll level, can upgrade your gear
+            and meet various characters from Neuromancer, Count Zero, and Mona
+            Lisa Overdrive.
           </p>
 
           <h3>Basic Goals</h3>
@@ -42,8 +70,9 @@ function Help({ onExit }) {
 
           <h3>Starting Out</h3>
           <p>
-            Begin by visiting the Market to see what equipment is available,
-            then try some combat to earn your first credits and experience.
+            Begin by visiting the Black Market to see what equipment is
+            available, then try some combat to earn your first credits and
+            experience.
           </p>
         </div>
       ),
@@ -217,18 +246,18 @@ function Help({ onExit }) {
           <h3>Inventory Management</h3>
           <ul>
             <li>Items you're not using remain in your inventory</li>
-            <li>You can sell unwanted items at the Market</li>
+            <li>You can sell unwanted items at the Black Market</li>
             <li>Some items may have special properties or requirements</li>
           </ul>
         </div>
       ),
     },
     market: {
-      title: "Market",
+      title: "Black Market",
       content: (
         <div>
           <p>
-            The Market is where you buy and sell equipment to improve your
+            The Black Market is where you buy and sell equipment to improve your
             character.
           </p>
 
@@ -353,6 +382,67 @@ function Help({ onExit }) {
             <li>Higher level equipment is exponentially more effective</li>
             <li>Don't waste credits on equipment you'll outlevel quickly</li>
           </ul>
+        </div>
+      ),
+    },
+    support: {
+      title: "Support & Feedback",
+      content: (
+        <div>
+          <p>
+            Need help with the game or have feedback to share? We'd love to hear
+            from you!
+          </p>
+
+          <h3>Contact Support</h3>
+          <p>
+            For technical issues, bug reports, suggestions, or general feedback,
+            please reach out to us at:
+          </p>
+
+          <div className="support-contact">
+            <a
+              href="mailto:countingsheepmusic@gmail.com"
+              className="support-email-link"
+            >
+              countingsheepmusic@gmail.com
+            </a>
+          </div>
+
+          <h3>What to Include</h3>
+          <p>When contacting support, please include:</p>
+          <ul>
+            <li>Description of the issue or feedback</li>
+            <li>Your character level and current progress</li>
+            <li>Steps to reproduce any bugs (if applicable)</li>
+            <li>Browser and device information (if relevant)</li>
+          </ul>
+
+          <h3>Response Time</h3>
+          <p>
+            We typically respond to support requests within 24-48 hours. Thank
+            you for helping us improve the game!
+          </p>
+
+          <h3>Reset Player Data</h3>
+          <p>
+            If you're experiencing persistent issues or want to start fresh, you
+            can reset all your saved player data below.
+          </p>
+
+          <div className="reset-section">
+            <button
+              className="reset-player-data-button"
+              onClick={resetPlayerData}
+              title="Clear all saved player data and restart the game"
+            >
+              Reset Player Data
+            </button>
+            <p className="reset-warning">
+              ⚠️ This will permanently delete all your progress, credits, and
+              character data.
+            </p>
+          </div>
         </div>
       ),
     },

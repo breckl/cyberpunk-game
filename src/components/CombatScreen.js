@@ -15,6 +15,7 @@ import {
   getCurrentFightCount,
   getDailyFightLimit,
 } from "../utils/dailyFightTracker.js";
+import { getRandomEvent, calculateEventAmount } from "../data/randomEvents.js";
 
 function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   const combatSystem = useMemo(() => new CombatSystem(), []);
@@ -60,6 +61,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
   // Store the selected enemy description for the current fight
   const [selectedEnemyDescription, setSelectedEnemyDescription] =
     useState(null);
+
+  // Random event states
+  const [currentRandomEvent, setCurrentRandomEvent] = useState(null);
+  const [eventAmount, setEventAmount] = useState(0);
 
   // Helper function to render combat mode header
   const renderCombatModeHeader = () => (
@@ -527,6 +532,18 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       return;
     }
 
+    // 20% chance for random event, 80% chance for fight
+    const randomValue = Math.random();
+    if (randomValue < 0.2) {
+      // Show random event
+      const randomEvent = getRandomEvent();
+      const amount = calculateEventAmount(randomEvent, currentLevel);
+      setCurrentRandomEvent(randomEvent);
+      setEventAmount(amount);
+      setSequencePhase("randomEvent");
+      return;
+    }
+
     // Increment fight count
     const newFightCount = incrementFightCount();
     setCurrentFightCount(newFightCount);
@@ -547,6 +564,37 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setShowCombatOptions(false);
     setIsRevealingMessages(false);
   }, [currentLevel, playerTotalHp]);
+
+  // Function to handle random event completion
+  const handleRandomEventComplete = useCallback(() => {
+    if (!currentRandomEvent) return;
+
+    const updatedCharacter = { ...character };
+
+    if (currentRandomEvent.reward) {
+      updatedCharacter.credits += eventAmount;
+    } else if (currentRandomEvent.penalty) {
+      updatedCharacter.credits = Math.max(
+        0,
+        updatedCharacter.credits - eventAmount
+      );
+    }
+
+    onUpdateCharacter(updatedCharacter);
+
+    // Reset random event state
+    setCurrentRandomEvent(null);
+    setEventAmount(0);
+
+    // Start a new combat encounter instead of just setting phase to "combat"
+    restartCombat();
+  }, [
+    currentRandomEvent,
+    eventAmount,
+    character,
+    onUpdateCharacter,
+    restartCombat,
+  ]);
 
   // Function to reveal combat messages one at a time with 0.5s delay between each
   const revealCombatMessages = (messages, onComplete = null) => {
@@ -1371,6 +1419,52 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     );
   }
 
+  // Render random event phase
+  if (sequencePhase === "randomEvent" && currentRandomEvent) {
+    const isReward = currentRandomEvent.reward;
+
+    return renderCombatLayout(
+      "randomEvent",
+      <>
+        <div className="combat-message">
+          <div className={`random-event-message ${isReward ? "" : "penalty"}`}>
+            <div
+              className={`event-header ${
+                isReward ? "reward-flash" : "penalty-flash"
+              }`}
+            >
+              {currentRandomEvent.header}
+            </div>
+            <div className="event-description">
+              {currentRandomEvent.message}
+            </div>
+            <div className={`event-amount ${isReward ? "reward" : "penalty"}`}>
+              {isReward
+                ? `YOU GAIN $${eventAmount}`
+                : `YOU LOSE $${eventAmount}`}
+            </div>
+          </div>
+        </div>
+        <div className="combat-message">
+          <div className="combat-options">
+            <div
+              className="combat-button attack-button"
+              onClick={handleRandomEventComplete}
+            >
+              CONTINUE
+            </div>
+            <div
+              className="combat-button leave-button"
+              onClick={() => onCombatEnd("leave", null)}
+            >
+              LEAVE STREETS
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
   // Render stats phase
   if (sequencePhase === "stats") {
     return renderCombatLayout(
@@ -1549,13 +1643,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               className="combat-button attack-button"
               onClick={() => restartCombat()}
             >
-              NEXT FIGHT
+              CONTINUE
             </div>
             <div
               className="combat-button leave-button"
               onClick={() => onCombatEnd("leave", null)}
             >
-              LEAVE COMBAT
+              LEAVE STREETS
             </div>
           </div>
         </div>

@@ -468,7 +468,7 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
       </div>
 
       <div className="header-bar">
-        <h2>Market</h2>
+        <h2>Black Market</h2>
         <div className="header-credits">
           ${formatCredits(localCharacter.credits)}
         </div>

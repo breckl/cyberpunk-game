@@ -31,33 +31,6 @@ function StatsPanel({
 
   if (!character) return null;
 
-  // Helper function to clear localStorage and reset character
-  const clearCharacterData = () => {
-    if (
-      window.confirm("This will clear all saved character data. Are you sure?")
-    ) {
-      // Clear the main character data
-      localStorage.removeItem("cyberpunk_character");
-
-      // Also clear any other potential old data keys
-      const keysToRemove = [
-        "cyberpunk_character",
-        "cyberpunk_save",
-        "character_data",
-        "game_state",
-      ];
-
-      keysToRemove.forEach((key) => {
-        if (localStorage.getItem(key)) {
-          localStorage.removeItem(key);
-        }
-      });
-
-      alert("Character data cleared! The game will now reload.");
-      window.location.reload();
-    }
-  };
-
   // Helper function to calculate XP display
   const getXPDisplay = () => {
     const currentLevel = getCurrentLevel(character.experience);
@@ -178,6 +151,9 @@ function StatsPanel({
           </div>
         </div>
       )}
+
+      {/* Divider line between menu and character info */}
+      {showMobileStats && onNavigate && <div className="menu-divider"></div>}
 
       <div className="character-info">
         <div className="character-header">
@@ -310,15 +286,18 @@ function StatsPanel({
         <span>${character.credits}</span>
       </div>
 
-      {/* Debug/Reset Button */}
-      <div className="debug-section">
-        <button
-          className="reset-button"
-          onClick={clearCharacterData}
-          title="Clear saved character data and reset"
-        >
-          Reset Character Data
-        </button>
+      {/* Support and Feedback */}
+      <div className="support-section">
+        <h3>Support & Feedback</h3>
+        <div className="support-link">
+          <a
+            href="mailto:countingsheepmusic@gmail.com"
+            className="support-email"
+            title="Send feedback or report issues"
+          >
+            countingsheepmusic@gmail.com
+          </a>
+        </div>
       </div>
 
       {/* Tooltip */}

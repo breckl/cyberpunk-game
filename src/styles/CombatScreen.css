@@ -728,3 +728,86 @@
   color: var(--neon-blue);
   font-size: 0.9rem;
 }
+
+/* Random Event Styles */
+.random-event-message {
+  font-size: 1rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  color: var(--neon-green);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.random-event-message .event-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.event-header.reward-flash {
+  color: var(--neon-green);
+  animation: rewardFlash 3s ease-in-out;
+}
+
+.event-header.penalty-flash {
+  color: var(--neon-red);
+  animation: penaltyFlash 3s ease-in-out;
+}
+
+@keyframes rewardFlash {
+  0% {
+    color: var(--neon-green);
+  }
+  25% {
+    color: white;
+  }
+  50% {
+    color: var(--neon-green);
+  }
+  75% {
+    color: white;
+  }
+  100% {
+    color: var(--neon-green);
+  }
+}
+
+@keyframes penaltyFlash {
+  0% {
+    color: var(--neon-red);
+  }
+  25% {
+    color: white;
+  }
+  50% {
+    color: var(--neon-red);
+  }
+  75% {
+    color: white;
+  }
+  100% {
+    color: var(--neon-red);
+  }
+}
+
+.event-description {
+  font-size: 1rem;
+  line-height: 1.4;
+  color: white;
+}
+
+.event-amount {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.event-amount.reward {
+  color: var(--neon-green);
+}
+
+.event-amount.penalty {
+  color: var(--neon-red);
+}

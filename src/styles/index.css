@@ -466,6 +466,7 @@ h3 {
   gap: 0.5rem;
   margin-bottom: 0.5rem;
   padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 /* Stats Toggle - Mobile Only */
@@ -866,6 +867,66 @@ button {
 .dropdown-arrow {
   color: var(--neon-pink);
   font-size: 0.8rem;
+}
+
+/* Support & Feedback Styles */
+.support-contact {
+  text-align: center;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--neon-green);
+  border-radius: 4px;
+}
+
+.support-email-link {
+  color: var(--neon-green);
+  text-decoration: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  word-break: break-all;
+  transition: color 0.2s ease;
+}
+
+.support-email-link:hover {
+  color: var(--neon-pink);
+  text-decoration: underline;
+}
+
+/* Reset Player Data Button */
+.reset-section {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--neon-red);
+  border-radius: 4px;
+}
+
+.reset-player-data-button {
+  width: 100%;
+  background: var(--neon-red);
+  color: white;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Share Tech Mono", monospace;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+  margin-bottom: 0.5rem;
+}
+
+.reset-player-data-button:hover {
+  background: #cc0033;
+}
+
+.reset-warning {
+  color: var(--neon-yellow);
+  font-size: 0.9rem;
+  margin: 0;
+  text-align: center;
+  font-style: italic;
 }
 
 /* Desktop media queries removed - mobile-only app */
