@@ -145,7 +145,7 @@ export const getRandomEvent = () => {
 // Configuration for level scaling - adjust these values to change how much events scale with level
 const LEVEL_SCALING_CONFIG = {
   baseRewardAmount: 10, // Base amount for all rewards
-  basePenaltyAmount: 5, // Base amount for all penalties
+  basePenaltyAmount: 10, // Base amount for all penalties
   rewardPerLevel: 0.25, // 20% increase per level for rewards
   penaltyPerLevel: 0.25, // 15% increase per level for penalties
   variability: 0.2, // 20% +/- variability

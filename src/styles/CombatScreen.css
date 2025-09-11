@@ -814,18 +814,6 @@
 
 /* Dropped item message flashing animation */
 .dropped-item-message {
-  animation: neonFlash 0.5s infinite steps(1, end);
+  color: var(--neon-pink);
   font-weight: bold;
-}
-
-@keyframes neonFlash {
-  0% {
-    color: #ffffff; /* White */
-  }
-  50% {
-    color: #ff00ff; /* Neon pink */
-  }
-  100% {
-    color: #ffffff; /* White */
-  }
 }

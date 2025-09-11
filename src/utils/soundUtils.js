@@ -4,7 +4,7 @@
  */
 
 // Global sound state - will be set by SoundContext
-let globalSoundsEnabled = true;
+let globalSoundsEnabled = false;
 
 /**
  * Set the global sound state

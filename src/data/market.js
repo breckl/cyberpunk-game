@@ -324,9 +324,9 @@ const market = {
       name: "Rusty Knife",
       description: "Cracked blade scavenged from junk",
       actionDescription: "stab",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light") * 0.95,
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(1, "Light"),
+        calculateWeaponDamage(1, "Light") * 0.95,
         1,
         "Light"
       ),

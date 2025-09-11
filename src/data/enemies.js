@@ -71,11 +71,11 @@ const enemies = [
     region: "Iron Maze",
     armor: {
       name: "Leather Vest",
-      rating: 0,
+      rating: calculateArmorDefense(1, "Heavy"),
     },
     weapon: {
       name: "Switchblade",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Heavy"),
       attacks: ["makes a quick stab", "slashes in an arc"],
     },
   },
@@ -119,11 +119,11 @@ const enemies = [
     region: "Chiba Bars",
     armor: {
       name: "Heavy Coat",
-      rating: 0,
+      rating: calculateWeaponDamage(1, "Light"),
     },
     weapon: {
       name: "Bare Fists",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light") * 1.05,
       attacks: [
         "swings a wild haymaker",
         "charges with drunken rage",
@@ -145,11 +145,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Leather Vest",
-      rating: calculateArmorDefense(1, "Light"),
+      rating: calculateArmorDefense(1, "Heavy") * 1.1,
     },
     weapon: {
       name: "Stun Rig",
-      damage: 0,
+      damage: calculateWeaponDamage(1, "Heavy") * 1.1,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -171,7 +171,7 @@ const enemies = [
     region: "Iron Maze Rooftops",
     armor: {
       name: "Heavy Coat",
-      rating: calculateArmorDefense(1, "Light"),
+      rating: calculateArmorDefense(1, "Light") * 1.08,
     },
     weapon: {
       name: "Sling Blade",
@@ -227,7 +227,7 @@ const enemies = [
     },
     weapon: {
       name: "Bar Stool Leg",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Light") * 1.03,
       attacks: [
         "swings a stool leg",
         "charges with drunken rage",
@@ -253,7 +253,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: calculateWeaponDamage(1, "Medium"),
+      damage: calculateWeaponDamage(1, "Medium") * 1.05,
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -275,11 +275,11 @@ const enemies = [
     region: "Ninsei Alley",
     armor: {
       name: "None",
-      rating: 0,
+      rating: calculateArmorDefense(1, "Medium"),
     },
     weapon: {
       name: "Malfunctioning Cyber Fist",
-      damage: calculateWeaponDamage(1, "Medium"),
+      damage: calculateWeaponDamage(1, "Heavy"),
       attacks: [
         "swings a cyber fist",
         "makes a glitchy strike",
@@ -305,7 +305,7 @@ const enemies = [
     },
     weapon: {
       name: "Sharpened Claws",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Heavy") * 1.05,
       attacks: [
         "lunges with sharpened claws",
         "makes a quick strike",
@@ -331,7 +331,7 @@ const enemies = [
     },
     weapon: {
       name: "Sharpened Legs",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Medium"),
       attacks: [
         "lunges with sharpened legs",
         "makes a quick strike",
@@ -379,11 +379,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Tattered Cloak",
-      rating: 0,
+      rating: calculateArmorDefense(1, "Heavy"),
     },
     weapon: {
       name: "Broken Pipe",
-      damage: calculateWeaponDamage(1, "Light"),
+      damage: calculateWeaponDamage(1, "Heavy"),
       attacks: [
         "swings their pipe with reckless abandon",
         "feints a retreat before lunging forward",
@@ -429,15 +429,15 @@ const enemies = [
       "Territory markers and broken promises",
     ],
     type: "Thug",
-    level: 2,
+    level: 1,
     region: "Sprawl Streets",
     armor: {
       name: "Leather Jacket",
-      rating: calculateArmorDefense(2, "Light"),
+      rating: calculateArmorDefense(1, "Heavy"),
     },
     weapon: {
       name: "Pipe Wrench",
-      damage: calculateWeaponDamage(2, "Light"),
+      damage: calculateWeaponDamage(1, "Heavy"),
       attacks: [
         "swings their pipe wrench",
         "makes a heavy strike",

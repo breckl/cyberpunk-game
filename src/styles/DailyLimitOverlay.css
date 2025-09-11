@@ -38,7 +38,6 @@
   margin: 0 0 2rem 0;
   text-transform: uppercase;
   letter-spacing: 3px;
-  text-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
   animation: pulse-red 2s ease-in-out infinite;
 }
 

@@ -162,7 +162,7 @@ function StatsPanel({
         </div>
         <div className="character-controls">
           <h2>Level {currentLevel}</h2>
-          <button
+          {/*<button
             className="sound-toggle"
             onClick={toggleSounds}
             title={soundsEnabled ? "Disable sounds" : "Enable sounds"}
@@ -172,7 +172,7 @@ function StatsPanel({
             ) : (
               <HiSpeakerXMark className="sound-icon disabled" />
             )}
-          </button>
+          </button>*/}
         </div>
 
         {/* XP Progress Bar */}

@@ -124,6 +124,9 @@ class Character {
     this.inventory.push({
       name: item.name,
       equipped: false,
+      inventoryId: `inv_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`, // Unique inventory ID
       ...item,
     });
   }

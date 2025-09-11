@@ -45,9 +45,14 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     console.log("Attempting to play cash register sound...");
     playCashRegisterSound();
     const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
-    const updatedInventory = localCharacter.inventory.filter(
-      (invItem) => invItem.id !== item.id
-    );
+    const updatedInventory = localCharacter.inventory.filter((invItem) => {
+      // Use inventoryId if available, otherwise fall back to id
+      if (item.inventoryId && invItem.inventoryId) {
+        return invItem.inventoryId !== item.inventoryId;
+      } else {
+        return invItem.id !== item.id;
+      }
+    });
 
     const updatedCharacter = {
       ...localCharacter,
@@ -82,7 +87,13 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     if (item.equipped) {
       // Unequip the item
       updatedInventory = updatedInventory.map((invItem) => {
-        if (invItem.id === item.id) {
+        // Use inventoryId if available, otherwise fall back to id
+        const isMatch =
+          item.inventoryId && invItem.inventoryId
+            ? invItem.inventoryId === item.inventoryId
+            : invItem.id === item.id;
+
+        if (isMatch) {
           return { ...invItem, equipped: false };
         }
         return invItem;
@@ -90,10 +101,16 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
     } else {
       // Unequip any items of the same type and equip this one
       updatedInventory = updatedInventory.map((invItem) => {
-        if (invItem.type === item.type && invItem.id !== item.id) {
+        // Use inventoryId if available, otherwise fall back to id
+        const isMatch =
+          item.inventoryId && invItem.inventoryId
+            ? invItem.inventoryId === item.inventoryId
+            : invItem.id === item.id;
+
+        if (invItem.type === item.type && !isMatch) {
           return { ...invItem, equipped: false };
         }
-        if (invItem.id === item.id) {
+        if (isMatch) {
           return { ...invItem, equipped: true };
         }
         return invItem;

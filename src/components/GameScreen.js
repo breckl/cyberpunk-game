@@ -70,11 +70,17 @@ function GameScreen({ gameState, setGameState, onUpdateCharacter }) {
 
         // Add dropped item to inventory if one was dropped
         if (droppedItem) {
+          const itemWithInventoryId = {
+            ...droppedItem,
+            inventoryId: `inv_${Date.now()}_${Math.random()
+              .toString(36)
+              .substr(2, 9)}`, // Unique inventory ID
+          };
           updatedCharacter.inventory = [
             ...updatedCharacter.inventory,
-            droppedItem,
+            itemWithInventoryId,
           ];
-          console.log("Added dropped item to inventory:", droppedItem);
+          console.log("Added dropped item to inventory:", itemWithInventoryId);
         }
 
         console.log("Updated character credits:", updatedCharacter.credits);

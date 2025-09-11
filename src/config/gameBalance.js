@@ -9,8 +9,8 @@ export const calculateWeaponDamage = (level, weaponType = "Light") => {
   const weaponDamagePerLevel = 0.75; // Damage increase per level
   const weaponTypeMultipliers = {
     Light: 1,
-    Medium: 1.05,
-    Heavy: 1.1,
+    Medium: 1.15,
+    Heavy: 1.25,
   };
 
   const baseDamage = weaponBaseDamage + level * weaponDamagePerLevel;
@@ -115,9 +115,16 @@ export const calculateArmorPriceWithDefense = (
 export const generateRewards = (winner, enemies) => {
   // Base rewards per enemy level (Level 1: $15-30, Level 2: $25-45, Level 3: $40-60)
   const baseCredits = {
-    1: 20, // Midpoint of $15-30 range
-    2: 40, // Midpoint of $25-45 range
-    3: 70, // Midpoint of $40-60 range
+    1: 15, // Midpoint of $15-30 range
+    2: 30, // Midpoint of $25-45 range
+    3: 45, // Midpoint of $40-60 range
+    4: 60, // Midpoint of $40-60 range
+    5: 75, // Midpoint of $40-60 range
+    6: 90, // Midpoint of $40-60 range
+    7: 105, // Midpoint of $40-60 range
+    8: 120, // Midpoint of $40-60 range
+    9: 135, // Midpoint of $40-60 range
+    10: 150, // Midpoint of $40-60 range
   };
 
   // Base XP per enemy level (Level 1: ~30, Level 2: ~50, Level 3: ~80)
@@ -125,6 +132,13 @@ export const generateRewards = (winner, enemies) => {
     1: 20,
     2: 40,
     3: 65,
+    4: 80,
+    5: 95,
+    6: 110,
+    7: 125,
+    8: 140,
+    9: 155,
+    10: 170,
   };
 
   // Scaling for levels beyond 3

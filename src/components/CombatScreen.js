@@ -708,7 +708,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
       // Add drop message if item was dropped
       if (droppedItem) {
-        victoryMessages.push(`The enemy dropped ${droppedItem.name}!`);
+        victoryMessages.push(`The enemy dropped a ${droppedItem.name}!`);
       }
 
       // Play random victory sound
@@ -1663,7 +1663,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           }
 
           // Check if this is a dropped item message
-          if (message.includes("dropped") && message.includes(">>")) {
+          if (message.includes("enemy dropped")) {
             return (
               <div key={index} className="combat-message">
                 <span className="dropped-item-message">{message}</span>
@@ -1719,9 +1719,15 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
                   // Add dropped item to inventory if one was dropped
                   if (droppedItem) {
+                    const itemWithInventoryId = {
+                      ...droppedItem,
+                      inventoryId: `inv_${Date.now()}_${Math.random()
+                        .toString(36)
+                        .substr(2, 9)}`, // Unique inventory ID
+                    };
                     updatedCharacter.inventory = [
                       ...updatedCharacter.inventory,
-                      droppedItem,
+                      itemWithInventoryId,
                     ];
                   }
 

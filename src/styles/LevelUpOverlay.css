@@ -25,7 +25,6 @@
   font-weight: bold;
   color: var(--neon-green);
   margin-bottom: 2rem;
-  text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
 }
 
 .level-number {

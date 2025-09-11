@@ -74,6 +74,9 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
       ...item,
       type: getItemType(),
       equipped: false,
+      inventoryId: `inv_${Date.now()}_${Math.random()
+        .toString(36)
+        .substr(2, 9)}`, // Unique inventory ID
     };
 
     console.log("Item with type:", itemWithType);
@@ -123,9 +126,14 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     // Use safe credit management
     const updatedCharacter = {
       ...localCharacter,
-      inventory: localCharacter.inventory.filter(
-        (invItem) => invItem.id !== item.id
-      ),
+      inventory: localCharacter.inventory.filter((invItem) => {
+        // Use inventoryId if available, otherwise fall back to id
+        if (item.inventoryId && invItem.inventoryId) {
+          return invItem.inventoryId !== item.inventoryId;
+        } else {
+          return invItem.id !== item.id;
+        }
+      }),
     };
 
     // Apply credit gain safely
@@ -161,7 +169,13 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     if (item.equipped) {
       // Unequip the item
       updatedInventory = updatedInventory.map((invItem) => {
-        if (invItem.id === item.id) {
+        // Use inventoryId if available, otherwise fall back to id
+        const isMatch =
+          item.inventoryId && invItem.inventoryId
+            ? invItem.inventoryId === item.inventoryId
+            : invItem.id === item.id;
+
+        if (isMatch) {
           return { ...invItem, equipped: false };
         }
         return invItem;
@@ -169,10 +183,16 @@ function Market({ character, onExit, onUpdateCharacter, onNavigate }) {
     } else {
       // Unequip any items of the same type and equip this one
       updatedInventory = updatedInventory.map((invItem) => {
-        if (invItem.type === item.type && invItem.id !== item.id) {
+        // Use inventoryId if available, otherwise fall back to id
+        const isMatch =
+          item.inventoryId && invItem.inventoryId
+            ? invItem.inventoryId === item.inventoryId
+            : invItem.id === item.id;
+
+        if (invItem.type === item.type && !isMatch) {
           return { ...invItem, equipped: false };
         }
-        if (invItem.id === item.id) {
+        if (isMatch) {
           return { ...invItem, equipped: true };
         }
         return invItem;
