@@ -268,6 +268,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           {endResult?.type === "defeat" && (
             <span className="lose-message">DEFEAT!</span>
           )}
+          {endResult?.type === "draw" && (
+            <span className="draw-message">DRAW!</span>
+          )}
           {endResult?.type === "escape" && (
             <span className="escape-message">ESCAPED!</span>
           )}
@@ -684,13 +687,160 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const finalDamageRounded = Math.ceil(finalDamage);
 
     const newEnemyHp = parseFloat((enemyHp - finalDamage).toFixed(2));
-    setEnemyHp(newEnemyHp);
 
     // Prepare combat messages
     const playerAction = getPlayerActionDescription();
     const playerMessage = `You ${playerAction}!`;
     console.log("DEBUG - playerAction:", playerAction);
     console.log("DEBUG - playerMessage:", playerMessage);
+
+    // Calculate enemy attack before checking results
+    const enemyLevelAttack = levels[enemy.level]?.attack || 0;
+    const enemyTotalAttack = enemyLevelAttack + enemy.weapon.damage;
+    const enemyMinDamage = Math.max(1, enemyTotalAttack - 2);
+    const enemyMaxDamage = enemyTotalAttack + 3;
+    const enemyRawDamage =
+      Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1)) +
+      enemyMinDamage;
+
+    const currentLevelPlayer = getCurrentLevel(character.experience);
+    const levelInfoPlayer = levels[currentLevelPlayer];
+    const baseDefense = levelInfoPlayer?.defense || 0;
+    const armorBonus = equippedArmor?.defense || 0;
+    const totalDefense = baseDefense + armorBonus;
+
+    const enemyDamageWithDefense = parseFloat(
+      ((enemyRawDamage * (100 - totalDefense)) / 100).toFixed(2)
+    );
+    const enemyFinalDamage = Math.max(0.01, enemyDamageWithDefense);
+    const enemyFinalDamageRounded = Math.ceil(enemyFinalDamage);
+
+    const newPlayerHp = parseFloat((playerHp - enemyFinalDamage).toFixed(2));
+
+    // Safety check for enemy weapon attacks
+    let attackText = "attacks you";
+    if (
+      enemy.weapon &&
+      enemy.weapon.attacks &&
+      enemy.weapon.attacks.length > 0
+    ) {
+      attackText =
+        enemy.weapon.attacks[
+          Math.floor(Math.random() * enemy.weapon.attacks.length)
+        ];
+    }
+
+    const enemyMessage = `${enemy.name} ${attackText}!`;
+
+    // Check for both going below zero - compare final HP values
+    if (newEnemyHp <= 0.01 && newPlayerHp <= 0.01) {
+      // Compare final HP values - higher (less negative) HP wins
+      if (newPlayerHp > newEnemyHp) {
+        // Player wins (better final HP)
+        const winner = { level: currentLevel };
+        const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
+        const droppedItem = combatSystem.generateEnemyDrop(enemy);
+
+        const victoryMessages = [
+          playerMessage,
+          `>> ${finalDamageRounded} DAMAGE`,
+          enemyMessage,
+          `>> ${enemyFinalDamageRounded} DAMAGE`,
+          `You have defeated ${enemy.name}!`,
+          `You receive ${calculatedRewards.credits} credits and ${calculatedRewards.experience} experience!`,
+        ];
+
+        if (droppedItem) {
+          victoryMessages.push(`The enemy dropped a ${droppedItem.name}!`);
+        }
+
+        playVictorySound();
+
+        revealCombatMessages(victoryMessages, () => {
+          setCombatEnded(true);
+          setEndResult({
+            type: "victory",
+            rewards: calculatedRewards,
+            droppedItem: droppedItem,
+          });
+          setSequencePhase("results");
+        });
+
+        setEnemyHp(0);
+        setPlayerHp(0);
+        return;
+      } else if (newEnemyHp > newPlayerHp) {
+        // Enemy wins (better final HP)
+        const currentLevel = getCurrentLevel(character.experience);
+        const playerMaxHp = playerTotalHp;
+        const enemyMaxHp = levels[enemy.level]?.hp || 30;
+        const defeatPenalty = combatSystem.calculateCombatPenalty(
+          currentLevel,
+          enemy,
+          combatRounds,
+          newPlayerHp,
+          playerMaxHp,
+          enemyHp,
+          enemyMaxHp
+        );
+        const actualPenalty = Math.min(defeatPenalty, character.credits);
+
+        const defeatMessages = [
+          playerMessage,
+          `>> ${finalDamageRounded} DAMAGE`,
+          enemyMessage,
+          `>> ${enemyFinalDamageRounded} DAMAGE`,
+          combatSystem.getPenaltyFlavorText("defeat", enemy, actualPenalty),
+        ];
+
+        playDefeatSound();
+
+        revealCombatMessages(defeatMessages, () => {
+          setCombatEnded(true);
+          setEndResult({ type: "defeat", penalty: actualPenalty });
+          setSequencePhase("results");
+        });
+
+        setEnemyHp(0);
+        setPlayerHp(0);
+
+        if (onUpdateCharacter) {
+          const updatedCharacter = { ...character };
+          updatedCharacter.credits = Math.max(
+            0,
+            updatedCharacter.credits - actualPenalty
+          );
+          onUpdateCharacter(updatedCharacter);
+        }
+        return;
+      } else {
+        // True draw - exactly the same final HP
+        const drawMessages = [
+          playerMessage,
+          `>> ${finalDamageRounded} DAMAGE`,
+          enemyMessage,
+          `>> ${enemyFinalDamageRounded} DAMAGE`,
+          "DRAW! Both fighters fall!",
+          "No credits gained or lost.",
+        ];
+
+        playDefeatSound();
+
+        revealCombatMessages(drawMessages, () => {
+          setCombatEnded(true);
+          setEndResult({ type: "draw" });
+          setSequencePhase("results");
+        });
+
+        setEnemyHp(0);
+        setPlayerHp(0);
+        return;
+      }
+    }
+
+    // Update HP for both
+    setEnemyHp(newEnemyHp);
+    setPlayerHp(newPlayerHp);
 
     if (newEnemyHp <= 0.01) {
       // Enemy defeated
@@ -730,45 +880,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       // Rewards will be processed when player clicks CONTINUE or LEAVE
       return;
     }
-
-    // Enemy's attack
-    const enemyLevelAttack = levels[enemy.level]?.attack || 0;
-    const enemyTotalAttack = enemyLevelAttack + enemy.weapon.damage;
-    const enemyMinDamage = Math.max(1, enemyTotalAttack - 2);
-    const enemyMaxDamage = enemyTotalAttack + 3;
-    const enemyRawDamage =
-      Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1)) +
-      enemyMinDamage;
-
-    const currentLevelPlayer = getCurrentLevel(character.experience);
-    const levelInfoPlayer = levels[currentLevelPlayer];
-    const baseDefense = levelInfoPlayer?.defense || 0;
-    const armorBonus = equippedArmor?.defense || 0;
-    const totalDefense = baseDefense + armorBonus;
-
-    const enemyDamageWithDefense = parseFloat(
-      ((enemyRawDamage * (100 - totalDefense)) / 100).toFixed(2)
-    );
-    const enemyFinalDamage = Math.max(0.01, enemyDamageWithDefense);
-    const enemyFinalDamageRounded = Math.ceil(enemyFinalDamage);
-
-    const newPlayerHp = parseFloat((playerHp - enemyFinalDamage).toFixed(2));
-    setPlayerHp(newPlayerHp);
-
-    // Safety check for enemy weapon attacks
-    let attackText = "attacks you";
-    if (
-      enemy.weapon &&
-      enemy.weapon.attacks &&
-      enemy.weapon.attacks.length > 0
-    ) {
-      attackText =
-        enemy.weapon.attacks[
-          Math.floor(Math.random() * enemy.weapon.attacks.length)
-        ];
-    }
-
-    const enemyMessage = `${enemy.name} ${attackText}!`;
 
     if (newPlayerHp <= 0.01) {
       // Player defeated

@@ -520,6 +520,12 @@
   font-weight: bold;
 }
 
+.draw-message {
+  color: var(--neon-bright-orange);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 /* Combat credits display styling */
 .combat-credits-display {
   background: transparent;
