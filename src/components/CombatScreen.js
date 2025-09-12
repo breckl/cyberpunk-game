@@ -106,7 +106,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       </div>
       <div className="stat-row">
         <span className="stat-label">Attack</span>
-        <span className="stat-value">{totalAttack.toFixed(1)} ±2</span>
+        <span className="stat-value">{totalAttack.toFixed(1)}</span>
       </div>
       <div className="stat-row">
         <span className="stat-label">Armor</span>
@@ -181,7 +181,6 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
               {(
                 (levels[enemy.level]?.attack || 0) + enemy.weapon.damage
               ).toFixed(1)}{" "}
-              ±2
             </span>
           </div>
           <div
@@ -197,7 +196,9 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           >
             <span className="stat-label">Defense</span>
             <span className="stat-value">
-              {(levels[enemy.level]?.defense || 0).toFixed(1)}
+              {(
+                (levels[enemy.level]?.defense || 0) + (enemy.armor?.rating || 0)
+              ).toFixed(1)}
             </span>
           </div>
           <div
@@ -667,7 +668,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     const totalAttack = baseAttack + weaponBonus;
 
     const minDamage = Math.max(1, totalAttack - 2);
-    const maxDamage = totalAttack + 2;
+    const maxDamage = totalAttack + 3;
     const rawDamage =
       Math.floor(Math.random() * (maxDamage - minDamage + 1)) + minDamage;
 
@@ -731,10 +732,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     }
 
     // Enemy's attack
-    const weaponVariance = Math.floor(Math.random() * 5) - 3;
     const enemyLevelAttack = levels[enemy.level]?.attack || 0;
+    const enemyTotalAttack = enemyLevelAttack + enemy.weapon.damage;
+    const enemyMinDamage = Math.max(1, enemyTotalAttack - 2);
+    const enemyMaxDamage = enemyTotalAttack + 3;
     const enemyRawDamage =
-      enemyLevelAttack + enemy.weapon.damage + weaponVariance;
+      Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1)) +
+      enemyMinDamage;
 
     const currentLevelPlayer = getCurrentLevel(character.experience);
     const levelInfoPlayer = levels[currentLevelPlayer];
@@ -1065,13 +1069,13 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         }
 
         // Enemy attack
-        const enemyDamage = Math.max(
-          1,
-          (levels[enemy.level]?.attack || 0) +
-            (enemy.weapon?.damage || 0) -
-            2 +
-            Math.floor(Math.random() * 5)
-        );
+        const enemyBaseAttack =
+          (levels[enemy.level]?.attack || 0) + (enemy.weapon?.damage || 0);
+        const enemyMinDamage = Math.max(1, enemyBaseAttack - 2);
+        const enemyMaxDamage = enemyBaseAttack + 3;
+        const enemyDamage =
+          Math.floor(Math.random() * (enemyMaxDamage - enemyMinDamage + 1)) +
+          enemyMinDamage;
         const actualEnemyDamage = Math.max(
           0.01,
           (enemyDamage * (100 - playerDefense)) / 100

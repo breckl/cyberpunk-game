@@ -75,7 +75,7 @@ const enemies = [
     },
     weapon: {
       name: "Switchblade",
-      damage: calculateWeaponDamage(1, "Heavy"),
+      damage: calculateWeaponDamage(1, "Heavy") * 1.08,
       attacks: ["makes a quick stab", "slashes in an arc"],
     },
   },
@@ -301,11 +301,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Scrap Metal Hide",
-      rating: 0,
+      rating: calculateArmorDefense(1, "Medium"),
     },
     weapon: {
       name: "Sharpened Claws",
-      damage: calculateWeaponDamage(1, "Heavy") * 1.05,
+      damage: calculateWeaponDamage(1, "Heavy") * 1.1,
       attacks: [
         "lunges with sharpened claws",
         "makes a quick strike",
@@ -379,11 +379,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Tattered Cloak",
-      rating: calculateArmorDefense(1, "Heavy"),
+      rating: calculateArmorDefense(1, "Heavy") * 1.1,
     },
     weapon: {
       name: "Broken Pipe",
-      damage: calculateWeaponDamage(1, "Heavy"),
+      damage: calculateWeaponDamage(1, "Heavy") * 1.2,
       attacks: [
         "swings their pipe with reckless abandon",
         "feints a retreat before lunging forward",
@@ -1817,11 +1817,11 @@ export const getLevelBasedEnemy = (playerLevel) => {
           [playerLevel]: 100, // 100% chance for same level (Level 1)
         }
       : {
-          [playerLevel - 2]: 0, // 5% chance for 2 levels below
-          [playerLevel - 1]: 20, // 20% chance for 1 level below
-          [playerLevel]: 60, // 50% chance for same level
-          [playerLevel + 1]: 20, // 20% chance for 1 level above
-          [playerLevel + 2]: 0, // 5% chance for 2 levels above
+          [playerLevel - 2]: 0, // 0% chance for 2 levels below
+          [playerLevel - 1]: 0, // 0% chance for 1 level below
+          [playerLevel]: 90, // 90% chance for same level
+          [playerLevel + 1]: 10, // 10% chance for 1 level above
+          [playerLevel + 2]: 0, // 0% chance for 2 levels above
         };
 
   // Generate random number for probability check
