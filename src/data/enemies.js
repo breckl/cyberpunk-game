@@ -71,11 +71,11 @@ const enemies = [
     region: "Iron Maze",
     armor: {
       name: "Leather Vest",
-      rating: calculateArmorDefense(1, "Heavy"),
+      rating: calculateArmorDefense(1, "Light"),
     },
     weapon: {
       name: "Switchblade",
-      damage: calculateWeaponDamage(1, "Heavy") * 1.08,
+      damage: calculateWeaponDamage(1, "Light"),
       attacks: ["makes a quick stab", "slashes in an arc"],
     },
   },
@@ -145,11 +145,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Leather Vest",
-      rating: calculateArmorDefense(1, "Heavy") * 1.1,
+      rating: calculateArmorDefense(1, "Medium") * 1.1,
     },
     weapon: {
       name: "Stun Rig",
-      damage: calculateWeaponDamage(1, "Heavy") * 1.1,
+      damage: calculateWeaponDamage(1, "Medium") * 1.1,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -171,7 +171,7 @@ const enemies = [
     region: "Iron Maze Rooftops",
     armor: {
       name: "Heavy Coat",
-      rating: calculateArmorDefense(1, "Light") * 1.08,
+      rating: 0,
     },
     weapon: {
       name: "Sling Blade",
@@ -331,7 +331,7 @@ const enemies = [
     },
     weapon: {
       name: "Sharpened Legs",
-      damage: calculateWeaponDamage(1, "Medium"),
+      damage: 0,
       attacks: [
         "lunges with sharpened legs",
         "makes a quick strike",

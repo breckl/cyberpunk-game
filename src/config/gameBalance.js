@@ -189,6 +189,11 @@ export const generateRewards = (winner, enemies) => {
  * @returns {number} - Penalty amount in credits
  */
 export const calculateCombatPenalty = (playerLevel, enemy, combatRounds) => {
+  // Level 1 players who run before fighting don't lose any credits
+  if (playerLevel === 1 && combatRounds === 0) {
+    return 0;
+  }
+
   // Base penalty scales with player level (Level 1: $10, Level 2: $17.5, Level 3: $25)
   const basePenalty = 3 + (playerLevel - 1) * 7.5; // $10 base, +$7.5 per level
 
