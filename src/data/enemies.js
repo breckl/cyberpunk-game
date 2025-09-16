@@ -407,11 +407,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Worn Leather Jacket",
-      rating: calculateArmorDefense(2, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Modified Stun Baton",
-      damage: calculateWeaponDamage(2, "Medium"),
+      damage: 0,
       attacks: [
         "lunges forward, swinging their stun baton with practiced ease",
         "attempts to jab the baton into your side, aiming to incapacitate",
@@ -433,11 +433,11 @@ const enemies = [
     region: "Sprawl Streets",
     armor: {
       name: "Leather Jacket",
-      rating: calculateArmorDefense(1, "Heavy"),
+      rating: 0,
     },
     weapon: {
       name: "Pipe Wrench",
-      damage: calculateWeaponDamage(1, "Heavy"),
+      damage: 0,
       attacks: [
         "swings their pipe wrench",
         "makes a heavy strike",
@@ -459,11 +459,11 @@ const enemies = [
     region: "Dog Solitude",
     armor: {
       name: "None",
-      rating: calculateWeaponDamage(2, "Medium"),
+      rating: calculateWeaponDamage(2, "Light"),
     },
     weapon: {
       name: "Scrap Club",
-      damage: calculateWeaponDamage(2, "Medium"),
+      damage: calculateWeaponDamage(2, "Light"),
       attacks: [
         "swings their scrap club",
         "makes a desperate strike",
@@ -485,11 +485,11 @@ const enemies = [
     region: "Chiba Clinics",
     armor: {
       name: "Padded Vest",
-      rating: calculateArmorDefense(2, "Medium"),
+      rating: calculateArmorDefense(2, "Light"),
     },
     weapon: {
       name: "Shock Baton",
-      damage: calculateWeaponDamage(2, "Medium"),
+      damage: calculateWeaponDamage(2, "Light"),
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -511,11 +511,11 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "Leather Jacket",
-      rating: calculateArmorDefense(2, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Concealed Pistol",
-      damage: calculateWeaponDamage(2, "Light"),
+      damage: 0,
       attacks: [
         "draws their concealed pistol",
         "takes a quick shot",
@@ -563,11 +563,11 @@ const enemies = [
     region: "Ninsei / Chatsubo",
     armor: {
       name: "Padded Vest",
-      rating: calculateArmorDefense(2, "Heavy"),
+      rating: 0,
     },
     weapon: {
       name: "Shock Baton",
-      damage: calculateWeaponDamage(2, "Heavy"),
+      damage: 0,
       attacks: [
         "swings their shock baton",
         "delivers an electric strike",
@@ -589,11 +589,11 @@ const enemies = [
     region: "Ninsei Alley",
     armor: {
       name: "Hoodie",
-      rating: calculateArmorDefense(2, "Medium"),
+      rating: calculateArmorDefense(2, "Light"),
     },
     weapon: {
       name: "Shiv",
-      damage: calculateWeaponDamage(2, "Medium"),
+      damage: calculateWeaponDamage(2, "Light"),
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -641,11 +641,11 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "None",
-      rating: calculateArmorDefense(2, "Medium"),
+      rating: 0,
     },
     weapon: {
       name: "Enhanced Fists",
-      damage: calculateWeaponDamage(2, "Heavy"),
+      damage: 0,
       attacks: [
         "moves with drug-enhanced speed",
         "delivers a rapid strike",
@@ -669,11 +669,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Reinforced Combat Suit",
-      rating: calculateArmorDefense(3, "Medium"),
+      rating: 0,
     },
     weapon: {
       name: "Plasma Rifle",
-      damage: calculateWeaponDamage(3, "Heavy"),
+      damage: 0,
       attacks: [
         "takes aim with their plasma rifle",
         "activates a shoulder-mounted drone, firing a barrage of micro-missiles",
@@ -695,11 +695,11 @@ const enemies = [
     region: "Chiba Market",
     armor: {
       name: "Light Alloy Frame",
-      rating: calculateArmorDefense(3, "Light"), // Light drone armor
+      rating: 0, // Light drone armor
     },
     weapon: {
       name: "Pulse Laser",
-      damage: calculateWeaponDamage(3, "Light"), // Scaled down for easier combat
+      damage: 0, // Scaled down for easier combat
       attacks: [
         "fires a pulse laser burst",
         "takes aim with mechanical precision",
@@ -721,7 +721,7 @@ const enemies = [
     region: "Ninsei Strip",
     armor: {
       name: "Cybernetic Hide",
-      rating: calculateArmorDefense(3, "Medium"), // Light cyber armor
+      rating: calculateArmorDefense(3, "Light"), // Light cyber armor
     },
     weapon: {
       name: "Cyber Fangs",
@@ -825,11 +825,11 @@ const enemies = [
     region: "Netherworld",
     armor: {
       name: "Neural Interface Suit",
-      rating: calculateArmorDefense(3, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Neural Spike",
-      damage: calculateWeaponDamage(3, "Medium"),
+      damage: 0,
       attacks: [
         "launches a neural spike",
         "overloads your cyberware",
@@ -851,11 +851,11 @@ const enemies = [
     region: "Corporate District",
     armor: {
       name: "Business Suit",
-      rating: calculateArmorDefense(3, "Medium"),
+      rating: 0,
     },
     weapon: {
       name: "Power Fist",
-      damage: calculateWeaponDamage(3, "Light"),
+      damage: 0,
       attacks: [
         "charges with cyber-enhanced strength",
         "delivers a crushing blow",
@@ -877,7 +877,7 @@ const enemies = [
     region: "Chiba Docks",
     armor: {
       name: "Cybernetic Hide",
-      rating: calculateArmorDefense(3, "Medium"),
+      rating: calculateArmorDefense(3, "Light"),
     },
     weapon: {
       name: "Cyber Fangs",
@@ -903,11 +903,11 @@ const enemies = [
     region: "Chiba Market",
     armor: {
       name: "Light Alloy Frame",
-      rating: calculateArmorDefense(3, "Light"), // Scaled down for easier combat
+      rating: 0, // Scaled down for easier combat
     },
     weapon: {
       name: "Pulse Lasers",
-      damage: calculateWeaponDamage(3, "Medium"), // Scaled down for easier combat
+      damage: calculateWeaponDamage(3, "Light"), // Scaled down for easier combat
       attacks: [
         "fires a coordinated burst of pulse lasers",
         "takes aim with mechanical precision",
@@ -931,11 +931,11 @@ const enemies = [
     region: "Chiba Clinics",
     armor: {
       name: "Light Vest",
-      rating: calculateArmorDefense(3, "Light"),
+      rating: 0,
     },
     weapon: {
       name: "Restraint Gun",
-      damage: calculateWeaponDamage(3, "Medium"),
+      damage: calculateWeaponDamage(3, "Light"),
       attacks: [
         "fires a restraint net",
         "takes aim with precision",
@@ -957,7 +957,7 @@ const enemies = [
     region: "Glass Quarter",
     armor: {
       name: "Light Vest",
-      rating: calculateArmorDefense(3, "Medium"),
+      rating: calculateArmorDefense(3, "Light"),
     },
     weapon: {
       name: "Combat Knife",

@@ -189,8 +189,8 @@ export const generateRewards = (winner, enemies) => {
  * @returns {number} - Penalty amount in credits
  */
 export const calculateCombatPenalty = (playerLevel, enemy, combatRounds) => {
-  // Level 1 players who run before fighting don't lose any credits
-  if (playerLevel === 1 && combatRounds === 0) {
+  // All players who run before fighting don't lose any credits
+  if (combatRounds === 0) {
     return 0;
   }
 
