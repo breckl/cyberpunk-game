@@ -366,11 +366,11 @@ const enemies = [
     },
   },
   {
-    id: "zionist_outcast",
-    name: "Zionist Outcast",
+    id: "freeside_outcast",
+    name: "Freeside Outcast",
     description: [
-      "Banished from Zion, sharp teeth glinting with defiance",
-      "Mix of Zionite robes and urban attire, fractured identity",
+      "Banished from Freeside, sharp teeth glinting with defiance",
+      "Mix of Freeside robes and urban attire, fractured identity",
       "Strong scent of ganja, a defiant nod to their heritage",
       "Portable speaker blares dub music, rebellious anthem",
     ],
@@ -394,12 +394,12 @@ const enemies = [
 
   // Level 2 Enemies
   {
-    id: "zionist_apostate",
-    name: "Zionist Apostate",
+    id: "freeside_apostate",
+    name: "Freeside Apostate",
     description: [
-      "Former Zionite, sharp teeth bared in defiance",
+      "Sharp teeth bared in defiance",
       "Clad in tattered garments, eyes gleam with regret and aggression",
-      "Scent of ganja lingers around them, remnant of their past life in Zion",
+      "Scent of ganja lingers around them, remnant of their past life in Freeside",
       "Dub music echoes faintly, haunting reminder of his roots",
     ],
     type: "Thug",
