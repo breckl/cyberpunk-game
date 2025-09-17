@@ -324,9 +324,9 @@ const market = {
       name: "Rusty Knife",
       description: "Cracked blade scavenged from junk",
       actionDescription: "stab",
-      damage: calculateWeaponDamage(1, "Light") * 0.95,
+      damage: calculateWeaponDamage(1, "Light") * 0.5,
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(1, "Light") * 0.95,
+        calculateWeaponDamage(1, "Light") * 0.5,
         1,
         "Light"
       ),
@@ -338,9 +338,9 @@ const market = {
       name: "Brass Knuckles",
       description: "Boosts melee punches",
       actionDescription: "punch",
-      damage: calculateWeaponDamage(1, "Light") * 1.05,
+      damage: calculateWeaponDamage(1, "Light"),
       price: calculatePriceWithDamage(
-        calculateWeaponDamage(1, "Light") * 1.05,
+        calculateWeaponDamage(1, "Light"),
         1,
         "Light"
       ),

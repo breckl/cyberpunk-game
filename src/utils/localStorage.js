@@ -33,6 +33,28 @@ export const clearCharacter = () => {
   }
 };
 
+// Welcome dialog tracking
+const WELCOME_SHOWN_KEY = "cyberpunk_welcome_shown";
+
+export const hasSeenWelcome = () => {
+  try {
+    return localStorage.getItem(WELCOME_SHOWN_KEY) === "true";
+  } catch (error) {
+    console.error("Failed to check welcome status:", error);
+    return false;
+  }
+};
+
+export const markWelcomeAsSeen = () => {
+  try {
+    localStorage.setItem(WELCOME_SHOWN_KEY, "true");
+    return true;
+  } catch (error) {
+    console.error("Failed to mark welcome as seen:", error);
+    return false;
+  }
+};
+
 export const hasSavedCharacter = () => {
   return localStorage.getItem(STORAGE_KEY) !== null;
 };

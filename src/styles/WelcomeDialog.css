@@ -1,0 +1,144 @@
+.welcome-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.welcome-dialog {
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+  border: 2px solid var(--neon-cyan);
+  border-radius: 8px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  animation: dialogSlideIn 0.3s ease-out;
+}
+
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.welcome-header {
+  padding: 1.5rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+.welcome-header h2 {
+  color: var(--neon-cyan);
+  margin: 0;
+  font-size: 1.5rem;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.welcome-content {
+  padding: 1.5rem;
+}
+
+.welcome-intro {
+  color: var(--text-primary);
+  margin: 0 0 1.5rem 0;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.tips-section {
+  margin: 1.5rem 0;
+}
+
+.tips-section h3 {
+  color: var(--neon-green);
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.3);
+}
+
+.tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tips-list li {
+  color: var(--text-primary);
+  margin: 0.75rem 0;
+  padding: 0.5rem 0;
+  border-left: 3px solid var(--neon-green);
+  padding-left: 1rem;
+  background: rgba(0, 255, 65, 0.05);
+  border-radius: 0 4px 4px 0;
+  line-height: 1.5;
+}
+
+.tips-list strong {
+  color: var(--neon-yellow);
+  text-shadow: 0 0 5px rgba(255, 255, 0, 0.3);
+}
+
+.welcome-outro {
+  color: var(--text-primary);
+  margin: 1.5rem 0 0 0;
+  line-height: 1.6;
+  font-style: italic;
+  text-align: center;
+  color: var(--neon-pink);
+  text-shadow: 0 0 8px rgba(255, 0, 150, 0.3);
+}
+
+.welcome-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+  text-align: center;
+}
+
+.welcome-close-btn {
+  background: var(--neon-blue);
+  color: #000;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .welcome-dialog {
+    margin: 1rem;
+    max-height: 90vh;
+  }
+
+  .welcome-header h2 {
+    font-size: 1.3rem;
+  }
+
+  .welcome-content {
+    padding: 1rem;
+  }
+
+  .tips-list li {
+    font-size: 0.9rem;
+    padding: 0.4rem 0;
+    padding-left: 0.8rem;
+  }
+}

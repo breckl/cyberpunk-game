@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { playClickSound } from "../../utils/soundUtils.js";
+import { hasSeenWelcome, markWelcomeAsSeen } from "../../utils/localStorage.js";
+import WelcomeDialog from "../WelcomeDialog.js";
 
 function StreetsMenu({
   character,
@@ -8,6 +10,20 @@ function StreetsMenu({
   onToggleMobileStats,
   showMobileStats,
 }) {
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  // Check if this is the first visit to streets
+  useEffect(() => {
+    if (!hasSeenWelcome()) {
+      setShowWelcome(true);
+    }
+  }, []);
+
+  const handleCloseWelcome = () => {
+    setShowWelcome(false);
+    markWelcomeAsSeen();
+  };
+
   const location = {
     name: "Night City Streets",
     description:
@@ -22,29 +38,33 @@ function StreetsMenu({
   };
 
   return (
-    <div className="location-screen">
-      <div className="location-header">
-        <h2>{location.name}</h2>
-      </div>
+    <>
+      {showWelcome && <WelcomeDialog onClose={handleCloseWelcome} />}
 
-      <div className="location-description">{location.description}</div>
+      <div className="location-screen">
+        <div className="location-header">
+          <h2>{location.name}</h2>
+        </div>
 
-      <div className="options-grid">
-        {location.options.map((option) => (
-          <div key={option.key} className="option-row">
-            <button
-              className="menu-button"
-              onClick={() => {
-                playClickSound();
-                onNavigate(option.key);
-              }}
-            >
-              {option.label}
-            </button>
-          </div>
-        ))}
+        <div className="location-description">{location.description}</div>
+
+        <div className="options-grid">
+          {location.options.map((option) => (
+            <div key={option.key} className="option-row">
+              <button
+                className="menu-button"
+                onClick={() => {
+                  playClickSound();
+                  onNavigate(option.key);
+                }}
+              >
+                {option.label}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

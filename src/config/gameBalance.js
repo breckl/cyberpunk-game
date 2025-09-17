@@ -58,12 +58,12 @@ export const calculatePriceWithDamage = (
  * @returns {number} - Calculated defense percentage
  */
 export const calculateArmorDefense = (level, armorType = "Light") => {
-  const armorBaseDefense = 0.3; // Base defense at level 1
-  const armorDefensePerLevel = 1.5; // Defense increase per level
+  const armorBaseDefense = 0; // Base defense at level 1
+  const armorDefensePerLevel = 2.5; // Defense increase per level
   const armorTypeMultipliers = {
     Light: 1,
-    Medium: 1.05,
-    Heavy: 1.1,
+    Medium: 1.25,
+    Heavy: 1.5,
   };
 
   const baseDefense = armorBaseDefense + level * armorDefensePerLevel;

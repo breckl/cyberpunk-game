@@ -1,37 +1,8 @@
 import React, { useState, useCallback } from "react";
 import "../styles/CharacterCreation.css";
 
-const classes = {
-  streetSamurai: {
-    key: "streetSamurai",
-    name: "Street Samurai",
-    description: "Warriors who excel in combat and intimidation.",
-  },
-  consoleCowboy: {
-    key: "consoleCowboy",
-    name: "Console Cowboy",
-    description: "Specialize in manipulating the digital world.",
-  },
-  corpoOperative: {
-    key: "corpoOperative",
-    name: "Corpo Operative",
-    description: "Skilled in manipulation and high-tech gadgets.",
-  },
-  cyberBruiser: {
-    key: "cyberBruiser",
-    name: "Cyber Bruiser",
-    description: "Physically augment and cybernetically enhanced heavies",
-  },
-};
-
 function CharacterCreation({ onCreateCharacter }) {
-  const [selectedClass, setSelectedClass] = useState(null);
   const [name, setName] = useState("");
-
-  // Handle class selection
-  const handleClassSelect = (classInfo) => {
-    setSelectedClass(classInfo);
-  };
 
   // Handle name input
   const handleNameChange = (e) => {
@@ -40,21 +11,21 @@ function CharacterCreation({ onCreateCharacter }) {
 
   // Handle character creation
   const handleCreateCharacter = useCallback(() => {
-    if (selectedClass && name.trim()) {
+    if (name.trim()) {
       const character = {
         name: name.trim(),
-        class: selectedClass.name,
+        class: "Street Samurai", // Default class
         level: 1,
         experience: 0,
-        credits: 25,
+        credits: 50,
         inventory: [],
       };
       onCreateCharacter(character);
     }
-  }, [name, selectedClass, onCreateCharacter]);
+  }, [name, onCreateCharacter]);
 
   // Check if form is valid
-  const isFormValid = selectedClass && name.trim().length > 0;
+  const isFormValid = name.trim().length > 0;
 
   return (
     <div className="character-creation">
@@ -73,41 +44,19 @@ function CharacterCreation({ onCreateCharacter }) {
           />
         </div>
 
-        {/* Class Selection */}
-        <div className="class-selection">
-          <h3>Choose Your Character</h3>
-          <div className="options-grid">
-            {Object.values(classes).map((classInfo) => (
-              <div
-                key={classInfo.key}
-                className={`menu-item clickable class-option ${
-                  selectedClass?.key === classInfo.key ? "selected" : ""
-                }`}
-                onClick={() => handleClassSelect(classInfo)}
-              >
-                <div className="class-name">{classInfo.name}</div>
-                <div className="class-description">{classInfo.description}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Character Summary */}
-        {selectedClass && (
+        {name.trim() && (
           <div className="character-summary">
             <h3>Character Summary</h3>
             <div className="summary-info">
               <p>
-                <strong>Name:</strong> {name || "Enter name above"}
-              </p>
-              <p>
-                <strong>Profile:</strong> {selectedClass.name}
+                <strong>Name:</strong> {name}
               </p>
               <p>
                 <strong>Level:</strong> 1
               </p>
               <p>
-                <strong>Starting Credits:</strong> $25
+                <strong>Starting Credits:</strong> $50
               </p>
             </div>
           </div>

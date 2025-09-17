@@ -35,7 +35,7 @@ function App() {
           credits:
             typeof savedCharacter.credits === "number"
               ? savedCharacter.credits
-              : 25,
+              : 50,
           inventory: Array.isArray(savedCharacter.inventory)
             ? savedCharacter.inventory
             : [],

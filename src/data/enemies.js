@@ -201,7 +201,7 @@ const enemies = [
     },
     weapon: {
       name: "Broken Bottle",
-      damage: 0,
+      damage: calculateArmorDefense(1, "Light") * 1.02,
       attacks: [
         "swings their bottle",
         "makes a drunken charge",

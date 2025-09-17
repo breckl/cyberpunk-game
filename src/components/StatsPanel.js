@@ -129,7 +129,7 @@ function StatsPanel({
               onCloseMobileStats && onCloseMobileStats();
             }}
           >
-            Market
+            Black Market
           </div>
           {/*<div
             className="nav-item"
@@ -158,7 +158,6 @@ function StatsPanel({
       <div className="character-info">
         <div className="character-header">
           <div className="character-name">{character.name}</div>
-          <div className="character-class">{character.class}</div>
         </div>
         <div className="character-controls">
           <h2>Level {currentLevel}</h2>

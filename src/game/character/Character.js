@@ -6,7 +6,7 @@ class Character {
     this.class = characterClass;
     this.level = 1;
     this.experience = 0;
-    this.credits = 25;
+    this.credits = 50;
 
     // Copy base stats from class template
     this.stats = { ...classes[characterClass].baseStats };

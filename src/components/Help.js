@@ -19,6 +19,7 @@ function Help({ onExit }) {
         "cyberpunk_save",
         "character_data",
         "game_state",
+        "cyberpunk_welcome_shown", // Reset welcome dialog
       ];
 
       keysToRemove.forEach((key) => {
