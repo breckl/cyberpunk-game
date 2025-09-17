@@ -44,7 +44,7 @@ function Inventory({ character, onUpdateCharacter, onExit, onNavigate }) {
   const confirmSell = (item) => {
     console.log("Attempting to play cash register sound...");
     playCashRegisterSound();
-    const sellPrice = Math.floor(item.price * 0.1); // 10% of purchase price
+    const sellPrice = Math.floor(item.price * 0.25); // 25% of purchase price
     const updatedInventory = localCharacter.inventory.filter((invItem) => {
       // Use inventoryId if available, otherwise fall back to id
       if (item.inventoryId && invItem.inventoryId) {

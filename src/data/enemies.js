@@ -45,11 +45,11 @@ const enemies = [
     region: "Iron Maze",
     armor: {
       name: "Black Hoodie",
-      rating: 0,
+      rating: -0.5,
     },
     weapon: {
       name: "Broken Bottle",
-      damage: 0,
+      damage: -0.5,
       attacks: [
         "swings their broken bottle",
         "makes a reckless charge",
@@ -93,11 +93,11 @@ const enemies = [
     region: "Chiba Market",
     armor: {
       name: "Heavy Coat",
-      rating: 0,
+      rating: -1,
     },
     weapon: {
       name: "Bare Fists",
-      damage: 0,
+      damage: -1,
       attacks: [
         "swings a wild punch",
         "makes a desperate swing",
@@ -171,11 +171,11 @@ const enemies = [
     region: "Iron Maze Rooftops",
     armor: {
       name: "Heavy Coat",
-      rating: 0,
+      rating: -1,
     },
     weapon: {
       name: "Sling Blade",
-      damage: 0,
+      damage: -1.5,
       attacks: [
         "swings their blade",
         "makes a quick strike",
@@ -227,7 +227,7 @@ const enemies = [
     },
     weapon: {
       name: "Bar Stool Leg",
-      damage: calculateWeaponDamage(1, "Light") * 1.03,
+      damage: calculateWeaponDamage(1, "Light"),
       attacks: [
         "swings a stool leg",
         "charges with drunken rage",
@@ -253,7 +253,7 @@ const enemies = [
     },
     weapon: {
       name: "Rusty Shiv",
-      damage: calculateWeaponDamage(1, "Medium") * 1.05,
+      damage: calculateWeaponDamage(1, "Medium"),
       attacks: [
         "lunges with their shiv",
         "makes a desperate slash",
@@ -305,7 +305,7 @@ const enemies = [
     },
     weapon: {
       name: "Sharpened Claws",
-      damage: calculateWeaponDamage(1, "Heavy") * 1.1,
+      damage: calculateWeaponDamage(1, "Heavy") * 1.05,
       attacks: [
         "lunges with sharpened claws",
         "makes a quick strike",
@@ -353,7 +353,7 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Patchwork Vest",
-      rating: 0,
+      rating: 0.5,
     },
     weapon: {
       name: "Rusty Knife",
@@ -379,11 +379,11 @@ const enemies = [
     region: "Chiba Alleys",
     armor: {
       name: "Tattered Cloak",
-      rating: calculateArmorDefense(1, "Heavy") * 1.1,
+      rating: calculateArmorDefense(1, "Heavy") * 1.05,
     },
     weapon: {
       name: "Broken Pipe",
-      damage: calculateWeaponDamage(1, "Heavy") * 1.2,
+      damage: calculateWeaponDamage(1, "Heavy") * 1.05,
       attacks: [
         "swings their pipe with reckless abandon",
         "feints a retreat before lunging forward",

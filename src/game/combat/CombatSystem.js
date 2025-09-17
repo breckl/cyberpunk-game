@@ -103,7 +103,7 @@ class CombatSystem {
   }
 
   // Generate random item drop from defeated enemy
-  generateEnemyDrop(enemy) {
+  generateEnemyDrop(enemy, playerInventory = []) {
     // 20% chance for enemy to drop an item
     const dropChance = 0.2;
 
@@ -119,21 +119,30 @@ class CombatSystem {
       (item) => item.level === enemyLevel
     );
 
-    // Combine armor and weapons
-    const availableItems = [...levelArmor, ...levelWeapons];
+    // Filter out items the player already owns
+    const ownedItemIds = new Set(playerInventory.map((item) => item.id));
+    const availableArmor = levelArmor.filter(
+      (item) => !ownedItemIds.has(item.id)
+    );
+    const availableWeapons = levelWeapons.filter(
+      (item) => !ownedItemIds.has(item.id)
+    );
+
+    // Combine available armor and weapons
+    const availableItems = [...availableArmor, ...availableWeapons];
 
     if (availableItems.length === 0) {
-      return null; // No items available for this level
+      return null; // No new items available for this level
     }
 
-    // Select random item
+    // Select random item from available items
     const randomItem =
       availableItems[Math.floor(Math.random() * availableItems.length)];
 
     // Return item with proper type and equipped status
     return {
       ...randomItem,
-      type: levelArmor.includes(randomItem) ? "armor" : "weapon",
+      type: availableArmor.includes(randomItem) ? "armor" : "weapon",
       equipped: false,
     };
   }

@@ -530,35 +530,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
 
   // Define restartCombat function before it's used in useEffect
   const restartCombat = useCallback(() => {
-    // Process combat rewards if there's an end result
-    if (endResult && endResult.type === "victory" && onUpdateCharacter) {
-      const calculatedRewards = endResult.rewards;
-      const droppedItem = endResult.droppedItem;
-
-      // Ensure experience is a number, default to 0 if undefined/null
-      const currentExp =
-        typeof character.experience === "number" ? character.experience : 0;
-      const rewardExp =
-        typeof calculatedRewards.experience === "number"
-          ? calculatedRewards.experience
-          : 0;
-
-      const updatedCharacter = {
-        ...character,
-        experience: currentExp + rewardExp,
-        credits: character.credits + calculatedRewards.credits,
-      };
-
-      // Add dropped item to inventory if one was dropped
-      if (droppedItem) {
-        updatedCharacter.inventory = [
-          ...updatedCharacter.inventory,
-          droppedItem,
-        ];
-      }
-
-      onUpdateCharacter(updatedCharacter);
-    }
+    // Rewards are now applied immediately when battle is won, so no need to process them here
 
     // Check daily limit before starting a new fight
     if (isDailyLimitExceeded()) {
@@ -597,7 +569,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
     setVisibleMessages([]);
     setShowCombatOptions(false);
     setIsRevealingMessages(false);
-  }, [currentLevel, playerTotalHp, endResult, character, onUpdateCharacter]);
+  }, [currentLevel, playerTotalHp]);
 
   // Function to handle random event completion
   const handleRandomEventComplete = useCallback(() => {
@@ -739,7 +711,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
         // Player wins (better final HP)
         const winner = { level: currentLevel };
         const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
-        const droppedItem = combatSystem.generateEnemyDrop(enemy);
+        const droppedItem = combatSystem.generateEnemyDrop(
+          enemy,
+          character.inventory
+        );
 
         const victoryMessages = [
           playerMessage,
@@ -764,6 +739,52 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             droppedItem: droppedItem,
           });
           setSequencePhase("results");
+
+          // Apply credits immediately when battle is won
+          if (onUpdateCharacter) {
+            const updatedCharacter = { ...character };
+
+            // Use safe credit management if available
+            if (updatedCharacter.gainCredits) {
+              const creditResult = updatedCharacter.gainCredits.call(
+                updatedCharacter,
+                calculatedRewards.credits,
+                "Combat victory"
+              );
+              updatedCharacter.credits = creditResult.totalCredits;
+            } else {
+              // Fallback if gainCredits method doesn't exist
+              updatedCharacter.credits =
+                character.credits + calculatedRewards.credits;
+            }
+
+            // Add experience
+            const currentExp =
+              typeof character.experience === "number"
+                ? character.experience
+                : 0;
+            const rewardExp =
+              typeof calculatedRewards.experience === "number"
+                ? calculatedRewards.experience
+                : 0;
+            updatedCharacter.experience = currentExp + rewardExp;
+
+            // Add dropped item to inventory if one was dropped
+            if (droppedItem) {
+              const itemWithInventoryId = {
+                ...droppedItem,
+                inventoryId: `inv_${Date.now()}_${Math.random()
+                  .toString(36)
+                  .substr(2, 9)}`, // Unique inventory ID
+              };
+              updatedCharacter.inventory = [
+                ...updatedCharacter.inventory,
+                itemWithInventoryId,
+              ];
+            }
+
+            onUpdateCharacter(updatedCharacter);
+          }
         });
 
         setEnemyHp(0);
@@ -848,7 +869,10 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
       const calculatedRewards = combatSystem.generateRewards(winner, [enemy]);
 
       // Check for enemy drop
-      const droppedItem = combatSystem.generateEnemyDrop(enemy);
+      const droppedItem = combatSystem.generateEnemyDrop(
+        enemy,
+        character.inventory
+      );
 
       const victoryMessages = [
         playerMessage,
@@ -873,11 +897,53 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
           droppedItem: droppedItem,
         });
         setSequencePhase("results");
+
+        // Apply credits immediately when battle is won
+        if (onUpdateCharacter) {
+          const updatedCharacter = { ...character };
+
+          // Use safe credit management if available
+          if (updatedCharacter.gainCredits) {
+            const creditResult = updatedCharacter.gainCredits.call(
+              updatedCharacter,
+              calculatedRewards.credits,
+              "Combat victory"
+            );
+            updatedCharacter.credits = creditResult.totalCredits;
+          } else {
+            // Fallback if gainCredits method doesn't exist
+            updatedCharacter.credits =
+              character.credits + calculatedRewards.credits;
+          }
+
+          // Add experience
+          const currentExp =
+            typeof character.experience === "number" ? character.experience : 0;
+          const rewardExp =
+            typeof calculatedRewards.experience === "number"
+              ? calculatedRewards.experience
+              : 0;
+          updatedCharacter.experience = currentExp + rewardExp;
+
+          // Add dropped item to inventory if one was dropped
+          if (droppedItem) {
+            const itemWithInventoryId = {
+              ...droppedItem,
+              inventoryId: `inv_${Date.now()}_${Math.random()
+                .toString(36)
+                .substr(2, 9)}`, // Unique inventory ID
+            };
+            updatedCharacter.inventory = [
+              ...updatedCharacter.inventory,
+              itemWithInventoryId,
+            ];
+          }
+
+          onUpdateCharacter(updatedCharacter);
+        }
       });
 
       setEnemyHp(0);
-
-      // Rewards will be processed when player clicks CONTINUE or LEAVE
       return;
     }
 
@@ -1807,49 +1873,7 @@ function CombatScreen({ character, onCombatEnd, onUpdateCharacter }) {
             <div
               className="combat-button leave-button"
               onClick={() => {
-                // Process combat rewards before leaving
-                if (
-                  endResult &&
-                  endResult.type === "victory" &&
-                  onUpdateCharacter
-                ) {
-                  const calculatedRewards = endResult.rewards;
-                  const droppedItem = endResult.droppedItem;
-
-                  // Ensure experience is a number, default to 0 if undefined/null
-                  const currentExp =
-                    typeof character.experience === "number"
-                      ? character.experience
-                      : 0;
-                  const rewardExp =
-                    typeof calculatedRewards.experience === "number"
-                      ? calculatedRewards.experience
-                      : 0;
-
-                  const updatedCharacter = {
-                    ...character,
-                    experience: currentExp + rewardExp,
-                    credits: character.credits + calculatedRewards.credits,
-                  };
-
-                  // Add dropped item to inventory if one was dropped
-                  if (droppedItem) {
-                    const itemWithInventoryId = {
-                      ...droppedItem,
-                      inventoryId: `inv_${Date.now()}_${Math.random()
-                        .toString(36)
-                        .substr(2, 9)}`, // Unique inventory ID
-                    };
-                    updatedCharacter.inventory = [
-                      ...updatedCharacter.inventory,
-                      itemWithInventoryId,
-                    ];
-                  }
-
-                  onUpdateCharacter(updatedCharacter);
-                }
-
-                // Now call onCombatEnd to return to streets
+                // Rewards are now applied immediately when battle is won, so no need to process them here
                 onCombatEnd("leave", null);
               }}
             >
