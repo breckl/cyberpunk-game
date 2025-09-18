@@ -916,6 +916,112 @@ const enemies = [
     },
   },
 
+  // Additional Level 2 Enemies
+  {
+    id: "street_runner",
+    name: "Street Runner",
+    description: [
+      "Quick courier with basic combat skills",
+      "Fast on their feet, faster with a blade",
+      "Delivers packages and trouble in equal measure",
+      "Urban messenger with a violent streak",
+    ],
+    type: "Thug",
+    level: 2,
+    region: "Sprawl Streets",
+    armor: {
+      name: "Light Jacket",
+      rating: calculateArmorDefense(2, "Light"),
+    },
+    weapon: {
+      name: "Combat Knife",
+      damage: calculateWeaponDamage(2, "Light"),
+      attacks: [
+        "makes a quick stab",
+        "swings their combat knife",
+        "charges with deadly intent",
+      ],
+    },
+  },
+  {
+    id: "data_merchant",
+    name: "Data Merchant",
+    description: [
+      "Sells information and fights when deals go bad",
+      "Information broker with a violent backup plan",
+      "Deals in data and death, both can kill",
+      "Merchant of secrets with a mean streak",
+    ],
+    type: "Thug",
+    level: 2,
+    region: "Chiba Market",
+    armor: {
+      name: "Business Vest",
+      rating: -1.5,
+    },
+    weapon: {
+      name: "Stun Gun",
+      damage: -1.0,
+      attacks: [
+        "fires their stun gun",
+        "makes a calculated strike",
+        "uses business-like efficiency",
+      ],
+    },
+  },
+  {
+    id: "alley_guard",
+    name: "Alley Guard",
+    description: [
+      "Protects territory with basic combat training",
+      "Territory guardian with a violent streak",
+      "Keeps the peace with force and intimidation",
+      "Guard with a mean streak and basic skills",
+    ],
+    type: "Heavy",
+    level: 2,
+    region: "Chiba Alleys",
+    armor: {
+      name: "Padded Vest",
+      rating: calculateArmorDefense(2, "Light") * 1.05,
+    },
+    weapon: {
+      name: "Shock Baton",
+      damage: calculateWeaponDamage(2, "Light"),
+      attacks: [
+        "swings their shock baton",
+        "delivers an electric strike",
+        "charges with the baton",
+      ],
+    },
+  },
+  {
+    id: "tech_scavenger",
+    name: "Tech Scavenger",
+    description: [
+      "Scavenges technology and fights when cornered",
+      "Tech collector with a violent backup plan",
+      "Survivalist with a taste for technology",
+      "Scavenger of tech with a mean streak",
+    ],
+    type: "Thug",
+    level: 2,
+    region: "Chiba Docks",
+    armor: {
+      name: "Scrap Armor",
+      rating: 0.5,
+    },
+    weapon: {
+      name: "Improvised Weapon",
+      damage: 0.8,
+      attacks: [
+        "swings their improvised weapon",
+        "makes a desperate strike",
+        "charges with scavenged tech",
+      ],
+    },
+  },
+
   // Level 3 Enemies
   {
     id: "clinic_repoman",
@@ -1022,6 +1128,112 @@ const enemies = [
     },
   },
 
+  // Additional Level 3 Enemies
+  {
+    id: "corporate_guard",
+    name: "Corporate Guard",
+    description: [
+      "Professional security with corporate training",
+      "Corporate muscle with a license to kill",
+      "Protects corporate interests with deadly efficiency",
+      "Business suit, violent methods, corporate backing",
+    ],
+    type: "Heavy",
+    level: 3,
+    region: "Corporate District",
+    armor: {
+      name: "Corporate Vest",
+      rating: -1.0,
+    },
+    weapon: {
+      name: "Corporate Rifle",
+      damage: -1.5,
+      attacks: [
+        "fires their corporate rifle with precision",
+        "takes aim with corporate efficiency",
+        "executes a corporate-sanctioned elimination",
+      ],
+    },
+  },
+  {
+    id: "cyber_dealer",
+    name: "Cyber Dealer",
+    description: [
+      "Sells cybernetic enhancements and fights when deals go bad",
+      "Cyber merchant with a violent backup plan",
+      "Deals in chrome and death, both can kill",
+      "Merchant of cybernetics with a mean streak",
+    ],
+    type: "Thug",
+    level: 3,
+    region: "Chiba Clinics",
+    armor: {
+      name: "Cyber Mesh",
+      rating: calculateArmorDefense(3, "Light") * 0.5,
+    },
+    weapon: {
+      name: "Cyber Blade",
+      damage: calculateWeaponDamage(3, "Light") * 0.8,
+      attacks: [
+        "swings their cyber blade",
+        "makes a calculated strike",
+        "uses cyber-enhanced precision",
+      ],
+    },
+  },
+  {
+    id: "street_commander",
+    name: "Street Commander",
+    description: [
+      "Leads street gangs with military training",
+      "Gang leader with combat experience",
+      "Commands respect through violence and intimidation",
+      "Commander of the streets with a violent streak",
+    ],
+    type: "Heavy",
+    level: 3,
+    region: "Sprawl Streets",
+    armor: {
+      name: "Tactical Vest",
+      rating: calculateArmorDefense(3, "Heavy"),
+    },
+    weapon: {
+      name: "Assault Rifle",
+      damage: calculateWeaponDamage(3, "Heavy"),
+      attacks: [
+        "fires their assault rifle with military precision",
+        "takes aim with tactical efficiency",
+        "executes a tactical maneuver",
+      ],
+    },
+  },
+  {
+    id: "neural_hacker",
+    name: "Neural Hacker",
+    description: [
+      "Hacker with advanced neural implants",
+      "Digital outlaw with cybernetic enhancements",
+      "Rides the net like a digital outlaw",
+      "Cyberpunk hacker with a neural interface",
+    ],
+    type: "Hacker",
+    level: 3,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Interface Suit",
+      rating: calculateArmorDefense(3, "Light"),
+    },
+    weapon: {
+      name: "Neural Spike",
+      damage: calculateWeaponDamage(3, "Heavy"),
+      attacks: [
+        "launches a neural spike",
+        "overloads your cyberware",
+        "sends shock feedback",
+      ],
+    },
+  },
+
   // Level 4 Enemies
   {
     id: "razorgirl",
@@ -1098,6 +1310,112 @@ const enemies = [
         "draws their concealed pistol",
         "takes a quick shot",
         "fires from the hip",
+      ],
+    },
+  },
+
+  // Additional Level 4 Enemies
+  {
+    id: "cyber_mercenary",
+    name: "Cyber Merc",
+    description: [
+      "Professional fighter with cybernetic enhancements",
+      "Soldier of fortune with chrome upgrades",
+      "Hired gun with military training and cybernetics",
+      "Professional killer with cybernetic advantages",
+    ],
+    type: "Heavy",
+    level: 4,
+    region: "Sprawl Hubs",
+    armor: {
+      name: "Combat Armor",
+      rating: calculateArmorDefense(4, "Heavy"),
+    },
+    weapon: {
+      name: "Heavy Pistol",
+      damage: calculateWeaponDamage(4, "Heavy"),
+      attacks: [
+        "takes aim with military precision",
+        "fires a controlled burst",
+        "uses tactical positioning",
+      ],
+    },
+  },
+  {
+    id: "data_kingpin",
+    name: "Data Kingpin",
+    description: [
+      "Information broker with advanced combat skills",
+      "Data dealer with a violent backup plan",
+      "Deals in information and death, both can kill",
+      "Kingpin of secrets with a mean streak",
+    ],
+    type: "Thug",
+    level: 4,
+    region: "Chiba Market",
+    armor: {
+      name: "Executive Suit",
+      rating: calculateArmorDefense(4, "Light"),
+    },
+    weapon: {
+      name: "Concealed Pistol",
+      damage: calculateWeaponDamage(4, "Light"),
+      attacks: [
+        "draws their concealed pistol",
+        "takes a quick shot",
+        "fires from the hip",
+      ],
+    },
+  },
+  {
+    id: "cyber_commander",
+    name: "Cyber Commander",
+    description: [
+      "Leads cybernetic forces with military training",
+      "Commander of chrome with combat experience",
+      "Commands respect through violence and cybernetics",
+      "Commander of the cyber realm with a violent streak",
+    ],
+    type: "Heavy",
+    level: 4,
+    region: "Corporate District",
+    armor: {
+      name: "Cyber Tactical Vest",
+      rating: calculateArmorDefense(4, "Heavy"),
+    },
+    weapon: {
+      name: "Cyber Assault Rifle",
+      damage: calculateWeaponDamage(4, "Heavy"),
+      attacks: [
+        "fires their cyber assault rifle with precision",
+        "takes aim with cyber-enhanced efficiency",
+        "executes a cyber tactical maneuver",
+      ],
+    },
+  },
+  {
+    id: "neural_commander",
+    name: "Neural Commander",
+    description: [
+      "Hacker with advanced neural implants and leadership skills",
+      "Digital commander with cybernetic enhancements",
+      "Rides the net like a digital warlord",
+      "Cyberpunk hacker with a neural interface and command",
+    ],
+    type: "Hacker",
+    level: 4,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Command Suit",
+      rating: 0,
+    },
+    weapon: {
+      name: "Neural Command Spike",
+      damage: 0,
+      attacks: [
+        "launches a neural command spike",
+        "overloads your cyberware with command precision",
+        "sends shock feedback with tactical intelligence",
       ],
     },
   },
@@ -1661,7 +1979,7 @@ const enemies = [
       "Protects Villa Straylight's most sensitive operations with deadly precision",
       "Corporate death dealer with unlimited resources and zero mercy",
     ],
-    type: "Assassin",
+    type: "Corpo Assassin",
     level: 5,
     region: "Corporate District",
     armor: {
@@ -1675,6 +1993,716 @@ const enemies = [
         "takes a silent shot with deadly precision",
         "executes a corporate assassination with surgical accuracy",
         "eliminates targets with professional efficiency",
+      ],
+    },
+  },
+
+  // Level 6 Enemies - Duplicated and Enhanced
+  {
+    id: "yakuza_ronin_elite",
+    name: "Yakuza Ronin",
+    description: [
+      "Masterless Yakuza warrior with decades of combat experience",
+      "Samurai without a master, death is their refined art",
+      "Honor-bound warrior, blade is their soul and purpose",
+      "Masterless samurai, death is their destiny and calling",
+    ],
+    type: "Heavy",
+    level: 6,
+    region: "Chiba Docks",
+    armor: {
+      name: "Masterwork Traditional Armor",
+      rating: 0,
+    },
+    weapon: {
+      name: "Legendary Katana",
+      damage: 0,
+      attacks: [
+        "draws their legendary katana with perfect form",
+        "executes a flawless strike with deadly precision",
+        "unleashes a devastating combo of strikes",
+      ],
+    },
+  },
+  {
+    id: "ice_phantom_elite",
+    name: "Elite ICE Phantom",
+    description: [
+      "Advanced console virus that manifests as a digital phantom, corrupts systems with lethal efficiency",
+      "Digital ghost of the net, corrupts everything it touches with malevolent purpose",
+      "Viral entity of legend, death in the digital realm is its specialty",
+      "Phantom of the net, destruction and chaos are its only purpose",
+    ],
+    type: "Hacker",
+    level: 6,
+    region: "Netherworld",
+    armor: {
+      name: "Advanced Digital Barrier",
+      rating: calculateArmorDefense(6, "Light"),
+    },
+    weapon: {
+      name: "Viral Code Matrix",
+      damage: calculateWeaponDamage(6, "Medium"),
+      attacks: [
+        "executes advanced viral code injection",
+        "corrupts your cyberware with devastating precision",
+        "launches a catastrophic digital assault",
+      ],
+    },
+  },
+  {
+    id: "cyber_war_beast_elite",
+    name: "Cyber Warbeast 3.0",
+    description: [
+      "Ultimate cybernetic monstrosity, combines brute strength and agility with military precision",
+      "Bio-engineered killing machine of the highest order",
+      "Animal instincts enhanced with cybernetic perfection",
+      "Ultimate war machine disguised as a beast of legend",
+    ],
+    type: "Heavy",
+    level: 6,
+    region: "Chiba Docks",
+    armor: {
+      name: "Advanced Cybernetic Hide",
+      rating: calculateArmorDefense(6, "Heavy"),
+    },
+    weapon: {
+      name: "Enhanced Power Fist",
+      damage: calculateWeaponDamage(6, "Light"),
+      attacks: [
+        "charges with cyber-enhanced strength and precision",
+        "delivers a devastating crushing blow",
+        "punches with brute force and tactical intelligence",
+      ],
+    },
+  },
+  {
+    id: "panther_modern_elite",
+    name: "Elite Panther Modern",
+    description: [
+      "Ultimate techno-fetish anarchist with advanced chrome enhancements and revolutionary anti-corp ideology",
+      "Cyberpunk revolutionary with a monowire and a cause",
+      "Fights the system with enhanced chrome and unwavering determination",
+      "Anarchist warrior of legend, technology is their weapon and revolution their purpose",
+    ],
+    type: "Thug",
+    level: 6,
+    region: "Ninsei Strip",
+    armor: {
+      name: "Advanced Chrome Mesh",
+      rating: 0,
+    },
+    weapon: {
+      name: "Monowire Matrix",
+      damage: calculateWeaponDamage(6, "Light"),
+      attacks: [
+        "whips their monowire with deadly precision",
+        "makes a calculated slice with revolutionary fury",
+        "executes a cyber-enhanced strike for the cause",
+      ],
+    },
+  },
+  {
+    id: "corpo_fixer_elite",
+    name: "Elite Corpo Fixer",
+    description: [
+      "Ultimate smooth-talking corporate operative, fights dirty when deals go bad with lethal efficiency",
+      "Corporate middleman with a violent streak and unlimited resources",
+      "Deals in information, death, and corporate power",
+      "Business suit, criminal mind, and a license to eliminate",
+    ],
+    type: "Thug",
+    level: 6,
+    region: "Corporate District",
+    armor: {
+      name: "Executive Combat Suit",
+      rating: calculateArmorDefense(6, "Light"),
+    },
+    weapon: {
+      name: "Advanced Concealed Pistol",
+      damage: calculateWeaponDamage(6, "Light"),
+      attacks: [
+        "draws their advanced concealed pistol with corporate precision",
+        "takes a quick shot with business-like efficiency",
+        "fires from the hip with deadly accuracy",
+      ],
+    },
+  },
+  {
+    id: "armitage_elite",
+    name: "Avenging Armitage",
+    description: [
+      "Ultimate former Screaming Fist colonel, now corporate operative with advanced cybernetic enhancements",
+      "Military veteran with reconstructed eyes, legs, and jaw from the war, enhanced to perfection",
+      "Corporate fixer with a troubled past and mysterious benefactors, death is his business",
+      "Cold-blooded operative of legend, death is just another business transaction",
+    ],
+    type: "Heavy",
+    level: 6,
+    region: "Corporate District",
+    armor: {
+      name: "Executive Italian Suit",
+      rating: calculateArmorDefense(6, "Light"),
+    },
+    weapon: {
+      name: "Military-Grade Assault Rifle",
+      damage: calculateWeaponDamage(6, "Medium"),
+      attacks: [
+        "takes aim with military precision and corporate efficiency",
+        "fires a controlled burst with tactical intelligence",
+        "executes a tactical maneuver with deadly precision",
+      ],
+    },
+  },
+
+  // New Level 6 Enemies
+  {
+    id: "cyber_samurai",
+    name: "Cyber Samurai",
+    description: [
+      "Ancient warrior tradition enhanced with cutting-edge cybernetics",
+      "Samurai code meets cybernetic perfection, honor and technology united",
+      "Blade and chrome in perfect harmony, death is their art",
+      "Traditional warrior enhanced with modern technology",
+    ],
+    type: "Heavy",
+    level: 6,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Cyber-Enhanced Traditional Armor",
+      rating: 0,
+    },
+    weapon: {
+      name: "Cyber Katana",
+      damage: 0,
+      attacks: [
+        "draws their cyber katana with perfect form",
+        "executes a cyber-enhanced strike",
+        "unleashes a devastating combo of traditional and technological attacks",
+      ],
+    },
+  },
+  {
+    id: "neural_ghost",
+    name: "Neural Ghost",
+    description: [
+      "Digital consciousness that haunts the neural networks",
+      "Ghost in the machine, death from the digital realm",
+      "Consciousness without a body, destruction without mercy",
+      "Digital phantom that corrupts minds and destroys souls",
+    ],
+    type: "Hacker",
+    level: 6,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Barrier",
+      rating: calculateArmorDefense(6, "Medium"),
+    },
+    weapon: {
+      name: "Neural Disruptor",
+      damage: calculateWeaponDamage(6, "Medium"),
+      attacks: [
+        "launches a devastating neural disruption",
+        "corrupts your neural pathways with lethal precision",
+        "executes a catastrophic mental assault",
+      ],
+    },
+  },
+  {
+    id: "chrome_assassin",
+    name: "Chrome Assassin",
+    description: [
+      "Ultimate cybernetic assassin with advanced stealth technology",
+      "Death from the shadows, enhanced with cutting-edge chrome",
+      "Silent killer with cybernetic perfection",
+      "Assassin of legend, technology and stealth united",
+    ],
+    type: "Assassin",
+    level: 6,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Stealth Chrome Suit",
+      rating: calculateArmorDefense(6, "Light"),
+    },
+    weapon: {
+      name: "Silent Cyber Blade",
+      damage: calculateWeaponDamage(6, "Heavy"),
+      attacks: [
+        "strikes from the shadows with cyber-enhanced stealth",
+        "executes a silent assassination with perfect precision",
+        "eliminates targets with technological efficiency",
+      ],
+    },
+  },
+  {
+    id: "corporate_overlord",
+    name: "Corporate Overlord",
+    description: [
+      "Ultimate corporate executive with unlimited resources and deadly technology",
+      "Business suit and corporate power, death is just another quarterly report",
+      "Corporate tyrant with a license to kill and a budget to match",
+      "Ultimate corporate fixer with unlimited resources and zero mercy",
+    ],
+    type: "Heavy",
+    level: 6,
+    region: "Corporate District",
+    armor: {
+      name: "Executive Combat Suit",
+      rating: calculateArmorDefense(6, "Medium"),
+    },
+    weapon: {
+      name: "Corporate Death Ray",
+      damage: calculateWeaponDamage(6, "Medium"),
+      attacks: [
+        "activates their corporate death ray with business efficiency",
+        "executes a corporate-sanctioned elimination with precision",
+        "eliminates targets with corporate resources and deadly technology",
+      ],
+    },
+  },
+  {
+    id: "cyber_dragon",
+    name: "Cyber Dragon",
+    description: [
+      "Legendary cybernetic beast with advanced AI and deadly technology",
+      "Mythical creature enhanced with cutting-edge cybernetics",
+      "Dragon of the digital age, death from above and below",
+      "Legendary beast with cybernetic enhancements and deadly intelligence",
+    ],
+    type: "Heavy",
+    level: 6,
+    region: "Chiba Docks",
+    armor: {
+      name: "Dragon Cyber Hide",
+      rating: calculateArmorDefense(6, "Heavy"),
+    },
+    weapon: {
+      name: "Dragon Cyber Claws",
+      damage: calculateWeaponDamage(6, "Heavy"),
+      attacks: [
+        "lunges with cybernetic dragon claws",
+        "makes a devastating snap attack with enhanced strength",
+        "charges with cyber-enhanced speed and deadly intelligence",
+      ],
+    },
+  },
+
+  // Level 7 Enemies
+  {
+    id: "cyber_samurai_level7",
+    name: "Corpo Cyber Samurai",
+    description: [
+      "Ancient warrior tradition enhanced with cutting-edge cybernetics",
+      "Samurai code meets cybernetic perfection, honor and technology united",
+      "Blade and chrome in perfect harmony, death is their art",
+      "Traditional warrior enhanced with modern technology",
+    ],
+    type: "Heavy",
+    level: 7,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Cyber-Enhanced Traditional Armor",
+      rating: calculateArmorDefense(7, "Heavy"),
+    },
+    weapon: {
+      name: "Cyber Katana",
+      damage: calculateWeaponDamage(7, "Medium"),
+      attacks: [
+        "draws their cyber katana with perfect form",
+        "executes a cyber-enhanced strike",
+        "unleashes a devastating combo of traditional and technological attacks",
+      ],
+    },
+  },
+  {
+    id: "neural_ghost_level7",
+    name: "Neural Ghost 3.0",
+    description: [
+      "Digital consciousness that haunts the neural networks",
+      "Ghost in the machine, death from the digital realm",
+      "Consciousness without a body, destruction without mercy",
+      "Digital phantom that corrupts minds and destroys souls",
+    ],
+    type: "Hacker",
+    level: 7,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Barrier",
+      rating: calculateArmorDefense(7, "Medium"),
+    },
+    weapon: {
+      name: "Neural Disruptor",
+      damage: calculateWeaponDamage(7, "Heavy"),
+      attacks: [
+        "launches a devastating neural disruption",
+        "corrupts your neural pathways with lethal precision",
+        "executes a catastrophic mental assault",
+      ],
+    },
+  },
+  {
+    id: "cyber_overlord",
+    name: "Cyber Overlord",
+    description: [
+      "Ultimate cybernetic ruler with absolute control over digital and physical realms",
+      "Master of all technology, death is their command",
+      "Digital tyrant with unlimited power and zero mercy",
+      "Overlord of the cyber realm, destruction is their domain",
+    ],
+    type: "Heavy",
+    level: 7,
+    region: "Corporate District",
+    armor: {
+      name: "Cyber Overlord Suit",
+      rating: calculateArmorDefense(7, "Heavy"),
+    },
+    weapon: {
+      name: "Cyber Overlord Cannon",
+      damage: calculateWeaponDamage(7, "Heavy"),
+      attacks: [
+        "activates their cyber overlord cannon with absolute authority",
+        "executes a cyber overlord elimination with supreme precision",
+        "eliminates targets with cyber overlord power and deadly technology",
+      ],
+    },
+  },
+  {
+    id: "quantum_assassin",
+    name: "Quantum Assassin",
+    description: [
+      "Assassin that exists in multiple quantum states simultaneously",
+      "Death from every dimension, impossible to predict or escape",
+      "Quantum killer with reality-bending technology",
+      "Assassin of quantum legend, death across all dimensions",
+    ],
+    type: "Assassin",
+    level: 7,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Quantum Stealth Suit",
+      rating: calculateArmorDefense(7, "Light"),
+    },
+    weapon: {
+      name: "Quantum Blade",
+      damage: calculateWeaponDamage(7, "Heavy"),
+      attacks: [
+        "strikes from multiple quantum dimensions simultaneously",
+        "executes a quantum assassination with reality-bending precision",
+        "eliminates targets across all possible timelines",
+      ],
+    },
+  },
+  {
+    id: "neural_tyrant",
+    name: "Neural Tyrant",
+    description: [
+      "Ultimate neural network controller with absolute mental dominance",
+      "Master of all minds, death through thought control",
+      "Neural tyrant with unlimited mental power and zero mercy",
+      "Tyrant of the neural realm, destruction through pure will",
+    ],
+    type: "Hacker",
+    level: 7,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Tyrant Barrier",
+      rating: calculateArmorDefense(7, "Heavy"),
+    },
+    weapon: {
+      name: "Neural Tyrant Disruptor",
+      damage: calculateWeaponDamage(7, "Heavy"),
+      attacks: [
+        "launches a neural tyrant disruption with absolute mental dominance",
+        "corrupts your neural pathways with tyrant-level precision",
+        "executes a catastrophic mental assault with unlimited power",
+      ],
+    },
+  },
+  {
+    id: "cyber_emperor",
+    name: "Cyber Emperor",
+    description: [
+      "Ultimate cybernetic ruler with absolute control over all technology",
+      "Emperor of all cybernetics, death is their imperial decree",
+      "Cyber emperor with unlimited technological power and zero mercy",
+      "Emperor of the cyber realm, destruction is their imperial domain",
+    ],
+    type: "Heavy",
+    level: 7,
+    region: "Corporate District",
+    armor: {
+      name: "Cyber Emperor Suit",
+      rating: calculateArmorDefense(7, "Heavy"),
+    },
+    weapon: {
+      name: "Cyber Emperor Cannon",
+      damage: calculateWeaponDamage(7, "Heavy"),
+      attacks: [
+        "activates their cyber emperor cannon with imperial authority",
+        "executes a cyber emperor elimination with supreme precision",
+        "eliminates targets with cyber emperor power and deadly technology",
+      ],
+    },
+  },
+
+  // Level 8 Enemies
+  {
+    id: "razorgirl_level8",
+    name: "Elite Razorgirl",
+    description: [
+      "Augmented street fighter with cyberclaws",
+      "Chrome claws and a killer instinct",
+      "Street assassin with cybernetic enhancements",
+      "Deadly beauty with razor-sharp edges",
+    ],
+    type: "Assassin",
+    level: 8,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Leather Armor",
+      rating: calculateArmorDefense(8, "Medium"),
+    },
+    weapon: {
+      name: "Razor Claws",
+      damage: calculateWeaponDamage(8, "Medium"),
+      attacks: [
+        "slashes with cyberclaws",
+        "makes a precision strike",
+        "unleashes a flurry of cuts",
+      ],
+    },
+  },
+  {
+    id: "yakuza_enforcer_level8",
+    name: "Elite Yakuza Enforcer",
+    description: [
+      "Syndicate soldier, disciplined",
+      "Yakuza muscle, honor and violence",
+      "Syndicate enforcer with a code of honor",
+      "Organized crime soldier, death is their duty",
+    ],
+    type: "Heavy",
+    level: 8,
+    region: "Chiba Docks",
+    armor: {
+      name: "Kevlar Armor",
+      rating: calculateArmorDefense(8, "Medium"),
+    },
+    weapon: {
+      name: "Katana",
+      damage: calculateWeaponDamage(8, "Light"),
+      attacks: [
+        "draws their katana with precision",
+        "makes a swift strike",
+        "unleashes a deadly combo",
+      ],
+    },
+  },
+  {
+    id: "cyber_overlord_level8",
+    name: "Cyber Overlord",
+    description: [
+      "Ultimate cybernetic ruler with absolute control over digital and physical realms",
+      "Master of all technology, death is their command",
+      "Digital tyrant with unlimited power and zero mercy",
+      "Overlord of the cyber realm, destruction is their domain",
+    ],
+    type: "Heavy",
+    level: 8,
+    region: "Corporate District",
+    armor: {
+      name: "Cyber Overlord Suit",
+      rating: calculateArmorDefense(8, "Heavy"),
+    },
+    weapon: {
+      name: "Cyber Overlord Cannon",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "activates their cyber overlord cannon with absolute authority",
+        "executes a cyber overlord elimination with supreme precision",
+        "eliminates targets with cyber overlord power and deadly technology",
+      ],
+    },
+  },
+  {
+    id: "quantum_assassin_level8",
+    name: "Quantum Assassin",
+    description: [
+      "Assassin that exists in multiple quantum states simultaneously",
+      "Death from every dimension, impossible to predict or escape",
+      "Quantum killer with reality-bending technology",
+      "Assassin of quantum legend, death across all dimensions",
+    ],
+    type: "Assassin",
+    level: 8,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Quantum Stealth Suit",
+      rating: calculateArmorDefense(8, "Light"),
+    },
+    weapon: {
+      name: "Quantum Blade",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "strikes from multiple quantum dimensions simultaneously",
+        "executes a quantum assassination with reality-bending precision",
+        "eliminates targets across all possible timelines",
+      ],
+    },
+  },
+  {
+    id: "neural_tyrant_level8",
+    name: "Neural Tyrant",
+    description: [
+      "Ultimate neural network controller with absolute mental dominance",
+      "Master of all minds, death through thought control",
+      "Neural tyrant with unlimited mental power and zero mercy",
+      "Tyrant of the neural realm, destruction through pure will",
+    ],
+    type: "Hacker",
+    level: 8,
+    region: "Netherworld",
+    armor: {
+      name: "Neural Tyrant Barrier",
+      rating: calculateArmorDefense(8, "Heavy"),
+    },
+    weapon: {
+      name: "Neural Tyrant Disruptor",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "launches a neural tyrant disruption with absolute mental dominance",
+        "corrupts your neural pathways with tyrant-level precision",
+        "executes a catastrophic mental assault with unlimited power",
+      ],
+    },
+  },
+  {
+    id: "dimensional_overlord",
+    name: "Dimensional Overlord",
+    description: [
+      "Ultimate ruler that exists across multiple dimensions simultaneously",
+      "Master of all realities, death is their universal command",
+      "Dimensional tyrant with unlimited power across all planes of existence",
+      "Overlord of the dimensional realm, destruction is their universal domain",
+    ],
+    type: "Heavy",
+    level: 8,
+    region: "Corporate District",
+    armor: {
+      name: "Dimensional Overlord Suit",
+      rating: calculateArmorDefense(8, "Heavy"),
+    },
+    weapon: {
+      name: "Dimensional Overlord Cannon",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "activates their dimensional overlord cannon with universal authority",
+        "executes a dimensional overlord elimination with supreme precision",
+        "eliminates targets with dimensional overlord power and deadly technology",
+      ],
+    },
+  },
+  {
+    id: "reality_phantom",
+    name: "Reality Phantom",
+    description: [
+      "Digital entity that exists between reality and cyberspace",
+      "Phantom of the net, death from the digital realm",
+      "Reality-bending consciousness without a body, destruction without mercy",
+      "Digital phantom that corrupts minds and destroys souls across all realities",
+    ],
+    type: "Hacker",
+    level: 8,
+    region: "Netherworld",
+    armor: {
+      name: "Reality Barrier",
+      rating: calculateArmorDefense(8, "Medium"),
+    },
+    weapon: {
+      name: "Reality Disruptor",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "launches a devastating reality disruption",
+        "corrupts your neural pathways with reality-bending precision",
+        "executes a catastrophic mental assault across all dimensions",
+      ],
+    },
+  },
+  {
+    id: "cyber_god",
+    name: "Cyber God",
+    description: [
+      "Ultimate cybernetic deity with absolute control over all technology and reality",
+      "God of all cybernetics, death is their divine decree",
+      "Cyber god with unlimited technological power and zero mercy",
+      "God of the cyber realm, destruction is their divine domain",
+    ],
+    type: "Heavy",
+    level: 8,
+    region: "Corporate District",
+    armor: {
+      name: "Cyber God Suit",
+      rating: calculateArmorDefense(8, "Heavy"),
+    },
+    weapon: {
+      name: "Cyber God Cannon",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "activates their cyber god cannon with divine authority",
+        "executes a cyber god elimination with supreme precision",
+        "eliminates targets with cyber god power and deadly technology",
+      ],
+    },
+  },
+  {
+    id: "void_assassin",
+    name: "Void Assassin",
+    description: [
+      "Assassin that exists in the void between dimensions",
+      "Death from the void, impossible to predict or escape",
+      "Void killer with reality-bending technology",
+      "Assassin of void legend, death across all dimensions",
+    ],
+    type: "Assassin",
+    level: 8,
+    region: "Chiba Shadows",
+    armor: {
+      name: "Void Stealth Suit",
+      rating: calculateArmorDefense(8, "Light"),
+    },
+    weapon: {
+      name: "Void Blade",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "strikes from the void between dimensions",
+        "executes a void assassination with reality-bending precision",
+        "eliminates targets across all possible timelines",
+      ],
+    },
+  },
+  {
+    id: "neural_god",
+    name: "Neural God",
+    description: [
+      "Ultimate neural network deity with absolute mental dominance across all realities",
+      "God of all minds, death through thought control",
+      "Neural god with unlimited mental power and zero mercy",
+      "God of the neural realm, destruction through pure will",
+    ],
+    type: "Hacker",
+    level: 8,
+    region: "Netherworld",
+    armor: {
+      name: "Neural God Barrier",
+      rating: calculateArmorDefense(8, "Heavy"),
+    },
+    weapon: {
+      name: "Neural God Disruptor",
+      damage: calculateWeaponDamage(8, "Heavy"),
+      attacks: [
+        "launches a neural god disruption with absolute mental dominance",
+        "corrupts your neural pathways with god-level precision",
+        "executes a catastrophic mental assault with unlimited power",
       ],
     },
   },
